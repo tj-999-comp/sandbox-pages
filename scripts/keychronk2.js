@@ -182,6 +182,39 @@
 		highlightElements(matchedElements, `${keyLabel} [${code}]`);
 	};
 
+	const getElementLabel = (element) => {
+		const keyLabel = element.getAttribute("data-key")?.trim() || element.textContent?.trim() || "未設定";
+		const code = element.getAttribute("data-code");
+		return code ? `${keyLabel} [${code}]` : keyLabel;
+	};
+
+	const activateByElement = (element) => {
+		highlightElements([element], getElementLabel(element));
+	};
+
+	const resolveKeyElement = (target) => {
+		if (!(target instanceof Element)) {
+			return null;
+		}
+		return target.closest(".key[data-key]");
+	};
+
+	let lastHoveredKeyElement = null;
+
+	window.addEventListener("mouseover", (event) => {
+		const keyElement = resolveKeyElement(event.target);
+		if (!keyElement || keyElement === lastHoveredKeyElement) {
+			return;
+		}
+
+		lastHoveredKeyElement = keyElement;
+		activateByElement(keyElement);
+	}, { capture: true });
+
+	window.addEventListener("blur", () => {
+		lastHoveredKeyElement = null;
+	});
+
 	window.addEventListener("keydown", (event) => {
 		const comboLabel = buildComboLabel(event);
 		const comboElements = comboLabel ? comboMap.get(comboLabel) ?? [] : [];
