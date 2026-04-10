@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>trackball-controll-practice</title>
+    <link rel="stylesheet" href="../css/trackball-controll-practice.css">
+</head>
+
+<body>
+    <main class="app">
+        <header class="header">
+            <h1>Trackball Controll Practice</h1>
+            <p>ターゲットを10回クリックしてクリアを目指しましょう。</p>
+        </header>
+
+        <section class="panel" aria-label="ゲーム情報">
+            <div class="stat">進捗: <strong id="progress">0 / 10</strong></div>
+            <div class="stat">タイム: <strong id="timer">0.00s</strong></div>
+            <div class="stat">ミス: <strong id="misses">0</strong></div>
+            <div class="difficulty" role="group" aria-label="難易度選択">
+                <span>難易度:</span>
+                <label><input type="radio" name="difficulty" value="easy" checked> ふつう</label>
+                <label><input type="radio" name="difficulty" value="hard"> むずかしい（スクロールあり）</label>
+            </div>
+            <div class="controls">
+                <button id="startBtn" class="start-btn" type="button">スタート</button>
+                <button id="pauseBtn" class="sub-btn" type="button" disabled>一時停止</button>
+                <button id="quitBtn" class="sub-btn danger" type="button" disabled>やめる</button>
+                <a class="sub-btn home" href="../index.html">ホーム</a>
+            </div>
+        </section>
+
+        <section id="playfield" class="playfield" aria-label="練習エリア">
+            <div id="arena" class="arena">
+                <button id="target" class="target" type="button" aria-label="ターゲット"></button>
+            </div>
+            <p id="status" class="status">スタートを押して開始</p>
+        </section>
+    </main>
+
+    <script src="../js/trackball-controll-practice.js"></script>
+</body>
+
+</html>
