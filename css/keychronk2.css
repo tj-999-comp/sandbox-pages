@@ -94,19 +94,20 @@ h1 {
 
 .switch-panel {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    align-items: center;
+    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+    gap: 18px;
+    align-items: stretch;
 }
 
 .switch-image-panel {
     padding: 0;
     border: none;
     background: transparent;
-    justify-self: end;
+    justify-self: center;
     order: 1;
-    width: 240px;
-    min-width: 240px;
+    width: 100%;
+    max-width: 240px;
+    min-width: 220px;
 }
 
 .switch-image-wrap {
@@ -142,10 +143,13 @@ h1 {
 .panel-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
     align-content: center;
     order: 2;
-    padding-left: 22px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid #ffffff1f;
+    background: linear-gradient(180deg, #121a3a99 0%, #0c133099 100%);
 }
 
 .panel-grid .panel-title {
@@ -159,6 +163,10 @@ h1 {
     font-size: 1.03rem;
     line-height: 1.55;
     color: #dbe3ff;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    align-items: baseline;
 }
 
 .panel-grid span {
@@ -314,7 +322,7 @@ h1 .back-link {
     .panel-grid {
         order: 2;
         align-content: start;
-        padding-left: 0;
+        padding: 12px;
     }
 
     .panel-title {

@@ -1,0 +1,13 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "code": true,
+        "/^set -e\nfind \"\\$HOME/Library/Application Support/Code\" -type f \\\\\\( -name \"\\*\\.css\" -o -name \"\\*\\.json\" -o -name \"\\*\\.js\" \\\\\\) 2>/dev/null \\| grep -Ei 'custom-ui\\|subframe\\|workbench\\|injected\\|patch' \\| head -n 200$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^CSS=\"/Applications/Visual Studio Code\\.app/Contents/Resources/app/out/vs/workbench/workbench\\.desktop\\.main\\.custom-ui-style\\.css\";\npython3 - <<'PY'\nimport re\np='''/Applications/Visual Studio Code\\.app/Contents/Resources/app/out/vs/workbench/workbench\\.desktop\\.main\\.custom-ui-style\\.css'''\ns=open\\(p,'r',encoding='utf-8',errors='ignore'\\)\\.read\\(\\)\nfor needle in \\[\"max-height:22px!important\",\"\\.part\\.auxiliarybar \\.chat-widget \\.pre-input-content-container >\\*\",\"\\.part\\.auxiliarybar \\.chat-widget \\.pre-input-content-container\\[class\\*='instruction'\\]\",\"\\.part\\.auxiliarybar \\.chat-widget \\.pre-input-content-container \\[class\\*='instruction'\\]\",\"\\.part\\.auxiliarybar \\.chat-view-container\"\\]:\n    print\\(needle, s\\.find\\(needle\\)\\)\nprint\\('count_22', s\\.count\\('max-height:22px!important'\\)\\)\nPY$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
