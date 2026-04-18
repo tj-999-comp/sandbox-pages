@@ -5,3 +5,19 @@ body{
 h1{
     color: blue;
 }
+
+.pannel-wrap{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.pannel-wrap a{
+    color: inherit;
+    text-decoration: none;
+}
+
+.pannel{
+    border: 1px solid #ccc;
+    padding: 16px;
+}
