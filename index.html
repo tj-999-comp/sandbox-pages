@@ -5,28 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/site-layout.css">
     <title>Sandbox pages</title>
 </head>
 
-<body>
+<body class="has-site-layout" data-nav="home">
+    <header class="site-header" data-site-header>
+        <div class="site-header__inner">
+            <a class="site-brand" href="./index.html">Portfolio Lab</a>
+            <button class="site-nav-toggle" type="button" data-nav-toggle aria-controls="global-nav" aria-expanded="false">Menu</button>
+            <nav class="site-nav" id="global-nav" data-site-nav>
+                <a class="site-nav__link" href="./index.html" data-nav-link="home">Home</a>
+                <a class="site-nav__link" href="./games/trackball-typing-practice.html" data-nav-link="games">Games</a>
+                <a class="site-nav__link" href="./keyboards/keychronk2.html" data-nav-link="keyboards">Keyboards</a>
+                <a class="site-nav__link" href="./test/test1.html" data-nav-link="experiments">Experiments</a>
+                <a class="site-nav__link" href="https://github.com/tj-999-comp/sandbox-pages/issues" data-nav-link="contact">Contact</a>
+            </nav>
+            <div class="site-actions">
+                <a class="site-btn site-btn--primary" href="./index.html#works">Worksを見る</a>
+                <a class="site-btn" href="https://github.com/tj-999-comp">GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
     <h1>Hello, world! from tj</h1>
     <h2>Keyboards</h2>
     <div class="pannel-wrap">
-        <a href="https://tj-999-comp.github.io/sandbox-pages/keyboards/keychronk2.html">
+        <a href="./keyboards/keychronk2.html">
             <div class="pannel">
                 <h3>keychronk2</h3>
 
             </div>
         </a>
     </div>
-    <h2>Games</h2>
+    <h2 id="works">Games</h2>
     <div class="pannel-wrap">
-        <a href="https://tj-999-comp.github.io/sandbox-pages/games/trackball-typing-practice.html">
+        <a href="./games/trackball-typing-practice.html">
             <div class="pannel">
                 <h3>Track-Ball Practice typing</h3>
             </div>
         </a>
-        <a href="https://tj-999-comp.github.io/sandbox-pages/games/trackball-controll-practice.html">
+        <a href="./games/trackball-controll-practice.html">
             <div class="pannel">
                 <h3>Track-Ball Practice trackball controll</h3>
             </div>
@@ -34,19 +54,52 @@
     </div>
     <h2>Etc.</h2>
     <div class="pannel-wrap">
-        <a href="https://tj-999-comp.github.io/sandbox-pages/games/test/test1">
+        <a href="./test/test1.html">
             <div class="pannel">
                 <h3>Test1</h3>
             </div>
         </a>
-        <a href="https://tj-999-comp.github.io/sandbox-pages/games/test/test2">
+        <a href="./test/test2.html">
             <div class="pannel">
                 <h3>Test2</h3>
             </div>
         </a>
     </div>
-        <ul>
-        </ul>
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <div class="footer-grid">
+                <section>
+                    <h2 class="footer-title">Portfolio Lab</h2>
+                    <p class="footer-text">静的ページでUIとインタラクションを検証するポートフォリオです。</p>
+                </section>
+                <section>
+                    <h2 class="footer-title">Quick Links</h2>
+                    <ul class="footer-links">
+                        <li><a href="./index.html">Home</a></li>
+                        <li><a href="./games/trackball-typing-practice.html">Games</a></li>
+                        <li><a href="./keyboards/keychronk2.html">Keyboards</a></li>
+                        <li><a href="./test/test1.html">Experiments</a></li>
+                    </ul>
+                </section>
+                <section>
+                    <h2 class="footer-title">External Links</h2>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/tj-999-comp">GitHub</a></li>
+                        <li><a href="https://github.com/tj-999-comp/sandbox-pages/issues">Contact</a></li>
+                        <li><a href="https://tj-999-comp.github.io/sandbox-pages/">Live Site</a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="footer-meta">
+                <span>Copyright (c) <span data-year></span> Portfolio Lab</span>
+                <span>Last Updated: <time datetime="2026-05-03">2026-05-03</time></span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./js/site-layout.js"></script>
 </body>
 
 </html>
