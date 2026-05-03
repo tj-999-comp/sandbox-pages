@@ -4,6 +4,112 @@
 
 ---
 
+## 標準運用フロー（バトンタッチ）
+
+課題は、ユーザーがPlannerに提案したあと、次の順序で1つずつバトンタッチして進める。
+
+1. Portfolio Planner
+2. Portfolio UI Designer
+3. Portfolio Frontend Engineer
+4. Portfolio Copywriter
+5. Portfolio Reviewer
+6. Portfolio SEO & Analytics Specialist
+7. Portfolio Performance & Accessibility Tester
+
+### 引き継ぎルール
+- 各役割は、前工程の出力を「入力」として明示的に受け取る
+- 各役割は、次工程へ渡す「成果物」と「未解決事項」を最後に必ず列挙する
+- Reviewer以降で重大問題が出た場合は、Frontend Engineerへ差し戻して再実行する
+- 最終完了条件は「重大な未解決事項が0件」である
+
+### 実行イメージ
+- ユーザーが課題をPlannerへ提案
+- Plannerが課題定義・優先順位・実施範囲を確定
+- UI Designerがレイアウト/導線方針を確定
+- Frontend Engineerが実装
+- Copywriterが文言調整
+- Reviewerが品質レビュー
+- SEO & Analytics SpecialistがSEO/計測を最適化
+- Performance & Accessibility Testerが速度/A11yの最終確認
+- 課題解決までの流れをIssuesフォルダ内のMarkdownに記録
+
+---
+
+## 課題完了時のIssue記載ルール
+
+課題を解決したら、解決までの流れをIssuesフォルダ内のMarkdownファイルに必ず記載する。
+
+### 保存先
+- 保存先フォルダ: Issues/
+- ファイル形式: Markdown（.md）
+- ファイル名例: 2026-05-03-hero-cta-improvement.md
+
+### 記載対象
+- 課題の背景と目的
+- 役割ごとの実施内容（7役の順）
+- 主要な判断理由
+- 実装・文言・SEO・A11y・パフォーマンスの最終状態
+- 残課題と次アクション
+
+### Issueテンプレート（運用用）
+```
+## 概要
+- 課題:
+- 目的:
+- 完了条件:
+
+## 進行ログ（バトンタッチ順）
+1. Planner
+- 入力:
+- 実施内容:
+- 成果物:
+- 次役割への引き継ぎ:
+
+2. UI Designer
+- 入力:
+- 実施内容:
+- 成果物:
+- 次役割への引き継ぎ:
+
+3. Frontend Engineer
+- 入力:
+- 実施内容:
+- 成果物:
+- 次役割への引き継ぎ:
+
+4. Copywriter
+- 入力:
+- 実施内容:
+- 成果物:
+- 次役割への引き継ぎ:
+
+5. Reviewer
+- 入力:
+- 実施内容:
+- 指摘（重大/中/軽微）:
+- 次役割への引き継ぎ:
+
+6. SEO & Analytics Specialist
+- 入力:
+- 実施内容:
+- 成果物:
+- 次役割への引き継ぎ:
+
+7. Performance & Accessibility Tester
+- 入力:
+- 実施内容:
+- テスト結果:
+- 最終判定:
+
+## 最終結果
+- 解決したこと:
+- 変更ファイル:
+- 未解決事項:
+- 次アクション:
+```
+
+---
+
 ## 1. Portfolio Planner
 
 ### Role
