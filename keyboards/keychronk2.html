@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keyboard Visualizer</title>
+    <title>KeychronK2</title>
     <link rel="stylesheet" href="../css/keychronk2.css">
     <link rel="stylesheet" href="../css/site-layout.css">
 </head>
@@ -13,11 +13,33 @@
             <a class="site-brand" href="../index.html">Portfolio Lab</a>
             <button class="site-nav-toggle" type="button" data-nav-toggle aria-controls="global-nav" aria-expanded="false">Menu</button>
             <nav class="site-nav" id="global-nav" data-site-nav>
-                <a class="site-nav__link" href="../index.html" data-nav-link="home">Home</a>
-                <a class="site-nav__link" href="../games/trackball-typing-practice.html" data-nav-link="games">Games</a>
-                <a class="site-nav__link" href="../keyboards/keychronk2.html" data-nav-link="keyboards">Keyboards</a>
-                <a class="site-nav__link" href="../test/test1.html" data-nav-link="experiments">Experiments</a>
-                <a class="site-nav__link" href="https://github.com/tj-999-comp/sandbox-pages/issues" data-nav-link="contact">Contact</a>
+                <div class="site-nav__group" data-nav-section="games">
+                    <button class="site-nav__trigger" type="button" data-nav-trigger aria-expanded="false">Games</button>
+                    <div class="site-nav__panel" role="group" aria-label="Games links">
+                        <a class="site-nav__sublink" href="../games/trackball-controll-practice.html" data-nav-link="games">trackball-controll-practice</a>
+                        <a class="site-nav__sublink" href="../games/trackball-typing-practice.html" data-nav-link="games">trackball-typing-practice</a>
+                    </div>
+                </div>
+                <div class="site-nav__group" data-nav-section="keyboards">
+                    <button class="site-nav__trigger" type="button" data-nav-trigger aria-expanded="false">Keyboards</button>
+                    <div class="site-nav__panel" role="group" aria-label="Keyboards links">
+                        <a class="site-nav__sublink" href="../keyboards/keychronk2.html" data-nav-link="keyboards">KeychronK2</a>
+                    </div>
+                </div>
+                <div class="site-nav__group" data-nav-section="experiments">
+                    <button class="site-nav__trigger" type="button" data-nav-trigger aria-expanded="false">Experiments</button>
+                    <div class="site-nav__panel" role="group" aria-label="Experiments links">
+                        <a class="site-nav__sublink" href="../test/test1.html" data-nav-link="experiments">Experiment Test 1</a>
+                        <a class="site-nav__sublink" href="../test/test2.html" data-nav-link="experiments">Experiment Test 2</a>
+                    </div>
+                </div>
+                <div class="site-nav__group" data-nav-section="contact">
+                    <button class="site-nav__trigger" type="button" data-nav-trigger aria-expanded="false">Contact</button>
+                    <div class="site-nav__panel" role="group" aria-label="Contact links">
+                        <a class="site-nav__sublink" href="https://github.com/tj-999-comp/sandbox-pages/issues" data-nav-link="contact">Issue Tracker</a>
+                        <a class="site-nav__sublink" href="https://github.com/tj-999-comp" data-nav-link="contact">GitHub Profile</a>
+                    </div>
+                </div>
             </nav>
             <div class="site-actions">
                 <a class="site-btn site-btn--primary" href="../index.html#works">Worksを見る</a>
@@ -177,32 +199,14 @@
 
     <footer class="site-footer">
         <div class="site-footer__inner">
-            <div class="footer-grid">
+            <div class="footer-grid footer-grid--compact">
                 <section>
                     <h2 class="footer-title">Portfolio Lab</h2>
-                    <p class="footer-text">静的ページでUIとインタラクションを検証するポートフォリオです。</p>
-                </section>
-                <section>
-                    <h2 class="footer-title">Quick Links</h2>
-                    <ul class="footer-links">
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="../games/trackball-typing-practice.html">Games</a></li>
-                        <li><a href="../keyboards/keychronk2.html">Keyboards</a></li>
-                        <li><a href="../test/test1.html">Experiments</a></li>
-                    </ul>
-                </section>
-                <section>
-                    <h2 class="footer-title">External Links</h2>
-                    <ul class="footer-links">
-                        <li><a href="https://github.com/tj-999-comp">GitHub</a></li>
-                        <li><a href="https://github.com/tj-999-comp/sandbox-pages/issues">Contact</a></li>
-                        <li><a href="https://tj-999-comp.github.io/sandbox-pages/">Live Site</a></li>
-                    </ul>
                 </section>
             </div>
             <div class="footer-meta">
                 <span>Copyright (c) <span data-year></span> Portfolio Lab</span>
-                <span>Last Updated: <time datetime="2026-05-03">2026-05-03</time></span>
+                <span><a href="https://github.com/tj-999-comp">GitHub</a> / <a href="https://github.com/tj-999-comp/sandbox-pages/issues">Issue Tracker</a></span>
             </div>
         </div>
     </footer>
