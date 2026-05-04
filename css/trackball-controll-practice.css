@@ -1,6 +1,6 @@
 :root {
-    --bg-top: #f5f1df;
-    --bg-bottom: #d6eadf;
+    --bg-top: #eef4ff;
+    --bg-bottom: #d8e9ff;
     --ink: #15343d;
     --panel: rgba(255, 255, 255, 0.7);
     --target-main: #ef476f;
@@ -18,13 +18,13 @@ body {
     font-family: "Avenir Next", "Hiragino Kaku Gothic ProN", sans-serif;
     color: var(--ink);
     background: linear-gradient(145deg, var(--bg-top), var(--bg-bottom));
-    display: grid;
-    place-items: center;
-    padding: 24px;
+    display: block;
+    padding: 24px 24px 236px;
 }
 
 .app {
     width: min(1080px, 100%);
+    margin: 0 auto;
 }
 
 .header h1 {
@@ -41,34 +41,65 @@ body {
     margin-top: 16px;
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
-    background: var(--panel);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 14px;
-    padding: 14px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
 }
 
-.difficulty {
+.difficulty-buttons {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.65);
+    gap: 8px;
 }
 
-.difficulty label {
+.difficulty-btn {
+    border: 1px solid rgba(20, 58, 68, 0.25);
+    background: rgba(255, 255, 255, 0.76);
+    color: #163d47;
+    font-weight: 700;
+    font-size: 0.94rem;
+    padding: 10px 18px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 0.95rem;
+    min-height: 44px;
+    transition: background 120ms ease-out, color 120ms ease-out, transform 120ms ease-out;
+    overflow: hidden;
 }
 
-.stat {
-    font-size: 1rem;
-    background: rgba(255, 255, 255, 0.65);
-    border-radius: 999px;
-    padding: 8px 12px;
+.difficulty-btn.easy,
+.difficulty-btn.hard,
+.difficulty-btn.is-active,
+.difficulty-btn.easy.is-active,
+.difficulty-btn.hard.is-active {
+    border-radius: 10px;
+}
+
+.difficulty-btn.easy {
+    border-color: rgba(13, 122, 124, 0.35);
+    color: #0f5f61;
+}
+
+.difficulty-btn.hard {
+    border-color: rgba(185, 28, 28, 0.32);
+    color: #8b1f1f;
+}
+
+.difficulty-btn:hover {
+    transform: translateY(-1px);
+}
+
+.difficulty-btn.is-active {
+    background: linear-gradient(120deg, #0f766e, #0e7490);
+    color: #ecfeff;
+    border-color: transparent;
+}
+
+.difficulty-btn.hard.is-active {
+    background: linear-gradient(120deg, #b91c1c, #ef4444);
+    color: #fff7ed;
 }
 
 .controls {
@@ -81,9 +112,9 @@ body {
 
 .start-btn {
     border: 0;
-    border-radius: 999px;
+    border-radius: 10px;
     padding: 10px 18px;
-    font-size: 1rem;
+    font-size: 0.98rem;
     cursor: pointer;
     color: #fff;
     background: linear-gradient(120deg, #0d7a7c, #1ba39c);
@@ -96,15 +127,21 @@ body {
 
 .sub-btn {
     border: 0;
-    border-radius: 999px;
+    border-radius: 10px;
     padding: 10px 16px;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     cursor: pointer;
     color: #fff;
     background: linear-gradient(120deg, #406c7a, #34505f);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+}
+
+.controls .start-btn,
+.controls .sub-btn {
+    width: 116px;
     justify-content: center;
 }
 
@@ -122,40 +159,220 @@ body {
     background: linear-gradient(120deg, #a9414f, #7f2f3a);
 }
 
-.sub-btn.home {
-    background: linear-gradient(120deg, #7a5a2f, #5f4623);
+.game-layout {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) 30px 1fr;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.status-area {
+    background: rgba(255, 255, 255, 0.56);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 14px;
+    padding: 10px;
+    display: grid;
+    gap: 8px;
+    align-content: start;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.78);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-card__label {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    color: #315159;
+}
+
+.stat-card__value {
+    font-size: clamp(1.22rem, 2.1vw, 1.6rem);
+    line-height: 1.05;
+}
+
+.stat-card__sub {
+    font-size: 0.86rem;
+    color: #2a525d;
+}
+
+.stat {
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.65);
+    border-radius: 999px;
+    padding: 8px 12px;
+}
+
+.goal {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a4f54;
+}
+
+.progress-column {
+    border-radius: 0;
+    background: transparent;
+    border: 0;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+}
+
+.progress-meter {
+    width: 28px;
+    height: 100%;
+    min-height: 260px;
+    border-radius: 0;
+    background: rgba(13, 42, 56, 0.14);
+    overflow: hidden;
+    border: 0;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+
+.progress-meter::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to top,
+        rgba(255, 255, 255, 0.45) 0,
+        rgba(255, 255, 255, 0.45) 2px,
+        rgba(255, 255, 255, 0) 2px,
+        rgba(255, 255, 255, 0) 10%
+    );
+    pointer-events: none;
+}
+
+.progress-meter__bar {
+    width: 100%;
+    height: 0;
+    border-radius: 0;
+    background: linear-gradient(180deg, #0e6a72, #1ba39c);
+    transition: height 220ms ease-out, background 180ms ease-out;
+}
+
+.progress-meter.is-warning .progress-meter__bar {
+    background: linear-gradient(180deg, #f59e0b, #f97316);
+}
+
+.progress-meter.is-critical .progress-meter__bar {
+    background: linear-gradient(180deg, #dc2626, #ef4444);
 }
 
 .playfield {
-    margin-top: 16px;
+    margin-top: 0;
     width: 100%;
-    height: 560px;
+    min-height: 340px;
+    height: clamp(320px, calc(100vh - 430px), 520px);
     border-radius: 20px;
     background:
         radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 45%),
         radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 45%),
+        linear-gradient(120deg, rgba(46, 87, 140, 0.08), rgba(14, 116, 144, 0.08)),
         #7ab6bf;
     position: relative;
     overflow: hidden;
     border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
+
+.playfield::before {
+    content: "";
+    position: fixed;
+    background: linear-gradient(130deg, rgba(59, 130, 246, 0.33), rgba(20, 184, 166, 0.24), rgba(37, 99, 235, 0.3));
+    background-size: 300% 300%;
+    background-position: var(--scroll-bg-x, 0px) var(--scroll-bg-y, 0px);
+    opacity: 0;
+    transition: opacity 180ms ease-out;
+    pointer-events: none;
+    display: none;
+}
+
 .arena {
     position: relative;
     min-height: 100%;
+    z-index: 2;
+}
+
+.arena::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to right, rgba(86, 102, 121, 0.22) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(86, 102, 121, 0.22) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.playfield.hard::after {
+    display: none;
+}
+
+.playfield.hard .arena::after {
+    display: none;
+}
+
+.playfield.hard .arena::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(130deg, rgba(59, 130, 246, 0.22), rgba(20, 184, 166, 0.15), rgba(37, 99, 235, 0.2));
+    pointer-events: none;
+    z-index: 0;
 }
 
 .playfield.hard {
     overflow: auto;
     scrollbar-width: auto;
     scrollbar-color: #1d5d66 #d7edf0;
+    background-image:
+        linear-gradient(to right, rgba(73, 90, 110, 0.32) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(73, 90, 110, 0.32) 1px, transparent 1px),
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 45%),
+        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 45%),
+        linear-gradient(120deg, rgba(20, 184, 166, 0.22), rgba(59, 130, 246, 0.2), rgba(239, 68, 68, 0.24));
+    background-size:
+        56px 56px,
+        56px 56px,
+        auto,
+        auto,
+        auto;
+    background-position:
+        var(--grid-x, 0px) var(--grid-y, 0px),
+        var(--grid-x, 0px) var(--grid-y, 0px),
+        0 0,
+        0 0,
+        0 0;
+    background-repeat:
+        repeat,
+        repeat,
+        no-repeat,
+        no-repeat,
+        repeat;
+    background-color: #7ab6bf;
+}
+
+.playfield.hard::before {
+    opacity: 0.95;
 }
 
 .playfield.hard .arena {
-    width: 140%;
-    height: 140%;
-    min-width: 100%;
-    min-height: 100%;
+    width: calc(100% * 1.5);
+    height: calc(100% * 2);
+    min-width: unset;
+    min-height: unset;
 }
 
 .playfield.hard::-webkit-scrollbar {
@@ -180,28 +397,114 @@ body {
 }
 
 .target {
+    --target-size: 24px;
     position: absolute;
-    width: 56px;
-    height: 56px;
+    width: var(--target-size);
+    height: var(--target-size);
     border-radius: 50%;
-    border: 4px solid #fff;
-    background: radial-gradient(circle at 35% 35%, #ff8fab 0 25%, var(--target-main) 25% 100%);
-    box-shadow: 0 8px 18px var(--target-shadow);
+    border: 3px solid #fff;
+    background: radial-gradient(circle at 35% 35%, #ff9eb5 0 23%, var(--target-main) 23% 100%);
+    box-shadow: 0 6px 10px var(--target-shadow);
     cursor: pointer;
     display: none;
+    z-index: 4;
+    transition: transform 90ms ease-out, box-shadow 90ms ease-out, filter 90ms ease-out;
+}
+
+.playfield.hard .target {
+    --target-size: 20px;
+}
+
+.target::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    margin-top: -2.5px;
+    margin-left: -2.5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.96);
+    opacity: 0;
+    transition: opacity 90ms ease-out;
+}
+
+.target:hover,
+.target:focus-visible {
+    transform: scale(1.2);
+    box-shadow: 0 6px 10px var(--target-shadow), 0 0 0 3px rgba(255, 255, 255, 0.8), 0 0 0 9px rgba(21, 52, 61, 0.42);
+}
+
+.target:hover::after,
+.target:focus-visible::after {
+    opacity: 1;
+}
+
+.target.is-paused {
+    cursor: not-allowed;
+    filter: grayscale(0.2);
+    opacity: 0.6;
+    transform: none;
+}
+
+.finish-text {
+    position: fixed;
+    display: grid;
+    place-items: center;
+    transform: scale(0.86);
+    margin: 0;
+    font-size: clamp(2.2rem, 9vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 10px 26px rgba(8, 17, 33, 0.38);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1400;
+    transition: opacity 140ms ease-out, transform 140ms ease-out;
+    white-space: nowrap;
+}
+
+.finish-text.is-visible {
+    opacity: 1 !important;
+    transform: scale(1);
 }
 
 .status {
-    position: absolute;
-    inset: auto 0 16px;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #0e2b35;
+    display: none;
 }
 
 .status.clear {
     color: var(--good);
+}
+
+@media (max-width: 900px) {
+    .game-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-column {
+        min-height: 68px;
+        padding: 6px 10px;
+    }
+
+    .progress-meter {
+        width: 100%;
+        height: 22px;
+        min-height: 0;
+        align-items: center;
+    }
+
+    .progress-meter__bar {
+        width: 0;
+        height: 100%;
+    }
+
+    .playfield {
+        min-height: 0;
+        height: clamp(300px, calc(100vh - 420px), 460px);
+    }
 }
 
 @media (max-width: 640px) {
@@ -213,23 +516,22 @@ body {
         gap: 8px;
     }
 
-    .start-btn {
-        width: auto;
-    }
-
     .controls {
         width: 100%;
         margin-left: 0;
         justify-content: flex-start;
     }
 
-    .playfield {
-        height: 440px;
+    .difficulty-buttons {
+        width: 100%;
     }
 
-    .difficulty {
-        width: 100%;
-        border-radius: 12px;
-        flex-wrap: wrap;
+    .difficulty-btn {
+        flex: 1 1 0;
+    }
+
+    .controls .start-btn,
+    .controls .sub-btn {
+        width: 104px;
     }
 }

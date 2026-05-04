@@ -56,7 +56,7 @@ Trackball Control Practiceは「フッターは編集しない」前提で、ゲ
 ## 対象ページ
 - games/trackball-controll-practice.html
 - css/trackball-controll-practice.css
-- js/trackball-controll-practice.js
+- scripts/trackball-controll-practice.js
 
 ## 制約（最優先）
 - フッター（構造・文言・デザイン）は変更しない。

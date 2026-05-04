@@ -35,27 +35,43 @@
         </header>
 
         <section class="panel" aria-label="ゲーム情報">
-            <div class="stat">進捗: <strong id="progress">0 / 10</strong></div>
-            <div class="stat">タイム: <strong id="timer">0.00s</strong></div>
-            <div class="stat">ミス: <strong id="misses">0</strong></div>
-            <div class="difficulty" role="group" aria-label="難易度選択">
-                <span>難易度:</span>
-                <label><input type="radio" name="difficulty" value="easy" checked> ふつう</label>
-                <label><input type="radio" name="difficulty" value="hard"> むずかしい（スクロールあり）</label>
+            <div class="difficulty-buttons" role="group" aria-label="難易度選択">
+                <button id="difficultyEasy" class="difficulty-btn easy is-active" type="button" aria-pressed="true">Easy</button>
+                <button id="difficultyHard" class="difficulty-btn hard" type="button" aria-pressed="false">Hard</button>
             </div>
             <div class="controls">
                 <button id="startBtn" class="start-btn" type="button">スタート</button>
                 <button id="pauseBtn" class="sub-btn" type="button" disabled>一時停止</button>
                 <button id="quitBtn" class="sub-btn danger" type="button" disabled>やめる</button>
-                <a class="sub-btn home" href="../index.html">ホーム</a>
             </div>
         </section>
 
-        <section id="playfield" class="playfield" aria-label="練習エリア">
-            <div id="arena" class="arena">
-                <button id="target" class="target" type="button" aria-label="ターゲット"></button>
+        <section class="game-layout" aria-label="ステータスと練習エリア">
+            <aside class="status-area" aria-label="Statusエリア">
+                <article class="stat-card stat-card--time">
+                    <span class="stat-card__label">タイム</span>
+                    <strong id="timer" class="stat-card__value">0.00s</strong>
+                </article>
+                <article class="stat-card stat-card--progress">
+                    <span class="stat-card__label">進捗</span>
+                    <strong id="progress" class="stat-card__value">0 / 10</strong>
+                    <span class="stat-card__sub">残り <strong id="remaining">10</strong></span>
+                </article>
+                <div class="stat">ミス: <strong id="misses">0</strong></div>
+            </aside>
+
+            <div class="progress-column" aria-label="進行率エリア">
+                <div class="progress-meter progress-meter--vertical" role="progressbar" aria-label="進行率" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" aria-valuetext="0 / 10">
+                    <div id="progressBar" class="progress-meter__bar"></div>
+                </div>
             </div>
-            <p id="status" class="status">スタートを押して開始</p>
+
+            <section id="playfield" class="playfield" aria-label="練習エリア">
+                <div id="arena" class="arena">
+                    <button id="target" class="target" type="button" aria-label="ターゲット"></button>
+                </div>
+                <p id="finishText" class="finish-text" aria-live="polite">Finish</p>
+            </section>
         </section>
     </main>
 
@@ -91,8 +107,7 @@
         </div>
     </footer>
 
-    <script src="../js/site-layout.js"></script>
-    <script src="../js/trackball-controll-practice.js"></script>
+    <script src="../scripts/trackball-controll-practice.js"></script>
 </body>
 
 </html>
