@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/site-layout.css">
 </head>
 
-<body class="hasOverlay has-site-layout layout-game" data-nav="games">
+<body class="startOverlayActive has-site-layout layout-game" data-nav="games">
     <header class="site-header" data-site-header>
         <div class="site-header__inner">
             <a class="site-brand" href="../index.html">Portfolio Lab</a>
@@ -56,13 +56,39 @@
             <div class="badge">コンボ <b id="combo">0</b></div>
             <div class="badge">時間 <b id="rt">0:00</b></div>
             <div class="badge">ロック <b id="lockWord">---</b></div>
-            <div class="right sound">
-                <button class="toggle" id="muteBtn">🔈 ON</button>
-                <input type="range" class="vol" id="vol" min="0" max="1" step="0.01" value="0.7" title="Volume">
+            <div class="hudControls">
+                <button class="hudBtn" id="pauseHudBtn" type="button">一時停止</button>
+                <button class="hudBtn" id="topHudBtn" type="button">モード選択へ</button>
             </div>
         </div>
-        <div class="hpbar">
-            <div class="hpfill" id="hpfill"></div>
+
+        <div class="statusDock">
+            <div class="hpbar" aria-label="LIFE">
+                <div class="hpmeta">LIFE</div>
+                <div class="lifeHearts" id="lifeHearts" aria-live="polite"></div>
+            </div>
+
+            <div class="gbar" id="gbar">
+                <div class="bombLabel">BOMB</div>
+                <div class="gwrap" id="gwrap">
+                    <div class="seg">
+                        <div class="fill" id="sg0"></div>
+                    </div>
+                    <div class="seg">
+                        <div class="fill" id="sg1"></div>
+                    </div>
+                    <div class="seg">
+                        <div class="fill" id="sg2"></div>
+                    </div>
+                    <div class="seg">
+                        <div class="fill" id="sg3"></div>
+                    </div>
+                    <div class="seg">
+                        <div class="fill" id="sg4"></div>
+                    </div>
+                </div>
+                <button class="gbtn" id="gbtn" title="Bomb を 1 個以上持っているときに発動">💣 Bomb</button>
+            </div>
         </div>
 
         <div class="lanes" id="lanes"></div>
@@ -77,31 +103,7 @@
             </svg>
         </div>
 
-        <div class="gbar" id="gbar">
-            <div class="gwrap" id="gwrap">
-                <div class="seg">
-                    <div class="fill" id="sg0"></div>
-                </div>
-                <div class="seg">
-                    <div class="fill" id="sg1"></div>
-                </div>
-                <div class="seg">
-                    <div class="fill" id="sg2"></div>
-                </div>
-                <div class="seg">
-                    <div class="fill" id="sg3"></div>
-                </div>
-                <div class="seg">
-                    <div class="fill" id="sg4"></div>
-                </div>
-            </div>
-            <button class="gbtn" id="gbtn" title="満タンのときクリックで発動">OVERDRIVE</button>
-        </div>
-
-        <div class="inputDock">
-            <input id="type" autocomplete="off" autocapitalize="none" spellcheck="false">
-            <button class="focusBtn" id="focusBtn">タイプ開始 / Start Typing</button>
-        </div>
+        <input id="type" autocomplete="off" autocapitalize="none" spellcheck="false">
 
         <div class="overlay" id="start">
             <div class="card">
@@ -109,7 +111,7 @@
                 <p>
                     クリックでロック → ロック中のみタイプで攻撃。ホイール↑でシールド（1.2s）。<br>
                     赤いラインは攻撃不可。横に移動して別レーンへ避けるか、間に合わない時はシールドで受ける。<br>
-                    必殺：5段ゲージ。ヒット+0.015段／撃破+0.12段。満タンの段をクリックで発動。<br>
+                    Bomb：ゲージ 1 本で 1 個ストック。ヒット+0.015本／撃破+0.12本。Bomb を使うと画面内の敵を一掃。<br>
                     ※数値/記号ON時は表示側にも自然に混ざります（例：<b>猫!</b> ⇔ <b>neko!</b>）。
                 </p>
                 <div class="optrow">
@@ -132,7 +134,6 @@
                 </div>
                 <div class="btns">
                     <button class="btn primary" id="startBtn">スタート</button>
-                    <button class="btn" id="homeBtn">Home</button>
                 </div>
             </div>
         </div>
@@ -144,7 +145,18 @@
                 <p>プレイ時間 <b id="finalTime">0:00</b> ／ ランク <b id="finalRank">D-</b></p>
                 <div class="btns">
                     <button class="btn primary" id="retryBtn">もう一度</button>
-                    <button class="btn" id="topBtn">トップへ</button>
+                    <button class="btn" id="topBtn">モード選択へ</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay" id="pause" style="display:none">
+            <div class="card" style="max-width:560px">
+                <h1 id="pauseTitle">一時停止</h1>
+                <p id="pauseText">ESC をもう一度押すか、再開ボタンで 3 カウント後にゲームへ戻ります。</p>
+                <div class="btns" id="pauseActions">
+                    <button class="btn primary" id="resumeBtn">再開する</button>
+                    <button class="btn" id="pauseTopBtn">モード選択へ</button>
                 </div>
             </div>
         </div>

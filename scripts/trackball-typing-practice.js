@@ -241,26 +241,36 @@
     const game = document.getElementById('game'), lanesEl = document.getElementById('lanes');
     const scoreEl = document.getElementById('score'), comboEl = document.getElementById('combo'), lockWordEl = document.getElementById('lockWord');
     const rtEl = document.getElementById('rt');
-    const hpfill = document.getElementById('hpfill'), input = document.getElementById('type');
+    const lifeHearts = document.getElementById('lifeHearts'), input = document.getElementById('type');
     const startOverlay = document.getElementById('start'), gameoverOverlay = document.getElementById('gameover');
+    const pauseOverlay = document.getElementById('pause');
     const startBtn = document.getElementById('startBtn'), retryBtn = document.getElementById('retryBtn');
-    const homeBtn = document.getElementById('homeBtn');
     const topBtn = document.getElementById('topBtn');
+    const pauseHudBtn = document.getElementById('pauseHudBtn');
+    const topHudBtn = document.getElementById('topHudBtn');
+    const pauseTopBtn = document.getElementById('pauseTopBtn');
+    const resumeBtn = document.getElementById('resumeBtn');
+    const pauseTitle = document.getElementById('pauseTitle');
+    const pauseText = document.getElementById('pauseText');
+    const pauseActions = document.getElementById('pauseActions');
     const finalScore = document.getElementById('finalScore'), finalCombo = document.getElementById('finalCombo');
     const finalTime = document.getElementById('finalTime'), finalRank = document.getElementById('finalRank');
-    const muteBtn = document.getElementById('muteBtn'), volSlider = document.getElementById('vol');
     const player = document.getElementById('player');
     const gbar = document.getElementById('gbar'), gbtn = document.getElementById('gbtn');
     const optDigits = document.getElementById('optDigits'), optSymbols = document.getElementById('optSymbols');
 
     // State
-    let running = false, health = 100, score = 0, combo = 0, bestCombo = 0;
+    let running = false, paused = false, health = 100, score = 0, combo = 0, bestCombo = 0;
     let spawnTimer = 0, enemies = [], hazards = [], locked = null, spawnInterval = 1700, speedScale = 0.8;
     let width = game.clientWidth, height = game.clientHeight, timeScale = 1.0;
     let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
     let shieldCT = 0, shieldOn = false;
     let langMode = "jp";
     let elapsedRealMs = 0;
+    let bombStock = 0, bombCharge = 0;
+    let resumeCountdown = 0;
+    let countdownTimer = 0;
+    let loopStarted = false;
     let currentDifficulty = DIFFICULTY_CONFIGS["3"];
     let maxEnemies = currentDifficulty.maxEnemies;
     let hazardChance = currentDifficulty.hazardChance;
@@ -270,19 +280,54 @@
     let accelStep = currentDifficulty.speedAccelStep;
     let speedMax = currentDifficulty.speedMax;
 
-    // Gauge (5 segments)
-    const segFills = [0, 0, 0, 0, 0];
-    function addGaugeSegment(delta) { let remain = delta; for (let i = 0; i < 5 && remain > 0; i++) { const free = 1 - segFills[i]; const add = Math.min(free, remain); segFills[i] += add; remain -= add; } drawGauge(); }
-    function consumeGaugeSegment() { const idx = segFills.findIndex(v => v >= 1 - 1e-6); if (idx === -1) return false; for (let i = 0; i < 4; i++) segFills[i] = segFills[i + 1]; segFills[4] = 0; drawGauge(); return true; }
-    function hasFullSegment() { return segFills.some(v => v >= 1 - 1e-6); }
-    function drawGauge() { for (let i = 0; i < 5; i++) { const el = document.getElementById('sg' + i); el.style.width = Math.round(segFills[i] * 100) + '%'; } gbar.classList.toggle('ready', hasFullSegment()); }
+    function addBombCharge(delta) {
+        if (bombStock >= 5) {
+            bombCharge = 1;
+            drawGauge();
+            return;
+        }
+        bombCharge += delta;
+        while (bombCharge >= 1 && bombStock < 5) {
+            bombStock += 1;
+            bombCharge -= 1;
+        }
+        if (bombStock >= 5) {
+            bombCharge = 1;
+        }
+        drawGauge();
+    }
+    function consumeGaugeSegment() {
+        if (bombStock <= 0) {
+            return false;
+        }
+        bombStock -= 1;
+        if (bombStock < 5) {
+            bombCharge = Math.min(bombCharge, 0.999);
+        }
+        drawGauge();
+        return true;
+    }
+    function hasFullSegment() { return bombStock > 0; }
+    function drawGauge() {
+        for (let i = 0; i < 5; i++) {
+            const el = document.getElementById('sg' + i);
+            const seg = el.parentElement;
+            let widthPercent = 0;
+            if (i < bombStock) {
+                widthPercent = 100;
+            } else if (i === bombStock && bombStock < 5) {
+                widthPercent = Math.round(bombCharge * 100);
+            }
+            el.style.width = widthPercent + '%';
+            seg.classList.toggle('is-full', i < bombStock);
+        }
+        gbar.classList.toggle('ready', hasFullSegment());
+        gbtn.textContent = '💣 Bomb';
+    }
 
     // ===== Audio（ノイズ合成） =====
-    let actx = null, master = null, muted = false;
-    function ensureAudio() { if (actx) return; actx = new (window.AudioContext || window.webkitAudioContext)(); master = actx.createGain(); master.gain.value = muted ? 0 : parseFloat(volSlider.value || "0.7"); master.connect(actx.destination); }
-    function setMuted(m) { muted = m; if (master) master.gain.value = muted ? 0 : parseFloat(volSlider.value || "0.7"); muteBtn.textContent = muted ? "🔇 OFF" : "🔈 ON"; }
-    muteBtn.addEventListener('click', () => setMuted(!muted));
-    volSlider.addEventListener('input', () => { if (master) master.gain.value = muted ? 0 : parseFloat(volSlider.value); });
+    let actx = null, master = null;
+    function ensureAudio() { }
 
     function noiseBurst({ t = 0.2, type = "lowpass", freq = 400, q = 0.7, gain = 0.7, startGain = 1.0, endGain = 0.001 } = {}) { try { if (!actx) return; const buf = actx.createBuffer(1, Math.max(1, Math.floor(actx.sampleRate * t)), actx.sampleRate); const data = buf.getChannelData(0); for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1; const src = actx.createBufferSource(); src.buffer = buf; const f = actx.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q; const g = actx.createGain(); const now = actx.currentTime; g.gain.setValueAtTime(Math.min(1, gain * startGain), now); g.gain.exponentialRampToValueAtTime(Math.max(0.0001, gain * endGain), now + t); src.connect(f).connect(g).connect(master); src.start(); } catch (e) { logErr(e.message); } }
     function clickShot({ freq = 2400, t = 0.02, gain = 0.2 } = {}) { try { if (!actx) return; const o = actx.createOscillator(); o.type = "square"; const g = actx.createGain(); const now = actx.currentTime; o.frequency.value = freq; g.gain.value = gain; g.gain.exponentialRampToValueAtTime(0.001, now + t); o.connect(g).connect(master); o.start(); o.stop(now + t); } catch (e) { logErr(e.message); } }
@@ -291,7 +336,12 @@
 
     const laneX = lane => ((lane + 0.5) / LANES) * width;
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-    const setHP = v => { hpfill.style.width = clamp(v, 0, 100) + "%"; };
+    const setHP = v => {
+        const normalized = clamp(v, 0, 100);
+        const fullHearts = Math.ceil(normalized / 20);
+        lifeHearts.innerHTML = Array.from({ length: 5 }, (_, index) => `<span class="lifeHeart${index < fullHearts ? '' : ' is-empty'}">❤️</span>`).join('');
+        lifeHearts.setAttribute('aria-label', `LIFE ${fullHearts} / 5`);
+    };
     const randEl = arr => arr[(Math.random() * arr.length) | 0];
 
     function applyDifficultyFromUI() {
@@ -336,19 +386,50 @@
         n._lane = lane; n._x = laneX(lane); n._y = -120; n.style.top = n._y + "px";
 
         const sprite = document.createElement('div'); sprite.className = "sprite"; sprite.textContent = randEl(SPRITES); n.appendChild(sprite);
-        const hp = document.createElement('div'); hp.className = "hp"; hp.innerHTML = '<span style="width:100%"></span>'; n.appendChild(hp);
 
         const word = makeWord();
         const name = document.createElement('div'); name.className = "name"; name.textContent = word.displayMain; n.appendChild(name);
 
-        const hint = document.createElement('div'); hint.className = "typehint hidden"; hint.textContent = "type:"; n.appendChild(hint); n._hint = hint;
+        const hint = document.createElement('div'); hint.className = "typehint hidden"; n.appendChild(hint); n._hint = hint;
+        const ring = document.createElement('div'); ring.className = 'lockRing'; n.appendChild(ring);
 
         if (langMode === "jp") { n._romOpts = word.romajiOpts; n._typed = ""; n._current = word.canon; n.dataset.word = word.canon; }
         else { n.dataset.word = word.typeStr; n.dataset.progress = "0"; }
 
+        n.addEventListener('pointerenter', () => {
+            if (locked !== n) {
+                n.classList.add('targetable');
+                setEnemyRingState(n, 'hover');
+            }
+        });
+        n.addEventListener('pointerleave', () => {
+            n.classList.remove('targetable');
+            if (locked !== n) {
+                setEnemyRingState(n, 'none');
+            }
+        });
         n.addEventListener('pointerdown', (e) => { e.stopPropagation(); lockEnemy(n); });
 
         game.appendChild(n); enemies.push(n);
+    }
+
+    function setEnemyRingState(enemy, state) {
+        const ring = enemy?.querySelector('.lockRing');
+        if (!ring) {
+            return;
+        }
+        if (state === 'hover') {
+            ring.style.borderColor = '#ffd43b';
+            ring.style.opacity = '0.96';
+            return;
+        }
+        if (state === 'locked') {
+            ring.style.borderColor = '#ff5d5d';
+            ring.style.opacity = '0.98';
+            return;
+        }
+        ring.style.borderColor = 'transparent';
+        ring.style.opacity = '0';
     }
 
     function makeHazard() {
@@ -360,15 +441,17 @@
     }
 
     function lockEnemy(n) {
-        if (locked) { locked.classList.remove('locked'); if (langMode === "jp" && locked._hint) locked._hint.classList.add('hidden'); }
+        if (locked) { locked.classList.remove('locked'); locked.classList.remove('targetable'); setEnemyRingState(locked, 'none'); if (langMode === "jp" && locked._hint) locked._hint.classList.add('hidden'); }
         locked = n; n.classList.add('locked');
+        n.classList.remove('targetable');
+        setEnemyRingState(n, 'locked');
         lockWordEl.textContent = n.dataset.word || "---";
         if (langMode === "jp" && n._hint) { n._hint.classList.remove('hidden'); updateTypeHint(n); }
         input.focus(); setTimeout(() => input.focus(), 0);
     }
-    function unlockEnemy() { if (locked) { if (langMode === "jp" && locked._hint) { locked._hint.classList.add('hidden'); } locked.classList.remove('locked'); locked = null; } lockWordEl.textContent = "---"; }
+    function unlockEnemy() { if (locked) { if (langMode === "jp" && locked._hint) { locked._hint.classList.add('hidden'); } setEnemyRingState(locked, 'none'); locked.classList.remove('locked'); locked.classList.remove('targetable'); locked = null; } lockWordEl.textContent = "---"; }
 
-    function updateTypeHint(n) { if (langMode !== "jp" || !n || !n._hint) return; const full = n._current || ""; const typed = n._typed || ""; const safe = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); const before = `<span style="color:#ffd43b">${safe(typed)}</span>`; const after = safe(full.slice(typed.length)); n._hint.innerHTML = `type: <code>${before}${after}</code>`; }
+    function updateTypeHint(n) { if (langMode !== "jp" || !n || !n._hint) return; const full = n._current || ""; const typed = n._typed || ""; const safe = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); const before = `<span style="color:#ffd43b">${safe(typed)}</span>`; const after = safe(full.slice(typed.length)); n._hint.innerHTML = `<code>${before}${after}</code>`; }
 
     function damage(amount) { if (shieldOn) return; health = Math.max(0, health - amount); setHP(health); game.classList.add('shake'); setTimeout(() => game.classList.remove('shake'), 140); SFX.damage(); if (health <= 0) gameOver(); }
     function addScore(base) { const gain = Math.round(base * (1 + combo * 0.12)); score += gain; scoreEl.textContent = score; }
@@ -378,10 +461,75 @@
     function boom(x, y) { const e = document.createElement('div'); e.className = "boom"; e.style.left = x + "px"; e.style.top = y + "px"; game.appendChild(e); setTimeout(() => e.remove(), 520); }
     function hitStop(ms = HITSTOP) { timeScale = 0.0001; setTimeout(() => { timeScale = 1.0; }, ms); }
 
-    function activateSpecial() { if (!consumeGaugeSegment()) return; SFX.special(); const origins = [-70, 0, 70].map(dx => ({ x: cursorX + dx, y: cursorY - 20 })); for (const o of origins) { const b = document.createElement('div'); b.className = "beam"; b.style.height = "8px"; b.style.left = o.x + "px"; b.style.top = o.y + "px"; b.style.width = height + "px"; b.style.transform = `rotate(${-90}deg)`; b.style.boxShadow = "0 0 26px #7fffd4aa"; game.appendChild(b); setTimeout(() => b.remove(), 260); } for (const e of [...enemies]) { const tx = e._x, ty = e._y + e.offsetHeight / 2; boom(tx, ty); popText(tx, ty - 16, "OVERDRIVE!", "#7fffd4"); addScore(160); if (locked === e) unlockEnemy(); e.remove(); enemies.splice(enemies.indexOf(e), 1); } combo += 3; bestCombo = Math.max(bestCombo, combo); comboEl.textContent = combo; hitStop(120); }
+    function activateSpecial() { if (!consumeGaugeSegment()) return; SFX.special(); const origins = [-70, 0, 70].map(dx => ({ x: cursorX + dx, y: cursorY - 20 })); for (const o of origins) { const b = document.createElement('div'); b.className = "beam"; b.style.height = "8px"; b.style.left = o.x + "px"; b.style.top = o.y + "px"; b.style.width = height + "px"; b.style.transform = `rotate(${-90}deg)`; b.style.boxShadow = "0 0 26px #7fffd4aa"; game.appendChild(b); setTimeout(() => b.remove(), 260); } for (const e of [...enemies]) { const tx = e._x, ty = e._y + e.offsetHeight / 2; boom(tx, ty); popText(tx, ty - 16, "💣 BOMB!", "#7fffd4"); addScore(160); if (locked === e) unlockEnemy(); e.remove(); enemies.splice(enemies.indexOf(e), 1); } combo += 3; bestCombo = Math.max(bestCombo, combo); comboEl.textContent = combo; hitStop(120); }
 
+    function clearCountdown() {
+        if (countdownTimer) {
+            clearTimeout(countdownTimer);
+            countdownTimer = 0;
+        }
+        resumeCountdown = 0;
+    }
+
+    function hidePauseOverlay() {
+        pauseOverlay.style.display = 'none';
+        document.body.classList.remove('overlayPeekActive');
+    }
+
+    function showPauseOverlay() {
+        pauseTitle.textContent = '一時停止';
+        pauseText.textContent = 'ESC をもう一度押すか、再開ボタンで 3 カウント後にゲームへ戻ります。';
+        pauseActions.style.display = 'flex';
+        pauseOverlay.style.display = 'flex';
+        document.body.classList.add('overlayPeekActive');
+    }
+
+    function finishResume() {
+        clearCountdown();
+        paused = false;
+        hidePauseOverlay();
+        lastTs = performance.now();
+        input.focus();
+    }
+
+    function startResumeCountdown() {
+        if (!paused || resumeCountdown > 0) {
+            return;
+        }
+        resumeCountdown = 3;
+        pauseActions.style.display = 'none';
+        pauseOverlay.style.display = 'flex';
+        document.body.classList.add('overlayPeekActive');
+        const tick = () => {
+            if (resumeCountdown <= 0) {
+                finishResume();
+                return;
+            }
+            pauseTitle.textContent = `再開まで ${resumeCountdown}`;
+            pauseText.textContent = '3 カウント後にゲームを再開します。';
+            resumeCountdown -= 1;
+            countdownTimer = setTimeout(tick, 1000);
+        };
+        tick();
+    }
+
+    function pauseGame() {
+        if (!running || paused) {
+            return;
+        }
+        paused = true;
+        clearCountdown();
+        showPauseOverlay();
+    }
+
+    game.addEventListener('pointerdown', () => {
+        if (!running || paused || resumeCountdown > 0) {
+            return;
+        }
+        input.focus();
+    });
     game.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; player.style.left = cursorX + "px"; player.style.top = cursorY + "px"; });
-    game.addEventListener('wheel', (e) => { if (!running) return; if (e.deltaY < 0 && shieldCT <= 0) { shieldCT = SHIELD_CT; shieldOn = true; player.classList.add('shield'); SFX.shield(); setTimeout(() => { shieldOn = false; player.classList.remove('shield'); }, SHIELD_TIME); } e.preventDefault(); }, { passive: false });
+    game.addEventListener('wheel', (e) => { if (!running || paused || resumeCountdown > 0) return; if (e.deltaY < 0 && shieldCT <= 0) { shieldCT = SHIELD_CT; shieldOn = true; player.classList.add('shield'); SFX.shield(); setTimeout(() => { shieldOn = false; player.classList.remove('shield'); }, SHIELD_TIME); } e.preventDefault(); }, { passive: false });
     gbtn.addEventListener('click', activateSpecial);
 
     function handleChar(ch) {
@@ -391,25 +539,40 @@
             const matches = (locked._romOpts || []).filter(o => o.toLowerCase().startsWith(t.toLowerCase()));
             if (matches.length) {
                 locked._typed = t; matches.sort((a, b) => { if (a.length !== b.length) return a.length - b.length; const ap = (a.match(/[^a-z]/gi) || []).length, bp = (b.match(/[^a-z]/gi) || []).length; if (ap !== bp) return ap - bp; return a.localeCompare(b); }); locked._current = matches[0]; updateTypeHint(locked);
-                const hpSpan = locked.querySelector('.hp > span'); const ratio = Math.min(1, (locked._typed.length) / (locked._current.length || 1)); hpSpan.style.width = Math.max(0, 100 - Math.round(100 * ratio)) + "%";
                 const tx = locked._x, ty = locked._y + locked.offsetHeight / 2; beamFromMuzzle(tx, ty); popText(tx, ty - 10, "HIT", "#7fffd4"); SFX.shot(); hitStop(50);
-                combo++; bestCombo = Math.max(bestCombo, combo); comboEl.textContent = combo; addScore(34); addGaugeSegment(0.015);
+                combo++; bestCombo = Math.max(bestCombo, combo); comboEl.textContent = combo; addScore(34); addBombCharge(0.015);
                 const exact = matches.some(o => o.length === t.length && o.toLowerCase() === t.toLowerCase()); if (exact) { killLocked(tx, ty); }
             } else { combo = 0; comboEl.textContent = combo; game.animate([{ filter: "brightness(1.2)" }, { filter: "brightness(1)" }], { duration: 120 }); }
             return;
         }
         const word = locked.dataset.word; let p = +locked.dataset.progress; const need = word[p] || ""; const equal = (c1, c2) => (/[a-z]/i.test(c1) && /[a-z]/i.test(c2)) ? c1.toLowerCase() === c2.toLowerCase() : (c1 === c2);
         if (need && equal(ch, need)) {
-            p++; locked.dataset.progress = String(p); const hp = locked.querySelector('.hp > span'); hp.style.width = Math.max(0, 100 - Math.round(100 * p / word.length)) + "%"; const tx = locked._x, ty = locked._y + locked.offsetHeight / 2; beamFromMuzzle(tx, ty); popText(tx, ty - 10, "HIT", "#7fffd4"); SFX.shot(); hitStop(50);
-            combo++; bestCombo = Math.max(bestCombo, combo); comboEl.textContent = combo; addScore(34); addGaugeSegment(0.015); if (p >= word.length) { killLocked(tx, ty); }
+            p++; locked.dataset.progress = String(p); const tx = locked._x, ty = locked._y + locked.offsetHeight / 2; beamFromMuzzle(tx, ty); popText(tx, ty - 10, "HIT", "#7fffd4"); SFX.shot(); hitStop(50);
+            combo++; bestCombo = Math.max(bestCombo, combo); comboEl.textContent = combo; addScore(34); addBombCharge(0.015); if (p >= word.length) { killLocked(tx, ty); }
         } else { combo = 0; comboEl.textContent = combo; game.animate([{ filter: "brightness(1.2)" }, { filter: "brightness(1)" }], { duration: 120 }); }
     }
 
     document.getElementById('type').addEventListener('input', function () { const v = this.value; if (!v) return; const ch = v.slice(-1); if (ch >= "!" && ch <= "~") { handleChar(ch); } this.value = ""; });
-    window.addEventListener('keydown', (e) => { if (!running) return; if (e.key.length === 1) { const ch = e.key; if (ch >= "!" && ch <= "~") { handleChar(ch); e.preventDefault(); } } });
-    document.getElementById('focusBtn')?.addEventListener('click', () => { document.getElementById('type').focus(); setTimeout(() => document.getElementById('type').focus(), 0); });
-
-    function killLocked(tx, ty) { popText(tx, ty - 14, "BREAK!", "#2dd4ff"); boom(tx, ty); addScore(150); SFX.explosion(); hitStop(90); enemies.splice(enemies.indexOf(locked), 1); locked.remove(); unlockEnemy(); addGaugeSegment(0.12); }
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (startOverlay.style.display !== 'none' || gameoverOverlay.style.display !== 'none') {
+                return;
+            }
+            if (paused) {
+                startResumeCountdown();
+                e.preventDefault();
+                return;
+            }
+            if (running) {
+                pauseGame();
+                e.preventDefault();
+            }
+            return;
+        }
+        if (!running || paused || resumeCountdown > 0) return;
+        if (e.key.length === 1) { const ch = e.key; if (ch >= "!" && ch <= "~") { handleChar(ch); e.preventDefault(); } }
+    });
+    function killLocked(tx, ty) { popText(tx, ty - 14, "BREAK!", "#2dd4ff"); boom(tx, ty); addScore(150); SFX.explosion(); hitStop(90); enemies.splice(enemies.indexOf(locked), 1); locked.remove(); unlockEnemy(); addBombCharge(0.12); }
 
     // ===== ランク（スコア基準） =====
     function calcRank(scoreValue) {
@@ -428,7 +591,7 @@
     function formatTime(ms) { const t = Math.max(0, Math.floor(ms / 1000)); const m = Math.floor(t / 60); const s = t % 60; return `${m}:${String(s).padStart(2, '0')}`; }
     function update(ts) {
         try {
-            const dtReal = Math.min(0.05, (ts - lastTs) / 1000); lastTs = ts; const dt = dtReal * timeScale; if (!running) { requestAnimationFrame(update); return; }
+            const dtReal = Math.min(0.05, (ts - lastTs) / 1000); lastTs = ts; const dt = dtReal * timeScale; if (!running || paused || resumeCountdown > 0) { requestAnimationFrame(update); return; }
             elapsedRealMs += dtReal * 1000; rtEl.textContent = formatTime(elapsedRealMs);
             if (shieldCT > 0) { shieldCT -= dt * 1000; if (shieldCT < 0) shieldCT = 0; }
             gameTimeMs += dt * 1000;
@@ -455,49 +618,79 @@
             document.querySelectorAll('input[name="lang"]').forEach(i => { if (i.checked) langMode = i.value; });
             applyDifficultyFromUI();
 
-            ensureAudio(); if (actx.resume) { try { actx.resume(); } catch (_) { } }
-            running = true; health = 100; setHP(health); score = 0; scoreEl.textContent = score; combo = 0; bestCombo = 0; elapsedRealMs = 0; rtEl.textContent = '0:00';
-            segFills.fill(0); drawGauge(); shieldCT = 0; shieldOn = false;
+            ensureAudio(); if (actx && actx.resume) { try { actx.resume(); } catch (_) { } }
+            clearCountdown();
+            running = true; paused = false; health = 100; setHP(health); score = 0; scoreEl.textContent = score; combo = 0; bestCombo = 0; elapsedRealMs = 0; rtEl.textContent = '0:00';
+            bombStock = 0; bombCharge = 0; drawGauge(); shieldCT = 0; shieldOn = false;
             spawnInterval = currentDifficulty.spawnBase;
             speedScale = currentDifficulty.speedStart;
             resetFieldState();
 
             startOverlay.style.display = "none";
             gameoverOverlay.style.display = "none";
+            pauseOverlay.style.display = 'none';
+            document.body.classList.remove('startOverlayActive');
+            document.body.classList.remove('overlayPeekActive');
             document.body.classList.remove('hasOverlay');
 
             width = game.clientWidth; height = game.clientHeight; document.getElementById('type').focus();
             gameTimeMs = 0; nextAccelMs = accelEveryMs; lastTs = performance.now();
-            requestAnimationFrame(update);
+            if (!loopStarted) {
+                loopStarted = true;
+                requestAnimationFrame(update);
+            }
         } catch (e) { logErr(e.message); }
     }
 
     function showTopOverlay() {
         running = false;
+        paused = false;
+        clearCountdown();
         resetFieldState();
         startOverlay.style.display = "flex";
         gameoverOverlay.style.display = "none";
-        document.body.classList.add('hasOverlay');
+        pauseOverlay.style.display = 'none';
+        document.body.classList.remove('hasOverlay');
+        document.body.classList.remove('overlayPeekActive');
+        document.body.classList.add('startOverlayActive');
     }
 
     function gameOver() {
         running = false;
+        paused = false;
+        clearCountdown();
         finalScore.textContent = score;
         finalCombo.textContent = bestCombo;
         finalTime.textContent = formatTime(elapsedRealMs);
         const r = calcRank(score);
         finalRank.textContent = r.grade;
         gameoverOverlay.style.display = "flex";
-        document.body.classList.add('hasOverlay');
+        document.body.classList.remove('startOverlayActive');
+        document.body.classList.remove('hasOverlay');
+        document.body.classList.add('overlayPeekActive');
     }
 
     startBtn.addEventListener('click', () => startGame());
     retryBtn.addEventListener('click', () => startGame());
+    pauseHudBtn?.addEventListener('click', () => {
+        if (!running) {
+            return;
+        }
+        if (paused) {
+            startResumeCountdown();
+            return;
+        }
+        pauseGame();
+    });
+    topHudBtn?.addEventListener('click', () => showTopOverlay());
     topBtn?.addEventListener('click', () => showTopOverlay());
-    homeBtn?.addEventListener('click', () => { window.location.href = '../index.html'; });
+    pauseTopBtn?.addEventListener('click', () => showTopOverlay());
+    resumeBtn?.addEventListener('click', () => startResumeCountdown());
 
     new ResizeObserver(() => { width = game.clientWidth; height = game.clientHeight; }).observe(game);
 
     const startX = window.innerWidth / 2, startY = window.innerHeight / 2;
     player.style.left = startX + "px"; player.style.top = startY + "px"; cursorX = startX; cursorY = startY;
+    setHP(health);
+    drawGauge();
 })();

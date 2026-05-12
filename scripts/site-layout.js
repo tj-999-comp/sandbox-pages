@@ -69,6 +69,13 @@
             setGroupState(group, true);
         });
 
+        group.addEventListener("mouseleave", function () {
+            if (isMobile()) {
+                return;
+            }
+            setGroupState(group, false);
+        });
+
         group.addEventListener("focusin", function () {
             if (isMobile()) {
                 return;
@@ -76,7 +83,27 @@
             closeAllGroups();
             setGroupState(group, true);
         });
+
+        group.addEventListener("focusout", function (event) {
+            if (isMobile()) {
+                return;
+            }
+            var nextTarget = event.relatedTarget;
+            if (nextTarget && group.contains(nextTarget)) {
+                return;
+            }
+            setGroupState(group, false);
+        });
     });
+
+    if (nav) {
+        nav.addEventListener("mouseleave", function () {
+            if (isMobile()) {
+                return;
+            }
+            closeAllGroups();
+        });
+    }
 
     function closeMenu() {
         if (!nav || !toggle) {

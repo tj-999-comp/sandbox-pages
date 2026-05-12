@@ -1,10 +1,10 @@
 :root {
-    --bg: #070b1a;
-    --line: #1d2a55;
-    --text: #eef6ff;
-    --accent: #7fffd4;
-    --warn: #ffba08;
-    --danger: #ff4d4d;
+    --bg: #0f1b2b;
+    --line: #2f4f74;
+    --text: #e8f2fb;
+    --accent: #79b9df;
+    --warn: #ffd16b;
+    --danger: #e25f72;
 }
 
 * {
@@ -28,7 +28,7 @@ body {
     height: 100vh;
     touch-action: none;
     user-select: none;
-    background: linear-gradient(180deg, #081027 0%, #0b1436 60%, #0a0f24 100%)
+    background: linear-gradient(180deg, #11273d 0%, #17314a 58%, #102235 100%)
 }
 
 #game::before {
@@ -59,7 +59,7 @@ body {
 .hud {
     position: absolute;
     left: 10px;
-    right: 10px;
+    right: auto;
     top: 10px;
     display: flex;
     gap: 8px;
@@ -69,7 +69,7 @@ body {
 }
 
 .badge {
-    background: rgba(0, 0, 0, .35);
+    background: rgba(14, 30, 46, .78);
     border: 1px solid var(--line);
     border-radius: 999px;
     padding: 8px 14px;
@@ -77,65 +77,76 @@ body {
     backdrop-filter: blur(6px)
 }
 
-.right {
-    margin-left: auto;
-    display: flex;
+.hudControls {
+    display: inline-flex;
     gap: 8px;
-    align-items: center
+    margin-left: 4px;
 }
 
-.sound {
-    display: flex;
-    align-items: center;
-    gap: 6px
-}
-
-.vol {
-    appearance: none;
-    width: 120px;
-    height: 6px;
-    border-radius: 999px;
-    background: #213066;
-    outline: none
-}
-
-.vol::-webkit-slider-thumb {
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #7fffd4;
-    border: 2px solid #123
-}
-
-.toggle {
-    padding: 6px 10px;
-    border-radius: 999px;
+.hudBtn {
     border: 1px solid var(--line);
-    background: #0e1630;
+    background: rgba(18, 39, 60, .85);
     color: #fff;
-    font-weight: 800;
-    cursor: pointer
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-weight: 700;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+}
+
+.statusDock {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 41
 }
 
 .hpbar {
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    top: 56px;
-    height: 10px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, .08);
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, .12);
-    z-index: 20
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: min(360px, calc(100vw - 24px));
+    justify-content: center;
+    pointer-events: none
 }
 
-.hpfill {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, #32d29f, #2dd4ff);
-    transition: width .2s
+.hpmeta {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(14, 30, 46, .82);
+    border: 1px solid rgba(255, 255, 255, .14);
+    font-weight: 800;
+    backdrop-filter: blur(6px)
+}
+
+.lifeHearts {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    min-height: 42px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(14, 30, 46, .82);
+    border: 1px solid rgba(255, 255, 255, .14);
+    backdrop-filter: blur(6px)
+}
+
+.lifeHeart {
+    font-size: 24px;
+    line-height: 1;
+    filter: drop-shadow(0 0 8px rgba(255, 82, 119, .22))
+}
+
+.lifeHeart.is-empty {
+    opacity: .24;
+    filter: grayscale(1)
 }
 
 .lanes {
@@ -168,10 +179,27 @@ body {
     transition: transform .07s
 }
 
+.lockRing {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 108px;
+    height: 108px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 3px solid transparent;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 0;
+    transition: opacity .14s ease, border-color .14s ease;
+}
+
 .sprite {
     font-size: 58px;
     line-height: 1;
-    animation: walk .7s steps(2) infinite
+    animation: walk .7s steps(2) infinite;
+    z-index: 2;
+    position: relative;
 }
 
 @keyframes walk {
@@ -192,21 +220,34 @@ body {
     margin-top: 4px;
     font: 800 16px ui-sans-serif, system-ui;
     letter-spacing: .5px;
-    background: rgba(0, 0, 0, .45);
+    background: rgba(10, 24, 39, .82);
     border: 2px solid rgba(255, 255, 255, .18);
     padding: 4px 10px;
     border-radius: 10px;
-    text-align: center
+    text-align: center;
+    z-index: 2;
+    position: relative
 }
 
 .typehint {
-    margin-top: 3px;
-    font: 700 12px ui-monospace, Menlo, Consolas, monospace;
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 6px);
+    transform: translateX(-50%);
+    min-width: 140px;
+    font: 700 13px ui-monospace, Menlo, Consolas, monospace;
     color: #9be7ff;
-    background: rgba(0, 0, 0, .35);
+    background: rgba(11, 27, 43, .88);
     border: 1px solid rgba(255, 255, 255, .15);
-    padding: 2px 6px;
-    border-radius: 8px
+    padding: 8px 12px;
+    border-radius: 10px;
+    z-index: 2
+}
+
+.typehint code {
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1.05
 }
 
 .typehint.hidden {
@@ -244,10 +285,12 @@ body {
     position: absolute;
     left: 0;
     right: 0;
-    height: 8px;
-    background: linear-gradient(90deg, transparent, #ff3b3b, #fff0);
-    box-shadow: 0 0 16px #ff3b3b;
-    opacity: .9
+    height: 28px;
+    background: rgba(220, 70, 94, .46);
+    border-top: 2px solid rgba(255, 170, 182, .92);
+    border-bottom: 2px solid rgba(152, 23, 44, .9);
+    box-shadow: inset 0 0 0 1px rgba(255, 210, 217, .18), 0 0 12px rgba(176, 35, 57, .55);
+    opacity: 1
 }
 
 #player {
@@ -371,20 +414,27 @@ body {
 }
 
 .gbar {
-    position: absolute;
-    left: 50%;
-    bottom: 14px;
-    transform: translateX(-50%);
     display: flex;
     gap: 8px;
-    z-index: 40;
-    align-items: center
+    align-items: center;
+    pointer-events: auto
+}
+
+.bombLabel {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(14, 30, 46, .82);
+    border: 1px solid rgba(255, 255, 255, .14);
+    font-weight: 800;
+    backdrop-filter: blur(6px)
 }
 
 .gwrap {
     display: flex;
     gap: 6px;
-    background: rgba(0, 0, 0, .35);
+    background: rgba(14, 30, 46, .82);
     padding: 10px 12px;
     border-radius: 16px;
     border: 1px solid var(--line);
@@ -394,12 +444,15 @@ body {
 
 .seg {
     width: 46px;
-    height: 18px;
+    height: 32px;
     border-radius: 8px;
     background: rgba(255, 255, 255, .14);
     overflow: hidden;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, .18)
+    border: 1px solid rgba(255, 255, 255, .18);
+    display: flex;
+    align-items: center;
+    justify-content: center
 }
 
 .seg .fill {
@@ -411,12 +464,29 @@ body {
     background: linear-gradient(90deg, #7fffd4, #2dd4ff)
 }
 
+.seg.is-full {
+    background: linear-gradient(180deg, rgba(255, 218, 92, .88), rgba(255, 185, 41, .86));
+    box-shadow: inset 0 0 0 1px rgba(71, 49, 4, .24), 0 0 14px rgba(255, 205, 88, .35)
+}
+
+.seg.is-full::after {
+    content: "💣";
+    position: relative;
+    z-index: 2;
+    font-size: 18px;
+    line-height: 1;
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .28))
+}
+
+.seg.is-full .fill {
+    opacity: 0
+}
+
 .gbtn {
-    margin-left: 10px;
     padding: 10px 14px;
     border-radius: 999px;
     border: 1px solid var(--line);
-    background: #0e1630;
+    background: #193550;
     color: #fff;
     font-weight: 900;
     cursor: not-allowed;
@@ -424,37 +494,17 @@ body {
 }
 
 .gbar.ready .gbtn {
-    background: linear-gradient(90deg, #2dd4ff, #32d29f);
-    color: #002;
+    background: linear-gradient(90deg, #8ec4e3, #a2d0ea);
+    color: #12263a;
     border: none;
     cursor: pointer;
     opacity: 1
-}
-
-.inputDock {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 12px;
-    display: flex;
-    justify-content: center;
-    z-index: 12
 }
 
 #type {
     position: absolute;
     opacity: 0;
     pointer-events: none
-}
-
-.focusBtn {
-    padding: 14px 18px;
-    font: 700 16px system-ui, sans-serif;
-    border-radius: 999px;
-    border: 1px solid var(--line);
-    background: rgba(0, 0, 0, .35);
-    color: var(--text);
-    backdrop-filter: blur(8px)
 }
 
 .overlay {
@@ -468,17 +518,41 @@ body {
     justify-content: center;
     z-index: 2000;
     background: rgba(0, 0, 0, .65);
-    backdrop-filter: blur(4px)
+    backdrop-filter: blur(4px);
+    pointer-events: none
+}
+
+#start.overlay {
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: linear-gradient(180deg, rgba(13, 27, 43, .32), rgba(13, 27, 43, .12) 48%, rgba(13, 27, 43, 0));
+    backdrop-filter: none
+}
+
+#gameover.overlay,
+#pause.overlay {
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: linear-gradient(180deg, rgba(13, 27, 43, .32), rgba(13, 27, 43, .12) 48%, rgba(13, 27, 43, 0));
+    backdrop-filter: none
+}
+
+#start .card {
+    width: min(680px, 86vw);
+    padding: 18px 16px;
 }
 
 .card {
-    background: linear-gradient(135deg, #2a2f68, #1a1f48);
+    background: linear-gradient(140deg, #2b4d6d, #1f3a55);
     padding: 22px 18px;
     border: 1px solid var(--line);
     border-radius: 16px;
     text-align: center;
     width: min(760px, 92vw);
-    color: #eaf2ff
+    color: #eaf2ff;
+    pointer-events: auto
 }
 
 .card h1 {
@@ -509,7 +583,7 @@ body {
 }
 
 .card fieldset {
-    border: 1px solid #334078;
+    border: 1px solid #436488;
     border-radius: 12px;
     padding: 10px
 }
@@ -531,19 +605,34 @@ body {
     padding: 10px 14px;
     border-radius: 999px;
     border: 1px solid var(--line);
-    background: #0e1630;
+    background: #1f3a55;
     color: #fff;
     font-weight: 800;
     cursor: pointer
 }
 
 .btn.primary {
-    background: linear-gradient(90deg, #2dd4ff, #32d29f);
-    color: #002;
+    background: linear-gradient(90deg, #8ec4e3, #a2d0ea);
+    color: #13283d;
     border: none
 }
 
+body.startOverlayActive .hud,
+body.startOverlayActive .statusDock,
+body.startOverlayActive .gbar,
+body.startOverlayActive #player,
+body.overlayPeekActive .hud,
+body.overlayPeekActive .statusDock,
+body.overlayPeekActive .gbar,
+body.overlayPeekActive #player,
+body.overlayPeekActive .hpbar {
+    opacity: .88;
+    filter: none;
+    pointer-events: auto
+}
+
 body.hasOverlay .hud,
+body.hasOverlay .statusDock,
 body.hasOverlay .gbar,
 body.hasOverlay #player {
     opacity: .2;
@@ -552,6 +641,17 @@ body.hasOverlay #player {
 }
 
 @media (max-width: 760px) {
+    .statusDock {
+        width: min(360px, calc(100vw - 24px));
+    }
+
+    .hpbar,
+    .gbar {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
     .card .optrow {
         grid-template-columns: 1fr;
     }
