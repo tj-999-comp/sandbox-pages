@@ -801,7 +801,7 @@
 
     function calcKps(elapsedSec) {
         if (!Number.isFinite(elapsedSec) || elapsedSec <= 0) return 0;
-        return state.totalKeyCount / elapsedSec;
+        return (state.totalKeyCount - state.missKeyCount) / elapsedSec;
     }
 
     function calcAccuracy() {
