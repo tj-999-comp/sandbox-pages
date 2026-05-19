@@ -318,6 +318,17 @@
         return blank;
     }
 
+    function isLikelySentenceEntry(entry, lang) {
+        const text = String(entry?.display || "").trim();
+        if (!text) return false;
+        if (/[\s\n\r]/.test(text)) return true;
+        if (/[。．、,，.!?！？:;；]/.test(text)) return true;
+        if (lang === "ja") {
+            return text.length >= 8;
+        }
+        return false;
+    }
+
     function t(key, lang = state.lang) {
         return TEXTS[lang][key] || TEXTS.ja[key] || "";
     }
@@ -457,7 +468,7 @@
             return;
         }
         state.playMode = mode;
-        state.practiceKind = "word";
+        state.practiceKind = mode === "challenge" ? "mixed" : "word";
         dom.playTitle.textContent = mode === "challenge" ? "計測" : "反復";
         dom.practiceKindWrap.hidden = mode === "challenge";
         updatePracticeKindButtons();
@@ -639,14 +650,19 @@
 
     function getPool() {
         const custom = state.customBank[state.lang];
-        if (state.playMode === "challenge") {
-            return [...custom.word, ...custom.sentence];
-        }
         if (state.practiceKind === "word") {
-            return [...custom.word];
+            const words = custom.word.filter((entry) => !isLikelySentenceEntry(entry, state.lang));
+            return words.length ? words : [...custom.word];
         }
         if (state.practiceKind === "sentence") {
-            return [...custom.sentence];
+            const sentences = [
+                ...custom.sentence,
+                ...custom.word.filter((entry) => isLikelySentenceEntry(entry, state.lang))
+            ];
+            return sentences.length ? sentences : [...custom.sentence];
+        }
+        if (state.playMode === "challenge") {
+            return [...custom.word, ...custom.sentence];
         }
         return [...custom.word, ...custom.sentence];
     }
