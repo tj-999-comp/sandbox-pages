@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Typing Marathon</title>
+    <link rel="stylesheet" href="../css/site-layout.css">
+    <link rel="stylesheet" href="../css/typing-marathon.css">
+</head>
+
+<body class="has-site-layout" data-nav="games">
+    <header class="site-header" data-site-header>
+        <div class="site-header__inner">
+            <a class="site-brand" href="../index.html">Portfolio Lab</a>
+            <button class="site-nav-toggle" type="button" data-nav-toggle aria-controls="global-nav" aria-expanded="false">Menu</button>
+            <nav class="site-nav" id="global-nav" data-site-nav>
+                <div class="site-nav__group" data-nav-section="games">
+                    <button class="site-nav__trigger" type="button" data-nav-trigger aria-expanded="false">Games</button>
+                    <div class="site-nav__panel" role="group" aria-label="Games links">
+                        <a class="site-nav__sublink" href="../games/trackball-controll-practice.html" data-nav-link="games">trackball-controll-practice</a>
+                        <a class="site-nav__sublink" href="../games/trackball-typing-practice.html" data-nav-link="games">trackball-typing-practice</a>
+                        <a class="site-nav__sublink" href="../games/typing-marathon.html" data-nav-link="games">typing-marathon</a>
+                    </div>
+                </div>
+                <div class="site-nav__group" data-nav-section="keyboards">
+                    <button class="site-nav__trigger" type="button" data-nav-trigger aria-expanded="false">Keyboards</button>
+                    <div class="site-nav__panel" role="group" aria-label="Keyboards links">
+                        <a class="site-nav__sublink" href="../keyboards/keychronk2.html" data-nav-link="keyboards">KeychronK2</a>
+                    </div>
+                </div>
+                <div class="site-nav__group" data-nav-section="experiments">
+                    <button class="site-nav__trigger" type="button" data-nav-trigger aria-expanded="false">Experiments</button>
+                    <div class="site-nav__panel" role="group" aria-label="Experiments links">
+                        <a class="site-nav__sublink" href="../test/test1.html" data-nav-link="experiments">Experiment Test 1</a>
+                        <a class="site-nav__sublink" href="../test/test2.html" data-nav-link="experiments">Experiment Test 2</a>
+                    </div>
+                </div>
+                <div class="site-nav__group" data-nav-section="contact">
+                    <button class="site-nav__trigger" type="button" data-nav-trigger aria-expanded="false">Contact</button>
+                    <div class="site-nav__panel" role="group" aria-label="Contact links">
+                        <a class="site-nav__sublink" href="https://github.com/tj-999-comp/sandbox-pages/issues" data-nav-link="contact">Issue Tracker</a>
+                        <a class="site-nav__sublink" href="https://github.com/tj-999-comp">GitHub Profile</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="site-actions">
+                <a class="site-btn site-btn--primary" href="../index.html#works">Worksを見る</a>
+                <a class="site-btn" href="https://github.com/tj-999-comp">GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="tm-page">
+        <section class="tm-hero" aria-labelledby="tm-title">
+            <h1 id="tm-title">Typing Marathon</h1>
+        </section>
+
+        <section class="tm-screen is-active" id="tm-screen-top" data-screen>
+            <h2>トップメニュー</h2>
+            <div class="tm-topGrid">
+                <button class="tm-menuCard" type="button" data-open-mode="challenge">
+                    <strong>計測</strong>
+                    <span>30秒/60秒で総合スコアとKPSを計測</span>
+                </button>
+                <button class="tm-menuCard" type="button" data-open-mode="practice">
+                    <strong>反復</strong>
+                    <span>単語/文章を反復練習</span>
+                </button>
+                <button class="tm-menuCard" type="button" data-open-mode="ranking">
+                    <strong>記録</strong>
+                    <span>歴代Top10を表示</span>
+                </button>
+                <button class="tm-menuCard" type="button" data-open-mode="editor">
+                    <strong>出題編集</strong>
+                    <span>出題候補を追加・編集・削除</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="tm-screen" id="tm-screen-play" data-screen hidden>
+            <div class="tm-screenHead">
+                <h2 id="tm-play-title">計測</h2>
+                <button class="tm-btn" type="button" data-back-top>トップへ戻る</button>
+            </div>
+
+            <article class="tm-card tm-card--play tm-playStage" aria-label="タイピングエリア">
+                <div class="tm-hud tm-hud--large" role="status" aria-live="polite">
+                    <div><span>残り時間</span><strong id="tm-time">60.0s</strong></div>
+                    <div><span>総合スコア</span><strong id="tm-score">0</strong></div>
+                    <div><span>平均KPS</span><strong id="tm-kps">0.00</strong></div>
+                </div>
+
+                <div class="tm-playControls" id="tm-play-controls">
+                    <div class="tm-practiceKind" id="tm-practice-kind-wrap" hidden>
+                        <span>練習タイプ</span>
+                        <button class="tm-switch is-active" type="button" data-practice-kind="word" aria-pressed="true">単語</button>
+                        <button class="tm-switch" type="button" data-practice-kind="sentence" aria-pressed="false">文章</button>
+                        <button class="tm-switch" type="button" data-practice-kind="mixed" aria-pressed="false">ミックス</button>
+                    </div>
+                    <div class="tm-durationWrap" id="tm-duration-wrap" aria-label="秒数選択">
+                        <span>秒数</span>
+                        <button class="tm-switch" type="button" data-duration="30" aria-pressed="false">30秒</button>
+                        <button class="tm-switch is-active" type="button" data-duration="60" aria-pressed="true">60秒</button>
+                    </div>
+                    <div class="tm-language tm-language--inline" aria-label="出題言語">
+                        <span class="tm-language__label">出題言語</span>
+                        <button class="tm-lang-btn is-active" type="button" data-lang="ja" aria-pressed="true">日本語</button>
+                        <button class="tm-lang-btn" type="button" data-lang="en" aria-pressed="false">English</button>
+                    </div>
+                </div>
+
+                <p class="tm-prompt tm-prompt--large" id="tm-prompt" aria-live="polite">スタートで問題が表示されます。</p>
+                <p class="tm-target tm-target--large" id="tm-target" aria-label="入力ターゲット">---</p>
+                <p class="tm-reading tm-reading--large" id="tm-reading" aria-live="polite"></p>
+                <div class="tm-actions tm-actions--large">
+                    <button id="tm-start" class="tm-btn tm-btn--primary" type="button">スタート</button>
+                    <button id="tm-pause" class="tm-btn" type="button" disabled>一時停止</button>
+                    <button id="tm-next" class="tm-btn" type="button" disabled>次の問題</button>
+                    <button id="tm-reset" class="tm-btn tm-btn--danger" type="button" disabled>リセット</button>
+                </div>
+            </article>
+        </section>
+
+        <section class="tm-screen" id="tm-screen-ranking" data-screen hidden>
+            <div class="tm-screenHead">
+                <h2>記録</h2>
+                <button class="tm-btn" type="button" data-back-top>トップへ戻る</button>
+            </div>
+            <article class="tm-card tm-card--ranking">
+                <h3>歴代Top10</h3>
+                <div class="tm-rankingFilters" aria-label="ランキング切替">
+                    <div class="tm-rankingFilterGroup" role="tablist" aria-label="ランキング言語">
+                        <button type="button" class="tm-switch is-active" data-ranking-lang="ja" role="tab" aria-selected="true">日本語</button>
+                        <button type="button" class="tm-switch" data-ranking-lang="en" role="tab" aria-selected="false">English</button>
+                    </div>
+                    <div class="tm-rankingFilterGroup" role="tablist" aria-label="ランキング秒数">
+                        <button type="button" class="tm-switch" data-ranking-seconds="30" role="tab" aria-selected="false">30秒</button>
+                        <button type="button" class="tm-switch is-active" data-ranking-seconds="60" role="tab" aria-selected="true">60秒</button>
+                    </div>
+                </div>
+                <p class="tm-rankingSummary" id="tm-ranking-summary"></p>
+                <ol class="tm-ranking" id="tm-ranking"></ol>
+                <button id="tm-clear-ranking" class="tm-btn tm-btn--danger" type="button">ランキングをリセット</button>
+            </article>
+        </section>
+
+        <section class="tm-screen" id="tm-screen-editor" data-screen hidden>
+            <div class="tm-screenHead">
+                <h2>出題編集</h2>
+                <button class="tm-btn" type="button" data-back-top>トップへ戻る</button>
+            </div>
+            <article class="tm-card">
+                <div class="tm-practiceSwitch" role="tablist" aria-label="編集言語">
+                    <button type="button" class="tm-switch is-active" data-edit-lang="ja" role="tab" aria-selected="true">日本語</button>
+                    <button type="button" class="tm-switch" data-edit-lang="en" role="tab" aria-selected="false">English</button>
+                </div>
+                <div class="tm-practiceSwitch" role="tablist" aria-label="編集タイプ">
+                    <button type="button" class="tm-switch is-active" data-edit-kind="word" role="tab" aria-selected="true">単語</button>
+                    <button type="button" class="tm-switch" data-edit-kind="sentence" role="tab" aria-selected="false">文章</button>
+                </div>
+                <form class="tm-register" id="tm-register-form">
+                    <label for="tm-register-display" id="tm-register-label">単語を登録</label>
+                    <input id="tm-register-display" type="text" maxlength="120" required>
+                    <input id="tm-register-reading" type="text" maxlength="160">
+                    <button class="tm-btn tm-btn--primary" type="submit">登録</button>
+                </form>
+                <ul class="tm-customList" id="tm-custom-list" aria-live="polite"></ul>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <div class="footer-grid footer-grid--compact">
+                <section>
+                    <h2 class="footer-title">Portfolio Lab</h2>
+                </section>
+            </div>
+            <div class="footer-meta">
+                <span>Copyright (c) <span data-year></span> Portfolio Lab</span>
+                <span><a href="https://github.com/tj-999-comp">GitHub</a> / <a href="https://github.com/tj-999-comp/sandbox-pages/issues">Issue Tracker</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <div class="tm-modal" id="tm-result-modal" hidden aria-hidden="true">
+        <div class="tm-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tm-result-modal-title">
+            <h2 id="tm-result-modal-title">結果</h2>
+            <dl class="tm-result tm-result--modal">
+                <div><dt>総合スコア</dt><dd id="tm-r-score">0</dd></div>
+                <div><dt>平均KPS</dt><dd id="tm-r-kps">0.00</dd></div>
+                <div><dt>正答率</dt><dd id="tm-r-acc">0.0%</dd></div>
+                <div><dt>総打鍵数</dt><dd id="tm-r-keys">0</dd></div>
+                <div><dt>ミス数</dt><dd id="tm-r-miss">0</dd></div>
+            </dl>
+            <div class="tm-modal__actions">
+                <button id="tm-result-retry" class="tm-btn tm-btn--primary" type="button">もう一度</button>
+                <button id="tm-result-close" class="tm-btn" type="button">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../scripts/site-layout.js"></script>
+    <script src="../scripts/typing-marathon.js"></script>
+</body>
+
+</html>
