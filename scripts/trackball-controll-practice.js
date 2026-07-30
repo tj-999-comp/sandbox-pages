@@ -23,6 +23,7 @@ let animationFrameId = null;
 let currentDifficulty = "easy";
 let paused = false;
 let elapsedBeforePause = 0;
+let finishAnnouncementFrameId = null;
 
 function formatSeconds(seconds) {
     return `${seconds.toFixed(2)}s`;
@@ -67,7 +68,6 @@ function applyDifficulty() {
     }
 
     if (!isEasy) {
-        updateFinishPosition();
         updateGridLines();
     }
 }
@@ -81,20 +81,6 @@ function updateHardScrollBackground() {
     const y = Math.round(-playfield.scrollTop * 1.1);
     playfield.style.setProperty("--scroll-bg-x", `${x}px`);
     playfield.style.setProperty("--scroll-bg-y", `${y}px`);
-}
-
-function updateFinishPosition() {
-    if (!playfield.classList.contains("hard")) {
-        return;
-    }
-
-    const playfieldRect = playfield.getBoundingClientRect();
-    const centerX = playfieldRect.left + playfieldRect.width / 2;
-    const centerY = playfieldRect.top + playfieldRect.height / 2;
-
-    // 要素の中央がplayfield中央になるよう調整
-    finishText.style.left = `${centerX - finishText.offsetWidth / 2}px`;
-    finishText.style.top = `${centerY - finishText.offsetHeight / 2}px`;
 }
 
 function updateGridLines() {
@@ -117,6 +103,7 @@ function renderProgress() {
 
     const meter = progressBar.parentElement;
     const isHorizontal = window.matchMedia("(max-width: 900px)").matches;
+    meter.setAttribute("aria-orientation", isHorizontal ? "horizontal" : "vertical");
     if (isHorizontal) {
         progressBar.style.width = `${percent}%`;
         progressBar.style.height = "100%";
@@ -148,7 +135,13 @@ function finishGame() {
     quitBtn.disabled = true;
     target.classList.remove("is-paused");
     target.style.display = "none";
-    finishText.classList.add("is-visible");
+    finishText.textContent = "";
+    cancelAnimationFrame(finishAnnouncementFrameId);
+    finishAnnouncementFrameId = requestAnimationFrame(() => {
+        finishText.textContent = "Finish";
+        finishText.classList.add("is-visible");
+        finishAnnouncementFrameId = null;
+    });
 }
 
 function startGame() {
@@ -166,7 +159,10 @@ function startGame() {
     pauseBtn.textContent = "一時停止";
     pauseBtn.disabled = false;
     quitBtn.disabled = false;
+    cancelAnimationFrame(finishAnnouncementFrameId);
+    finishAnnouncementFrameId = null;
     finishText.classList.remove("is-visible");
+    finishText.textContent = "";
 
     applyDifficulty();
     playfield.scrollTop = 0;
@@ -218,7 +214,10 @@ function quitGame() {
     misses.textContent = "0";
     target.classList.remove("is-paused");
     target.style.display = "none";
+    cancelAnimationFrame(finishAnnouncementFrameId);
+    finishAnnouncementFrameId = null;
     finishText.classList.remove("is-visible");
+    finishText.textContent = "";
 
     playfield.scrollTop = 0;
     playfield.scrollLeft = 0;
@@ -279,7 +278,6 @@ target.addEventListener("click", (event) => {
 
 playfield.addEventListener("scroll", () => {
     updateHardScrollBackground();
-    updateFinishPosition();
     updateGridLines();
 });
 

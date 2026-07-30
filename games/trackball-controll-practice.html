@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>trackball-controll-practice</title>
-    <link rel="stylesheet" href="../css/trackball-controll-practice.css">
     <link rel="stylesheet" href="../css/site-layout.css">
+    <link rel="stylesheet" href="../css/trackball-controll-practice.css">
 </head>
 
-<body class="has-site-layout" data-nav="games">
+<body class="has-site-layout trackball-practice-page" data-nav="games">
     <header class="site-header" data-site-header>
         <div class="site-header__inner">
             <a class="site-brand" href="../index.html">Portfolio Lab</a>
@@ -83,7 +83,7 @@
             </aside>
 
             <div class="progress-column" aria-label="進行率エリア">
-                <div class="progress-meter progress-meter--vertical" role="progressbar" aria-label="進行率" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" aria-valuetext="0 / 10">
+                <div class="progress-meter progress-meter--vertical" role="progressbar" aria-label="進行率" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" aria-valuetext="0 / 10" aria-orientation="vertical">
                     <div id="progressBar" class="progress-meter__bar"></div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                 <div id="arena" class="arena">
                     <button id="target" class="target" type="button" aria-label="ターゲット"></button>
                 </div>
-                <p id="finishText" class="finish-text" aria-live="polite">Finish</p>
+                <p id="finishText" class="finish-text" role="status" aria-live="polite"></p>
             </section>
         </section>
     </main>
