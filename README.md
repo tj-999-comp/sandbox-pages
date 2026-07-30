@@ -3,13 +3,16 @@
 
 ## 課題解決フロー（エージェント運用）
 
-このリポジトリの課題対応は、次の流れで実行する。
+このリポジトリではCodexを主担当エージェントとして利用する。
 
-1. ユーザーが課題をPortfolio Plannerに提案
-2. AGENTSが次の順にリレーして課題を解決: Portfolio Planner -> Portfolio UI Designer -> Portfolio Frontend Engineer -> Portfolio Copywriter -> Portfolio Reviewer -> Portfolio SEO & Analytics Specialist -> Portfolio Performance & Accessibility Tester
-3. 課題解決までの内容をIssuesフォルダ内にMarkdownファイルとして記録
+1. Codexが依頼を分類し、必要な専門役割だけをサブエージェントへ委任
+2. 依存する工程は順番に、独立した調査やテストは必要に応じて並列実行
+3. ファイル変更では課題用ブランチを作成し、実装・検証・Issue記録を実施
+4. 変更をcommit・pushしてPRを作成し、差分レビューとCI確認まで実施
 
 補足:
 - 役割定義・詳細ルール・テンプレートはAGENTS.mdを参照
+- UI作業はDESIGN.mdと該当するSkillsを参照
 - 記録ファイルは Issues/*.md で管理する
 - 記録ファイル名は Issue_001.md 形式（3桁ゼロ埋め連番）で管理する
+- PRのマージとブランチ削除は、ユーザーから明示的な指示がある場合のみ実施する

@@ -73,7 +73,7 @@
   - `css/trackball-typing-practice.css`
   - `scripts/trackball-typing-practice.js`
   - `scripts/site-layout.js`
-  - `Issues/Issue004.md`
+  - `Issues/Issue_004.md`
 - 未解決事項: なし
 - 次アクション:
   - 実機（トラックボール）で操作感を確認し、必要なら入力補助の閾値を調整
