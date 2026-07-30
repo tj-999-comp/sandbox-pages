@@ -62,25 +62,9 @@ function applyDifficulty() {
     difficultyHard.classList.toggle("is-active", !isEasy);
     difficultyHard.setAttribute("aria-pressed", String(!isEasy));
 
-    if (!running) {
-        playfield.style.setProperty("--scroll-bg-x", "0px");
-        playfield.style.setProperty("--scroll-bg-y", "0px");
-    }
-
     if (!isEasy) {
         updateGridLines();
     }
-}
-
-function updateHardScrollBackground() {
-    if (!playfield.classList.contains("hard")) {
-        return;
-    }
-
-    const x = Math.round(-playfield.scrollLeft * 1.25);
-    const y = Math.round(-playfield.scrollTop * 1.1);
-    playfield.style.setProperty("--scroll-bg-x", `${x}px`);
-    playfield.style.setProperty("--scroll-bg-y", `${y}px`);
 }
 
 function updateGridLines() {
@@ -167,7 +151,6 @@ function startGame() {
     applyDifficulty();
     playfield.scrollTop = 0;
     playfield.scrollLeft = 0;
-    updateHardScrollBackground();
     updateGridLines();
 
     target.style.display = "block";
@@ -221,7 +204,6 @@ function quitGame() {
 
     playfield.scrollTop = 0;
     playfield.scrollLeft = 0;
-    updateHardScrollBackground();
     updateGridLines();
 
     startBtn.textContent = "スタート";
@@ -244,11 +226,9 @@ difficultyHard.addEventListener("click", () => {
     currentDifficulty = "hard";
     if (!running) {
         applyDifficulty();
-        updateHardScrollBackground();
         updateGridLines();
     } else {
         applyDifficulty();
-        updateHardScrollBackground();
         updateGridLines();
         moveTargetRandomly();
     }
@@ -277,7 +257,6 @@ target.addEventListener("click", (event) => {
 });
 
 playfield.addEventListener("scroll", () => {
-    updateHardScrollBackground();
     updateGridLines();
 });
 

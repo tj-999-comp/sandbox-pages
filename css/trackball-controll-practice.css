@@ -1,12 +1,27 @@
 :root {
-    --action-blue: #0066cc;
-    --focus-blue: #0071e3;
-    --ink: #1d1d1f;
-    --ink-muted: #6e6e73;
+    --action-color: #7c352b;
+    --focus-color: #145c75;
+    --nav-focus-color: #ffd8ca;
+    --ink: #2b1b18;
+    --ink-muted: #6b504a;
     --canvas: #ffffff;
-    --parchment: #f5f5f7;
-    --pearl: #fafafc;
-    --hairline: #e0e0e0;
+    --parchment: #f7f4f2;
+    --pearl: #f3e7e2;
+    --ichikonzome: #f5b199;
+    --divider-soft: #eadbd5;
+    --difficulty-surface: #fff8f4;
+    --difficulty-border: #f0c7b8;
+    --difficulty-text: #6b3a31;
+    --difficulty-selected-border: #d77f64;
+    --control-disabled-surface: #f7f1ee;
+    --control-disabled-text: #806862;
+    --hairline: #a9786b;
+    --grid-color: #d8c7c1;
+    --nav-surface: #3b2b27;
+    --nav-surface-hover: #59413b;
+    --nav-border: #6b504a;
+    --nav-muted: #f3e7e2;
+    --on-dark: #ffffff;
 }
 
 * {
@@ -28,7 +43,7 @@ body.trackball-practice-page {
 .trackball-practice-page .site-header {
     height: 44px;
     border-bottom: 0;
-    background: #000000;
+    background: var(--nav-surface);
     backdrop-filter: none;
 }
 
@@ -40,7 +55,7 @@ body.trackball-practice-page {
 
 .trackball-practice-page .site-brand,
 .trackball-practice-page .site-nav__trigger {
-    color: var(--canvas);
+    color: var(--on-dark);
     font-family: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 12px;
     font-weight: 400;
@@ -66,15 +81,15 @@ body.trackball-practice-page {
 .trackball-practice-page .site-nav__group:hover > .site-nav__trigger,
 .trackball-practice-page .site-nav__group:focus-within > .site-nav__trigger,
 .trackball-practice-page .site-nav__group.is-active > .site-nav__trigger {
-    color: var(--canvas);
-    background: #1d1d1f;
+    color: var(--on-dark);
+    background: var(--nav-surface-hover);
 }
 
 .trackball-practice-page .site-nav__panel {
     top: calc(100% + 1px);
-    border: 1px solid #333333;
+    border: 1px solid var(--nav-border);
     border-radius: 8px;
-    background: #000000;
+    background: var(--nav-surface);
     box-shadow: none;
 }
 
@@ -90,7 +105,7 @@ body.trackball-practice-page {
 
 .trackball-practice-page .site-nav__sublink {
     border-radius: 5px;
-    color: #cccccc;
+    color: var(--nav-muted);
     font-family: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 14px;
     letter-spacing: -0.224px;
@@ -98,8 +113,8 @@ body.trackball-practice-page {
 
 .trackball-practice-page .site-nav__sublink:hover,
 .trackball-practice-page .site-nav__sublink.is-active {
-    color: var(--canvas);
-    background: #1d1d1f;
+    color: var(--on-dark);
+    background: var(--nav-surface-hover);
 }
 
 .trackball-practice-page .site-btn {
@@ -107,8 +122,8 @@ body.trackball-practice-page {
     padding: 8px 15px;
     border: 0;
     border-radius: 8px;
-    color: var(--canvas);
-    background: var(--ink);
+    color: var(--on-dark);
+    background: var(--nav-surface-hover);
     font-family: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -117,17 +132,17 @@ body.trackball-practice-page {
 }
 
 .trackball-practice-page .site-btn--primary {
-    border-color: var(--action-blue);
+    border-color: var(--action-color);
     border-radius: 9999px;
-    color: var(--canvas);
-    background: var(--action-blue);
+    color: var(--on-dark);
+    background: var(--action-color);
 }
 
 .trackball-practice-page .site-footer {
     position: static;
     margin: 80px -24px 0;
     border-top: 0;
-    color: #333333;
+    color: var(--ink);
     background: var(--parchment);
 }
 
@@ -154,13 +169,18 @@ body.trackball-practice-page {
 }
 
 .trackball-practice-page .footer-meta a {
-    color: var(--action-blue);
+    color: var(--action-color);
 }
 
 .trackball-practice-page a:focus-visible,
 .trackball-practice-page button:focus-visible {
-    outline: 2px solid var(--focus-blue);
+    outline: 2px solid var(--focus-color);
     outline-offset: 2px;
+}
+
+.trackball-practice-page .site-header a:focus-visible,
+.trackball-practice-page .site-header button:focus-visible {
+    outline-color: var(--nav-focus-color);
 }
 
 .app {
@@ -229,9 +249,13 @@ body.trackball-practice-page {
 }
 
 .difficulty-btn {
-    border: 1px solid var(--action-blue);
-    color: var(--action-blue);
-    background: var(--canvas);
+    border: 3px solid var(--difficulty-border);
+    border-radius: 11px;
+    color: var(--difficulty-text);
+    background: var(--difficulty-surface);
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.224px;
 }
 
 .difficulty-btn.easy,
@@ -239,36 +263,38 @@ body.trackball-practice-page {
 .difficulty-btn.is-active,
 .difficulty-btn.easy.is-active,
 .difficulty-btn.hard.is-active {
-    border-radius: 9999px;
+    border-radius: 11px;
 }
 
 .difficulty-btn.is-active,
 .difficulty-btn.easy.is-active,
 .difficulty-btn.hard.is-active {
-    border-color: var(--action-blue);
-    color: var(--canvas);
-    background: var(--action-blue);
+    border-color: var(--difficulty-selected-border);
+    color: var(--ink);
+    background: var(--ichikonzome);
+    font-weight: 600;
 }
 
 .start-btn {
-    border: 1px solid var(--action-blue);
-    color: var(--canvas);
-    background: var(--action-blue);
+    border: 3px solid var(--divider-soft);
+    border-radius: 11px;
+    color: var(--ink);
+    background: var(--pearl);
 }
 
 .sub-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--action-blue);
-    color: var(--action-blue);
-    background: var(--canvas);
+    border: 3px solid var(--divider-soft);
+    border-radius: 11px;
+    color: var(--ink);
+    background: var(--pearl);
     text-decoration: none;
 }
 
 .sub-btn.danger {
-    color: var(--action-blue);
-    background: var(--canvas);
+    box-shadow: none;
 }
 
 .difficulty-btn:active,
@@ -278,9 +304,12 @@ body.trackball-practice-page {
     transform: scale(0.95);
 }
 
-.sub-btn:disabled {
-    border-color: var(--hairline);
-    color: var(--ink-muted);
+.sub-btn:disabled,
+.sub-btn.danger:disabled {
+    border-color: var(--divider-soft);
+    color: var(--control-disabled-text);
+    background: var(--control-disabled-surface);
+    box-shadow: none;
     cursor: not-allowed;
     opacity: 1;
     transform: none;
@@ -288,8 +317,15 @@ body.trackball-practice-page {
 
 .controls .start-btn,
 .controls .sub-btn {
-    width: 116px;
+    width: 128px;
+    min-width: 128px;
+    min-height: 44px;
+    padding: 11px 20px;
     justify-content: center;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.224px;
 }
 
 .game-layout {
@@ -393,14 +429,27 @@ body.trackball-practice-page {
     pointer-events: none;
 }
 
-.progress-meter__bar,
-.progress-meter.is-warning .progress-meter__bar,
-.progress-meter.is-critical .progress-meter__bar {
+.progress-meter__bar {
     width: 100%;
     height: 0;
     border-radius: 0;
-    background: var(--action-blue);
+    background: var(--action-color);
     transition: height 220ms ease-out;
+}
+
+.progress-meter.is-warning .progress-meter__bar {
+    background: #b85f43;
+}
+
+.progress-meter.is-critical .progress-meter__bar {
+    background-color: #6b2523;
+    background-image: repeating-linear-gradient(
+        135deg,
+        transparent 0,
+        transparent 6px,
+        rgb(255 255 255 / 0.18) 6px,
+        rgb(255 255 255 / 0.18) 9px
+    );
 }
 
 .playfield {
@@ -415,15 +464,6 @@ body.trackball-practice-page {
     background-color: var(--canvas);
 }
 
-.playfield::before {
-    content: "";
-    position: fixed;
-    display: none;
-    background-position: var(--scroll-bg-x, 0px) var(--scroll-bg-y, 0px);
-    opacity: 0;
-    pointer-events: none;
-}
-
 .arena {
     position: relative;
     min-height: 100%;
@@ -436,8 +476,8 @@ body.trackball-practice-page {
     inset: 0;
     z-index: 1;
     background:
-        linear-gradient(to right, var(--hairline) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--hairline) 1px, transparent 1px);
+        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
     background-size: 56px 56px;
     background-repeat: repeat;
     pointer-events: none;
@@ -450,21 +490,17 @@ body.trackball-practice-page {
 
 .playfield.hard {
     overflow: auto;
-    scrollbar-color: var(--action-blue) var(--parchment);
+    scrollbar-color: var(--action-color) var(--pearl);
     scrollbar-width: auto;
     background-image:
-        linear-gradient(to right, var(--hairline) 1px, transparent 1px),
-        linear-gradient(to bottom, var(--hairline) 1px, transparent 1px);
+        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
     background-size: 56px 56px;
     background-position:
         var(--grid-x, 0px) var(--grid-y, 0px),
         var(--grid-x, 0px) var(--grid-y, 0px);
     background-repeat: repeat;
     background-color: var(--canvas);
-}
-
-.playfield.hard::before {
-    opacity: 1;
 }
 
 .playfield.hard .arena {
@@ -481,7 +517,7 @@ body.trackball-practice-page {
 
 .playfield.hard::-webkit-scrollbar-track,
 .playfield.hard::-webkit-scrollbar-corner {
-    background: var(--parchment);
+    background: var(--pearl);
 }
 
 .playfield.hard::-webkit-scrollbar-track {
@@ -490,9 +526,9 @@ body.trackball-practice-page {
 }
 
 .playfield.hard::-webkit-scrollbar-thumb {
-    border: 2px solid var(--parchment);
+    border: 2px solid var(--pearl);
     border-radius: 8px;
-    background: var(--action-blue);
+    background: var(--action-color);
 }
 
 .target {
@@ -504,7 +540,7 @@ body.trackball-practice-page {
     height: var(--target-size);
     border: 3px solid var(--canvas);
     border-radius: 50%;
-    background: var(--action-blue);
+    background: var(--action-color);
     cursor: pointer;
     transition: transform 90ms ease-out, opacity 90ms ease-out;
 }
@@ -530,7 +566,7 @@ body.trackball-practice-page {
 
 .target:hover,
 .target:focus-visible {
-    outline: 2px solid var(--focus-blue);
+    outline: 2px solid var(--focus-color);
     outline-offset: 4px;
     transform: scale(1.2);
 }
@@ -577,7 +613,7 @@ body.trackball-practice-page {
 }
 
 .status.clear {
-    color: var(--action-blue);
+    color: var(--action-color);
 }
 
 @media (max-width: 900px) {
@@ -598,7 +634,7 @@ body.trackball-practice-page {
         padding: 0 12px;
         border: 0;
         border-radius: 0;
-        color: var(--canvas);
+        color: var(--on-dark);
         background: transparent;
         font-family: "SF Pro Text", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
         font-size: 12px;
@@ -607,12 +643,12 @@ body.trackball-practice-page {
 
     .trackball-practice-page .site-nav {
         top: 44px;
-        border-color: #333333;
-        background: #000000;
+        border-color: var(--nav-border);
+        background: var(--nav-surface);
     }
 
     .trackball-practice-page .site-nav__group {
-        border-color: #333333;
+        border-color: var(--nav-border);
     }
 
     .trackball-practice-page .site-nav__trigger {
@@ -620,13 +656,13 @@ body.trackball-practice-page {
     }
 
     .trackball-practice-page .site-nav__trigger::after {
-        color: var(--canvas);
+        color: var(--nav-muted);
     }
 
     .trackball-practice-page .site-nav__panel {
         border: 0;
         border-radius: 0;
-        background: #1d1d1f;
+        background: var(--nav-surface-hover);
         box-shadow: none;
     }
 
@@ -706,9 +742,8 @@ body.trackball-practice-page {
     .controls .start-btn,
     .controls .sub-btn {
         width: auto;
-        flex: 1 1 0;
-        padding-right: 12px;
-        padding-left: 12px;
+        min-width: 112px;
+        flex: 1 1 112px;
     }
 
     .status-area {
