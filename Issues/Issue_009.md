@@ -41,8 +41,8 @@
 - 変更ファイル: `AGENTS.md`、`README.md`、`Issues/Issue_Template.md`、`Issues/Issue_009.md`
 - 検証結果: 文書検証とPR作成前レビューに合格。配信対象コードを変更していないためブラウザ確認は対象外
 - 作業ブランチ: `codex/009-add-pr-workflow`
-- コミット: PR作成工程で確定
-- PR: push・PR作成後に追記
-- PRレビュー・CI: PR作成後に追記
-- 未解決事項: PR作成後の状態確認
-- 次アクション: Reviewer事前レビュー後にcommit、push、PR作成、GitHub上の差分レビューを実施する
+- コミット: `a8e4221`（主要実装。記録更新の追加commitはPR履歴を参照）
+- PR: [#1](https://github.com/tj-999-comp/sandbox-pages/pull/1)（`main` ← `codex/009-add-pr-workflow`、Ready、MERGEABLE）
+- PRレビュー・CI: GitHub上の35ファイルがローカル差分と一致。サブエージェントレビューは重大0件。CI/checksは未設定であることを確認
+- 未解決事項: 重大な未解決事項なし。正式な外部承認は未取得
+- 次アクション: 必要に応じて外部レビュアーが承認する。PRのマージはユーザーの明示指示後に実施する
