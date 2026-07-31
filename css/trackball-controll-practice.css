@@ -208,6 +208,13 @@ body.trackball-practice-page {
     letter-spacing: -0.374px;
 }
 
+.header .score-rule {
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.224px;
+}
+
 .panel {
     display: flex;
     flex-wrap: wrap;
@@ -275,11 +282,21 @@ body.trackball-practice-page {
     font-weight: 600;
 }
 
+.difficulty-btn:disabled {
+    border-color: var(--divider-soft);
+    color: var(--control-disabled-text);
+    background: var(--control-disabled-surface);
+    cursor: not-allowed;
+    opacity: 1;
+    transform: none;
+}
+
 .start-btn {
     border: 3px solid var(--divider-soft);
     border-radius: 11px;
     color: var(--ink);
     background: var(--pearl);
+    scroll-margin-top: 60px;
 }
 
 .sub-btn {
@@ -582,30 +599,72 @@ body.trackball-practice-page {
     transform: none;
 }
 
-.finish-text {
+.finish-result {
     position: fixed;
     top: 50%;
     left: 50%;
     z-index: 1400;
     display: grid;
-    place-items: center;
+    justify-items: center;
+    gap: 8px;
+    width: min(420px, calc(100vw - 32px));
     margin: 0;
+    padding: 24px;
+    border: 1px solid var(--hairline);
+    border-radius: 18px;
     color: var(--ink);
-    font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: clamp(40px, 9vw, 56px);
-    font-weight: 600;
-    line-height: 1.07;
-    letter-spacing: -0.28px;
-    white-space: nowrap;
+    background: var(--canvas);
+    text-align: center;
     opacity: 0;
     pointer-events: none;
     transform: translate(-50%, -50%) scale(0.86);
     transition: opacity 140ms ease-out, transform 140ms ease-out;
 }
 
-.finish-text.is-visible {
+.finish-result.is-visible {
     opacity: 1 !important;
     transform: translate(-50%, -50%) scale(1);
+}
+
+.finish-result__title,
+.finish-result__score {
+    font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.28px;
+}
+
+.finish-result__title {
+    font-size: clamp(34px, 7vw, 48px);
+    line-height: 1.07;
+}
+
+.finish-result__score {
+    color: var(--action-color);
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.1;
+}
+
+.finish-result__breakdown,
+.finish-result__note {
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.224px;
+}
+
+.finish-result__note {
+    color: var(--ink-muted);
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
 }
 
 .status {
@@ -747,6 +806,10 @@ body.trackball-practice-page {
     }
 
     .status-area {
+        padding: 17px;
+    }
+
+    .finish-result {
         padding: 17px;
     }
 }
