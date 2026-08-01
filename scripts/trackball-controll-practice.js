@@ -13,6 +13,7 @@ const remaining = document.getElementById("remaining");
 const progressBar = document.getElementById("progressBar");
 const countdownDisplay = document.getElementById("countdownDisplay");
 const countdownAnnouncement = document.getElementById("countdownAnnouncement");
+const finishBackdrop = document.getElementById("finishBackdrop");
 const finishResult = document.getElementById("finishResult");
 const finishScore = document.getElementById("finishScore");
 const finishBreakdown = document.getElementById("finishBreakdown");
@@ -64,15 +65,9 @@ function setDifficultyDisabled(disabled) {
 function hideFinishResult() {
     cancelAnimationFrame(finishAnnouncementFrameId);
     finishAnnouncementFrameId = null;
+    finishBackdrop.classList.remove("is-visible");
     finishResult.classList.remove("is-visible");
     finishAnnouncement.textContent = "";
-}
-
-function positionCountdown() {
-    const centerX = playfield.scrollLeft + playfield.clientWidth / 2;
-    const centerY = playfield.scrollTop + playfield.clientHeight / 2;
-    playfield.style.setProperty("--countdown-left", `${centerX}px`);
-    playfield.style.setProperty("--countdown-top", `${centerY}px`);
 }
 
 function clearCountdown() {
@@ -93,7 +88,6 @@ function startCountdown(onComplete) {
     startBtn.disabled = true;
     pauseBtn.disabled = true;
     setDifficultyDisabled(true);
-    positionCountdown();
     countdownDisplay.classList.add("is-visible");
 
     function showCount(value) {
@@ -226,6 +220,7 @@ function finishGame() {
     setDifficultyDisabled(false);
     finishScore.textContent = `スコア ${formattedScore}`;
     finishBreakdown.textContent = breakdown;
+    finishBackdrop.classList.add("is-visible");
     finishResult.classList.add("is-visible");
     finishAnnouncement.textContent = "";
     finishAnnouncementFrameId = requestAnimationFrame(() => {
@@ -357,9 +352,6 @@ target.addEventListener("click", (event) => {
 
 playfield.addEventListener("scroll", () => {
     updateGridLines();
-    if (countingDown) {
-        positionCountdown();
-    }
 });
 
 arena.addEventListener("click", (event) => {
@@ -373,9 +365,4 @@ arena.addEventListener("click", (event) => {
 
 renderProgress();
 applyDifficulty();
-window.addEventListener("resize", () => {
-    renderProgress();
-    if (countingDown) {
-        positionCountdown();
-    }
-});
+window.addEventListener("resize", renderProgress);

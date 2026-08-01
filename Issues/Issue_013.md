@@ -13,10 +13,10 @@
 - 次工程への引き継ぎ: 固定ルールで実装し、重みの再調整は別課題とする。
 
 ### Portfolio UI Designer
-- 入力: `DESIGN.md`、既存のStatusカード、viewport中央固定のFinish表示。
-- 実施内容: Statusエリアはタイム・進捗・ミスへ絞り、スコアはクリア後のFinish結果カードだけに表示する構成へ整理した。開始・再開時のカウントダウンは練習エリア中央へ円形表示し、既存の配色、角丸、タイポグラフィに合わせた。
-- 成果物: Finishでのみ整数ポイントと計算内訳を示す表示と、3→2→1を明瞭に示す中央カウントダウン。
-- 検証結果: Chromiumで結果カードのviewport中央配置とモバイル幅への収まりを確認した。カウントダウンもデスクトップ、320×568、Easy、Hardのスクロール後で練習エリア中央に表示され、再開始時にFinishの残像と重ならないことを確認した。
+- 入力: `DESIGN.md`、既存の和色UI、viewport中央固定のFinish表示、Finishの視認性向上と中央位置統一の要望。
+- 実施内容: Statusエリアはタイム・進捗・ミスへ絞り、スコアはクリア後のFinish結果カードだけに表示する構成へ整理した。Finishには墨色系の半透明scrimと軽いblurを別レイヤーで追加し、影を使わずカード境界をaction colorの2pxへ強化した。カウントダウンとFinishはともにviewport中央へ固定した。
+- 成果物: 背景から明確に分離したFinish結果カードと、desktop・mobile・Hardスクロール位置に影響されない3→2→1の厳密な画面中央表示。
+- 検証結果: Chromiumで、Finishとカウントダウンがデスクトップ、320×568、Hardのスクロール後でもviewport中央から2px未満の誤差に収まることを確認した。Finishは墨色42%のscrim、2px blur、2pxのaction color境界により背景から明確に分離した。
 - 未解決事項: なし。
 - 次工程への引き継ぎ: なし。
 
@@ -30,25 +30,25 @@
 
 ### Portfolio Frontend Engineer
 - 入力: 案4の確定式、Finish限定のスコア表示、開始・再開カウントダウン、既存のゲーム状態とアクセシビリティ要件。
-- 実施内容: StatusのスコアDOMとJavaScript参照・リセット処理を削除し、Finishの計算・表示・live regionは維持した。新規開始と一時停止からの再開を共通の`startCountdown`へ接続し、3→2→1を各1秒表示する間はStart・Pause・難易度を無効化、Quitだけを有効にした。新規開始ではカウント後に計時とターゲットを開始する。再開では既存経過時間を保持し、カウント開始時にターゲットを隠して位置の先読みを防ぎ、完了後に同じ位置へ再表示して計時を再開する。Quit時はtimeoutと視覚・live表示を確実に解除する。初回ブラウザ確認で再開始時にFinishの140ms退場transitionと数字3が重なる所見があり、非表示側を即時`visibility: hidden`、表示側だけを140ms transitionとするCSSへ修正した。
-- 成果物: Finish限定スコア、練習エリア中央のカウントダウン、カウント中の入力・計時・ターゲット表示停止、中断可能なQuit、3→2→1と「スタート」のlive通知。
-- 検証結果: `node --check`合格、HTMLの20 ID重複なし・JavaScriptからの19参照解決、Statusスコア参照の残存なし、カウントダウンの状態ガード・timeout解除・操作無効化フック、CSS波括弧とカウントダウンselector、`git diff --check`の合格を確認した。
+- 実施内容: StatusのスコアDOMとJavaScript参照・リセット処理を削除し、Finishの計算・表示・live regionは維持した。新規開始と一時停止からの再開を共通の`startCountdown`へ接続し、3→2→1を各1秒表示する間はStart・Pause・難易度を無効化、Quitだけを有効にした。新規開始ではカウント後に計時とターゲットを開始する。再開では既存経過時間を保持し、カウント開始時にターゲットを隠して位置の先読みを防ぎ、完了後に同じ位置へ再表示して計時を再開する。Quit時はtimeoutと視覚・live表示を確実に解除する。Finish用の独立backdrop DOMを追加して結果表示と同時にshowし、再開始・Quitを含む`hideFinishResult`で必ず解除する。カウントダウンを`position: fixed`へ変更し、playfield scroll座標の計算とscroll・resize更新を削除した。
+- 成果物: Finish限定スコア、viewport中央で統一したFinishとカウントダウン、背景を抑えて結果を強調する非操作性scrim、カウント中の入力・計時・ターゲット表示停止、中断可能なQuit、3→2→1と「スタート」のlive通知。
+- 検証結果: `node --check`合格、HTMLの21 ID重複なし・JavaScriptからの20参照解決、backdropのshow/hide接続、scroll依存のカウントダウン座標処理が残っていないこと、CSS波括弧、両表示のfixed中央、非操作性scrim、2px境界、カード影なし、`git diff --check`の合格を確認した。
 - 未解決事項: なし。
-- 次工程への引き継ぎ: Performance & Accessibility TesterとReviewerが時間停止、再開時間維持、Quit中断、中央表示、既存非回帰を確認する。
+- 次工程への引き継ぎ: Performance & Accessibility TesterとReviewerが中央座標、scrimのshow/hide、pointer-events、既存非回帰を確認する。
 
 ### Portfolio Performance & Accessibility Tester
 - 入力: 案4へ変更後のHTML、CSS、JavaScript、既存の非回帰条件。
 - 実施内容: Playwright確認で、320×568のクリア時にFinishカードがフォーカスされたStartボタンを覆う中問題1件と、live regionが英字の`pt`を読み上げる軽微問題1件を指摘した。カウントダウン追加後のロジックは合格したが、再開始直後にFinishカードの退場transitionが約140ms残り、数字3と視覚的に重なる所見を追加で確認した。
 - 成果物: 既存のモバイルフォーカスと読み上げ修正に加え、Finishを非表示時に即時隠す修正。
-- 検証結果: Playwright + Chromiumで、開始・再開の3→2→1、各カウント中の計時停止、ターゲット非表示、ミス抑止、操作無効化、Quit中断、再開時の経過時間維持を確認した。Easy、Hardのスクロール後、320×568で中央表示に合格し、再開始直後のFinish残像も解消した。Finishスコアと「ポイント」のlive region、既存のHard背景・罫線も合格し、console error・page error・failed requestは0件だった。最終判定は重大0・中0・軽微0で合格。
-- 未解決事項: 実スクリーンリーダーによる音声確認は未実施。DOM上のlive region更新は確認済み。
-- 次工程への引き継ぎ: Reviewerが最終差分と実動結果を確認する。
+- 検証結果: Playwright + Chromiumで、開始・再開の3→2→1、各カウント中の計時停止、ターゲット非表示、ミス抑止、操作無効化、Quit中断、再開時の経過時間維持を確認した。最新UIではscrimの全画面表示・解除、Finishの視認性、desktop・Hardスクロール後・320×568でのviewport中央、既存スコアとHard非回帰、エラー0件を確認した。最終判定は重大0・中0・軽微0で合格。
+- 未解決事項: 実スクリーンリーダーによる音声確認。DOM上のlive region更新は確認済み。
+- 次工程への引き継ぎ: なし。
 
 ### Portfolio Reviewer
 - 入力: 案4へ更新した実装差分、静的検証、今後のPlaywright検証結果、本Issue記録。
 - 実施内容: 案4の実装と初回Playwright結果を確認し、モバイルのフォーカス可視性を中1件、live regionの単位表記を軽微1件として差し戻した。追加要件後は最新4ファイル、Issue記録、静的検証、最終Playwrightレポートとスクリーンショットを再レビューした。
 - 成果物: モバイルフォーカス、読み上げ単位、Finish残像の修正差分、および追加要件を含むReady判定。
-- 検証結果: Statusスコア削除、開始・再開カウントダウン、停止・中断制御、Hardと320×568の中央表示、Finish残像解消、既存非回帰、エラー0件を確認した。重大・中・軽微の未解決指摘は0件。
+- 検証結果: Statusスコア削除、開始・再開カウントダウン、停止・中断制御、最新UIのscrim、viewport中央座標、表示解除、Hardと320×568の非回帰、無関係変更の不在、エラー0件を確認した。重大・中・軽微の未解決指摘は0件でReady判定。
 - 未解決事項: なし。
 - 次工程への引き継ぎ: 対象4ファイルを限定してコミットする。
 
@@ -69,14 +69,16 @@
 - 理由: コンパクトな視覚表示を維持しつつ、支援技術で単位を明確に読み上げるため。
 - 判断: カウントダウン中はゲーム進行を止め、Quit以外のゲーム操作を無効化する。
 - 理由: 数字を確認してから同じ条件で開始・再開でき、中断手段も失わないようにするため。
-- 判断: Hardのスクロール位置を考慮してカウントダウン座標を更新する。
-- 理由: スクロール済みの再開時も、数字を練習エリアの表示領域中央へ保つため。
+- 判断: カウントダウンとFinishは`position: fixed`と50%座標でviewport中央へ統一する。
+- 理由: desktop・mobile・Hardのスクロール位置にかかわらず、画面全体の厳密な中央へ結果と開始合図を表示するため。
 - 判断: Finishは非表示時に即座に`visibility: hidden`とし、表示時だけopacityとscaleをtransitionさせる。
 - 理由: Finishの表示開始アニメーションを維持しながら、再開始カウントの数字3との残像重なりを防ぐため。
+- 判断: Finish表示中だけ独立した半透明scrimを表示し、カード境界を2pxへ強める。
+- 理由: `DESIGN.md`で非推奨のカード影を使わず、既存の墨色とaction colorで結果の視認性を高めるため。
 
 ## 最終結果
-- 解決したこと: スコア表示をFinishへ限定し、新規開始と一時停止からの再開へ3→2→1のカウントダウンを追加した。カウント中の時間・ゲーム入力を停止し、Quitによる安全な中断と再開時の経過時間維持を実装した。
+- 解決したこと: スコア表示をFinishへ限定し、新規開始と再開へ3→2→1を追加した。Finishは半透明scrimと強い境界で視認性を高め、カウントダウンとともにviewport中央へ統一した。
 - 変更ファイル: `games/trackball-controll-practice.html`、`css/trackball-controll-practice.css`、`scripts/trackball-controll-practice.js`、`Issues/Issue_013.md`。
-- 検証結果: Playwright + Chromiumで開始・再開・Quit中断・Easy・Hard・320×568を実動確認し、全項目合格。再開始時のFinish残像も再検証で解消し、console error・page error・failed requestは0件だった。
+- 検証結果: Playwright + Chromiumで、Finishとカウントダウンのviewport中央座標、scrimの全画面表示と解除、背景操作の非阻害、既存カウントダウン・スコア・Hard非回帰を確認した。console error・page error・failed requestは0件。
 - 未解決事項: 実スクリーンリーダーによる音声確認は未実施。重大な未解決事項は0件。
 - 次アクション: 対象4ファイルを限定してコミットする。
