@@ -11,8 +11,8 @@ const timer = document.getElementById("timer");
 const misses = document.getElementById("misses");
 const remaining = document.getElementById("remaining");
 const progressBar = document.getElementById("progressBar");
-const score = document.getElementById("score");
-const scoreDetail = document.getElementById("scoreDetail");
+const countdownDisplay = document.getElementById("countdownDisplay");
+const countdownAnnouncement = document.getElementById("countdownAnnouncement");
 const finishResult = document.getElementById("finishResult");
 const finishScore = document.getElementById("finishScore");
 const finishBreakdown = document.getElementById("finishBreakdown");
@@ -32,6 +32,8 @@ let currentDifficulty = "easy";
 let paused = false;
 let elapsedBeforePause = 0;
 let finishAnnouncementFrameId = null;
+let countdownTimeoutId = null;
+let countingDown = false;
 
 function formatSeconds(seconds) {
     return `${seconds.toFixed(2)}s`;
@@ -54,11 +56,6 @@ function formatScoreForAnnouncement(points) {
     return `${SCORE_FORMATTER.format(points)}ポイント`;
 }
 
-function resetScoreDisplay() {
-    score.textContent = "—";
-    scoreDetail.textContent = "クリアすると確定。高いほど良い";
-}
-
 function setDifficultyDisabled(disabled) {
     difficultyEasy.disabled = disabled;
     difficultyHard.disabled = disabled;
@@ -71,8 +68,59 @@ function hideFinishResult() {
     finishAnnouncement.textContent = "";
 }
 
+function positionCountdown() {
+    const centerX = playfield.scrollLeft + playfield.clientWidth / 2;
+    const centerY = playfield.scrollTop + playfield.clientHeight / 2;
+    playfield.style.setProperty("--countdown-left", `${centerX}px`);
+    playfield.style.setProperty("--countdown-top", `${centerY}px`);
+}
+
+function clearCountdown() {
+    if (countdownTimeoutId !== null) {
+        clearTimeout(countdownTimeoutId);
+        countdownTimeoutId = null;
+    }
+
+    countingDown = false;
+    countdownDisplay.classList.remove("is-visible");
+    countdownDisplay.textContent = "";
+    countdownAnnouncement.textContent = "";
+}
+
+function startCountdown(onComplete) {
+    clearCountdown();
+    countingDown = true;
+    startBtn.disabled = true;
+    pauseBtn.disabled = true;
+    setDifficultyDisabled(true);
+    positionCountdown();
+    countdownDisplay.classList.add("is-visible");
+
+    function showCount(value) {
+        countdownDisplay.textContent = String(value);
+        countdownAnnouncement.textContent = String(value);
+        countdownTimeoutId = setTimeout(() => {
+            if (value > 1) {
+                showCount(value - 1);
+                return;
+            }
+
+            countdownTimeoutId = null;
+            countingDown = false;
+            countdownDisplay.classList.remove("is-visible");
+            countdownDisplay.textContent = "";
+            countdownAnnouncement.textContent = "スタート";
+            startBtn.disabled = false;
+            pauseBtn.disabled = false;
+            onComplete();
+        }, 1000);
+    }
+
+    showCount(3);
+}
+
 function updateTimer() {
-    if (!running || paused) {
+    if (!running || paused || countingDown) {
         return;
     }
 
@@ -149,6 +197,7 @@ function renderProgress() {
 }
 
 function finishGame() {
+    clearCountdown();
     running = false;
     paused = false;
     cancelAnimationFrame(animationFrameId);
@@ -163,9 +212,8 @@ function finishGame() {
     const breakdown = `タイム ${formattedClearTime} + ミス補正 ${formattedMissAdjustment}（${missCount}回）`;
 
     timer.textContent = formatSeconds(clearTime);
-    score.textContent = formattedScore;
-    scoreDetail.textContent = breakdown;
     startBtn.textContent = "もう一度";
+    startBtn.disabled = false;
     pauseBtn.textContent = "一時停止";
     pauseBtn.disabled = true;
     quitBtn.disabled = true;
@@ -187,22 +235,21 @@ function finishGame() {
 }
 
 function startGame() {
+    clearCountdown();
     hitCount = 0;
     missCount = 0;
-    running = true;
+    running = false;
     paused = false;
     elapsedBeforePause = 0;
-    startedAt = performance.now();
+    startedAt = 0;
+    cancelAnimationFrame(animationFrameId);
 
     renderProgress();
     timer.textContent = "0.00s";
     misses.textContent = "0";
-    resetScoreDisplay();
     startBtn.textContent = "リスタート";
     pauseBtn.textContent = "一時停止";
-    pauseBtn.disabled = false;
     quitBtn.disabled = false;
-    setDifficultyDisabled(true);
     hideFinishResult();
 
     applyDifficulty();
@@ -210,12 +257,15 @@ function startGame() {
     playfield.scrollLeft = 0;
     updateGridLines();
 
-    target.style.display = "block";
+    target.style.display = "none";
     target.classList.remove("is-paused");
-    moveTargetRandomly();
-
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = requestAnimationFrame(updateTimer);
+    startCountdown(() => {
+        running = true;
+        startedAt = performance.now();
+        target.style.display = "block";
+        moveTargetRandomly();
+        animationFrameId = requestAnimationFrame(updateTimer);
+    });
 }
 
 function togglePause() {
@@ -233,15 +283,19 @@ function togglePause() {
         return;
     }
 
-    paused = false;
-    startedAt = performance.now();
     pauseBtn.textContent = "一時停止";
-    target.classList.remove("is-paused");
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = requestAnimationFrame(updateTimer);
+    target.style.display = "none";
+    startCountdown(() => {
+        paused = false;
+        startedAt = performance.now();
+        target.style.display = "block";
+        target.classList.remove("is-paused");
+        animationFrameId = requestAnimationFrame(updateTimer);
+    });
 }
 
 function quitGame() {
+    clearCountdown();
     running = false;
     paused = false;
     elapsedBeforePause = 0;
@@ -252,7 +306,6 @@ function quitGame() {
     renderProgress();
     timer.textContent = "0.00s";
     misses.textContent = "0";
-    resetScoreDisplay();
     target.classList.remove("is-paused");
     target.style.display = "none";
     hideFinishResult();
@@ -262,6 +315,7 @@ function quitGame() {
     updateGridLines();
 
     startBtn.textContent = "スタート";
+    startBtn.disabled = false;
     pauseBtn.textContent = "一時停止";
     pauseBtn.disabled = true;
     quitBtn.disabled = true;
@@ -286,7 +340,7 @@ quitBtn.addEventListener("click", quitGame);
 target.addEventListener("click", (event) => {
     event.stopPropagation();
 
-    if (!running || paused) {
+    if (!running || paused || countingDown) {
         return;
     }
 
@@ -303,10 +357,13 @@ target.addEventListener("click", (event) => {
 
 playfield.addEventListener("scroll", () => {
     updateGridLines();
+    if (countingDown) {
+        positionCountdown();
+    }
 });
 
 arena.addEventListener("click", (event) => {
-    if (!running || paused || event.target === target) {
+    if (!running || paused || countingDown || event.target === target) {
         return;
     }
 
@@ -316,5 +373,9 @@ arena.addEventListener("click", (event) => {
 
 renderProgress();
 applyDifficulty();
-resetScoreDisplay();
-window.addEventListener("resize", renderProgress);
+window.addEventListener("resize", () => {
+    renderProgress();
+    if (countingDown) {
+        positionCountdown();
+    }
+});

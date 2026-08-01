@@ -321,6 +321,7 @@ body.trackball-practice-page {
     transform: scale(0.95);
 }
 
+.start-btn:disabled,
 .sub-btn:disabled,
 .sub-btn.danger:disabled {
     border-color: var(--divider-soft);
@@ -599,6 +600,35 @@ body.trackball-practice-page {
     transform: none;
 }
 
+.countdown-display {
+    position: absolute;
+    top: var(--countdown-top, 50%);
+    left: var(--countdown-left, 50%);
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    width: 96px;
+    height: 96px;
+    border: 1px solid var(--hairline);
+    border-radius: 50%;
+    color: var(--action-color);
+    background: var(--canvas);
+    font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.28px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.86);
+    transition: opacity 140ms ease-out, transform 140ms ease-out;
+}
+
+.countdown-display.is-visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
 .finish-result {
     position: fixed;
     top: 50%;
@@ -616,14 +646,17 @@ body.trackball-practice-page {
     background: var(--canvas);
     text-align: center;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     transform: translate(-50%, -50%) scale(0.86);
-    transition: opacity 140ms ease-out, transform 140ms ease-out;
+    transition: none;
 }
 
 .finish-result.is-visible {
     opacity: 1 !important;
+    visibility: visible;
     transform: translate(-50%, -50%) scale(1);
+    transition: opacity 140ms ease-out, transform 140ms ease-out;
 }
 
 .finish-result__title,

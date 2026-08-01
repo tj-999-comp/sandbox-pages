@@ -80,11 +80,6 @@
                     <strong id="progress" class="stat-card__value">0 / 10</strong>
                     <span class="stat-card__sub">残り <strong id="remaining">10</strong></span>
                 </article>
-                <article class="stat-card stat-card--score">
-                    <span class="stat-card__label">スコア</span>
-                    <strong id="score" class="stat-card__value">—</strong>
-                    <span id="scoreDetail" class="stat-card__sub">クリアすると確定。高いほど良い</span>
-                </article>
                 <div class="stat">ミス: <strong id="misses">0</strong></div>
             </aside>
 
@@ -98,6 +93,8 @@
                 <div id="arena" class="arena">
                     <button id="target" class="target" type="button" aria-label="ターゲット"></button>
                 </div>
+                <strong id="countdownDisplay" class="countdown-display" aria-hidden="true"></strong>
+                <p id="countdownAnnouncement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
                 <article id="finishResult" class="finish-result" aria-hidden="true">
                     <strong class="finish-result__title">Finish</strong>
                     <span id="finishScore" class="finish-result__score"></span>
