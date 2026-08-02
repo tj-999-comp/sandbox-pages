@@ -18,6 +18,7 @@ const countdownAnnouncement = document.getElementById("countdownAnnouncement");
 const finishResult = document.getElementById("finishResult");
 const finishScore = document.getElementById("finishScore");
 const finishBreakdown = document.getElementById("finishBreakdown");
+const finishRetryBtn = document.getElementById("finishRetryBtn");
 const finishAnnouncement = document.getElementById("finishAnnouncement");
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
@@ -70,6 +71,8 @@ function hideFinishResult() {
     cancelAnimationFrame(finishAnnouncementFrameId);
     finishAnnouncementFrameId = null;
     finishResult.classList.remove("is-visible");
+    finishResult.setAttribute("aria-hidden", "true");
+    finishRetryBtn.disabled = true;
     finishAnnouncement.textContent = "";
 }
 
@@ -237,23 +240,25 @@ function finishGame() {
     const breakdown = `タイム ${formattedClearTime} + ミス補正 ${formattedMissAdjustment}（${missCount}回）`;
 
     timer.textContent = formatSeconds(clearTime);
-    startBtn.textContent = "もう一度";
-    startBtn.disabled = false;
+    startBtn.textContent = "スタート";
+    startBtn.disabled = true;
     pauseBtn.textContent = "一時停止";
     pauseBtn.disabled = true;
     quitBtn.disabled = true;
     target.classList.remove("is-paused");
     target.style.display = "none";
-    if (window.matchMedia("(max-width: 640px)").matches) {
-        startBtn.focus({ preventScroll: true });
-        controlPanel.scrollIntoView({ block: "start", inline: "nearest" });
-    } else {
-        startBtn.focus();
-    }
     setDifficultyDisabled(false);
     finishScore.textContent = `スコア ${formattedScore}`;
     finishBreakdown.textContent = breakdown;
+    finishResult.setAttribute("aria-hidden", "false");
+    finishRetryBtn.disabled = false;
     finishResult.classList.add("is-visible");
+    if (window.matchMedia("(max-width: 640px)").matches) {
+        controlPanel.scrollIntoView({ block: "start", inline: "nearest" });
+        finishRetryBtn.focus({ preventScroll: true });
+    } else {
+        finishRetryBtn.focus();
+    }
     finishAnnouncement.textContent = "";
     finishAnnouncementFrameId = requestAnimationFrame(() => {
         finishAnnouncement.textContent = `Finish。スコア ${formattedAnnouncementScore}。タイム ${formattedClearTime}、ミス ${missCount}回、ミス補正 ${formattedMissAdjustment}。`;
@@ -369,6 +374,7 @@ difficultyHard.addEventListener("click", () => {
 });
 
 startBtn.addEventListener("click", startGame);
+finishRetryBtn.addEventListener("click", startGame);
 pauseBtn.addEventListener("click", togglePause);
 quitBtn.addEventListener("click", quitGame);
 

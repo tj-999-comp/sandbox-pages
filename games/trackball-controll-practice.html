@@ -125,12 +125,46 @@
                         </div>
                         <span class="countdown-choice__label">E 八角枠</span>
                     </div>
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--red-white">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">F 紅白リング</span>
+                    </div>
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--seasons">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">G 四季枠</span>
+                    </div>
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--layered">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">H 重ね色</span>
+                    </div>
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--color-card">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">I 色札</span>
+                    </div>
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--festival">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">J 祭印</span>
+                    </div>
                 </div>
                 <p id="countdownAnnouncement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
-                <article id="finishResult" class="finish-result" aria-hidden="true">
-                    <strong class="finish-result__title">Finish</strong>
+                <article id="finishResult" class="finish-result" role="dialog" aria-labelledby="finishTitle" aria-hidden="true">
+                    <strong id="finishTitle" class="finish-result__title">Finish</strong>
                     <span id="finishScore" class="finish-result__score"></span>
                     <span id="finishBreakdown" class="finish-result__breakdown"></span>
+                    <div class="finish-result__actions">
+                        <button id="finishRetryBtn" class="finish-result__button finish-result__button--retry" type="button" disabled>もう一度</button>
+                        <button id="rankingBtn" class="finish-result__button" type="button" aria-label="ランキングを見る（準備中）" disabled>ランキングを見る</button>
+                    </div>
                 </article>
                 <p id="finishAnnouncement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
             </section>
