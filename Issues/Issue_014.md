@@ -35,8 +35,9 @@
 - 変更ファイル: `AGENTS.md`、`Issues/Issue_013.md`、`Issues/Issue_014.md`。
 - 検証結果: Issue規定の構成、Git運用の3分類、対象3ファイル、Reviewer最終判定、および`git diff --check`に合格した。Reviewerは重大0・中0・軽微0でReady判定した。
 - 作業ブランチ: 新規の課題ブランチは作成しない。新ルール確定前から存在した`codex/docs-record-pr-3`上の、最新`origin/main`を親とするfast-forward可能なドキュメント履歴を使用する。
-- コミット: PR #3マージ記録は`32f02c4`。`AGENTS.md`と本Issueは対象を限定して追加commitする。
-- PR: 作成しない。ソースコードを含まないドキュメントのみの変更としてdirect push予定。
+- コミット: PR #3マージ記録は`32f02c4`。Git運用ルールと本Issueは`9ba5f42`。
+- PR: 作成していない。ソースコードを含まないドキュメントのみの変更としてdirect pushした。
 - PRレビュー・CI: PR・CI対象外。Portfolio Reviewerの事前レビューは重大0・中0・軽微0で完了した。
-- 未解決事項: remote `main`へのfast-forward direct pushが未完了。重大な未解決事項は0件。
-- 次アクション: 最新のremote `main`に対してfast-forward可能であることを再確認後、`HEAD:main`を明示してdirect pushする。
+- push結果: `origin/main`を`4f09b4f`から`9ba5f42`へfast-forwardし、対象3文書だけを直接反映した。
+- 未解決事項: なし。重大な未解決事項は0件。
+- 次アクション: 必須なし。以後は本ルールを適用する。
