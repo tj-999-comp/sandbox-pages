@@ -13,7 +13,6 @@ const remaining = document.getElementById("remaining");
 const progressBar = document.getElementById("progressBar");
 const countdownDisplay = document.getElementById("countdownDisplay");
 const countdownAnnouncement = document.getElementById("countdownAnnouncement");
-const finishBackdrop = document.getElementById("finishBackdrop");
 const finishResult = document.getElementById("finishResult");
 const finishScore = document.getElementById("finishScore");
 const finishBreakdown = document.getElementById("finishBreakdown");
@@ -21,6 +20,7 @@ const finishAnnouncement = document.getElementById("finishAnnouncement");
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const quitBtn = document.getElementById("quitBtn");
+const controlPanel = document.getElementById("controlPanel");
 const difficultyEasy = document.getElementById("difficultyEasy");
 const difficultyHard = document.getElementById("difficultyHard");
 
@@ -65,7 +65,6 @@ function setDifficultyDisabled(disabled) {
 function hideFinishResult() {
     cancelAnimationFrame(finishAnnouncementFrameId);
     finishAnnouncementFrameId = null;
-    finishBackdrop.classList.remove("is-visible");
     finishResult.classList.remove("is-visible");
     finishAnnouncement.textContent = "";
 }
@@ -213,14 +212,15 @@ function finishGame() {
     quitBtn.disabled = true;
     target.classList.remove("is-paused");
     target.style.display = "none";
-    startBtn.focus();
     if (window.matchMedia("(max-width: 640px)").matches) {
-        startBtn.scrollIntoView({ block: "start", inline: "nearest" });
+        startBtn.focus({ preventScroll: true });
+        controlPanel.scrollIntoView({ block: "start", inline: "nearest" });
+    } else {
+        startBtn.focus();
     }
     setDifficultyDisabled(false);
     finishScore.textContent = `スコア ${formattedScore}`;
     finishBreakdown.textContent = breakdown;
-    finishBackdrop.classList.add("is-visible");
     finishResult.classList.add("is-visible");
     finishAnnouncement.textContent = "";
     finishAnnouncementFrameId = requestAnimationFrame(() => {

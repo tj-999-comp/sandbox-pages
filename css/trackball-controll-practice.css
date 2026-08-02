@@ -225,6 +225,7 @@ body.trackball-practice-page {
     border: 1px solid var(--hairline);
     border-radius: 18px;
     background: var(--canvas);
+    scroll-margin-top: 60px;
 }
 
 .difficulty-buttons,
@@ -296,7 +297,6 @@ body.trackball-practice-page {
     border-radius: 11px;
     color: var(--ink);
     background: var(--pearl);
-    scroll-margin-top: 60px;
 }
 
 .sub-btn {
@@ -627,23 +627,6 @@ body.trackball-practice-page {
 .countdown-display.is-visible {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
-}
-
-.finish-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 1390;
-    background: rgb(43 27 24 / 0.42);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-}
-
-.finish-backdrop.is-visible {
-    opacity: 1;
-    visibility: visible;
 }
 
 .finish-result {
