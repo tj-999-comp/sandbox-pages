@@ -76,7 +76,7 @@
 - 最新追加要件レビュー: 10案、Finish actions、操作ボタン状態、2本のPlaywright証跡を確認し、重大0・中0・軽微2とした。Issueの待ち表記とmobileラベル8pxを指摘し、ラベルは10px・最大2行へ修正、総合ブラウザ検証を再実行した。
 - 最終再レビュー: ラベル10px化後の最新4ファイル、Issue記録、`scenario-2026-08-02T06-45-21-971Z`を確認した。320pxで10案5列×2段、最大2行ラベル、非重複、viewport中央、横overflowなしを確認し、重大0・中0・軽微0でReady判定とした。
 - 未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
-- 次工程への引き継ぎ: 対象4ファイルをコミット・pushする。
+- 次工程への引き継ぎ: 最終差分は重大0・中0・軽微0のReady判定を完了し、PR #3でマージ済み。
 - 最新差分レビュー: 8色札への置換後の最新3ファイル、Issue記録、`scenario-2026-08-02T07-13-38-392Z`とスクリーンショットを確認した。A〜Hの同一色札形状、指定8配色、共通差し色`#F6E6A2`、desktop・mobileの4列×2段、320pxの10pxラベル、非重複、中央、横overflowなし、ゲーム非回帰を確認し、重大0・中0・軽微0でReady判定とした。
 - 採用案レビュー: C 葡萄札の単一表示と数字面固定後の最新3ファイル、Issue記録、`scenario-2026-08-02T07-28-57-742Z`とスクリーンショットを確認した。mobileの3・2・1はすべて44×44px、desktopはすべて56×56px、viewport中央、横overflowなし、Test・Hard非回帰、runtime error 0件を確認し、重大0・中0・軽微0でReady判定とした。
 - 外側パネル変更後のレビュー: 最新CSS・Issue記録、`scenario-2026-08-02T07-55-32-663Z`とスクリーンショットを確認した。外側透明・無枠・padding 0px、葡萄札104px／128px、数字面44px／56px、中央、横overflowなし、Test・Hard非回帰、runtime error 0件を確認し、重大0・中0・軽微0でReady判定とした。
@@ -113,9 +113,19 @@
 - 判断: Finishカード自体は`pointer-events: none`、actions内のbuttonだけ`pointer-events: auto`とする。
 - 理由: 非モーダルな背景難易度操作を維持しながら、Retryだけをカード内で操作可能にするため。
 
+## PR・マージ記録
+- PR: [#3 feat: improve trackball scoring and game feedback](https://github.com/tj-999-comp/sandbox-pages/pull/3)
+- base / head: `main` / `codex/013-add-trackball-score`
+- 状態: `MERGED`
+- マージ日時: 2026-08-02T08:19:52Z（JST 2026-08-02 17:19:52）
+- merge commit: `4f09b4fb493551ca58bcf8f455f54498b4893ab7`
+- checks: 設定なし
+- GitHub上の変更: 4ファイル（`Issues/Issue_013.md`、`games/trackball-controll-practice.html`、`css/trackball-controll-practice.css`、`scripts/trackball-controll-practice.js`）
+- Reviewer最終判定: 重大0・中0・軽微0、Ready。
+
 ## 最終結果
 - 解決したこと: Test／Easy／Hardと動的進捗、Finish内のRetryと準備中Ranking、上部Startと操作ボタンの状態を維持し、比較した8色札からC 葡萄札を単一カウントダウンとして採用した。3→2→1で中央の白系数字面が同じ正方形サイズを維持するよう整え、外側パネルを透明化して葡萄色札をdesktop 128px・mobile 104pxへ拡大した。
-- 変更ファイル: `css/trackball-controll-practice.css`、`Issues/Issue_013.md`。
-- 検証結果: `node --check`、外側パネル用のborder・background・padding・border-radius不在、葡萄色札のdesktop 128px・mobile 104px寸法、CSS波括弧、`git diff --check`に合格した。Playwright `scenario-2026-08-02T07-55-32-663Z`で外側透明・無枠・padding 0px、札の拡大、3・2・1の固定数字面、中央、横overflowなし、Test・Hard非回帰、runtime error 0件を確認した。
-- 未解決事項: Reviewer再確認、実スクリーンリーダー確認（非ブロッキング）。重大な未解決事項は0件。
-- 次アクション: Reviewer最終判定後に対象2ファイルをコミット・pushする。PRは明示許可後に作成する。
+- 変更ファイル: `Issues/Issue_013.md`、`games/trackball-controll-practice.html`、`css/trackball-controll-practice.css`、`scripts/trackball-controll-practice.js`。
+- 検証結果: `node --check`、外側パネル用のborder・background・padding・border-radius不在、葡萄色札のdesktop 128px・mobile 104px寸法、CSS波括弧、`git diff --check`に合格した。Playwright `scenario-2026-08-02T07-55-32-663Z`で外側透明・無枠・padding 0px、札の拡大、3・2・1の固定数字面、中央、横overflowなし、Test・Hard非回帰、runtime error 0件を確認した。Reviewerは重大0・中0・軽微0でReady判定し、PR #3は`main`へマージ済み。checksは設定されていない。
+- 未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
+- 次アクション: 必須なし。ランキング実装とスコア重みの実プレイ評価は別課題とする。
