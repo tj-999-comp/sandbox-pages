@@ -1,7 +1,7 @@
 ## 概要
 - 課題: クリアタイムだけでは、ターゲット外クリックの正確さを含めてプレイ結果を比較できない。
 - 目的: 速さと正確さを整数ポイントへ換算し、ひと目で好成績を判断できるスコア方式を追加する。
-- 完了条件: `Math.round(10000 / Math.max(クリアタイム（秒） + ミス回数 × 2, 0.01))`でスコアを計算し、Finishへ整数`pt`として表示する。Testは同じ中央位置を3回、Easy・Hardは10回でクリアする。開始・再開時はA〜Hの8色札をdesktop・mobileとも4列×2段でviewport中央へ同時表示する。Finish内のRetryを操作可能、ランキングを準備中として無効化し、背景難易度は操作可能に保つ。
+- 完了条件: `Math.round(10000 / Math.max(クリアタイム（秒） + ミス回数 × 2, 0.01))`でスコアを計算し、Finishへ整数`pt`として表示する。Testは同じ中央位置を3回、Easy・Hardは10回でクリアする。開始・再開時は採用したC 葡萄札を単一表示し、3→2→1で数字面の正方形サイズとviewport中央を維持する。Finish内のRetryを操作可能、ランキングを準備中として無効化し、背景難易度は操作可能に保つ。
 
 ## 適用した役割
 ### Portfolio Planner
@@ -43,6 +43,7 @@
 - 追加静的検証: HTMLの24 ID重複なし・JavaScriptからの参照解決、10組のchoice／frame／label／number、非モーダルdialog、disabledランキング、Finish Retry接続、上部Start無効化、背景難易度有効化、F〜J造形とCSS色変数、mobile 5列、Finish pointer制御を確認した。
 - 最新追加実装: HTMLのカウントダウンをA 藍札、B 深緑札、C 葡萄札、D 朱札、E 紺札、F 墨札、G 青磁札、H 柿札の8案へ変更した。CSSは共通の`.countdown-frame--color-card`と8つのmodifierへ整理し、指定された4色をCSS custom propertiesへ設定した。JavaScriptは`[data-countdown-number]`を動的取得する既存実装で8案に対応できるため変更していない。
 - 最新静的検証: `node --check`、HTMLの25 ID重複なし・JavaScriptからの22参照解決、8組のchoice／frame／label／number、共通アクセント`#F6E6A2`、指定8パレット、2px境界、左右帯、中央数字面、desktop・mobileの4列、desktop幅500px以下、mobile幅304px以下・gap 8px 4px・frame最大58px・ラベル10px/1.1、旧造形selector不在、gradient・shadow不使用、`git diff --check`合格を確認した。
+- 採用案実装: ユーザー指定の「3の案」を3番目のC 葡萄札として採用し、比較用の7案と全ラベルを削除した。薄黄色アクセント`#F6E6A2`、葡萄配色、色札形状を維持し、数字面はpaddingではなく固定の`inline-size`／`block-size`とgrid中央配置で正方形にした。表示枠はdesktop 136px以下、480px以下104px以下へ単一案用に調整した。JavaScriptはNodeListの1要素を既存処理できるため変更していない。
 
 ### Portfolio Performance & Accessibility Tester
 - 入力: 案4へ変更後のHTML、CSS、JavaScript、既存の非回帰条件。
@@ -60,6 +61,8 @@
 - 最新差分の検証計画: 1280×900と320×568での全8案表示、4列×2段、横overflowなし、viewport中央、視覚表示8個に対するlive通知1回、およびFinish・各操作・Test／Easy／Hardの非回帰を確認する。
 - 最新差分の検証結果: Playwright `scenario-2026-08-02T07-13-38-392Z`で1280×900と320×568のA〜H全8案、4列×2段、viewport中央、全要素viewport内、横overflowなしを確認した。スクリーンショットで同一色札形状、各主色、左右の薄黄色アクセント、10pxラベルを目視確認した。単一live regionの通知、Test固定3回、Hard 10回・縦横scroll、Finish Retry／Ranking、操作ボタン状態も合格し、console error・page error・failed requestは0件だった。
 - 最新差分の未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
+- 採用案の検証結果: Playwright `scenario-2026-08-02T07-28-57-742Z`で、葡萄札の白系数字面が320×568では3・2・1すべて44×44px、1280×900ではすべて56×56pxで一致することを実測した。葡萄背景`rgb(251, 247, 250)`、左右アクセント`rgb(246, 230, 162)`、viewport中央誤差0、横overflowなしを確認した。Testは同一座標3回、Hardは10回・縦横scrollを維持し、console error・page error・failed requestは0件だった。
+- 採用案の未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
 
 ### Portfolio Reviewer
 - 入力: 案4へ更新した実装差分、静的検証、今後のPlaywright検証結果、本Issue記録。
@@ -73,6 +76,7 @@
 - 未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
 - 次工程への引き継ぎ: 対象4ファイルをコミット・pushする。
 - 最新差分レビュー: 8色札への置換後の最新3ファイル、Issue記録、`scenario-2026-08-02T07-13-38-392Z`とスクリーンショットを確認した。A〜Hの同一色札形状、指定8配色、共通差し色`#F6E6A2`、desktop・mobileの4列×2段、320pxの10pxラベル、非重複、中央、横overflowなし、ゲーム非回帰を確認し、重大0・中0・軽微0でReady判定とした。
+- 採用案レビュー: C 葡萄札の単一表示と数字面固定後の最新3ファイル、Issue記録、`scenario-2026-08-02T07-28-57-742Z`とスクリーンショットを確認した。mobileの3・2・1はすべて44×44px、desktopはすべて56×56px、viewport中央、横overflowなし、Test・Hard非回帰、runtime error 0件を確認し、重大0・中0・軽微0でReady判定とした。
 
 ## 主要な判断
 - 判断: スコアは調整後タイムを分母とする整数ポイント方式にする。
@@ -97,20 +101,16 @@
 - 理由: 背景操作が可能でもモーダルに見えて操作不能と誤解される表現を避け、操作モデルと見た目を一致させるため。
 - 判断: Testはarena中央の同一座標で3回、Easy・Hardは10回とする。
 - 理由: 固定位置の入力確認を短時間で行えるTestと、従来の練習モードを明確に分離するため。
-- 判断: カウントダウン8案はdesktop・mobileとも4列×2段gridで一つの親要素へまとめ、数字の子要素だけを更新する。
-- 理由: desktop・320pxで全案を同時比較でき、clear時もラベルと枠のDOM構造を維持するため。
-- 判断: 各案はchoice wrapper内で、数字だけのframeと下部labelへ分離する。
-- 理由: 色札と数字を遮らず、desktopと320pxの両方で8案の名称を比較しやすくするため。
-- 判断: 480px以下も4列を維持し、group幅304px以下・gap 8px 4px・frame最大58px・ラベル10px/1.1へ調整する。
-- 理由: 8案を4列×2段に揃え、`DESIGN.md`の最小文字サイズと320pxでの横overflow防止を両立するため。
-- 判断: 全案は共通の色札形状とアクセント`#F6E6A2`を使い、8つのmodifierでbase・background・border・textを切り替える。
-- 理由: 造形差をなくして配色だけを公平に比較し、gradient・shadowなしで既存の和色UIへ調和させるため。
+- 判断: 比較した8色札から3番目のC 葡萄札を採用し、カウントダウンは単一案だけを表示する。
+- 理由: ユーザーの選択を反映し、比較用ラベルや未採用案を本番表示へ残さないため。
+- 判断: 数字面はdesktop 56px、480px以下44pxの正方形とし、`inline-size`／`block-size`を同値で固定してgrid中央配置する。
+- 理由: 3・2・1のglyph幅に左右されず、白系背景の外形と数字の中央位置を各viewport内で一定に保つため。
 - 判断: Finishカード自体は`pointer-events: none`、actions内のbuttonだけ`pointer-events: auto`とする。
 - 理由: 非モーダルな背景難易度操作を維持しながら、Retryだけをカード内で操作可能にするため。
 
 ## 最終結果
-- 解決したこと: Test／Easy／Hardと動的進捗、Finish内のRetryと準備中Ranking、上部Startと操作ボタンの状態を維持し、カウントダウンを同一形状のA〜H 8色札・4列×2段へ置き換えた。
+- 解決したこと: Test／Easy／Hardと動的進捗、Finish内のRetryと準備中Ranking、上部Startと操作ボタンの状態を維持し、比較した8色札からC 葡萄札を単一カウントダウンとして採用した。3→2→1で中央の白系数字面が同じ正方形サイズを維持するよう整えた。
 - 変更ファイル: `games/trackball-controll-practice.html`、`css/trackball-controll-practice.css`、`Issues/Issue_013.md`。
-- 検証結果: JavaScript構文、25 IDの重複なしと22参照解決、8組のDOM構造、指定8パレットと共通色札、desktop・mobileの4列×2段、mobile寸法、旧造形selector不在、gradient・shadow不使用、`git diff --check`へ合格した。Playwright `scenario-2026-08-02T07-13-38-392Z`で1280×900・320×568の8案表示、中央、横overflowなし、ゲーム総合非回帰、runtime error 0件へ合格した。
+- 検証結果: `node --check`、単一のchoice／frame／number構造、葡萄配色と共通アクセント、desktop 56px・mobile 44pxの固定正方形数字面、比較ラベルと未採用modifierの不在、CSS波括弧、`git diff --check`に合格した。Playwright `scenario-2026-08-02T07-28-57-742Z`で3・2・1の背景実寸一致、viewport中央、横overflowなし、Test・Hard非回帰、runtime error 0件へ合格した。
 - 未解決事項: Reviewer再確認、実スクリーンリーダー確認（非ブロッキング）。重大な未解決事項は0件。
 - 次アクション: Reviewer最終判定後に対象3ファイルをコミット・pushする。PRは明示許可後に作成する。

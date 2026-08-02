@@ -630,16 +630,15 @@ body.trackball-practice-page {
 }
 
 .countdown-display {
+    --countdown-number-size: 56px;
     position: fixed;
     top: 50%;
     left: 50%;
     z-index: 10;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    align-items: center;
-    gap: clamp(4px, 1vw, 12px);
-    width: min(500px, calc(100vw - 24px));
-    padding: 20px 18px 18px;
+    place-items: center;
+    width: min(136px, calc(100vw - 24px));
+    padding: 18px;
     border: 1px solid var(--hairline);
     border-radius: 20px;
     color: var(--action-color);
@@ -662,9 +661,8 @@ body.trackball-practice-page {
     flex-direction: column;
     align-items: center;
     justify-self: center;
-    gap: 6px;
     width: 100%;
-    max-width: 88px;
+    max-width: 96px;
     min-width: 0;
 }
 
@@ -680,21 +678,13 @@ body.trackball-practice-page {
     background: var(--canvas);
 }
 
-.countdown-choice__label,
 .countdown-frame__number {
     position: relative;
     z-index: 2;
-}
-
-.countdown-choice__label {
-    font-size: clamp(8px, 2.4vw, 12px);
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: -0.12px;
-    white-space: nowrap;
-}
-
-.countdown-frame__number {
+    display: grid;
+    place-items: center;
+    inline-size: var(--countdown-number-size);
+    block-size: var(--countdown-number-size);
     font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(28px, 8vw, 48px);
     font-weight: 600;
@@ -729,24 +719,9 @@ body.trackball-practice-page {
 }
 
 .countdown-frame--color-card .countdown-frame__number {
-    padding: 3px 6px;
     border-radius: 5px;
     color: var(--card-text);
     background: var(--card-background);
-}
-
-.countdown-choice--indigo {
-    --card-base: #165e83;
-    --card-background: #f7fafb;
-    --card-border: #0e465f;
-    --card-text: #123849;
-}
-
-.countdown-choice--deep-green {
-    --card-base: #2f6f4e;
-    --card-background: #f7faf7;
-    --card-border: #205139;
-    --card-text: #193e2c;
 }
 
 .countdown-choice--grape {
@@ -754,41 +729,6 @@ body.trackball-practice-page {
     --card-background: #fbf7fa;
     --card-border: #4d2c4b;
     --card-text: #3d233b;
-}
-
-.countdown-choice--vermilion {
-    --card-base: #a63d40;
-    --card-background: #fff8f6;
-    --card-border: #782b2e;
-    --card-text: #5a2022;
-}
-
-.countdown-choice--navy {
-    --card-base: #283d66;
-    --card-background: #f7f8fc;
-    --card-border: #1d2d4c;
-    --card-text: #18253f;
-}
-
-.countdown-choice--charcoal {
-    --card-base: #4a4542;
-    --card-background: #faf9f7;
-    --card-border: #2f2b29;
-    --card-text: #252220;
-}
-
-.countdown-choice--celadon {
-    --card-base: #3d756b;
-    --card-background: #f5faf8;
-    --card-border: #29534b;
-    --card-text: #1e403a;
-}
-
-.countdown-choice--persimmon {
-    --card-base: #a85d2a;
-    --card-background: #fff8f1;
-    --card-border: #783f19;
-    --card-text: #5a3018;
 }
 
 .finish-result {
@@ -1049,25 +989,13 @@ body.trackball-practice-page {
 
 @media (max-width: 480px) {
     .countdown-display {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 8px 4px;
-        width: min(304px, calc(100vw - 16px));
-        padding: 12px 8px;
+        --countdown-number-size: 44px;
+        width: min(104px, calc(100vw - 16px));
+        padding: 12px;
     }
 
     .countdown-choice {
-        max-width: 58px;
-    }
-
-    .countdown-choice__label {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        min-height: 22px;
-        font-size: 10px;
-        line-height: 1.1;
-        text-align: center;
-        white-space: normal;
+        max-width: 76px;
     }
 
     .countdown-frame__number {
