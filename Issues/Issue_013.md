@@ -63,6 +63,8 @@
 - 最新差分の未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
 - 採用案の検証結果: Playwright `scenario-2026-08-02T07-28-57-742Z`で、葡萄札の白系数字面が320×568では3・2・1すべて44×44px、1280×900ではすべて56×56pxで一致することを実測した。葡萄背景`rgb(251, 247, 250)`、左右アクセント`rgb(246, 230, 162)`、viewport中央誤差0、横overflowなしを確認した。Testは同一座標3回、Hardは10回・縦横scrollを維持し、console error・page error・failed requestは0件だった。
 - 採用案の未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
+- 外側パネル変更後の検証結果: Playwright `scenario-2026-08-02T07-55-32-663Z`で、`countdown-display`が背景完全透明・borderなし・padding 0pxであること、葡萄札が320×568で104×104px、1280×900で128×128pxへ拡大されたことを実測した。3・2・1の数字面は44×44px／56×56px、viewport中央誤差0、横overflowなしを維持した。Test固定3回、Hard 10回・縦横scroll、runtime error 0件も確認した。
+- 外側パネル変更後の未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
 
 ### Portfolio Reviewer
 - 入力: 案4へ更新した実装差分、静的検証、今後のPlaywright検証結果、本Issue記録。
@@ -77,6 +79,7 @@
 - 次工程への引き継ぎ: 対象4ファイルをコミット・pushする。
 - 最新差分レビュー: 8色札への置換後の最新3ファイル、Issue記録、`scenario-2026-08-02T07-13-38-392Z`とスクリーンショットを確認した。A〜Hの同一色札形状、指定8配色、共通差し色`#F6E6A2`、desktop・mobileの4列×2段、320pxの10pxラベル、非重複、中央、横overflowなし、ゲーム非回帰を確認し、重大0・中0・軽微0でReady判定とした。
 - 採用案レビュー: C 葡萄札の単一表示と数字面固定後の最新3ファイル、Issue記録、`scenario-2026-08-02T07-28-57-742Z`とスクリーンショットを確認した。mobileの3・2・1はすべて44×44px、desktopはすべて56×56px、viewport中央、横overflowなし、Test・Hard非回帰、runtime error 0件を確認し、重大0・中0・軽微0でReady判定とした。
+- 外側パネル変更後のレビュー: 最新CSS・Issue記録、`scenario-2026-08-02T07-55-32-663Z`とスクリーンショットを確認した。外側透明・無枠・padding 0px、葡萄札104px／128px、数字面44px／56px、中央、横overflowなし、Test・Hard非回帰、runtime error 0件を確認し、重大0・中0・軽微0でReady判定とした。
 
 ## 主要な判断
 - 判断: スコアは調整後タイムを分母とする整数ポイント方式にする。
@@ -105,12 +108,14 @@
 - 理由: ユーザーの選択を反映し、比較用ラベルや未採用案を本番表示へ残さないため。
 - 判断: 数字面はdesktop 56px、480px以下44pxの正方形とし、`inline-size`／`block-size`を同値で固定してgrid中央配置する。
 - 理由: 3・2・1のglyph幅に左右されず、白系背景の外形と数字の中央位置を各viewport内で一定に保つため。
+- 判断: `countdown-display`の境界・背景・余白・角丸を削除して透明な配置要素とし、葡萄色札自体をdesktop 128px、480px以下104pxの正方形へ拡大する。
+- 理由: 外側の赤枠と白塗りパネルをなくし、カウントダウンの主役である葡萄色札だけを明確に見せるため。
 - 判断: Finishカード自体は`pointer-events: none`、actions内のbuttonだけ`pointer-events: auto`とする。
 - 理由: 非モーダルな背景難易度操作を維持しながら、Retryだけをカード内で操作可能にするため。
 
 ## 最終結果
-- 解決したこと: Test／Easy／Hardと動的進捗、Finish内のRetryと準備中Ranking、上部Startと操作ボタンの状態を維持し、比較した8色札からC 葡萄札を単一カウントダウンとして採用した。3→2→1で中央の白系数字面が同じ正方形サイズを維持するよう整えた。
-- 変更ファイル: `games/trackball-controll-practice.html`、`css/trackball-controll-practice.css`、`Issues/Issue_013.md`。
-- 検証結果: `node --check`、単一のchoice／frame／number構造、葡萄配色と共通アクセント、desktop 56px・mobile 44pxの固定正方形数字面、比較ラベルと未採用modifierの不在、CSS波括弧、`git diff --check`に合格した。Playwright `scenario-2026-08-02T07-28-57-742Z`で3・2・1の背景実寸一致、viewport中央、横overflowなし、Test・Hard非回帰、runtime error 0件へ合格した。
+- 解決したこと: Test／Easy／Hardと動的進捗、Finish内のRetryと準備中Ranking、上部Startと操作ボタンの状態を維持し、比較した8色札からC 葡萄札を単一カウントダウンとして採用した。3→2→1で中央の白系数字面が同じ正方形サイズを維持するよう整え、外側パネルを透明化して葡萄色札をdesktop 128px・mobile 104pxへ拡大した。
+- 変更ファイル: `css/trackball-controll-practice.css`、`Issues/Issue_013.md`。
+- 検証結果: `node --check`、外側パネル用のborder・background・padding・border-radius不在、葡萄色札のdesktop 128px・mobile 104px寸法、CSS波括弧、`git diff --check`に合格した。Playwright `scenario-2026-08-02T07-55-32-663Z`で外側透明・無枠・padding 0px、札の拡大、3・2・1の固定数字面、中央、横overflowなし、Test・Hard非回帰、runtime error 0件を確認した。
 - 未解決事項: Reviewer再確認、実スクリーンリーダー確認（非ブロッキング）。重大な未解決事項は0件。
-- 次アクション: Reviewer最終判定後に対象3ファイルをコミット・pushする。PRは明示許可後に作成する。
+- 次アクション: Reviewer最終判定後に対象2ファイルをコミット・pushする。PRは明示許可後に作成する。

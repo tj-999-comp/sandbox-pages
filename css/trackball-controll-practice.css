@@ -630,6 +630,7 @@ body.trackball-practice-page {
 }
 
 .countdown-display {
+    --countdown-frame-size: 128px;
     --countdown-number-size: 56px;
     position: fixed;
     top: 50%;
@@ -637,12 +638,8 @@ body.trackball-practice-page {
     z-index: 10;
     display: grid;
     place-items: center;
-    width: min(136px, calc(100vw - 24px));
-    padding: 18px;
-    border: 1px solid var(--hairline);
-    border-radius: 20px;
-    color: var(--action-color);
-    background: var(--countdown-surface);
+    inline-size: var(--countdown-frame-size);
+    block-size: var(--countdown-frame-size);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -661,8 +658,8 @@ body.trackball-practice-page {
     flex-direction: column;
     align-items: center;
     justify-self: center;
-    width: 100%;
-    max-width: 96px;
+    inline-size: var(--countdown-frame-size);
+    block-size: var(--countdown-frame-size);
     min-width: 0;
 }
 
@@ -671,8 +668,8 @@ body.trackball-practice-page {
     isolation: isolate;
     display: grid;
     place-items: center;
-    width: 100%;
-    aspect-ratio: 1;
+    inline-size: var(--countdown-frame-size);
+    block-size: var(--countdown-frame-size);
     overflow: hidden;
     border: 2px solid var(--action-color);
     background: var(--canvas);
@@ -989,13 +986,8 @@ body.trackball-practice-page {
 
 @media (max-width: 480px) {
     .countdown-display {
+        --countdown-frame-size: 104px;
         --countdown-number-size: 44px;
-        width: min(104px, calc(100vw - 16px));
-        padding: 12px;
-    }
-
-    .countdown-choice {
-        max-width: 76px;
     }
 
     .countdown-frame__number {
