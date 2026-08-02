@@ -1,4 +1,8 @@
-const TOTAL_TARGETS = 10;
+const TEST_TARGETS = 3;
+const STANDARD_TARGETS = 10;
+const SCORE_BASE = 10000;
+const MISS_PENALTY_SECONDS = 2;
+const SCORE_FORMATTER = new Intl.NumberFormat("ja-JP");
 
 const playfield = document.getElementById("playfield");
 const arena = document.getElementById("arena");
@@ -8,10 +12,19 @@ const timer = document.getElementById("timer");
 const misses = document.getElementById("misses");
 const remaining = document.getElementById("remaining");
 const progressBar = document.getElementById("progressBar");
-const finishText = document.getElementById("finishText");
+const countdownDisplay = document.getElementById("countdownDisplay");
+const countdownNumbers = document.querySelectorAll("[data-countdown-number]");
+const countdownAnnouncement = document.getElementById("countdownAnnouncement");
+const finishResult = document.getElementById("finishResult");
+const finishScore = document.getElementById("finishScore");
+const finishBreakdown = document.getElementById("finishBreakdown");
+const finishRetryBtn = document.getElementById("finishRetryBtn");
+const finishAnnouncement = document.getElementById("finishAnnouncement");
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const quitBtn = document.getElementById("quitBtn");
+const controlPanel = document.getElementById("controlPanel");
+const difficultyTest = document.getElementById("difficultyTest");
 const difficultyEasy = document.getElementById("difficultyEasy");
 const difficultyHard = document.getElementById("difficultyHard");
 
@@ -24,13 +37,100 @@ let currentDifficulty = "easy";
 let paused = false;
 let elapsedBeforePause = 0;
 let finishAnnouncementFrameId = null;
+let countdownTimeoutId = null;
+let countingDown = false;
 
 function formatSeconds(seconds) {
     return `${seconds.toFixed(2)}s`;
 }
 
+function formatJapaneseSeconds(seconds) {
+    return `${seconds.toFixed(2)}秒`;
+}
+
+function calculateScore(clearTimeSeconds, scoreMissCount) {
+    const adjustedTime = Math.max(clearTimeSeconds + scoreMissCount * MISS_PENALTY_SECONDS, 0.01);
+    return Math.round(SCORE_BASE / adjustedTime);
+}
+
+function formatScore(points) {
+    return `${SCORE_FORMATTER.format(points)} pt`;
+}
+
+function formatScoreForAnnouncement(points) {
+    return `${SCORE_FORMATTER.format(points)}ポイント`;
+}
+
+function setDifficultyDisabled(disabled) {
+    difficultyTest.disabled = disabled;
+    difficultyEasy.disabled = disabled;
+    difficultyHard.disabled = disabled;
+}
+
+function hideFinishResult() {
+    cancelAnimationFrame(finishAnnouncementFrameId);
+    finishAnnouncementFrameId = null;
+    finishResult.classList.remove("is-visible");
+    finishResult.setAttribute("aria-hidden", "true");
+    finishRetryBtn.disabled = true;
+    finishAnnouncement.textContent = "";
+}
+
+function setCountdownNumber(value) {
+    countdownNumbers.forEach((number) => {
+        number.textContent = value;
+    });
+}
+
+function clearCountdown() {
+    if (countdownTimeoutId !== null) {
+        clearTimeout(countdownTimeoutId);
+        countdownTimeoutId = null;
+    }
+
+    countingDown = false;
+    countdownDisplay.classList.remove("is-visible");
+    setCountdownNumber("");
+    countdownAnnouncement.textContent = "";
+}
+
+function startCountdown(onComplete) {
+    clearCountdown();
+    countingDown = true;
+    startBtn.disabled = true;
+    pauseBtn.disabled = true;
+    setDifficultyDisabled(true);
+    countdownDisplay.classList.add("is-visible");
+
+    function showCount(value) {
+        setCountdownNumber(String(value));
+        countdownAnnouncement.textContent = String(value);
+        countdownTimeoutId = setTimeout(() => {
+            if (value > 1) {
+                showCount(value - 1);
+                return;
+            }
+
+            countdownTimeoutId = null;
+            countingDown = false;
+            countdownDisplay.classList.remove("is-visible");
+            setCountdownNumber("");
+            countdownAnnouncement.textContent = "スタート";
+            startBtn.disabled = false;
+            pauseBtn.disabled = false;
+            onComplete();
+        }, 1000);
+    }
+
+    showCount(3);
+}
+
+function getTotalTargets() {
+    return currentDifficulty === "test" ? TEST_TARGETS : STANDARD_TARGETS;
+}
+
 function updateTimer() {
-    if (!running || paused) {
+    if (!running || paused || countingDown) {
         return;
     }
 
@@ -53,16 +153,32 @@ function moveTargetRandomly() {
     target.style.top = `${y}px`;
 }
 
+function placeTarget() {
+    if (currentDifficulty === "test") {
+        const x = Math.max(0, (arena.clientWidth - target.offsetWidth) / 2);
+        const y = Math.max(0, (arena.clientHeight - target.offsetHeight) / 2);
+        target.style.left = `${x}px`;
+        target.style.top = `${y}px`;
+        return;
+    }
+
+    moveTargetRandomly();
+}
+
 function applyDifficulty() {
     playfield.classList.toggle("hard", currentDifficulty === "hard");
 
+    const isTest = currentDifficulty === "test";
     const isEasy = currentDifficulty === "easy";
+    const isHard = currentDifficulty === "hard";
+    difficultyTest.classList.toggle("is-active", isTest);
+    difficultyTest.setAttribute("aria-pressed", String(isTest));
     difficultyEasy.classList.toggle("is-active", isEasy);
     difficultyEasy.setAttribute("aria-pressed", String(isEasy));
-    difficultyHard.classList.toggle("is-active", !isEasy);
-    difficultyHard.setAttribute("aria-pressed", String(!isEasy));
+    difficultyHard.classList.toggle("is-active", isHard);
+    difficultyHard.setAttribute("aria-pressed", String(isHard));
 
-    if (!isEasy) {
+    if (isHard) {
         updateGridLines();
     }
 }
@@ -80,9 +196,10 @@ function updateGridLines() {
 }
 
 function renderProgress() {
-    const percent = (hitCount / TOTAL_TARGETS) * 100;
-    progress.textContent = `${hitCount} / ${TOTAL_TARGETS}`;
-    const remainingCount = Math.max(0, TOTAL_TARGETS - hitCount);
+    const totalTargets = getTotalTargets();
+    const percent = (hitCount / totalTargets) * 100;
+    progress.textContent = `${hitCount} / ${totalTargets}`;
+    const remainingCount = Math.max(0, totalTargets - hitCount);
     remaining.textContent = String(remainingCount);
 
     const meter = progressBar.parentElement;
@@ -102,63 +219,85 @@ function renderProgress() {
     } else if (remainingCount <= 3) {
         meter.classList.add("is-warning");
     }
+    meter.setAttribute("aria-valuemax", String(totalTargets));
     meter.setAttribute("aria-valuenow", String(hitCount));
-    meter.setAttribute("aria-valuetext", `${hitCount} / ${TOTAL_TARGETS}`);
+    meter.setAttribute("aria-valuetext", `${hitCount} / ${totalTargets}`);
 }
 
 function finishGame() {
+    clearCountdown();
     running = false;
     paused = false;
     cancelAnimationFrame(animationFrameId);
 
     const clearTime = elapsedBeforePause + (performance.now() - startedAt) / 1000;
+    const missAdjustment = missCount * MISS_PENALTY_SECONDS;
+    const finalScore = calculateScore(clearTime, missCount);
+    const formattedClearTime = formatJapaneseSeconds(clearTime);
+    const formattedMissAdjustment = formatJapaneseSeconds(missAdjustment);
+    const formattedScore = formatScore(finalScore);
+    const formattedAnnouncementScore = formatScoreForAnnouncement(finalScore);
+    const breakdown = `タイム ${formattedClearTime} + ミス補正 ${formattedMissAdjustment}（${missCount}回）`;
+
     timer.textContent = formatSeconds(clearTime);
-    startBtn.textContent = "もう一度";
+    startBtn.textContent = "スタート";
+    startBtn.disabled = true;
     pauseBtn.textContent = "一時停止";
     pauseBtn.disabled = true;
     quitBtn.disabled = true;
     target.classList.remove("is-paused");
     target.style.display = "none";
-    finishText.textContent = "";
-    cancelAnimationFrame(finishAnnouncementFrameId);
+    setDifficultyDisabled(false);
+    finishScore.textContent = `スコア ${formattedScore}`;
+    finishBreakdown.textContent = breakdown;
+    finishResult.setAttribute("aria-hidden", "false");
+    finishRetryBtn.disabled = false;
+    finishResult.classList.add("is-visible");
+    if (window.matchMedia("(max-width: 640px)").matches) {
+        controlPanel.scrollIntoView({ block: "start", inline: "nearest" });
+        finishRetryBtn.focus({ preventScroll: true });
+    } else {
+        finishRetryBtn.focus();
+    }
+    finishAnnouncement.textContent = "";
     finishAnnouncementFrameId = requestAnimationFrame(() => {
-        finishText.textContent = "Finish";
-        finishText.classList.add("is-visible");
+        finishAnnouncement.textContent = `Finish。スコア ${formattedAnnouncementScore}。タイム ${formattedClearTime}、ミス ${missCount}回、ミス補正 ${formattedMissAdjustment}。`;
         finishAnnouncementFrameId = null;
     });
 }
 
 function startGame() {
+    clearCountdown();
     hitCount = 0;
     missCount = 0;
-    running = true;
+    running = false;
     paused = false;
     elapsedBeforePause = 0;
-    startedAt = performance.now();
+    startedAt = 0;
+    cancelAnimationFrame(animationFrameId);
 
     renderProgress();
     timer.textContent = "0.00s";
     misses.textContent = "0";
     startBtn.textContent = "リスタート";
     pauseBtn.textContent = "一時停止";
-    pauseBtn.disabled = false;
     quitBtn.disabled = false;
-    cancelAnimationFrame(finishAnnouncementFrameId);
-    finishAnnouncementFrameId = null;
-    finishText.classList.remove("is-visible");
-    finishText.textContent = "";
+    hideFinishResult();
 
     applyDifficulty();
     playfield.scrollTop = 0;
     playfield.scrollLeft = 0;
     updateGridLines();
 
-    target.style.display = "block";
+    target.style.display = "none";
     target.classList.remove("is-paused");
-    moveTargetRandomly();
-
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = requestAnimationFrame(updateTimer);
+    startCountdown(() => {
+        running = true;
+        startedAt = performance.now();
+        target.style.display = "block";
+        placeTarget();
+        animationFrameId = requestAnimationFrame(updateTimer);
+    });
 }
 
 function togglePause() {
@@ -176,15 +315,19 @@ function togglePause() {
         return;
     }
 
-    paused = false;
-    startedAt = performance.now();
     pauseBtn.textContent = "一時停止";
-    target.classList.remove("is-paused");
-    cancelAnimationFrame(animationFrameId);
-    animationFrameId = requestAnimationFrame(updateTimer);
+    target.style.display = "none";
+    startCountdown(() => {
+        paused = false;
+        startedAt = performance.now();
+        target.style.display = "block";
+        target.classList.remove("is-paused");
+        animationFrameId = requestAnimationFrame(updateTimer);
+    });
 }
 
 function quitGame() {
+    clearCountdown();
     running = false;
     paused = false;
     elapsedBeforePause = 0;
@@ -197,71 +340,70 @@ function quitGame() {
     misses.textContent = "0";
     target.classList.remove("is-paused");
     target.style.display = "none";
-    cancelAnimationFrame(finishAnnouncementFrameId);
-    finishAnnouncementFrameId = null;
-    finishText.classList.remove("is-visible");
-    finishText.textContent = "";
+    hideFinishResult();
 
     playfield.scrollTop = 0;
     playfield.scrollLeft = 0;
     updateGridLines();
 
     startBtn.textContent = "スタート";
+    startBtn.disabled = false;
     pauseBtn.textContent = "一時停止";
     pauseBtn.disabled = true;
     quitBtn.disabled = true;
+    setDifficultyDisabled(false);
 }
 
+function selectDifficulty(difficulty) {
+    currentDifficulty = difficulty;
+    hitCount = 0;
+    applyDifficulty();
+    renderProgress();
+}
+
+difficultyTest.addEventListener("click", () => {
+    selectDifficulty("test");
+});
+
 difficultyEasy.addEventListener("click", () => {
-    currentDifficulty = "easy";
-    if (!running) {
-        applyDifficulty();
-    } else {
-        applyDifficulty();
-        moveTargetRandomly();
-    }
+    selectDifficulty("easy");
 });
 
 difficultyHard.addEventListener("click", () => {
-    currentDifficulty = "hard";
-    if (!running) {
-        applyDifficulty();
-        updateGridLines();
-    } else {
-        applyDifficulty();
-        updateGridLines();
-        moveTargetRandomly();
-    }
+    selectDifficulty("hard");
 });
 
 startBtn.addEventListener("click", startGame);
+finishRetryBtn.addEventListener("click", startGame);
 pauseBtn.addEventListener("click", togglePause);
 quitBtn.addEventListener("click", quitGame);
 
 target.addEventListener("click", (event) => {
     event.stopPropagation();
 
-    if (!running || paused) {
+    if (!running || paused || countingDown) {
         return;
     }
 
     hitCount += 1;
     renderProgress();
 
-    if (hitCount >= TOTAL_TARGETS) {
+    if (hitCount >= getTotalTargets()) {
         finishGame();
         return;
     }
 
-    moveTargetRandomly();
+    if (currentDifficulty !== "test") {
+        moveTargetRandomly();
+    }
 });
 
 playfield.addEventListener("scroll", () => {
     updateGridLines();
 });
 
-playfield.addEventListener("click", (event) => {
-    if (!running || paused || event.target === target) {
+arena.addEventListener("click", (event) => {
+    if (!running || paused || countingDown || event.target === target) {
         return;
     }
 

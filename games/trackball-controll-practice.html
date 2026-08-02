@@ -53,11 +53,13 @@
     <main class="app">
         <header class="header">
             <h1>Trackball Controll Practice</h1>
-            <p>ターゲットを10回クリックしてクリアを目指しましょう。</p>
+            <p>Testは同じ位置のターゲットを3回、Easy・Hardはターゲットを10回クリックしてクリアです。</p>
+            <p class="score-rule">速く正確にクリアして、高得点を目指そう。スコア = 10,000 ÷（タイム + ミス1回につき2秒）です。</p>
         </header>
 
-        <section class="panel" aria-label="ゲーム情報">
+        <section id="controlPanel" class="panel" aria-label="ゲーム情報">
             <div class="difficulty-buttons" role="group" aria-label="難易度選択">
+                <button id="difficultyTest" class="difficulty-btn test" type="button" aria-pressed="false">Test</button>
                 <button id="difficultyEasy" class="difficulty-btn easy is-active" type="button" aria-pressed="true">Easy</button>
                 <button id="difficultyHard" class="difficulty-btn hard" type="button" aria-pressed="false">Hard</button>
             </div>
@@ -92,7 +94,24 @@
                 <div id="arena" class="arena">
                     <button id="target" class="target" type="button" aria-label="ターゲット"></button>
                 </div>
-                <p id="finishText" class="finish-text" role="status" aria-live="polite"></p>
+                <div id="countdownDisplay" class="countdown-display" aria-hidden="true">
+                    <div class="countdown-choice countdown-choice--grape">
+                        <div class="countdown-frame countdown-frame--color-card">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                    </div>
+                </div>
+                <p id="countdownAnnouncement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+                <article id="finishResult" class="finish-result" role="dialog" aria-labelledby="finishTitle" aria-hidden="true">
+                    <strong id="finishTitle" class="finish-result__title">Finish</strong>
+                    <span id="finishScore" class="finish-result__score"></span>
+                    <span id="finishBreakdown" class="finish-result__breakdown"></span>
+                    <div class="finish-result__actions">
+                        <button id="finishRetryBtn" class="finish-result__button finish-result__button--retry" type="button" disabled>もう一度</button>
+                        <button id="rankingBtn" class="finish-result__button" type="button" aria-label="ランキングを見る（準備中）" disabled>ランキングを見る</button>
+                    </div>
+                </article>
+                <p id="finishAnnouncement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
             </section>
         </section>
     </main>

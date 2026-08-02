@@ -15,8 +15,16 @@
     --difficulty-selected-border: #d77f64;
     --control-disabled-surface: #f7f1ee;
     --control-disabled-text: #806862;
+    --control-disabled-border: #dfd2cd;
     --hairline: #a9786b;
     --grid-color: #d8c7c1;
+    --shu: #ba2636;
+    --shu-dark: #8f2d2a;
+    --ai: #165e83;
+    --ai-pale: #e5eff3;
+    --quit-pale: #f7e2df;
+    --countdown-accent: #f6e6a2;
+    --countdown-surface: rgb(255 255 255 / 0.96);
     --nav-surface: #3b2b27;
     --nav-surface-hover: #59413b;
     --nav-border: #6b504a;
@@ -208,6 +216,13 @@ body.trackball-practice-page {
     letter-spacing: -0.374px;
 }
 
+.header .score-rule {
+    color: var(--ink-muted);
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.224px;
+}
+
 .panel {
     display: flex;
     flex-wrap: wrap;
@@ -218,6 +233,7 @@ body.trackball-practice-page {
     border: 1px solid var(--hairline);
     border-radius: 18px;
     background: var(--canvas);
+    scroll-margin-top: 60px;
 }
 
 .difficulty-buttons,
@@ -261,12 +277,14 @@ body.trackball-practice-page {
 .difficulty-btn.easy,
 .difficulty-btn.hard,
 .difficulty-btn.is-active,
+.difficulty-btn.test.is-active,
 .difficulty-btn.easy.is-active,
 .difficulty-btn.hard.is-active {
     border-radius: 11px;
 }
 
 .difficulty-btn.is-active,
+.difficulty-btn.test.is-active,
 .difficulty-btn.easy.is-active,
 .difficulty-btn.hard.is-active {
     border-color: var(--difficulty-selected-border);
@@ -275,43 +293,72 @@ body.trackball-practice-page {
     font-weight: 600;
 }
 
+.difficulty-btn:disabled {
+    border-color: var(--divider-soft);
+    color: var(--control-disabled-text);
+    background: var(--control-disabled-surface);
+    cursor: not-allowed;
+    opacity: 1;
+    transform: none;
+}
+
 .start-btn {
-    border: 3px solid var(--divider-soft);
+    border: 3px solid var(--shu);
     border-radius: 11px;
-    color: var(--ink);
-    background: var(--pearl);
+    color: var(--on-dark);
+    background: var(--shu);
+    font-weight: 600;
 }
 
 .sub-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid var(--divider-soft);
+    border: 3px solid var(--ai);
     border-radius: 11px;
-    color: var(--ink);
-    background: var(--pearl);
+    color: var(--ai);
+    background: var(--ai-pale);
     text-decoration: none;
 }
 
 .sub-btn.danger {
+    border-color: var(--shu-dark);
+    color: var(--shu-dark);
+    background: var(--quit-pale);
     box-shadow: none;
 }
 
-.difficulty-btn:active,
-.start-btn:active,
-.sub-btn:active,
+.start-btn:not(:disabled):hover {
+    border-color: var(--action-color);
+    background: var(--action-color);
+}
+
+.sub-btn:not(.danger):not(:disabled):hover {
+    color: var(--on-dark);
+    background: var(--ai);
+}
+
+.sub-btn.danger:not(:disabled):hover {
+    color: var(--on-dark);
+    background: var(--shu-dark);
+}
+
+.difficulty-btn:not(:disabled):active,
+.start-btn:not(:disabled):active,
+.sub-btn:not(:disabled):active,
 .site-btn:active {
     transform: scale(0.95);
 }
 
+.start-btn:disabled,
 .sub-btn:disabled,
 .sub-btn.danger:disabled {
-    border-color: var(--divider-soft);
+    border-color: var(--control-disabled-border);
     color: var(--control-disabled-text);
     background: var(--control-disabled-surface);
     box-shadow: none;
     cursor: not-allowed;
-    opacity: 1;
+    opacity: 0.55;
     transform: none;
 }
 
@@ -582,30 +629,212 @@ body.trackball-practice-page {
     transform: none;
 }
 
-.finish-text {
+.countdown-display {
+    --countdown-frame-size: 128px;
+    --countdown-number-size: 56px;
     position: fixed;
     top: 50%;
     left: 50%;
-    z-index: 1400;
+    z-index: 10;
     display: grid;
     place-items: center;
-    margin: 0;
-    color: var(--ink);
-    font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: clamp(40px, 9vw, 56px);
-    font-weight: 600;
-    line-height: 1.07;
-    letter-spacing: -0.28px;
-    white-space: nowrap;
+    inline-size: var(--countdown-frame-size);
+    block-size: var(--countdown-frame-size);
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     transform: translate(-50%, -50%) scale(0.86);
     transition: opacity 140ms ease-out, transform 140ms ease-out;
 }
 
-.finish-text.is-visible {
-    opacity: 1 !important;
+.countdown-display.is-visible {
+    opacity: 1;
+    visibility: visible;
     transform: translate(-50%, -50%) scale(1);
+}
+
+.countdown-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    inline-size: var(--countdown-frame-size);
+    block-size: var(--countdown-frame-size);
+    min-width: 0;
+}
+
+.countdown-frame {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    inline-size: var(--countdown-frame-size);
+    block-size: var(--countdown-frame-size);
+    overflow: hidden;
+    border: 2px solid var(--action-color);
+    background: var(--canvas);
+}
+
+.countdown-frame__number {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    inline-size: var(--countdown-number-size);
+    block-size: var(--countdown-number-size);
+    font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(28px, 8vw, 48px);
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.28px;
+}
+
+.countdown-frame--color-card {
+    border: 2px solid var(--card-border);
+    border-radius: 5px;
+    background: var(--card-base);
+}
+
+.countdown-frame--color-card::before,
+.countdown-frame--color-card::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    z-index: 1;
+    width: clamp(5px, 1.5vw, 8px);
+}
+
+.countdown-frame--color-card::before {
+    left: clamp(5px, 1.5vw, 7px);
+    background: var(--countdown-accent);
+}
+
+.countdown-frame--color-card::after {
+    right: clamp(5px, 1.5vw, 7px);
+    background: var(--countdown-accent);
+}
+
+.countdown-frame--color-card .countdown-frame__number {
+    border-radius: 5px;
+    color: var(--card-text);
+    background: var(--card-background);
+}
+
+.countdown-choice--grape {
+    --card-base: #6b3f68;
+    --card-background: #fbf7fa;
+    --card-border: #4d2c4b;
+    --card-text: #3d233b;
+}
+
+.finish-result {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1400;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    width: min(420px, calc(100vw - 32px));
+    margin: 0;
+    padding: 24px;
+    border: 2px solid var(--action-color);
+    border-radius: 18px;
+    color: var(--ink);
+    background: var(--canvas);
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.86);
+    transition: none;
+}
+
+.finish-result.is-visible {
+    opacity: 1 !important;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+    transition: opacity 140ms ease-out, transform 140ms ease-out;
+}
+
+.finish-result__title,
+.finish-result__score {
+    font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.28px;
+}
+
+.finish-result__title {
+    font-size: clamp(34px, 7vw, 48px);
+    line-height: 1.07;
+}
+
+.finish-result__score {
+    color: var(--action-color);
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.1;
+}
+
+.finish-result__breakdown {
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: -0.224px;
+}
+
+.finish-result__actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-top: 8px;
+    pointer-events: none;
+}
+
+.finish-result__button {
+    flex: 1 1 0;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 2px solid var(--control-disabled-border);
+    border-radius: 11px;
+    color: var(--control-disabled-text);
+    background: var(--control-disabled-surface);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    pointer-events: auto;
+}
+
+.finish-result__button--retry {
+    border-color: var(--shu);
+    color: var(--on-dark);
+    background: var(--shu);
+    cursor: pointer;
+}
+
+.finish-result__button--retry:hover {
+    border-color: var(--action-color);
+    background: var(--action-color);
+}
+
+.finish-result__button--retry:active {
+    transform: scale(0.95);
+}
+
+.finish-result__button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
 }
 
 .status {
@@ -748,5 +977,20 @@ body.trackball-practice-page {
 
     .status-area {
         padding: 17px;
+    }
+
+    .finish-result {
+        padding: 17px;
+    }
+}
+
+@media (max-width: 480px) {
+    .countdown-display {
+        --countdown-frame-size: 104px;
+        --countdown-number-size: 44px;
+    }
+
+    .countdown-frame__number {
+        font-size: 34px;
     }
 }
