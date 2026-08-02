@@ -1,7 +1,7 @@
 ## 概要
 - 課題: クリアタイムだけでは、ターゲット外クリックの正確さを含めてプレイ結果を比較できない。
 - 目的: 速さと正確さを整数ポイントへ換算し、ひと目で好成績を判断できるスコア方式を追加する。
-- 完了条件: `Math.round(10000 / Math.max(クリアタイム（秒） + ミス回数 × 2, 0.01))`でスコアを計算し、Finishへ整数`pt`として表示する。Testは同じ中央位置を3回、Easy・Hardは10回でクリアする。開始・再開時はA〜Jの10案をdesktop・mobileとも5列×2段でviewport中央へ同時表示する。Finish内のRetryを操作可能、ランキングを準備中として無効化し、背景難易度は操作可能に保つ。
+- 完了条件: `Math.round(10000 / Math.max(クリアタイム（秒） + ミス回数 × 2, 0.01))`でスコアを計算し、Finishへ整数`pt`として表示する。Testは同じ中央位置を3回、Easy・Hardは10回でクリアする。開始・再開時はA〜Hの8色札をdesktop・mobileとも4列×2段でviewport中央へ同時表示する。Finish内のRetryを操作可能、ランキングを準備中として無効化し、背景難易度は操作可能に保つ。
 
 ## 適用した役割
 ### Portfolio Planner
@@ -21,6 +21,7 @@
 - 次工程への引き継ぎ: Reviewerへ最終差分とブラウザ証跡を渡す。
 - 追加対応: F紅白リング、G四季枠、H重ね色、I色札、J祭印を和色のCSS変数と疑似要素で追加した。desktop・480px以下とも5列×2段とし、320pxでは56px以下のframeと10px・最大2行のラベルで全10案をviewport内へ収める。gradient・shadowは使用しない。
 - 追加調整: Reviewer指摘を受け、480px以下のラベルを`DESIGN.md`の最小トークンである10pxへ戻し、最大2行の中央揃えで幅を維持した。
+- 最新追加設計: A〜Jの造形比較をA〜Hの色比較へ置き換え、全案を同一の色札形状に統一した。共通アクセント`#F6E6A2`、2px境界、左右のアクセント帯、中央の数字面を共通化し、各案はbase・background・border・textの4色だけを変更する。desktop・mobileとも4列×2段とし、320pxでも全8案を同時表示する。最新差分のブラウザ実動確認は次工程で行う。
 
 ### Portfolio Copywriter
 - 入力: 案4の計算式、整数ポイント、高いほど良いという評価方向、既存の画面文言。
@@ -40,6 +41,8 @@
 - 次工程への引き継ぎ: Reviewerへ最終差分と検証結果を渡す。
 - 追加対応: Finishを非モーダルdialogとしてラベル付けし、内側に「もう一度」とnative disabledの「ランキングを見る」を横並びで追加した。Finish時は上部Startを「スタート」へ戻してdisabledとし、Finish Retryへfocusする。Retryは`startGame`へ接続した。操作ボタンはStart＝朱／白太字、Pause＝淡藍／藍、Quit＝淡赤／濃赤、disabled共通低彩度・opacity 0.55へ整理し、hover・activeはenabled時だけに限定した。Finish非表示時は`aria-hidden=true`かつRetry disabled、表示時だけ両方を反転する。
 - 追加静的検証: HTMLの24 ID重複なし・JavaScriptからの参照解決、10組のchoice／frame／label／number、非モーダルdialog、disabledランキング、Finish Retry接続、上部Start無効化、背景難易度有効化、F〜J造形とCSS色変数、mobile 5列、Finish pointer制御を確認した。
+- 最新追加実装: HTMLのカウントダウンをA 藍札、B 深緑札、C 葡萄札、D 朱札、E 紺札、F 墨札、G 青磁札、H 柿札の8案へ変更した。CSSは共通の`.countdown-frame--color-card`と8つのmodifierへ整理し、指定された4色をCSS custom propertiesへ設定した。JavaScriptは`[data-countdown-number]`を動的取得する既存実装で8案に対応できるため変更していない。
+- 最新静的検証: `node --check`、HTMLの25 ID重複なし・JavaScriptからの22参照解決、8組のchoice／frame／label／number、共通アクセント`#F6E6A2`、指定8パレット、2px境界、左右帯、中央数字面、desktop・mobileの4列、desktop幅500px以下、mobile幅304px以下・gap 8px 4px・frame最大58px・ラベル10px/1.1、旧造形selector不在、gradient・shadow不使用、`git diff --check`合格を確認した。
 
 ### Portfolio Performance & Accessibility Tester
 - 入力: 案4へ変更後のHTML、CSS、JavaScript、既存の非回帰条件。
@@ -54,6 +57,9 @@
 - 再検証: ラベル10px化後の`scenario-2026-08-02T06-45-21-971Z`で320×568の10案5列×2段、最大2行ラベル、viewport中央、横overflowなしを目視・座標検証し、総合シナリオも合格した。
 - 未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
 - 次工程への引き継ぎ: 最新差分と3つのPlaywright証跡をReviewerへ渡す。
+- 最新差分の検証計画: 1280×900と320×568での全8案表示、4列×2段、横overflowなし、viewport中央、視覚表示8個に対するlive通知1回、およびFinish・各操作・Test／Easy／Hardの非回帰を確認する。
+- 最新差分の検証結果: Playwright `scenario-2026-08-02T07-13-38-392Z`で1280×900と320×568のA〜H全8案、4列×2段、viewport中央、全要素viewport内、横overflowなしを確認した。スクリーンショットで同一色札形状、各主色、左右の薄黄色アクセント、10pxラベルを目視確認した。単一live regionの通知、Test固定3回、Hard 10回・縦横scroll、Finish Retry／Ranking、操作ボタン状態も合格し、console error・page error・failed requestは0件だった。
+- 最新差分の未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
 
 ### Portfolio Reviewer
 - 入力: 案4へ更新した実装差分、静的検証、今後のPlaywright検証結果、本Issue記録。
@@ -66,6 +72,7 @@
 - 最終再レビュー: ラベル10px化後の最新4ファイル、Issue記録、`scenario-2026-08-02T06-45-21-971Z`を確認した。320pxで10案5列×2段、最大2行ラベル、非重複、viewport中央、横overflowなしを確認し、重大0・中0・軽微0でReady判定とした。
 - 未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
 - 次工程への引き継ぎ: 対象4ファイルをコミット・pushする。
+- 最新差分レビュー: 8色札への置換後の最新3ファイル、Issue記録、`scenario-2026-08-02T07-13-38-392Z`とスクリーンショットを確認した。A〜Hの同一色札形状、指定8配色、共通差し色`#F6E6A2`、desktop・mobileの4列×2段、320pxの10pxラベル、非重複、中央、横overflowなし、ゲーム非回帰を確認し、重大0・中0・軽微0でReady判定とした。
 
 ## 主要な判断
 - 判断: スコアは調整後タイムを分母とする整数ポイント方式にする。
@@ -90,20 +97,20 @@
 - 理由: 背景操作が可能でもモーダルに見えて操作不能と誤解される表現を避け、操作モデルと見た目を一致させるため。
 - 判断: Testはarena中央の同一座標で3回、Easy・Hardは10回とする。
 - 理由: 固定位置の入力確認を短時間で行えるTestと、従来の練習モードを明確に分離するため。
-- 判断: カウントダウン10案は5列×2段gridで一つの親要素へまとめ、数字の子要素だけを更新する。
+- 判断: カウントダウン8案はdesktop・mobileとも4列×2段gridで一つの親要素へまとめ、数字の子要素だけを更新する。
 - 理由: desktop・320pxで全案を同時比較でき、clear時もラベルと枠のDOM構造を維持するため。
 - 判断: 各案はchoice wrapper内で、数字だけのframeと下部labelへ分離する。
-- 理由: 枠の造形と数字を遮らず、desktopと320pxの両方で10案の名称を比較しやすくするため。
-- 判断: 480px以下も5列を維持し、frame最大56px・ラベル10px・最大2行・数字34pxへ調整する。
-- 理由: 10案を5列×2段に揃え、`DESIGN.md`の最小文字サイズと320pxでの横overflow防止を両立するため。
-- 判断: F〜Jは朱・藍・山吹・緑・淡桃のCSS変数と単色面・疑似要素で表現する。
-- 理由: 既存和色UIへ合わせ、gradient・shadowなしで各案の色構成を識別できるようにするため。
+- 理由: 色札と数字を遮らず、desktopと320pxの両方で8案の名称を比較しやすくするため。
+- 判断: 480px以下も4列を維持し、group幅304px以下・gap 8px 4px・frame最大58px・ラベル10px/1.1へ調整する。
+- 理由: 8案を4列×2段に揃え、`DESIGN.md`の最小文字サイズと320pxでの横overflow防止を両立するため。
+- 判断: 全案は共通の色札形状とアクセント`#F6E6A2`を使い、8つのmodifierでbase・background・border・textを切り替える。
+- 理由: 造形差をなくして配色だけを公平に比較し、gradient・shadowなしで既存の和色UIへ調和させるため。
 - 判断: Finishカード自体は`pointer-events: none`、actions内のbuttonだけ`pointer-events: auto`とする。
 - 理由: 非モーダルな背景難易度操作を維持しながら、Retryだけをカード内で操作可能にするため。
 
 ## 最終結果
-- 解決したこと: Test／Easy／Hardと動的進捗を維持し、カウントダウンをA〜Jの10案・5列×2段へ拡張した。Finish内にRetryと準備中Rankingを追加し、上部Startと操作ボタンの状態・配色を整理した。
-- 変更ファイル: `games/trackball-controll-practice.html`、`css/trackball-controll-practice.css`、`scripts/trackball-controll-practice.js`、`Issues/Issue_013.md`。
-- 検証結果: Playwright `scenario-2026-08-02T06-39-21-380Z`で10案表示、操作ボタン3状態、Test固定3回、Hard 10回、Finish Retry／disabled Ranking、ARIA、エラー0件へ合格した。`scenario-2026-08-02T06-40-53-781Z`では5 viewportすべてでFinish中央とTest／Easy／Hard／Retryの実座標クリックへ合格した。ラベル10px化後の`scenario-2026-08-02T06-45-21-971Z`も総合合格した。JavaScript構文、HTML/CSS構造、`git diff --check`も合格した。
-- 未解決事項: 実スクリーンリーダー確認は未実施（非ブロッキング）。重大な未解決事項は0件。
-- 次アクション: 対象4ファイルをコミット・pushする。PRは明示許可後に作成する。
+- 解決したこと: Test／Easy／Hardと動的進捗、Finish内のRetryと準備中Ranking、上部Startと操作ボタンの状態を維持し、カウントダウンを同一形状のA〜H 8色札・4列×2段へ置き換えた。
+- 変更ファイル: `games/trackball-controll-practice.html`、`css/trackball-controll-practice.css`、`Issues/Issue_013.md`。
+- 検証結果: JavaScript構文、25 IDの重複なしと22参照解決、8組のDOM構造、指定8パレットと共通色札、desktop・mobileの4列×2段、mobile寸法、旧造形selector不在、gradient・shadow不使用、`git diff --check`へ合格した。Playwright `scenario-2026-08-02T07-13-38-392Z`で1280×900・320×568の8案表示、中央、横overflowなし、ゲーム総合非回帰、runtime error 0件へ合格した。
+- 未解決事項: Reviewer再確認、実スクリーンリーダー確認（非ブロッキング）。重大な未解決事項は0件。
+- 次アクション: Reviewer最終判定後に対象3ファイルをコミット・pushする。PRは明示許可後に作成する。

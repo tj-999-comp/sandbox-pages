@@ -23,9 +23,7 @@
     --ai: #165e83;
     --ai-pale: #e5eff3;
     --quit-pale: #f7e2df;
-    --yamabuki: #f8b500;
-    --season-green: #2f6f4e;
-    --pale-pink: #f3e7e2;
+    --countdown-accent: #f6e6a2;
     --countdown-surface: rgb(255 255 255 / 0.96);
     --nav-surface: #3b2b27;
     --nav-surface-hover: #59413b;
@@ -637,10 +635,10 @@ body.trackball-practice-page {
     left: 50%;
     z-index: 10;
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: center;
     gap: clamp(4px, 1vw, 12px);
-    width: min(560px, calc(100vw - 16px));
+    width: min(500px, calc(100vw - 24px));
     padding: 20px 18px 18px;
     border: 1px solid var(--hairline);
     border-radius: 20px;
@@ -704,103 +702,10 @@ body.trackball-practice-page {
     letter-spacing: -0.28px;
 }
 
-.countdown-frame--round,
-.countdown-frame--sight {
-    border-radius: 50%;
-}
-
-.countdown-frame--double {
-    border: 5px double var(--action-color);
-    border-radius: 50%;
-}
-
-.countdown-frame--rounded {
-    border-radius: 11px;
-}
-
-.countdown-frame--sight::before,
-.countdown-frame--sight::after {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    background: var(--hairline);
-}
-
-.countdown-frame--sight::before {
-    top: 50%;
-    left: 8px;
-    right: 8px;
-    height: 1px;
-}
-
-.countdown-frame--sight::after {
-    top: 8px;
-    bottom: 8px;
-    left: 50%;
-    width: 1px;
-}
-
-.countdown-frame--octagon {
-    border: 0;
-    background: var(--action-color);
-    clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
-}
-
-.countdown-frame--octagon::before {
-    content: "";
-    position: absolute;
-    inset: 2px;
-    z-index: 1;
-    background: var(--canvas);
-    clip-path: inherit;
-}
-
-.countdown-frame--red-white {
-    border: 0;
-    border-radius: 50%;
-    background: var(--shu);
-}
-
-.countdown-frame--red-white::before {
-    content: "";
-    position: absolute;
-    inset: 6px;
-    z-index: 1;
-    border: 3px solid var(--shu);
-    border-radius: 50%;
-    background: var(--canvas);
-}
-
-.countdown-frame--seasons {
-    border-width: 4px;
-    border-top-color: var(--shu);
-    border-right-color: var(--ai);
-    border-bottom-color: var(--yamabuki);
-    border-left-color: var(--season-green);
-    border-radius: 11px;
-}
-
-.countdown-frame--layered {
-    border: 4px solid var(--ai);
-    border-radius: 11px;
-    background: var(--pale-pink);
-}
-
-.countdown-frame--layered::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    bottom: 8px;
-    left: 0;
-    z-index: 1;
-    height: 6px;
-    background: var(--season-green);
-}
-
 .countdown-frame--color-card {
-    border-color: var(--yamabuki);
+    border: 2px solid var(--card-border);
     border-radius: 5px;
-    background: var(--yamabuki);
+    background: var(--card-base);
 }
 
 .countdown-frame--color-card::before,
@@ -810,53 +715,80 @@ body.trackball-practice-page {
     top: 8px;
     bottom: 8px;
     z-index: 1;
-    width: 8px;
+    width: clamp(5px, 1.5vw, 8px);
 }
 
 .countdown-frame--color-card::before {
-    left: 7px;
-    background: var(--shu);
+    left: clamp(5px, 1.5vw, 7px);
+    background: var(--countdown-accent);
 }
 
 .countdown-frame--color-card::after {
-    right: 7px;
-    background: var(--ai);
+    right: clamp(5px, 1.5vw, 7px);
+    background: var(--countdown-accent);
 }
 
 .countdown-frame--color-card .countdown-frame__number {
     padding: 3px 6px;
     border-radius: 5px;
-    color: var(--ink);
-    background: var(--canvas);
+    color: var(--card-text);
+    background: var(--card-background);
 }
 
-.countdown-frame--festival {
-    border: 0;
-    background: var(--season-green);
-    clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+.countdown-choice--indigo {
+    --card-base: #165e83;
+    --card-background: #f7fafb;
+    --card-border: #0e465f;
+    --card-text: #123849;
 }
 
-.countdown-frame--festival::before {
-    content: "";
-    position: absolute;
-    inset: 5px;
-    z-index: 1;
-    background: var(--shu);
-    clip-path: inherit;
+.countdown-choice--deep-green {
+    --card-base: #2f6f4e;
+    --card-background: #f7faf7;
+    --card-border: #205139;
+    --card-text: #193e2c;
 }
 
-.countdown-frame--festival::after {
-    content: "";
-    position: absolute;
-    inset: 12px 14px;
-    z-index: 2;
-    border-top: 4px solid var(--yamabuki);
-    border-bottom: 4px solid var(--yamabuki);
+.countdown-choice--grape {
+    --card-base: #6b3f68;
+    --card-background: #fbf7fa;
+    --card-border: #4d2c4b;
+    --card-text: #3d233b;
 }
 
-.countdown-frame--festival .countdown-frame__number {
-    z-index: 3;
-    color: var(--on-dark);
+.countdown-choice--vermilion {
+    --card-base: #a63d40;
+    --card-background: #fff8f6;
+    --card-border: #782b2e;
+    --card-text: #5a2022;
+}
+
+.countdown-choice--navy {
+    --card-base: #283d66;
+    --card-background: #f7f8fc;
+    --card-border: #1d2d4c;
+    --card-text: #18253f;
+}
+
+.countdown-choice--charcoal {
+    --card-base: #4a4542;
+    --card-background: #faf9f7;
+    --card-border: #2f2b29;
+    --card-text: #252220;
+}
+
+.countdown-choice--celadon {
+    --card-base: #3d756b;
+    --card-background: #f5faf8;
+    --card-border: #29534b;
+    --card-text: #1e403a;
+}
+
+.countdown-choice--persimmon {
+    --card-base: #a85d2a;
+    --card-background: #fff8f1;
+    --card-border: #783f19;
+    --card-text: #5a3018;
 }
 
 .finish-result {
@@ -1117,14 +1049,14 @@ body.trackball-practice-page {
 
 @media (max-width: 480px) {
     .countdown-display {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 8px 4px;
-        width: min(300px, calc(100vw - 24px));
+        width: min(304px, calc(100vw - 16px));
         padding: 12px 8px;
     }
 
     .countdown-choice {
-        max-width: 56px;
+        max-width: 58px;
     }
 
     .countdown-choice__label {
