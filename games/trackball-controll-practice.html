@@ -53,12 +53,13 @@
     <main class="app">
         <header class="header">
             <h1>Trackball Controll Practice</h1>
-            <p>ターゲットを10回クリックしてクリアを目指しましょう。</p>
+            <p>Testは同じ位置のターゲットを3回、Easy・Hardはターゲットを10回クリックしてクリアです。</p>
             <p class="score-rule">速く正確にクリアして、高得点を目指そう。スコア = 10,000 ÷（タイム + ミス1回につき2秒）です。</p>
         </header>
 
         <section id="controlPanel" class="panel" aria-label="ゲーム情報">
             <div class="difficulty-buttons" role="group" aria-label="難易度選択">
+                <button id="difficultyTest" class="difficulty-btn test" type="button" aria-pressed="false">Test</button>
                 <button id="difficultyEasy" class="difficulty-btn easy is-active" type="button" aria-pressed="true">Easy</button>
                 <button id="difficultyHard" class="difficulty-btn hard" type="button" aria-pressed="false">Hard</button>
             </div>
@@ -93,13 +94,43 @@
                 <div id="arena" class="arena">
                     <button id="target" class="target" type="button" aria-label="ターゲット"></button>
                 </div>
-                <strong id="countdownDisplay" class="countdown-display" aria-hidden="true"></strong>
+                <div id="countdownDisplay" class="countdown-display" aria-hidden="true">
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--round">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">A 丸枠</span>
+                    </div>
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--double">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">B 二重枠</span>
+                    </div>
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--rounded">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">C 角丸枠</span>
+                    </div>
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--sight">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">D 照準枠</span>
+                    </div>
+                    <div class="countdown-choice">
+                        <div class="countdown-frame countdown-frame--octagon">
+                            <strong class="countdown-frame__number" data-countdown-number></strong>
+                        </div>
+                        <span class="countdown-choice__label">E 八角枠</span>
+                    </div>
+                </div>
                 <p id="countdownAnnouncement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
                 <article id="finishResult" class="finish-result" aria-hidden="true">
                     <strong class="finish-result__title">Finish</strong>
                     <span id="finishScore" class="finish-result__score"></span>
                     <span id="finishBreakdown" class="finish-result__breakdown"></span>
-                    <span class="finish-result__note">高いほど好成績です。</span>
                 </article>
                 <p id="finishAnnouncement" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
             </section>

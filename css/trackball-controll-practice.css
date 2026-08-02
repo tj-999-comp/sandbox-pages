@@ -269,12 +269,14 @@ body.trackball-practice-page {
 .difficulty-btn.easy,
 .difficulty-btn.hard,
 .difficulty-btn.is-active,
+.difficulty-btn.test.is-active,
 .difficulty-btn.easy.is-active,
 .difficulty-btn.hard.is-active {
     border-radius: 11px;
 }
 
 .difficulty-btn.is-active,
+.difficulty-btn.test.is-active,
 .difficulty-btn.easy.is-active,
 .difficulty-btn.hard.is-active {
     border-color: var(--difficulty-selected-border);
@@ -606,19 +608,17 @@ body.trackball-practice-page {
     left: 50%;
     z-index: 10;
     display: grid;
-    place-items: center;
-    width: 96px;
-    height: 96px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(4px, 1vw, 12px);
+    width: min(560px, calc(100vw - 16px));
+    padding: 20px 18px 18px;
     border: 1px solid var(--hairline);
-    border-radius: 50%;
+    border-radius: 20px;
     color: var(--action-color);
-    background: var(--canvas);
-    font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 56px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: -0.28px;
+    background: rgba(255, 255, 255, 0.96);
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     transform: translate(-50%, -50%) scale(0.86);
     transition: opacity 140ms ease-out, transform 140ms ease-out;
@@ -626,7 +626,104 @@ body.trackball-practice-page {
 
 .countdown-display.is-visible {
     opacity: 1;
+    visibility: visible;
     transform: translate(-50%, -50%) scale(1);
+}
+
+.countdown-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    gap: 6px;
+    width: 100%;
+    max-width: 88px;
+    min-width: 0;
+}
+
+.countdown-frame {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 2px solid var(--action-color);
+    background: var(--canvas);
+}
+
+.countdown-choice__label,
+.countdown-frame__number {
+    position: relative;
+    z-index: 2;
+}
+
+.countdown-choice__label {
+    font-size: clamp(8px, 2.4vw, 12px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.12px;
+    white-space: nowrap;
+}
+
+.countdown-frame__number {
+    font-family: "SF Pro Display", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(28px, 8vw, 48px);
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.28px;
+}
+
+.countdown-frame--round,
+.countdown-frame--sight {
+    border-radius: 50%;
+}
+
+.countdown-frame--double {
+    border: 5px double var(--action-color);
+    border-radius: 50%;
+}
+
+.countdown-frame--rounded {
+    border-radius: 11px;
+}
+
+.countdown-frame--sight::before,
+.countdown-frame--sight::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    background: var(--hairline);
+}
+
+.countdown-frame--sight::before {
+    top: 50%;
+    left: 8px;
+    right: 8px;
+    height: 1px;
+}
+
+.countdown-frame--sight::after {
+    top: 8px;
+    bottom: 8px;
+    left: 50%;
+    width: 1px;
+}
+
+.countdown-frame--octagon {
+    border: 0;
+    background: var(--action-color);
+    clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+
+.countdown-frame--octagon::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    z-index: 1;
+    background: var(--canvas);
+    clip-path: inherit;
 }
 
 .finish-result {
@@ -677,15 +774,10 @@ body.trackball-practice-page {
     line-height: 1.1;
 }
 
-.finish-result__breakdown,
-.finish-result__note {
+.finish-result__breakdown {
     font-size: 14px;
     line-height: 1.43;
     letter-spacing: -0.224px;
-}
-
-.finish-result__note {
-    color: var(--ink-muted);
 }
 
 .visually-hidden {
@@ -844,5 +936,35 @@ body.trackball-practice-page {
 
     .finish-result {
         padding: 17px;
+    }
+}
+
+@media (max-width: 480px) {
+    .countdown-display {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 8px 6px;
+        width: min(300px, calc(100vw - 24px));
+        padding: 16px 12px 14px;
+    }
+
+    .countdown-choice {
+        grid-column: span 2;
+        max-width: 82px;
+    }
+
+    .countdown-choice:nth-child(4) {
+        grid-column: 2 / span 2;
+    }
+
+    .countdown-choice:nth-child(5) {
+        grid-column: 4 / span 2;
+    }
+
+    .countdown-choice__label {
+        font-size: 10px;
+    }
+
+    .countdown-frame__number {
+        font-size: 42px;
     }
 }
