@@ -48,20 +48,25 @@
 - 未解決事項: 自動公開機構そのものは未実装であり、Issue #6と#28から着手する。
 - 次アクション: 次のIssue関連作業で、新しい取得日時付きスナップショットとReviewer照合を最初から適用する。
 
-## GitHub Issue状況
+## GitHub Issue状況（2026-08-18時点の現在値）
 
-取得日時（JST）: 2026-08-18 16:06
-スナップショット: 今回の是正で確認した、次の着手判断に直接関係するIssueの状態。
+確認日: 2026-08-18 16:06（JST）
 
-- リポジトリ: `tj-999-comp/sandbox-pages`
-  - GitHub Issue [#5](https://github.com/tj-999-comp/sandbox-pages/issues/5): プロジェクト進捗ページの自動公開を段階導入する
-  - 関係: 親Epic
-  - 状態: Open
-- リポジトリ: `tj-999-comp/sandbox-pages`
-  - GitHub Issue [#6](https://github.com/tj-999-comp/sandbox-pages/issues/6): 公開元source登録を設定ファイル化する
-  - 関係: A-01、次の着手候補
-  - 状態: Open
-- リポジトリ: `tj-999-comp/B_Stats_Site`
-  - GitHub Issue [#28](https://github.com/tj-999-comp/B_Stats_Site/issues/28): 親ディレクトリREADMEリンクをproject内リンクへ修正する
-  - 関係: B-01、並行して着手できる候補
-  - 状態: Open
+今回の是正で確認した、次の着手判断に直接関係するIssueを記録する。対象3件はいずれも未完了である。
+
+### 親子関係
+```text
+#5（未完了・親Epic）
+├── `tj-999-comp/sandbox-pages` #6（Parent: #5）
+└── `tj-999-comp/B_Stats_Site` #28（Parent: sandbox-pages #5）
+
+#28はB側の並行着手候補であり、GitHub本文のParent宣言は別リポジトリの#5を指す。
+```
+
+### 優先順位順の未完了一覧
+
+| 順位 | 優先度 | GitHub Issue | 状態 | 関係・着手条件 |
+| ---: | --- | --- | --- | --- |
+| 1 | P0 | [#5](https://github.com/tj-999-comp/sandbox-pages/issues/5) [Epic] プロジェクト進捗ページの自動公開を段階導入する | 未完了 | 親Epic。全Issueを追跡 |
+| 2 | P0 | [#6](https://github.com/tj-999-comp/sandbox-pages/issues/6) [Publish] 公開元source登録を設定ファイル化する | 未完了 | A-01。次の着手候補 |
+| 3 | P0 | [#28](https://github.com/tj-999-comp/B_Stats_Site/issues/28) [Work records] 親ディレクトリREADMEリンクをproject内リンクへ修正する | 未完了 | B-01。#6と並行可能 |

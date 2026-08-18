@@ -44,7 +44,7 @@
 - 入力: 新規作業記録Markdown、生成HTML、`work-records/design.md`、`work-records/work_record.css`。
 - 実施内容: 新規HTMLをPlaywrightで1280×900px、900×900px、640×900px、320×800pxに表示し、横overflow、実行時エラー、リンク、キーボードfocusを確認した。
 - 成果物: `work_record_019.html`のブラウザ検証結果。
-- 検証結果: 全4 viewportで横overflow、console error、page error、failed requestは0件だった。320pxでは12個のリンクすべてへTab移動でき、各リンクにfocusした。
+- 検証結果: 全4 viewportで横overflow、console error、page error、failed requestは0件だった。320pxでは38個のリンクすべてへTab移動でき、各リンクにfocusした。
 - 未解決事項: 実スクリーンリーダーでの読み上げ確認は今回の記録更新では対象外。
 - 次工程への引き継ぎ: ブラウザ検証が合格したら、ドキュメント専用commitとして最新`main`へpushする。
 
@@ -61,7 +61,7 @@
 
 - 解決したこと: 自動公開の導入順を、親Epic1件と実行Issue25件に分解し、A/Bの責務と安全条件をGitHubへ記録した。
 - 変更ファイル: `work-records/md/work_record_019.md`、`work-records/work_record_019.html`。
-- 検証結果: GitHub上のIssue件数・open状態、converterの`--check`、ファイル名・H1・日付・対応HTML validator、`git diff --check`に合格した。Playwrightでは1280×900px、900×900px、640×900px、320×800pxの横overflow・runtime errorが0件で、320pxの12リンクへTab移動できた。
+- 検証結果: GitHub上のIssue件数・open状態、converterの`--check`、ファイル名・H1・日付・対応HTML validator、`git diff --check`に合格した。Playwrightでは1280×900px、900×900px、640×900px、320×800pxの横overflow・runtime errorが0件で、320pxの38リンクへTab移動できた。
 - 作業ブランチ: `main`（ドキュメント専用更新）。
 - コミット: ドキュメント専用commitとして実施し、SHAはGit履歴を参照する。
 - PR: ドキュメント専用更新のため作成しない。
@@ -69,91 +69,48 @@
 - 未解決事項: 自動公開機構そのものは未実装。Issue #6以降で段階的に進める。
 - 次アクション: [sandbox-pages #6](https://github.com/tj-999-comp/sandbox-pages/issues/6)を開始し、並行して[B_Stats_Site #28](https://github.com/tj-999-comp/B_Stats_Site/issues/28)へ着手する。`enabled: false`、push trigger未有効、Secrets未作成の状態を維持する。
 
-## GitHub Issue状況
+## GitHub Issue状況（2026-08-18時点の現在値）
 
-取得日時（JST）: 2026-08-18 16:06
-スナップショット: GitHubから取得したこの時点の状態。親Epic1件、公開側Aの実行Issue20件、生成元Bの実行Issue5件はすべてOpenであり、Closedは0件。
+確認日: 2026-08-18 16:06（JST）
 
-### 公開側A: `tj-999-comp/sandbox-pages`
+GitHub APIで`tj-999-comp/sandbox-pages`と`tj-999-comp/B_Stats_Site`のIssueを確認した。Pull Requestは対象外とした。対象26件はすべて未完了で、完了Issueは0件だった。
 
-- GitHub Issue [#5](https://github.com/tj-999-comp/sandbox-pages/issues/5): プロジェクト進捗ページの自動公開を段階導入する
-  - 関係: 親Epic
-  - 状態: Open
-- GitHub Issue [#6](https://github.com/tj-999-comp/sandbox-pages/issues/6): 公開元source登録を設定ファイル化する
-  - 関係: A-01、次の着手候補
-  - 状態: Open
-- GitHub Issue [#7](https://github.com/tj-999-comp/sandbox-pages/issues/7): 共通命名・metadata schema validatorを実装する
-  - 関係: A-02
-  - 状態: Open
-- GitHub Issue [#8](https://github.com/tj-999-comp/sandbox-pages/issues/8): 受入ファイルのpath・種別・容量validatorを実装する
-  - 関係: A-03
-  - 状態: Open
-- GitHub Issue [#9](https://github.com/tj-999-comp/sandbox-pages/issues/9): source_html向けHTML・CSS・URL安全validatorを実装する
-  - 関係: A-04
-  - 状態: Open
-- GitHub Issue [#10](https://github.com/tj-999-comp/sandbox-pages/issues/10): provenance manifest schemaとdrift検査を実装する
-  - 関係: A-05
-  - 状態: Open
-- GitHub Issue [#11](https://github.com/tj-999-comp/sandbox-pages/issues/11): B既存001〜010の初期provenance manifestを登録する
-  - 関係: A-06
-  - 状態: Open
-- GitHub Issue [#12](https://github.com/tj-999-comp/sandbox-pages/issues/12): 既存Bのno-op同期dry-runを実装する
-  - 関係: A-07
-  - 状態: Open
-- GitHub Issue [#13](https://github.com/tj-999-comp/sandbox-pages/issues/13): a_rendered用の決定的rendererを実装する
-  - 関係: A-08、初回B公開のcritical path外
-  - 状態: Open
-- GitHub Issue [#14](https://github.com/tj-999-comp/sandbox-pages/issues/14): Actions botのmain反映方針とbranch rulesetを確定する
-  - 関係: A-09
-  - 状態: Open
-- GitHub Issue [#15](https://github.com/tj-999-comp/sandbox-pages/issues/15): legacy PagesをカスタムActions deployへ移行する
-  - 関係: A-10
-  - 状態: Open
-- GitHub Issue [#16](https://github.com/tj-999-comp/sandbox-pages/issues/16): project・global進捗index generatorを実装する
-  - 関係: A-11
-  - 状態: Open
-- GitHub Issue [#17](https://github.com/tj-999-comp/sandbox-pages/issues/17): read-only受入workflowをdry-runで実装する
-  - 関係: A-12
-  - 状態: Open
-- GitHub Issue [#18](https://github.com/tj-999-comp/sandbox-pages/issues/18): 許可範囲限定の同期apply engineを実装する
-  - 関係: A-13
-  - 状態: Open
-- GitHub Issue [#19](https://github.com/tj-999-comp/sandbox-pages/issues/19): 受入workflowへcommit・固定SHA deployを接続する
-  - 関係: A-14
-  - 状態: Open
-- GitHub Issue [#20](https://github.com/tj-999-comp/sandbox-pages/issues/20): deploy成功後のSlack通知jobを実装する
-  - 関係: A-15
-  - 状態: Open
-- GitHub Issue [#21](https://github.com/tj-999-comp/sandbox-pages/issues/21): disabled sourceでBの受入dry-runを実行する
-  - 関係: A-16
-  - 状態: Open
-- GitHub Issue [#22](https://github.com/tj-999-comp/sandbox-pages/issues/22): B sourceを手動E2E可能な状態へ有効化する
-  - 関係: A-17
-  - 状態: Open
-- GitHub Issue [#23](https://github.com/tj-999-comp/sandbox-pages/issues/23): 受入・Pages・公開URL・Slackの一連を検証する
-  - 関係: A-18
-  - 状態: Open
-- GitHub Issue [#24](https://github.com/tj-999-comp/sandbox-pages/issues/24): 監査可能な公開取り下げworkflowを実装する
-  - 関係: A-19、初回B公開のcritical path外
-  - 状態: Open
-- GitHub Issue [#25](https://github.com/tj-999-comp/sandbox-pages/issues/25): dispatch認証をFine-grained PATからGitHub Appへ移行する
-  - 関係: A-20、初回B公開のcritical path外
-  - 状態: Open
+### 親子関係
+```text
+#5（未完了・親Epic）
+├── `tj-999-comp/sandbox-pages` #6〜#25（Parent: #5）
+└── `tj-999-comp/B_Stats_Site` #28〜#32（Parent: sandbox-pages #5）
+```
 
-### 生成元B: `tj-999-comp/B_Stats_Site`
+### 優先順位順の未完了一覧
 
-- GitHub Issue [#28](https://github.com/tj-999-comp/B_Stats_Site/issues/28): 親ディレクトリREADMEリンクをproject内リンクへ修正する
-  - 関係: B-01、次の着手候補
-  - 状態: Open
-- GitHub Issue [#29](https://github.com/tj-999-comp/B_Stats_Site/issues/29): 001〜010のmetadataと生成元validator・CIを追加する
-  - 関係: B-02
-  - 状態: Open
-- GitHub Issue [#30](https://github.com/tj-999-comp/B_Stats_Site/issues/30): 手動公開要求workflowとdispatch権限を設定する
-  - 関係: B-03
-  - 状態: Open
-- GitHub Issue [#31](https://github.com/tj-999-comp/B_Stats_Site/issues/31): 新規作業記録1件を手動publish要求する
-  - 関係: B-04
-  - 状態: Open
-- GitHub Issue [#32](https://github.com/tj-999-comp/B_Stats_Site/issues/32): main更新時の公開要求triggerを有効化する
-  - 関係: B-05
-  - 状態: Open
+優先順位はGitHub上のラベルではなく、Issue間の依存関係と作業への影響範囲をもとにした作業順の提案である。
+
+| 順位 | 優先度 | GitHub Issue | 状態 | 関係・着手条件 |
+| ---: | --- | --- | --- | --- |
+| 1 | P0 | [#5](https://github.com/tj-999-comp/sandbox-pages/issues/5) [Epic] プロジェクト進捗ページの自動公開を段階導入する | 未完了 | 親Epic。A/Bの全Issueを追跡 |
+| 2 | P0 | [#6](https://github.com/tj-999-comp/sandbox-pages/issues/6) [Publish] 公開元source登録を設定ファイル化する | 未完了 | A-01。最初の着手候補 |
+| 3 | P0 | [#28](https://github.com/tj-999-comp/B_Stats_Site/issues/28) [Work records] 親ディレクトリREADMEリンクをproject内リンクへ修正する | 未完了 | B-01。#6と並行可能 |
+| 4 | P0 | [#7](https://github.com/tj-999-comp/sandbox-pages/issues/7) [Publish] 共通命名・metadata schema validatorを実装する | 未完了 | A-02。#6完了後 |
+| 5 | P0 | [#8](https://github.com/tj-999-comp/sandbox-pages/issues/8) [Publish] 受入ファイルのpath・種別・容量validatorを実装する | 未完了 | A-03。#6/#7完了後 |
+| 6 | P0 | [#9](https://github.com/tj-999-comp/sandbox-pages/issues/9) [Security] source_html向けHTML・CSS・URL安全validatorを実装する | 未完了 | A-04。#7/#8完了後 |
+| 7 | P0 | [#10](https://github.com/tj-999-comp/sandbox-pages/issues/10) [Publish] provenance manifest schemaとdrift検査を実装する | 未完了 | A-05。#6〜#8完了後 |
+| 8 | P0 | [#11](https://github.com/tj-999-comp/sandbox-pages/issues/11) [Bootstrap] B既存001〜010の初期provenance manifestを登録する | 未完了 | A-06。#10完了後 |
+| 9 | P0 | [#12](https://github.com/tj-999-comp/sandbox-pages/issues/12) [Bootstrap] 既存Bのno-op同期dry-runを実装する | 未完了 | A-07。#8/#9/#11完了後 |
+| 10 | P0 | [#29](https://github.com/tj-999-comp/B_Stats_Site/issues/29) [Work records] 001〜010のmetadataと生成元validator・CIを追加する | 未完了 | B-02。#28完了後、Aの契約確定後 |
+| 11 | P1 | [#14](https://github.com/tj-999-comp/sandbox-pages/issues/14) [Operations] Actions botのmain反映方針とbranch rulesetを確定する | 未完了 | A-09。A基盤の方針確定後 |
+| 12 | P1 | [#15](https://github.com/tj-999-comp/sandbox-pages/issues/15) [Pages] legacy PagesをカスタムActions deployへ移行する | 未完了 | A-10。#14完了後 |
+| 13 | P1 | [#16](https://github.com/tj-999-comp/sandbox-pages/issues/16) [Index] project・global進捗index generatorを実装する | 未完了 | A-11。#10完了後 |
+| 14 | P1 | [#17](https://github.com/tj-999-comp/sandbox-pages/issues/17) [Actions] read-only受入workflowをdry-runで実装する | 未完了 | A-12。A-01〜05とB-02完了後 |
+| 15 | P1 | [#18](https://github.com/tj-999-comp/sandbox-pages/issues/18) [Publish] 許可範囲限定の同期apply engineを実装する | 未完了 | A-13。#10/#16/#17完了後 |
+| 16 | P1 | [#19](https://github.com/tj-999-comp/sandbox-pages/issues/19) [Actions] 受入workflowへcommit・固定SHA deployを接続する | 未完了 | A-14。#14/#15/#18完了後 |
+| 17 | P1 | [#30](https://github.com/tj-999-comp/B_Stats_Site/issues/30) [Actions] 手動公開要求workflowとdispatch権限を設定する | 未完了 | B-03。#17/#29完了後 |
+| 18 | P1 | [#20](https://github.com/tj-999-comp/sandbox-pages/issues/20) [Notification] deploy成功後のSlack通知jobを実装する | 未完了 | A-15。#19完了後 |
+| 19 | P1 | [#21](https://github.com/tj-999-comp/sandbox-pages/issues/21) [E2E] disabled sourceでBの受入dry-runを実行する | 未完了 | A-16。#17/#18とB-01/#29完了後 |
+| 20 | P1 | [#22](https://github.com/tj-999-comp/sandbox-pages/issues/22) [Activation] B sourceを手動E2E可能な状態へ有効化する | 未完了 | A-17。#19/#21完了後 |
+| 21 | P1 | [#31](https://github.com/tj-999-comp/B_Stats_Site/issues/31) [E2E] 新規作業記録1件を手動publish要求する | 未完了 | B-04。#30/#22完了後 |
+| 22 | P1 | [#23](https://github.com/tj-999-comp/sandbox-pages/issues/23) [E2E] 受入・Pages・公開URL・Slackの一連を検証する | 未完了 | A-18。#20〜#22/#31完了後 |
+| 23 | P2 | [#32](https://github.com/tj-999-comp/B_Stats_Site/issues/32) [Automation] main更新時の公開要求triggerを有効化する | 未完了 | B-05。#23のE2E合格後 |
+| 24 | P2 | [#13](https://github.com/tj-999-comp/sandbox-pages/issues/13) [Renderer] a_rendered用の決定的rendererを実装する | 未完了 | A-08。初回B公開のcritical path外 |
+| 25 | P2 | [#24](https://github.com/tj-999-comp/sandbox-pages/issues/24) [Operations] 監査可能な公開取り下げworkflowを実装する | 未完了 | A-19。初回B公開のcritical path外 |
+| 26 | P2 | [#25](https://github.com/tj-999-comp/sandbox-pages/issues/25) [Security] dispatch認証をFine-grained PATからGitHub Appへ移行する | 未完了 | A-20。初回B公開のcritical path外 |
