@@ -68,3 +68,92 @@
 - PRレビュー・CI: Reviewerによる事前確認とローカル検証を実施する。GitHub Actionsの実装・CIは今回の対象外。
 - 未解決事項: 自動公開機構そのものは未実装。Issue #6以降で段階的に進める。
 - 次アクション: [sandbox-pages #6](https://github.com/tj-999-comp/sandbox-pages/issues/6)を開始し、並行して[B_Stats_Site #28](https://github.com/tj-999-comp/B_Stats_Site/issues/28)へ着手する。`enabled: false`、push trigger未有効、Secrets未作成の状態を維持する。
+
+## GitHub Issue状況
+
+取得日時（JST）: 2026-08-18 16:06
+スナップショット: GitHubから取得したこの時点の状態。親Epic1件、公開側Aの実行Issue20件、生成元Bの実行Issue5件はすべてOpenであり、Closedは0件。
+
+### 公開側A: `tj-999-comp/sandbox-pages`
+
+- GitHub Issue [#5](https://github.com/tj-999-comp/sandbox-pages/issues/5): プロジェクト進捗ページの自動公開を段階導入する
+  - 関係: 親Epic
+  - 状態: Open
+- GitHub Issue [#6](https://github.com/tj-999-comp/sandbox-pages/issues/6): 公開元source登録を設定ファイル化する
+  - 関係: A-01、次の着手候補
+  - 状態: Open
+- GitHub Issue [#7](https://github.com/tj-999-comp/sandbox-pages/issues/7): 共通命名・metadata schema validatorを実装する
+  - 関係: A-02
+  - 状態: Open
+- GitHub Issue [#8](https://github.com/tj-999-comp/sandbox-pages/issues/8): 受入ファイルのpath・種別・容量validatorを実装する
+  - 関係: A-03
+  - 状態: Open
+- GitHub Issue [#9](https://github.com/tj-999-comp/sandbox-pages/issues/9): source_html向けHTML・CSS・URL安全validatorを実装する
+  - 関係: A-04
+  - 状態: Open
+- GitHub Issue [#10](https://github.com/tj-999-comp/sandbox-pages/issues/10): provenance manifest schemaとdrift検査を実装する
+  - 関係: A-05
+  - 状態: Open
+- GitHub Issue [#11](https://github.com/tj-999-comp/sandbox-pages/issues/11): B既存001〜010の初期provenance manifestを登録する
+  - 関係: A-06
+  - 状態: Open
+- GitHub Issue [#12](https://github.com/tj-999-comp/sandbox-pages/issues/12): 既存Bのno-op同期dry-runを実装する
+  - 関係: A-07
+  - 状態: Open
+- GitHub Issue [#13](https://github.com/tj-999-comp/sandbox-pages/issues/13): a_rendered用の決定的rendererを実装する
+  - 関係: A-08、初回B公開のcritical path外
+  - 状態: Open
+- GitHub Issue [#14](https://github.com/tj-999-comp/sandbox-pages/issues/14): Actions botのmain反映方針とbranch rulesetを確定する
+  - 関係: A-09
+  - 状態: Open
+- GitHub Issue [#15](https://github.com/tj-999-comp/sandbox-pages/issues/15): legacy PagesをカスタムActions deployへ移行する
+  - 関係: A-10
+  - 状態: Open
+- GitHub Issue [#16](https://github.com/tj-999-comp/sandbox-pages/issues/16): project・global進捗index generatorを実装する
+  - 関係: A-11
+  - 状態: Open
+- GitHub Issue [#17](https://github.com/tj-999-comp/sandbox-pages/issues/17): read-only受入workflowをdry-runで実装する
+  - 関係: A-12
+  - 状態: Open
+- GitHub Issue [#18](https://github.com/tj-999-comp/sandbox-pages/issues/18): 許可範囲限定の同期apply engineを実装する
+  - 関係: A-13
+  - 状態: Open
+- GitHub Issue [#19](https://github.com/tj-999-comp/sandbox-pages/issues/19): 受入workflowへcommit・固定SHA deployを接続する
+  - 関係: A-14
+  - 状態: Open
+- GitHub Issue [#20](https://github.com/tj-999-comp/sandbox-pages/issues/20): deploy成功後のSlack通知jobを実装する
+  - 関係: A-15
+  - 状態: Open
+- GitHub Issue [#21](https://github.com/tj-999-comp/sandbox-pages/issues/21): disabled sourceでBの受入dry-runを実行する
+  - 関係: A-16
+  - 状態: Open
+- GitHub Issue [#22](https://github.com/tj-999-comp/sandbox-pages/issues/22): B sourceを手動E2E可能な状態へ有効化する
+  - 関係: A-17
+  - 状態: Open
+- GitHub Issue [#23](https://github.com/tj-999-comp/sandbox-pages/issues/23): 受入・Pages・公開URL・Slackの一連を検証する
+  - 関係: A-18
+  - 状態: Open
+- GitHub Issue [#24](https://github.com/tj-999-comp/sandbox-pages/issues/24): 監査可能な公開取り下げworkflowを実装する
+  - 関係: A-19、初回B公開のcritical path外
+  - 状態: Open
+- GitHub Issue [#25](https://github.com/tj-999-comp/sandbox-pages/issues/25): dispatch認証をFine-grained PATからGitHub Appへ移行する
+  - 関係: A-20、初回B公開のcritical path外
+  - 状態: Open
+
+### 生成元B: `tj-999-comp/B_Stats_Site`
+
+- GitHub Issue [#28](https://github.com/tj-999-comp/B_Stats_Site/issues/28): 親ディレクトリREADMEリンクをproject内リンクへ修正する
+  - 関係: B-01、次の着手候補
+  - 状態: Open
+- GitHub Issue [#29](https://github.com/tj-999-comp/B_Stats_Site/issues/29): 001〜010のmetadataと生成元validator・CIを追加する
+  - 関係: B-02
+  - 状態: Open
+- GitHub Issue [#30](https://github.com/tj-999-comp/B_Stats_Site/issues/30): 手動公開要求workflowとdispatch権限を設定する
+  - 関係: B-03
+  - 状態: Open
+- GitHub Issue [#31](https://github.com/tj-999-comp/B_Stats_Site/issues/31): 新規作業記録1件を手動publish要求する
+  - 関係: B-04
+  - 状態: Open
+- GitHub Issue [#32](https://github.com/tj-999-comp/B_Stats_Site/issues/32): main更新時の公開要求triggerを有効化する
+  - 関係: B-05
+  - 状態: Open
