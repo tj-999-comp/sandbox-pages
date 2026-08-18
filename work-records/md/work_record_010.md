@@ -1,3 +1,6 @@
+# 作業記録 010: Trackball Controll Practiceのデザイン準拠
+作成日: 2026-07-30
+
 ## 概要
 - 課題: `games/trackball-controll-practice.html` の見た目が更新後の `DESIGN.md` に準拠していない。
 - 目的: ゲーム挙動を維持したまま、対象ページの配色、書体、形状、余白、共通ナビゲーションとフッターの表現をデザイン定義へ揃える。
@@ -29,10 +32,10 @@
 - 次工程への引き継ぎ: ブラウザ利用可能な環境で実動確認する。
 
 ### Portfolio Reviewer
-- 入力: `origin/main`との差分、各役割の検証結果、Issue記録。
+- 入力: `origin/main`との差分、各役割の検証結果、作業記録。
 - 実施内容: 要件適合、変更範囲、デザイン定義、静的な非回帰項目をレビューした。
 - 成果物: 重大度別レビューと差し戻し判定。
-- 検証結果: Finish中央固定とコントラストをTester同様に差し戻し、nav utility buttonの定義不一致とIssue記録の整合も指摘した。修正後の再レビューは重大・中0件で、追加差し戻し不要と判定した。
+- 検証結果: Finish中央固定とコントラストをTester同様に差し戻し、nav utility buttonの定義不一致と作業記録の整合も指摘した。修正後の再レビューは重大・中0件で、追加差し戻し不要と判定した。
 - 未解決事項: 実ブラウザ未確認範囲は最終報告へ明記する。
 - 次工程への引き継ぎ: 重大問題がなければ対象ファイルだけをコミットし、PR工程へ進める。
 
@@ -44,7 +47,7 @@
 
 ## 最終結果
 - 解決したこと: 対象ページの主要なデザイン不一致を解消し、Finish中央固定と状態通知、進捗ARIAを改善した。
-- 変更ファイル: `games/trackball-controll-practice.html`、`css/trackball-controll-practice.css`、`scripts/trackball-controll-practice.js`、`Issues/Issue_010.md`。
+- 変更ファイル: `games/trackball-controll-practice.html`、`css/trackball-controll-practice.css`、`scripts/trackball-controll-practice.js`、`work-records/md/work_record_010.md`。
 - 検証結果: 差分、JavaScript構文、CSS波括弧、参照IDは合格。実ブラウザ確認は環境制約により未実施。
 - 未解決事項: desktop/mobileの表示、キーボード操作、ゲーム固有の非回帰項目は実ブラウザで要確認。
 - 次アクション: ブラウザ実動確認後、必要に応じて最小修正を行う。

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Trackball Controll Practiceの操作ボタン確定 — 作業記録 012</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="wordmark" href="../index.html">SANDBOX PAGES</a>
+        <nav class="toplinks" aria-label="関連文書">
+          <a href="README.md">運用ルール</a>
+          <a href="design.md">デザインガイド</a>
+          <a href="md/work_record_012.md">Markdown原本</a>
+        </nav>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 012 ・ <time datetime="2026-07-30">2026-07-30</time></p>
+          <h1>Trackball Controll Practiceの操作ボタン確定</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_012.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 操作ボタンの文字が折り返す場合があり、比較用に実装した3案から最終デザインを確定する必要がある。</li><li>目的: 選定されたPearl capsuleを3つの操作ボタンへ統一し、難易度ボタンも同じ造形の桃色バリエーションへ揃える。</li><li>完了条件: 操作ボタンのラベルを折り返さず表示し、Start・Pause・Quitと難易度ボタンへ最終デザインを適用する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio UI Designer</h3>
+<ul><li>入力: <code>DESIGN.md</code>、現行配色、3つの比較案、文字折り返しの問題。</li><li>実施内容: ユーザーが選定したPearl capsuleを最終案とし、操作ボタン用の淡いpearl面と、難易度ボタン用の桃色面を設計した。無効状態は透明度へ依存せず、専用の淡色面・文字色で区別した。</li><li>成果物: 3pxのsoft border、11px角丸、caption typography、44px操作領域を共有する一貫したボタン群。</li><li>検証結果: 一斤染を選択状態に限定し、通常状態と選択状態を同じ造形の色差で識別できる構成とした。</li><li>未解決事項: 実ブラウザ上での最終的な見た目。</li><li>次工程への引き継ぎ: 選定結果をCSSへ統一適用する。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>DESIGN.md</code>、現行の操作パネルCSS、候補3を最終採用する要件。</li><li>実施内容: Start・Pause・Quitをpearl面、3px soft border、11px角丸、caption typographyへ統一した。無効状態には専用の淡色面とmuted文字色を適用した。難易度ボタンは同じ造形の淡い桃色面とし、選択時に一斤染、濃い桃色の枠、semibold文字へ切り替わるよう調整した。操作ボタンの幅128px、最小高さ44px、折り返し禁止と、640px以下の最小幅112pxを維持した。</li><li>成果物: 候補3へ統一した操作ボタンと、色違いで統一感を持たせた難易度ボタン。</li><li>検証結果: <code>git diff --check</code>、CSS波括弧整合、変更範囲がCSSと本作業記録に限定されていることを確認した。</li><li>未解決事項: 実ブラウザでの見た目と操作感。</li><li>次工程への引き継ぎ: 最終差分をレビューし、PR準備を進める。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 実装後の操作ボタンCSS差分。</li><li>実施内容: 最終案の操作領域、折り返し、フォーカス、色コントラスト、無効状態、形状定義を静的検証した。</li><li>成果物: 重大・中・軽微0件の静的検証結果。</li><li>検証結果: 44px操作領域、128px／112px幅、通常状態のコントラスト、狭幅でのボタン単位の折り返しを確認した。</li><li>未解決事項: 実ブラウザでの各viewport、実フォント、Tab操作、有効状態。</li><li>次工程への引き継ぎ: PR作成後に実ブラウザ確認を行う。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 候補3へ統一したボタンの全差分と作業記録。</li><li>実施内容: 最終選定への要件適合、<code>DESIGN.md</code>準拠、モバイル幅、既存差分の保護をレビューした。</li><li>成果物: 重大・中・軽微0件、差し戻し不要の判定。</li><li>検証結果: 操作ボタンと難易度ボタンの造形が一貫し、320px付近でも横overflowを生じない構成と判定した。</li><li>未解決事項: 実ブラウザでの視覚確認。</li><li>次工程への引き継ぎ: scoped staging、commit、push、PR作成へ進む。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: Start・Pause・Quitは候補3の淡いpearl面、3pxのsoft border、11px角丸へ統一する。</li><li>理由: ユーザーが候補3を最終案として選定したため。</li><li>判断: 難易度ボタンは同じcapsule文法を保ち、通常時を淡い桃色、選択時を一斤染とする。</li><li>理由: 操作群の統一感を保ちながら、ゲーム設定と実行操作を色で穏やかに区別するため。</li><li>判断: 無効時もpearl面とsoft borderを維持する。</li><li>理由: 形状の一貫性を保ちつつ、専用の淡色面とmuted文字色で操作不可を示すため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 操作ボタンを広げたまま候補3へ統一し、難易度ボタンも同じ造形の桃色バリエーションへ揃えた。</li><li>変更ファイル: <code>css/trackball-controll-practice.css</code>、<code>work-records/md/work_record_012.md</code>。</li><li>検証結果: 差分の空白エラー、CSS波括弧、対象範囲を確認した。TesterとReviewerはいずれも重大・中・軽微0件で合格した。</li><li>未解決事項: 実ブラウザ確認。</li><li>次アクション: 変更をcommit・pushし、PRを作成する。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 012</span>
+        <span><a href="md/work_record_012.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>作業記録ファイル名とHTML生成方式の統一 — 作業記録 017</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="wordmark" href="../index.html">SANDBOX PAGES</a>
+        <nav class="toplinks" aria-label="関連文書">
+          <a href="README.md">運用ルール</a>
+          <a href="design.md">デザインガイド</a>
+          <a href="md/work_record_017.md">Markdown原本</a>
+        </nav>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 017 ・ <time datetime="2026-08-18">2026-08-18</time></p>
+          <h1>作業記録ファイル名とHTML生成方式の統一</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_017.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 生成元projectごとに作業記録の命名とHTML生成有無が異なり、複数生成元を安全に受け入れる共通識別規則がなかった。</li><li>目的: 全生成元の公開作業記録を<code>work_record_###</code>へ統一し、project単位の採番、metadata、md-only生成元、既存Bとの互換性を公開契約へ追加する。</li><li>完了条件: 既存のBと公開URLを改名せず、共通命名、採番、識別子、生成mode、legacy文書、既存projectの移行手順を定義し、重大なレビュー指摘が0件であること。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: ユーザーの共通命名要件、<code>projects/README.md</code>の公開契約、Bの<code>work_record_001</code>〜<code>010</code>と3桁validator、他projectはMarkdownのみという現状。</li><li>実施内容: 共通命名を3桁ゼロ埋めの<code>work_record_###</code>として定義し、<code>a_rendered</code>と<code>source_html</code>の2方式、既存projectの移行手順をREADMEへ追加した。</li><li>成果物: 全生成元共通のファイル名・採番・一意キー・metadata対応・移行契約。</li><li>検証結果: Bの既存ファイル名と公開URLを維持し、番号なし補助文書が自動公開の抜け道にならないことを差分で確認した。</li><li>未解決事項: 他projectの実ファイル棚卸しと改名は各projectの対応表承認後に別課題で行う。</li><li>次工程への引き継ぎ: READMEを最終レビューし、対象文書だけをcommit・pushする。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 更新後の<code>projects/README.md</code>、ユーザー要件、A/Bの既存構成。</li><li>実施内容: 所有境界、3桁非回帰、採番、md-only対応、補助文書、metadata、移行時の参照更新を確認した。</li><li>成果物: 採番基準を過去最大割当番号の次へ統一し、番号なし文書をsupport file、legacy補助文書、新規作業記録へ分ける修正を反映した。</li><li>検証結果: 重大0件、中程度0件、軽微0件で合格。Bの既存名・URL、両生成mode、metadata、一意キー、移行手順に矛盾がないことを確認した。</li><li>未解決事項: 今回の文書化範囲に未解決事項はない。</li><li>次工程への引き継ぎ: 対象2ファイルだけをcommitし、最新のremote <code>main</code>へpushする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: ユーザー表記の<code>work_record_##</code>は番号プレースホルダーと解釈し、既存Bに合わせて<code>work_record_###</code>の3桁ゼロ埋めへ統一する。</li><li>理由: Bの<code>work_record_001</code>〜<code>010</code>、validator、converter、公開URLを改名せず利用できるため。</li><li>判断: 採番はprojectごとに<code>001</code>から行い、一意キーを<code>project_id</code>とベース名の組み合わせにする。</li><li>理由: 異なるprojectで同じ番号を安全に使用でき、titleや日付をファイル名へ含める必要がないため。</li><li>判断: Markdownとmetadataを共通の必須入力とし、HTMLは<code>a_rendered</code>または<code>source_html</code>で扱う。</li><li>理由: Bの既存運用を保ちながら、HTMLを持たない他projectを共通契約へ参加させるため。</li><li>判断: 番号なし補助文書は自動publishせず、作業記録として公開する場合だけ番号付きへ移行する。</li><li>理由: 任意名の公開を許す抜け道を防ぎ、READMEやdesignなどのsupport fileと作業記録を区別するため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 全生成元共通の<code>work_record_###</code>命名と、既存B・md-only projectを両立する公開契約を定義した。</li><li>変更ファイル: <code>projects/README.md</code>、<code>work-records/md/work_record_017.md</code>。</li><li>検証結果: <code>git diff --check</code>合格、Markdownコードフェンス18個の対応、関連記述、Bの3桁validator、Reviewer合格を確認した。表示コードを変更していないためブラウザ確認は対象外。</li><li>未解決事項: 今回の文書化範囲は重大・中程度・軽微すべて0件。命名validator、renderer、metadata、各projectの移行自体は今後の実装対象。</li><li>次アクション: 対象2ファイルだけをcommitし、最新のremote <code>main</code>へpushする。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 017</span>
+        <span><a href="md/work_record_017.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

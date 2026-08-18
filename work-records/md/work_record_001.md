@@ -1,3 +1,6 @@
+# 作業記録 001: ページ別テーマを維持した共通レイアウト設計
+作成日: 2026-05-04
+
 ## 概要
 - 課題: ページごとにカラー差分はあるが、ヘッダー/フッター、余白、導線設計の統一が不十分だった。
 - 目的: ページ個性（色・フォント）を維持しつつ、共通パーツ仕様を定義して実装へ引き継ぐ。
@@ -13,32 +16,32 @@
   - 共通ヘッダー/フッター項目とモバイルルールを定義
   - 導線優先順位と推奨構成を整理
 - 成果物:
-  - PORTFOLIO_THEME_PLANNER.md
+  - `PORTFOLIO_THEME_PLANNER.md`
 - 次役割への引き継ぎ:
   - UI Designer にレイアウト2案とモバイル設計を依頼
 
 2. UI Designer
 - 入力:
-  - PORTFOLIO_THEME_PLANNER.md
+  - `PORTFOLIO_THEME_PLANNER.md`
 - 実施内容:
   - 課題整理、改善方針、レイアウト案A/Bを提示
   - 採用案として案A（Solid Bar Header + 3カラムFooter）を推奨
   - モバイル時のタップ領域・階層制限・崩れ防止ルールを定義
 - 成果物:
-  - UI_DESIGNER_HANDOFF.md
-  - UI_DESIGNER_OUTPUT.md
+  - `UI_DESIGNER_HANDOFF.md`
+  - `UI_DESIGNER_OUTPUT.md`
 - 次役割への引き継ぎ:
   - Frontend Engineer へ案A前提の最小差分実装を依頼
 
 3. Frontend Engineer
 - 入力:
-  - UI_DESIGNER_OUTPUT.md
-  - UI_DESIGNER_HANDOFF.md
+  - `UI_DESIGNER_OUTPUT.md`
+  - `UI_DESIGNER_HANDOFF.md`
 - 実施内容:
   - 対象ファイル、制約、完了条件、実装タスクを明文化
   - 共通ヘッダー/フッター適用、active表示、モバイルナビ、A11y配慮を実装指示化
 - 成果物:
-  - FRONTEND_ENGINEER_HANDOFF.md
+  - `FRONTEND_ENGINEER_HANDOFF.md`
 - 次役割への引き継ぎ:
   - 実装反映とモバイル再レビュー
 
@@ -46,7 +49,7 @@
 - 入力:
   - 上記3ドキュメント
 - 実施内容:
-  - 本Issueでは対象外（構造統一を優先）
+  - 本作業記録では対象外（構造統一を優先）
 - 成果物:
   - なし
 - 次役割への引き継ぎ:
@@ -68,7 +71,7 @@
 - 入力:
   - 導線設計と共通パーツ仕様
 - 実施内容:
-  - 本Issueでは未実装（次フェーズ候補）
+  - 本作業記録では未実装（次フェーズ候補）
 - 成果物:
   - なし
 - 次役割への引き継ぎ:
@@ -78,7 +81,7 @@
 - 入力:
   - 共通仕様（44pxタップ領域、focus可視化、見出し構造）
 - 実施内容:
-  - 本Issueは設計統合が対象のため、実測テストは次フェーズへ繰越
+  - 本作業記録は設計統合が対象のため、実測テストは次フェーズへ繰越
 - テスト結果:
   - 該当なし
 - 最終判定:
@@ -86,9 +89,9 @@
 
 ## 最終結果
 - 解決したこと:
-  - 指定4ファイルの内容を統合し、1本のIssue記録に整理した。
+  - 指定4ファイルの内容を統合し、1本の作業記録に整理した。
 - 変更ファイル:
-  - Issues/Issue_001.md
+  - `work-records/md/work_record_001.md`
 - 未解決事項:
   - 実機モバイル最終確認
   - SEO/計測の最小実装

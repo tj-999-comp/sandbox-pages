@@ -1,3 +1,6 @@
+# 作業記録 007: shadcn/ui Skillsとデザイン定義の導入
+作成日: 2026-07-30
+
 ## 概要
 - 課題: UI実装支援用のshadcn/ui SkillsとAppleデザイン定義を導入する
 - 目的: 今後のUI作業でshadcn/uiの公式パターンと`DESIGN.md`のデザイントークンを参照できる状態にする
@@ -48,6 +51,6 @@
 
 ## 最終結果
 - 解決したこと: shadcn/ui公式SkillsとAppleデザイン定義をリポジトリへ導入した
-- 変更ファイル: `.agents/skills/`配下、`skills-lock.json`、`DESIGN.md`、`Issues/Issue_007.md`
+- 変更ファイル: `.agents/skills/`配下、`skills-lock.json`、`DESIGN.md`、`work-records/md/work_record_007.md`
 - 未解決事項: 重大な未解決事項なし。shadcn/ui本体の初期化とUI適用は今回の対象外
 - 次アクション: 次回のUI実装時に`DESIGN.md`を参照し、必要ならフレームワーク構成を確認した上でshadcn/uiを初期化する
