@@ -59,15 +59,23 @@
 
 ## 最終結果
 
-- 解決したこと: 自動公開の導入順を、親Epic1件と実行Issue25件に分解し、A/Bの責務と安全条件をGitHubへ記録した。
-- 変更ファイル: `work-records/md/work_record_019.md`、`work-records/work_record_019.html`。
-- 検証結果: GitHub上のIssue件数・open状態、converterの`--check`、ファイル名・H1・日付・対応HTML validator、`git diff --check`に合格した。Playwrightでは1280×900px、900×900px、640×900px、320×800pxの横overflow・runtime errorが0件で、320pxの38リンクへTab移動できた。
-- 作業ブランチ: `main`（ドキュメント専用更新）。
-- コミット: ドキュメント専用commitとして実施し、SHAはGit履歴を参照する。
-- PR: ドキュメント専用更新のため作成しない。
-- PRレビュー・CI: Reviewerによる事前確認とローカル検証を実施する。GitHub Actionsの実装・CIは今回の対象外。
+- 解決したこと: 自動公開の導入順を親Epic1件と実行Issue25件へ分解し、個別Issue状態の記録・Reviewer照合・参照ページと同じ表示レイアウトを追加した。
+- 変更ファイル: `AGENTS.md`、`scripts/dev/convert_work_records_to_html.py`、`work-records/README.md`、`work-records/md/work_record_019.md`、`work-records/work_record_019.html`。
+- 検証結果: GitHub上のIssue件数・状態、converterの再生成・`--check`、ファイル名・H1・日付・対応HTML validator、`git diff --check`に合格した。Playwrightでは1280×900px、900×900px、640×900px、320×800pxの横overflow・runtime errorが0件で、320pxの38リンクへTab移動できた。
+- 作業ブランチ: `codex/021-issue-layout`（生成器・ドキュメント更新）。
+- コミット: 最終commitのSHAはGit履歴を参照する。
+- PR: 生成器変更を含むため、事前レビュー後に作成する。
+- PRレビュー・CI: Reviewerによる事前確認に合格した。GitHub Actionsの実装・CIは今回の対象外。
 - 未解決事項: 自動公開機構そのものは未実装。Issue #6以降で段階的に進める。
 - 次アクション: [sandbox-pages #6](https://github.com/tj-999-comp/sandbox-pages/issues/6)を開始し、並行して[B_Stats_Site #28](https://github.com/tj-999-comp/B_Stats_Site/issues/28)へ着手する。`enabled: false`、push trigger未有効、Secrets未作成の状態を維持する。
+
+### 追記: Issue状況の記録と表示レイアウトを統一
+
+- 記録漏れの是正: 当初はIssueの件数と番号範囲だけを記録していたため、対象26件を1件ずつ状態・関係・着手条件とともに記録した。
+- 取りこぼし防止: `AGENTS.md`と`work-records/README.md`に、JST取得日時、個別Issue、ReviewerによるGitHub照合を必須化した。件数だけの要約、不一致、状態未取得はcommit前に修正する。
+- 表示統一: `projects/B_Stats_Site/work_record_010.html`と同じ「確認情報 → 親子関係 → 優先順位表」の順で表示する。表は`順位`、`優先度`、`GitHub Issue`、`状態`、`関係・着手条件`の5列とし、生成器はこの節を`Issue状況`として表示する。
+- 親子関係: GitHub本文の`Parent`宣言を確認し、公開側A #6〜#25と生成元B #28〜#32が親Epic #5に紐づくことを明記した。推測した親子関係は記載しない。
+- 表示確認: 019のIssue表は26行、Issueリンクは26件であることを確認した。320pxでは表を横スクロールで閲覧でき、ページ全体の横overflowは発生しない。Tab移動はページ内38リンクすべてで確認した。
 
 ## GitHub Issue状況（2026-08-18時点の現在値）
 
