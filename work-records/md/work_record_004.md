@@ -1,3 +1,6 @@
+# 作業記録 004: Trackball Typing PracticeのUI・導線改善
+作成日: 2026-05-12
+
 ## 概要
 - 課題: trackball-typing-practice のUI/UX・ゲーム導線・視認性を段階的に改善
 - 目的: 開始前後の操作しやすさとゲーム状態の理解しやすさを高める
@@ -73,7 +76,7 @@
   - `css/trackball-typing-practice.css`
   - `scripts/trackball-typing-practice.js`
   - `scripts/site-layout.js`
-  - `Issues/Issue_004.md`
+  - `work-records/md/work_record_004.md`
 - 未解決事項: なし
 - 次アクション:
   - 実機（トラックボール）で操作感を確認し、必要なら入力補助の閾値を調整

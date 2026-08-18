@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>ドキュメント変更時のGit運用簡略化 — 作業記録 014</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="wordmark" href="../index.html">SANDBOX PAGES</a>
+        <nav class="toplinks" aria-label="関連文書">
+          <a href="README.md">運用ルール</a>
+          <a href="design.md">デザインガイド</a>
+          <a href="md/work_record_014.md">Markdown原本</a>
+        </nav>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 014 ・ <time datetime="2026-08-02">2026-08-02</time></p>
+          <h1>ドキュメント変更時のGit運用簡略化</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_014.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 現行のGit運用では、ソースコードを含まないドキュメント変更にも課題ブランチとPRを要求しており、小規模な記録更新に対して工程が過剰になる。</li><li>目的: 変更内容をソースコードの有無で分類し、安全性を維持しながらドキュメントのみの更新を簡潔に完了できるGit運用へ改める。</li><li>完了条件: <code>AGENTS.md</code>へ次の3分類を明記する。HTML・CSS・JavaScript等のソースコードを変更する場合は課題ブランチを作成してPRを使用する。<code>Issues/</code>を含むソースコードを伴わないドキュメントのみの場合は、最新のremote default branchへ対象ファイルを限定して直接commit・pushする。ソースコードと作業記録が混在する場合は、同じ課題ブランチとPRへ含める。<code>work-records/md/work_record_013.md</code>へPR #3のマージ記録を反映し、本作業記録を作成する。静的検証とReviewer確認後、remote <code>main</code>へfast-forward可能な状態でscoped direct pushする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: Git運用をソースコード変更、ドキュメントのみ、ソースコードとIssueの混在へ分類する要件と、PR #3の確定済みマージ情報。</li><li>実施内容: <code>AGENTS.md</code>のブランチ・PR適用条件と標準工程を新ルールへ更新し、<code>work-records/md/work_record_013.md</code>のPR・マージ記録を確定する。本作業記録へ変更目的、判断、検証、direct push方針を記録する。</li><li>成果物: <code>AGENTS.md</code>、<code>work-records/md/work_record_013.md</code>、<code>work-records/md/work_record_014.md</code>のドキュメント差分。</li><li>検証結果: Issue規定の見出しと役割項目、3分類、対象3ファイル、remote <code>main</code>へのfast-forward direct push予定を静的確認し、<code>git diff --check</code>に合格した。</li><li>未解決事項: remote <code>main</code>へのdirect commit・pushは未実施。</li><li>次役割への引き継ぎ: Portfolio Reviewerへ要件適合、変更3ファイルへの限定、ソースコード差分不在、direct push条件を確認依頼する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Git運用更新後の<code>AGENTS.md</code>、PR #3の記録を確定した<code>work-records/md/work_record_013.md</code>、本作業記録、静的検証結果。</li><li>実施内容: 3分類の運用ルールが要件どおりであること、既存の安全ポリシーと矛盾しないこと、変更がドキュメント3ファイルだけであることをレビューした。</li><li>成果物: 重大・中・軽微の問題一覧と、remote <code>main</code>へのscoped direct commit・push可否の判定。</li><li>検証結果: 重大0・中0・軽微0。dirty保護、fetch・base確認、scoped staging、履歴非破壊、PR許可規則との矛盾がなく、<code>git diff --check</code>合格、無関係な変更なしを確認してReady判定とした。</li><li>未解決事項: 重大な未解決事項は0件。</li><li>次役割への引き継ぎ: 最新のremote <code>main</code>へ明示的なrefspecでfast-forward direct pushする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 課題ブランチとPRを必須にするのは、HTML・CSS・JavaScript等のソースコード変更を含む場合とする。</li><li>理由: 実装変更は動作や表示へ影響するため、分離されたブランチ、検証、レビュー、PR差分確認を維持する必要がある。</li><li>判断: <code>Issues/</code>を含むソースコードを伴わないドキュメントのみの変更は、最新のremote default branchへ対象限定で直接commit・pushする。</li><li>理由: 実行動作へ影響しない記録更新では、remoteの最新状態、fast-forward可能性、scoped stagingを確認することで安全性を保ちながら工程を簡略化できる。</li><li>判断: ソースコードと作業記録が混在する場合は、同一の課題ブランチとPRへ含める。</li><li>理由: 実装と対応記録を同じレビュー単位に保ち、変更理由とコード差分の追跡性を確保するため。</li><li>判断: 今回は<code>AGENTS.md</code>と<code>Issues/</code>だけのドキュメント変更として扱い、Reviewer合格後にremote <code>main</code>へfast-forwardでdirect pushする。</li><li>理由: 新ルールのドキュメントのみ条件に該当し、ソースコード変更を含まないため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: Git運用の3分類と、ドキュメントのみの変更を安全にdirect pushするための条件を記録した。</li><li>変更ファイル: <code>AGENTS.md</code>、<code>work-records/md/work_record_013.md</code>、<code>work-records/md/work_record_014.md</code>。</li><li>検証結果: Issue規定の構成、Git運用の3分類、対象3ファイル、Reviewer最終判定、および<code>git diff --check</code>に合格した。Reviewerは重大0・中0・軽微0でReady判定した。</li><li>作業ブランチ: 新規の課題ブランチは作成しない。新ルール確定前から存在した<code>codex/docs-record-pr-3</code>上の、最新<code>origin/main</code>を親とするfast-forward可能なドキュメント履歴を使用する。</li><li>コミット: PR #3マージ記録は<code>32f02c4</code>。Git運用ルールと本作業記録は<code>9ba5f42</code>。</li><li>PR: 作成していない。ソースコードを含まないドキュメントのみの変更としてdirect pushした。</li><li>PRレビュー・CI: PR・CI対象外。Portfolio Reviewerの事前レビューは重大0・中0・軽微0で完了した。</li><li>push結果: <code>origin/main</code>を<code>4f09b4f</code>から<code>9ba5f42</code>へfast-forwardし、対象3文書だけを直接反映した。</li><li>未解決事項: なし。重大な未解決事項は0件。</li><li>次アクション: 必須なし。以後は本ルールを適用する。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 014</span>
+        <span><a href="md/work_record_014.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

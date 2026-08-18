@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issuesからwork-recordsへの移行と次セッションへの引き継ぎ — 作業記録 018</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="wordmark" href="../index.html">SANDBOX PAGES</a>
+        <nav class="toplinks" aria-label="関連文書">
+          <a href="README.md">運用ルール</a>
+          <a href="design.md">デザインガイド</a>
+          <a href="md/work_record_018.md">Markdown原本</a>
+        </nav>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 018 ・ <time datetime="2026-08-18">2026-08-18</time></p>
+          <h1>Issuesからwork-recordsへの移行と次セッションへの引き継ぎ</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_018.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: ローカル記録が<code>Issues/Issue_###.md</code>に残っており、複数プロジェクトで採用する<code>work_record_###</code>命名とHTML生成方式に一致していなかった。</li><li>目的: 既存17件を内容と番号を維持して<code>work-records/</code>へ移し、Markdown、HTML、デザイン、生成・検証手順を次のセッションで継続できる状態にする。</li><li>完了条件: <code>work_record_001</code>から<code>work_record_018</code>までのMarkdownとHTMLが対応し、現在の運用文書に旧パス参照がなく、再生成検証とPC・スマートフォンのブラウザ確認に合格している。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　前提</p><h2 id="section-02">対象と入力</h2></div><div class="section-content"><ul><li>公開リポジトリ: <code>tj-999-comp/sandbox-pages</code></li><li>作業開始時の基準commit: <code>6900060cf3835777daf72e7870334a2fb485e47b</code></li><li>作業ブランチ: <code>codex/018-migrate-work-records</code></li><li>既存記録: <code>work_record_001.md</code>から<code>work_record_017.md</code></li><li>旧テンプレート: <code>Issue_Template.md</code>（移行後は<code>work-records/README.md</code>へ統合）</li><li>デザイン入力: ユーザー指定の作業記録HTMLデザインガイドと共通CSS</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　担当</p><h2 id="section-03">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: 既存17件のMarkdown、旧テンプレート、リポジトリ内の旧パス参照、Bの既存converterとvalidator、共通公開契約。</li><li>実施内容: ファイル対応表とGit履歴上の作成日を確認し、ディレクトリ・命名移行、運用文書、converter、validator、全18件のHTML生成を実施した。</li><li>成果物: <code>AGENTS.md</code>、<code>README.md</code>、<code>work-records/</code>、<code>scripts/dev/</code>。</li><li>検証結果: 18件のファイル対応、再生成差分、相対リンク、安全でないURL schemeとリポジトリ外パスの拒否、Python構文、空白エラーを確認した。</li><li>未解決事項: 本移行作業にはなし。A側の自動公開機構は次セッションの対象。</li><li>次工程への引き継ぎ: UI Designerの構造確認、Testerの実ブラウザ確認、Reviewerの差分確認へ引き継いだ。</li></ul>
+<h3>Portfolio UI Designer</h3>
+<ul><li>入力: ユーザー指定のデザインガイドとCSS、既存17件の見出し構造、Bの既存作業記録HTML。</li><li>実施内容: 共通HTML骨格、ナビゲーション、セクション対応、旧テンプレートの扱い、代表確認対象を整理した。</li><li>成果物: サイトトップ、運用ルール、デザインガイド、Markdown原本へ移動できるHTML構造と、既存内容を欠落させない変換方針。</li><li>検証結果: <code>Issue_Template.md</code>を番号付き記録にせず<code>work-records/README.md</code>へ統合すること、指定CSSの実値に合わせて最大幅を<code>1080px</code>とすることを確認した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: Frontend EngineerへHTML骨格とセクション表示要件を引き継いだ。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 全18件の生成HTML、指定CSS、1280×900pxと320×800pxのブラウザ条件。</li><li>実施内容: 横overflow、console error、page error、failed request、見出し階層、<code>aria-labelledby</code>、ローカルリンク、キーボードfocusを検証した。</li><li>成果物: 18件×2 viewportの計36条件のPlaywrightレポートと、代表ページの4 viewportスクリーンショット。</li><li>検証結果: 全36条件で横overflowと実行時エラーは0件、各ページのH1は1件、見出し飛びとリンク切れは0件だった。320pxで全ナビゲーションリンクへTab移動でき、標準focus outlineを確認した。</li><li>未解決事項: 実スクリーンリーダーによる読み上げ確認は未実施。今回の静的記録移行を妨げる問題はなし。</li><li>次工程への引き継ぎ: Reviewerへブラウザ証跡と静的検証結果を引き継いだ。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: <code>origin/main</code>との差分、ユーザー要件、生成・検証結果、ブラウザ証跡。</li><li>実施内容: 移行範囲、命名、既存内容の保持、運用ルール、生成安全性、無関係な変更、作業記録018のテンプレート適合を確認した。</li><li>成果物: 初回レビューで不足していた本「適用した役割」節の追加指摘と、反映後の最終レビュー結果。</li><li>検証結果: 重大0件、中0件、軽微0件で、差し戻し不要と判定した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: ローカル移行作業は完了。次セッションではA側受入基盤のdry-run実装から開始する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　作業</p><h2 id="section-04">実施内容</h2></div><div class="section-content"><ul><li><code>Issues/</code>を<code>work-records/</code>へ改名した。</li><li>番号付きMarkdownを<code>work-records/md/work_record_###.md</code>へ移した。</li><li>Git履歴の初回追加日を各記録の作成日として追加し、内容に対応するH1を追加した。</li><li>旧テンプレートを<code>work-records/README.md</code>の運用ルールと作業記録テンプレートへ統合した。</li><li><code>work-records/design.md</code>と<code>work-records/work_record.css</code>を追加した。</li><li>Python標準ライブラリだけを使うHTML converterとvalidatorを追加した。</li><li>本作業を<code>work_record_018</code>として記録対象へ追加した。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　根拠</p><h2 id="section-05">主要な判断</h2></div><div class="section-content"><ul><li>判断: ユーザーが示した<code>work_record_##</code>は番号のプレースホルダーと解釈し、共通公開契約と既存Bに合わせて3桁の<code>work_record_###</code>を使う。</li><li>理由: <code>B_Stats_Site</code>の既存<code>work_record_001</code>から<code>010</code>と公開URLを維持し、プロジェクト間で同じ規則を使うため。</li><li>判断: 旧<code>Issue_Template.md</code>へ番号を割り当てず、<code>work-records/README.md</code>へ統合する。</li><li>理由: 番号付きMarkdownだけをHTML生成対象とし、<code>work-records/</code>直下のMarkdownを<code>README.md</code>と<code>design.md</code>だけに保つため。</li><li>判断: デザインガイドの最大幅は指定CSSの実値に合わせて<code>1080px</code>とする。</li><li>理由: 入力ガイドの<code>1280px</code>と指定CSSの<code>.shell</code>最大<code>1080px</code>が競合しており、CSS統一の明示指示を優先したため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-06"><div class="section-intro"><p class="section-label">06　状況</p><h2 id="section-06">自動公開機構の現在地</h2></div><div class="section-content"><ul><li>共通公開契約と命名規則は<code>projects/README.md</code>に確定済み。</li><li><code>B_Stats_Site</code>の既存公開ファイルと同期基準commitは確認済み。</li><li>A側のsource登録、metadata schema、validator、renderer、provenance manifest、index、受入workflowは未実装。</li><li>Aは現在も<code>main</code>ルートを公開するlegacy GitHub Pages構成である。</li><li>BからAへの公開要求workflow、Pages公開後のSlack通知、Secrets設定は未実装。</li><li>本作業で追加するconverterとvalidatorは、このリポジトリ自身の作業記録をローカル生成・検証するためのものであり、将来のA受入workflowそのものではない。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-07"><div class="section-intro"><p class="section-label">07　継続</p><h2 id="section-07">次のセッションの開始地点</h2></div><div class="section-content"><p>最初にA側の受入基盤を、公開状態を変えないdry-runとして実装する。</p>
+<ol><li>A所有のsource登録を作成し、<code>B_Stats_Site</code>を<code>enabled: false</code>で登録する。</li><li>metadata schemaと受入validatorを作成する。</li><li><code>B_Stats_Site</code>の既存<code>001</code>から<code>010</code>を初期provenance manifestへ登録する。</li><li>既存公開ファイルを変えないno-op同期テストを追加する。</li><li>その後に<code>a_rendered</code> renderer、Bのmetadataと親リンク修正、Pages workflow、index、手動dispatch、Slack通知の順で進める。</li></ol>
+<p>この段階では、push triggerを有効化せず、Slack Secretやdispatch tokenも作成しない。</p></div></section>
+<section class="record-section" aria-labelledby="section-08"><div class="section-intro"><p class="section-label">08　確認</p><h2 id="section-08">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: ローカル作業記録の命名、配置、HTMLデザイン、生成・検証方法を<code>work-records/</code>へ統一した。</li><li>変更ファイル: <code>AGENTS.md</code>、<code>README.md</code>、<code>work-records/</code>、<code>scripts/dev/</code>。</li><li>検証結果: converterの<code>--check</code>、18件のファイル名・H1・日付・対応HTML・再生成内容・ローカルリンクを確認するvalidator、<code>git diff --check</code>に合格した。Playwrightで全18件を1280×900pxと320×800pxの計36条件で確認し、横overflow、console error、page error、failed request、見出し階層、リンク切れは0件だった。320pxの<code>work_record_018.html</code>で5リンクをTab移動し、すべてにブラウザ標準のfocus outlineが表示された。</li><li>作業ブランチ: <code>codex/018-migrate-work-records</code></li><li>コミット: 未実施。</li><li>PR: 未作成。</li><li>PRレビュー・CI: Portfolio Reviewerのローカル事前レビューは重大0件、中0件、軽微0件で完了した。PRとCIはローカル限定作業のため未実施。</li><li>未解決事項: 自動公開機構は「次のセッションの開始地点」に記載した順で未実装。</li><li>次アクション: 本記録の検証結果を確認してから、A側受入基盤のdry-run実装を開始する。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 018</span>
+        <span><a href="md/work_record_018.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,3 +1,6 @@
+# 作業記録 015: projectsディレクトリの用途と公開構想の記録
+作成日: 2026-08-15
+
 ## 概要
 - 課題: 新設した`projects/`ディレクトリの用途と今後の構想が、リポジトリ内に記録されていない。
 - 目的: GitHubプロジェクトとIssueの進捗をまとめる場所であること、GitHub Pagesからの閲覧とSlack通知を将来予定していることを簡潔に共有する。
@@ -7,14 +10,14 @@
 ### Portfolio Frontend Engineer
 - 入力: `projects/`へGitHubプロジェクトとIssueの最新状況をまとめたHTMLを置き、GitHub Pagesから閲覧可能にし、将来は更新時にSlack通知を行う構想。
 - 実施内容: 既存リポジトリの文体と`projects/`の状態を確認し、構想と現在の状態を簡潔に説明するREADMEを作成した。
-- 成果物: `projects/README.md`と本Issue記録。
+- 成果物: `projects/README.md`と本作業記録。
 - 検証結果: 要求された構想4点と未実装である旨が含まれ、HTML・GitHub Pages導線・Slack連携の実装変更を含まないことを確認した。
 - 未解決事項: HTMLの構成、更新方法、GitHub Pagesからの導線、Slack通知方式は今後の実装時に決定する必要がある。
 - 次工程への引き継ぎ: Portfolio Reviewerへ要件適合、簡潔さ、未実装範囲の明確さ、無関係な変更がないことの確認を依頼する。
 
 ### Portfolio Reviewer
-- 入力: 作成後の`projects/README.md`、`Issues/Issue_015.md`、ユーザー要件、静的検証結果。
-- 実施内容: 要件適合、簡潔さ、未実装範囲の明確さ、Issue記録規定、依頼範囲外の記載がないことを確認した。
+- 入力: 作成後の`projects/README.md`、`work-records/md/work_record_015.md`、ユーザー要件、静的検証結果。
+- 実施内容: 要件適合、簡潔さ、未実装範囲の明確さ、作業記録規定、依頼範囲外の記載がないことを確認した。
 - 成果物: 重大・中・軽微の問題一覧と、remote `main`へのdirect commit・push可否の判定。
 - 検証結果: 重大0・中0・軽微0。READMEは依頼された構想を簡潔に網羅し、現在の未実装範囲も明確であるため合格とした。
 - 未解決事項: 重大な未解決事項は0件。
@@ -28,10 +31,10 @@
 
 ## 最終結果
 - 解決したこと: `projects/`の用途と将来構想をリポジトリ内で確認できるようにした。
-- 変更ファイル: `projects/README.md`、`Issues/Issue_015.md`。
+- 変更ファイル: `projects/README.md`、`work-records/md/work_record_015.md`。
 - 検証結果: 文書構成と要求事項を静的確認済み。表示コードの変更ではないためブラウザ確認は対象外。
 - 作業ブランチ: 新規ブランチは作成せず、最新のremote default branchである`main`を使用する。
-- コミット: `projects/README.md`と本Issueだけを対象とするdocsコミットとして記録する。
+- コミット: `projects/README.md`と本作業記録だけを対象とするdocsコミットとして記録する。
 - PR: ソースコードを含まないドキュメントのみの変更のため作成しない。
 - PRレビュー・CI: PR・CI対象外。Portfolio Reviewerの事前レビューは重大0・中0・軽微0で合格した。
 - 未解決事項: HTMLページ、GitHub Pagesからの導線、Slack通知は未実装。今回の依頼範囲における重大な未解決事項はない。

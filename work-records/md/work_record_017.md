@@ -1,3 +1,6 @@
+# 作業記録 017: 作業記録ファイル名とHTML生成方式の統一
+作成日: 2026-08-18
+
 ## 概要
 - 課題: 生成元projectごとに作業記録の命名とHTML生成有無が異なり、複数生成元を安全に受け入れる共通識別規則がなかった。
 - 目的: 全生成元の公開作業記録を`work_record_###`へ統一し、project単位の採番、metadata、md-only生成元、既存Bとの互換性を公開契約へ追加する。
@@ -32,7 +35,7 @@
 
 ## 最終結果
 - 解決したこと: 全生成元共通の`work_record_###`命名と、既存B・md-only projectを両立する公開契約を定義した。
-- 変更ファイル: `projects/README.md`、`Issues/Issue_017.md`。
+- 変更ファイル: `projects/README.md`、`work-records/md/work_record_017.md`。
 - 検証結果: `git diff --check`合格、Markdownコードフェンス18個の対応、関連記述、Bの3桁validator、Reviewer合格を確認した。表示コードを変更していないためブラウザ確認は対象外。
 - 未解決事項: 今回の文書化範囲は重大・中程度・軽微すべて0件。命名validator、renderer、metadata、各projectの移行自体は今後の実装対象。
 - 次アクション: 対象2ファイルだけをcommitし、最新のremote `main`へpushする。

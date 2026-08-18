@@ -1,3 +1,6 @@
+# 作業記録 002: Hardモードの罫線・角丸・Finish表示修正
+作成日: 2026-05-04
+
 ## 概要
 - 課題: Trackball Control Practice の Hard モードで、右スクロール時に罫線が途中で消える。加えて角丸維持と Finish 中央固定の両立が必要だった。
 - 目的: 角丸を維持しつつ、スクロール全域で罫線と背景の連続性を担保し、Finish 表示を視認上の中央固定にする。
@@ -73,9 +76,9 @@
   - 角丸を維持したまま、罫線と背景の連続表示を実現。
   - Finish の視認中央固定を維持。
 - 変更ファイル:
-  - css/trackball-controll-practice.css
-  - scripts/trackball-controll-practice.js
-  - Issues/Issue_002.md
+  - `css/trackball-controll-practice.css`
+  - `scripts/trackball-controll-practice.js`
+  - `work-records/md/work_record_002.md`
 - 未解決事項:
   - なし
 - 次アクション:

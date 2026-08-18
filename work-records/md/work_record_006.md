@@ -1,3 +1,6 @@
+# 作業記録 006: Typing Marathonの出題モード不一致修正
+作成日: 2026-05-19
+
 ## 概要
 - 課題: Typing Marathon で単語モードを選んでも文章が出題されるケースがある。
 - 目的: 単語モード時は単語のみ、文章モード時は文章のみを確実に出題し、モードと出題ロジックの不一致をなくす。
@@ -60,8 +63,8 @@
   - 計測モードの初期選択を mixed に明確化。
   - 抽選ロジックを表示選択と整合させた。
 - 変更ファイル:
-  - scripts/typing-marathon.js
-  - Issues/Issue_006.md
+  - `scripts/typing-marathon.js`
+  - `work-records/md/work_record_006.md`
 - 未解決事項:
   - なし
 - 次アクション:

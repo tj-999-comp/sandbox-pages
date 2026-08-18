@@ -1,3 +1,6 @@
+# 作業記録 005: Typing Marathonの操作・言語切替・編集画面修正
+作成日: 2026-05-19
+
 ## 概要
 - 課題: typing-marathon のプレイ画面で操作ボタンが見えず、出題言語切替でモード名が変わり、出題編集画面が空に見える問題を修正する。
 - 目的: 120秒計測の導線を分かりやすく保ちつつ、出題内容だけを言語切替できる状態に戻す。
@@ -19,7 +22,7 @@
 3. Frontend Engineer
 - 入力: ボタン表示、モード名固定、編集画面の空表示解消。
 - 実施内容: プレイ画面の操作ボタンを維持し、モード名を固定表示に変更、初期出題を editable なバンクとして読み込むよう実装。
-- 成果物: [games/typing-marathon.html](../games/typing-marathon.html)、[scripts/typing-marathon.js](../scripts/typing-marathon.js)、[css/typing-marathon.css](../css/typing-marathon.css) の更新。
+- 成果物: [`games/typing-marathon.html`](../../games/typing-marathon.html)、[`scripts/typing-marathon.js`](../../scripts/typing-marathon.js)、[`css/typing-marathon.css`](../../css/typing-marathon.css) の更新。
 - 次役割への引き継ぎ: 文言は固定しつつ、出題データだけが切り替わるかを確認する。
 
 4. Copywriter
@@ -48,7 +51,7 @@
 
 ## 最終結果（Session前）
 - 解決したこと: プレイ画面の操作ボタンを再表示し、出題言語切替でモード名が変わらないようにし、出題編集画面に編集対象を初期表示するようにした。
-- 変更ファイル: [games/typing-marathon.html](../games/typing-marathon.html), [scripts/typing-marathon.js](../scripts/typing-marathon.js), [css/typing-marathon.css](../css/typing-marathon.css)
+- 変更ファイル: [`games/typing-marathon.html`](../../games/typing-marathon.html), [`scripts/typing-marathon.js`](../../scripts/typing-marathon.js), [`css/typing-marathon.css`](../../css/typing-marathon.css)
 - 未解決事項: なし。
 - 次アクション: 必要なら、出題編集の一覧表示を「初期出題」と「追加分」に分けて見やすくする。
 
@@ -65,7 +68,7 @@
 ### 修正内容
 
 #### 1. ファイル先頭の重複関数定義を削除
-[scripts/typing-marathon.js](../scripts/typing-marathon.js) の lines 13-111 に重複定義されていた `buildReadingSegments` / `renderReadingSegments` / `renderTarget` / `onKeydown` を削除。
+[`scripts/typing-marathon.js`](../../scripts/typing-marathon.js) の lines 13-111 に重複定義されていた `buildReadingSegments` / `renderReadingSegments` / `renderTarget` / `onKeydown` を削除。
 - **理由**: JS hoisting により後方の正規版が有効だが、コードが冗長で保守性を損なっていた
 - **影響**: 約100行削減、コードがクリーンに
 
@@ -94,8 +97,8 @@
 ✅ 言語/秒数切替後も単語モード正常動作
 
 ### ファイル変更
-- [scripts/typing-marathon.js](../scripts/typing-marathon.js): 重複関数削除 + buildReadingSegments/renderReadingSegments 修正
-- [css/typing-marathon.css](../css/typing-marathon.css): CSS ルール更新
+- [`scripts/typing-marathon.js`](../../scripts/typing-marathon.js): 重複関数削除 + `buildReadingSegments` / `renderReadingSegments` 修正
+- [`css/typing-marathon.css`](../../css/typing-marathon.css): CSS ルール更新
 
 ### 最終判定
 ✅ 完了。両指摘事項を解決。未解決事項なし。

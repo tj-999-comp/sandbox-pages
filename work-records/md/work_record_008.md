@@ -1,7 +1,10 @@
+# 作業記録 008: Codexを中心としたエージェント運用への移行
+作成日: 2026-07-30
+
 ## 概要
 - 課題: GitHub Copilot前提のエージェント運用をCodex前提へ整理する
-- 目的: 必要な専門役割をサブエージェントへ委任し、UI基準・検証・Issue記録を一貫して運用できるようにする
-- 完了条件: 合意した5方針が`AGENTS.md`と関連文書へ反映され、既存Issue名が3桁ゼロ埋め形式へ統一されている
+- 目的: 必要な専門役割をサブエージェントへ委任し、UI基準・検証・作業記録を一貫して運用できるようにする
+- 完了条件: 合意した5方針が`AGENTS.md`と関連文書へ反映され、既存作業記録名が3桁ゼロ埋め形式へ統一されている
 
 ## 適用した役割
 ### Portfolio Planner
@@ -16,15 +19,15 @@
 - 入力: Plannerの構成案と既存リポジトリの運用文書
 - 実施内容: `AGENTS.md`をCodex向けに全面整理し、`README.md`とIssueテンプレートを更新。`Issue_01.md`と`Issue004.md`を正規名へ変更
 - 成果物: Codex主担当、必要役割のみの委任、直列・並列基準、UI参照、検証、Issue運用を定義した文書
-- 検証結果: 非準拠のIssue名、旧ファイル名参照、GitHub Copilot前提の記述が残っていないことを検索で確認
+- 検証結果: 非準拠の作業記録名、旧ファイル名参照、GitHub Copilot前提の記述が残っていないことを検索で確認
 - 未解決事項: なし
 - 次工程への引き継ぎ: Reviewerへ合意事項の適合確認を依頼
 
 ### Portfolio Reviewer
-- 入力: 更新後の`AGENTS.md`、`README.md`、`Issue_Template.md`、Issueリネーム結果
+- 入力: 更新後の`AGENTS.md`、`README.md`、`work-records/README.md`、作業記録リネーム結果
 - 実施内容: 合意した5方針、ブラウザ例外、旧ルールの残存、内容損失をレビュー
 - 成果物: 重大0件、中0件、差し戻し不要の判定
-- 検証結果: Issue名は`Issue_001.md`から`Issue_007.md`まで正規化され、関連文書も新運用と整合
+- 検証結果: 作業記録名は`work_record_001.md`から`work_record_007.md`まで正規化され、関連文書も新運用と整合
 - 未解決事項: なし
 - 次工程への引き継ぎ: 最終差分確認後に完了可能
 
@@ -38,7 +41,7 @@
 
 ## 最終結果
 - 解決したこと: Codex中心の役割選択・委任・UI参照・検証・記録ルールへ移行した
-- 変更ファイル: `AGENTS.md`、`README.md`、`Issues/Issue_Template.md`、`Issues/Issue_001.md`、`Issues/Issue_004.md`、`Issues/Issue_008.md`
+- 変更ファイル: `AGENTS.md`、`README.md`、`work-records/README.md`、`work-records/md/work_record_001.md`、`work-records/md/work_record_004.md`、`work-records/md/work_record_008.md`
 - 検証結果: 文書検索、Issue命名検査、Git差分レビューに合格。配信対象コードを変更していないためブラウザ確認は対象外
 - 未解決事項: なし
 - 次アクション: 次回以降のファイル変更課題から新しいCodex運用を適用する

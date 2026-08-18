@@ -1,3 +1,6 @@
+# 作業記録 011: Trackball Controll Practiceの配色・UX調整
+作成日: 2026-07-30
+
 ## 概要
 - 課題: Trackball Controll Practiceの一斤染配色を再調整し、UXレビューの指摘を反映する。
 - 目的: 一斤染 `#f5b199` を全面背景から選択状態のアクセントへ移し、静かな画面構成と状態の判別しやすさを両立する。
@@ -37,7 +40,7 @@
 - 次工程への引き継ぎ: ユーザーがローカルブラウザで確認する。
 
 ### Portfolio Reviewer
-- 入力: UXレビュー反映後の全未コミット差分とIssue記録。
+- 入力: UXレビュー反映後の全未コミット差分と作業記録。
 - 実施内容: 要件適合、ゲーム進行の非回帰、無関係な変更の混入をレビューした。
 - 成果物: 重大・中・軽微0件、差し戻し不要の判定。
 - 検証結果: 一斤染の局所利用、UX4件の反映、Hardグリッド同期、ゲーム進行ロジックの維持を確認した。
@@ -56,7 +59,7 @@
 
 ## 最終結果
 - 解決したこと: 一斤染を全面背景から外し、選択状態のアクセントへ再配置した。UXレビュー4件をすべて反映した。
-- 変更ファイル: `css/trackball-controll-practice.css`、`scripts/trackball-controll-practice.js`、`Issues/Issue_011.md`。
+- 変更ファイル: `css/trackball-controll-practice.css`、`scripts/trackball-controll-practice.js`、`work-records/md/work_record_011.md`。
 - 検証結果: JavaScript構文、差分の空白エラー、CSS波括弧、削除対象の旧参照を確認した。TesterとReviewerはいずれも重大・中・軽微0件で合格した。
 - 未解決事項: ローカル実ブラウザでの色味・操作確認。
 - 次アクション: ユーザーがローカルで表示と操作を確認する。
