@@ -1,0 +1,8 @@
+schema_version: 1
+title: Invalid record
+date: '2026-08-20'
+project_id: B_Stats_Site
+tags:
+  - invalid
+publish: true
+unexpected: true
