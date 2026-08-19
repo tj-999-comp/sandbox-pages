@@ -22,7 +22,7 @@
 
 - 入力: 新規生成した`work_record_020.html`、`work-records/design.md`、共通CSS。
 - 実施内容: Playwrightで1280×900px、900×900px、640×900px、320×800pxを表示し、横overflow、console/page error、failed request、focusable要素数を確認した。
-- 成果物: `/private/tmp/playwright-browser-verify/2026-08-19T02-03-24-373Z/report.json`と各viewportのスクリーンショット。
+- 成果物: `/private/tmp/playwright-browser-verify/2026-08-19T02-13-32-970Z/report.json`と各viewportのスクリーンショット。
 - 検証結果: 4 viewportすべてで横overflow、console error、page error、failed requestは0件。320pxを含む全viewportで15個のfocusable要素を取得した。
 - 未解決事項: 実スクリーンリーダーによる読み上げ確認は未実施。
 - 次工程への引き継ぎ: Reviewer合格後、commit前の最終差分確認へ進む。
@@ -45,10 +45,17 @@
 - 判断: destinationとpublic base pathを`project_id`から導出される固定値として検証する。
 - 理由: metadataや生成元入力から任意の公開先を組み立てず、project外への書き込み・公開を防ぐため。
 
+## 追加対応: PR記載言語の統一
+
+- 依頼: 今後のPRを必ず日本語で記載する運用ルールを追加し、Issue #6のPR本文も日本語へ統一する。
+- 実施内容: `AGENTS.md`のPR作成ルールへ、PRタイトル・本文・レビュー対応コメントを日本語で記載する規則を追加した。現在のPR #27本文も同じ内容へ更新する。
+- 検証結果: ルール変更とPR本文更新後に、Markdown/HTML再生成checkと差分確認を行う。
+- 未解決事項: PR #27の外部レビューとマージは未完了。
+
 ## 最終結果
 
 - 解決したこと: `B_Stats_Site`の公開元、branch、source/metadata/destination path、support file、generator、HTML mode、enabled状態、容量上限をA側のregistryへ登録し、後続処理で利用できる検証済みデータとして読み込めるようにした。
-- 変更ファイル: `config/sources.json`、`scripts/publish/__init__.py`、`scripts/publish/source_registry.py`、`tests/test_source_registry.py`、`tests/fixtures/source_registry/invalid_generator_type.json`、`projects/README.md`、本作業記録と対応HTML。
+- 変更ファイル: `AGENTS.md`、`config/sources.json`、`scripts/publish/__init__.py`、`scripts/publish/source_registry.py`、`tests/test_source_registry.py`、`tests/fixtures/source_registry/invalid_generator_type.json`、`projects/README.md`、本作業記録と対応HTML。
 - 検証結果: `python3 -m unittest discover -s tests -v`（10件合格）、`py_compile`、`python3 scripts/dev/validate_work_record_filenames.py`、`python3 scripts/dev/convert_work_records_to_html.py --check`、`git diff --check`に合格した。Playwrightの1280/900/640/320pxでも横overflowと実行時エラーは0件だった。既存`projects/`公開ファイル、Pages設定、workflow、B_Stats_Site側には変更がない。
 - 作業ブランチ: `codex/022-issue-6-source-registry`
 - コミット: 最終commitのSHAはGit履歴を参照する。
