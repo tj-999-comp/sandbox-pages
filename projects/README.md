@@ -40,7 +40,7 @@
 
 新しい生成元は、公開リポジトリ側で `project_id`、リポジトリ、branch、生成元ディレクトリ、公開先ディレクトリ、support file、generator ID、サイズ上限を登録し、受入テストを通過するまで無効とする。metadataの値から任意の公開先パスを組み立てず、公開リポジトリに登録された対応だけを使う。
 
-将来この対応を設定ファイルへ移す場合も、設定ファイルは公開リポジトリが所有し、生成元から更新させない。想定する登録内容は次のとおりである。
+この対応は公開リポジトリが所有する`config/sources.json`で管理し、生成元から更新させない。source registryのloaderは`scripts/publish/source_registry.py`である。次は登録エントリの概念例であり、実ファイルではJSONの`schema_version`と`sources`配列に含める。
 
 ```yaml
 schema_version: 1
@@ -58,6 +58,10 @@ support_files:
 generator_id: b-stats-work-record-v1
 html_mode: source_html
 enabled: false
+limits:
+  max_files: 100
+  max_file_size_bytes: 1048576
+  max_total_size_bytes: 10485760
 ```
 
 `generator_id` はAが所有する検証実装へ対応させる識別子であり、生成元から受け取った任意のshell commandとして実行しない。

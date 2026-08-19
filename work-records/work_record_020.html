@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #6 source registryの導入 — 作業記録 020</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="wordmark" href="../index.html">SANDBOX PAGES</a>
+        <nav class="toplinks" aria-label="関連文書">
+          <a href="README.md">運用ルール</a>
+          <a href="design.md">デザインガイド</a>
+          <a href="md/work_record_020.md">Markdown原本</a>
+        </nav>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 020 ・ <time datetime="2026-08-19">2026-08-19</time></p>
+          <h1>Issue #6 source registryの導入</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_020.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 公開元のrepository、配置、mode、generator、support file、容量上限をA側のallowlistとして固定する。</li><li>目的: 後続のmetadata validator、受入workflow、provenance検証が同じsource登録を参照できる状態にする。</li><li>完了条件: <code>B_Stats_Site</code>を<code>enabled: false</code>で登録し、設定loaderが不正なschema、field、path、mode、generator、容量上限を拒否し、決定的な結果を返す。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: GitHub Issue <a href="https://github.com/tj-999-comp/sandbox-pages/issues/6">#6</a>、<code>projects/README.md</code>、<code>work_record_018</code>、既存のA側構成。</li><li>実施内容: A所有のJSON source registry、標準ライブラリだけで動くloader/validator、正常・異常系テストfixtureを追加した。<code>project_id</code>、repository/ref、relative path、destination boundary、public path、support file、generator/mode、enabled、容量上限を検証し、sourceと配下の値を決定的に正規化した。</li><li>成果物: <code>config/sources.json</code>、<code>scripts/publish/__init__.py</code>、<code>scripts/publish/source_registry.py</code>、<code>tests/test_source_registry.py</code>、<code>tests/fixtures/source_registry/invalid_generator_type.json</code>、契約文書の実装パス追記。</li><li>検証結果: unittest 10件、Python構文、既存work-record filename validator、HTML再生成check、<code>git diff --check</code>に合格した。</li><li>未解決事項: #6のsource登録は<code>enabled: false</code>のため、実際の受入・公開・Pages変更は後続Issueの対象である。</li><li>次工程への引き継ぎ: #7の共通metadata validatorは本registryの登録<code>project_id</code>とallowlistを参照する。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 新規生成した<code>work_record_020.html</code>、<code>work-records/design.md</code>、共通CSS。</li><li>実施内容: Playwrightで1280×900px、900×900px、640×900px、320×800pxを表示し、横overflow、console/page error、failed request、focusable要素数を確認した。</li><li>成果物: <code>/private/tmp/playwright-browser-verify/2026-08-19T02-13-32-970Z/report.json</code>と各viewportのスクリーンショット。</li><li>検証結果: 4 viewportすべてで横overflow、console error、page error、failed requestは0件。320pxを含む全viewportで15個のfocusable要素を取得した。</li><li>未解決事項: 実スクリーンリーダーによる読み上げ確認は未実施。</li><li>次工程への引き継ぎ: Reviewer合格後、commit前の最終差分確認へ進む。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #6の完了条件、実装差分、テスト結果。</li><li>実施内容: schema境界、未知field、型、path traversal、project外destination、deterministic normalization、既存公開物への非回帰を確認した。</li><li>成果物: 初回レビュー指摘を反映したsource registry差分。<code>generator_id</code>と<code>html_mode</code>の非文字列値を<code>SourceRegistryError</code>で拒否するfixtureテストを追加した。</li><li>検証結果: 再レビューで重大・中・軽微の未解決事項0件を確認した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: commit前に最終差分と作業記録HTMLを再確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: source registryは<code>config/sources.json</code>としてA側に置く。</li><li>理由: YAML parserなどの追加依存を避け、標準ライブラリで決定的に読み込めるため。生成元から変更できないA所有の設定として扱う。</li><li>判断: Bは登録するが<code>enabled: false</code>を維持する。</li><li>理由: metadata、HTML安全性、no-op dry-run、手動E2Eが完了するまで自動公開を有効化しない契約に従うため。</li><li>判断: destinationとpublic base pathを<code>project_id</code>から導出される固定値として検証する。</li><li>理由: metadataや生成元入力から任意の公開先を組み立てず、project外への書き込み・公開を防ぐため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　追補</p><h2 id="section-04">追加対応: PR記載言語の統一</h2></div><div class="section-content"><ul><li>依頼: 今後のPRを必ず日本語で記載する運用ルールを追加し、Issue #6のPR本文も日本語へ統一する。</li><li>実施内容: <code>AGENTS.md</code>のPR作成ルールへ、PRタイトル・本文・レビュー対応コメントを日本語で記載する規則を追加した。現在のPR #27のタイトル・本文を日本語へ更新し、Draft状態を維持した。</li><li>検証結果: ルール変更とPR本文更新後に、Markdown/HTML再生成checkと差分確認を行った。</li><li>未解決事項: PR #27の外部レビューとマージは未完了。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　確認</p><h2 id="section-05">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: <code>B_Stats_Site</code>の公開元、branch、source/metadata/destination path、support file、generator、HTML mode、enabled状態、容量上限をA側のregistryへ登録し、後続処理で利用できる検証済みデータとして読み込めるようにした。</li><li>変更ファイル: <code>AGENTS.md</code>、<code>config/sources.json</code>、<code>scripts/publish/__init__.py</code>、<code>scripts/publish/source_registry.py</code>、<code>tests/test_source_registry.py</code>、<code>tests/fixtures/source_registry/invalid_generator_type.json</code>、<code>projects/README.md</code>、本作業記録と対応HTML。</li><li>検証結果: <code>python3 -m unittest discover -s tests -v</code>（10件合格）、<code>py_compile</code>、<code>python3 scripts/dev/validate_work_record_filenames.py</code>、<code>python3 scripts/dev/convert_work_records_to_html.py --check</code>、<code>git diff --check</code>に合格した。Playwrightの1280/900/640/320pxでも横overflowと実行時エラーは0件だった。既存<code>projects/</code>公開ファイル、Pages設定、workflow、B_Stats_Site側には変更がない。</li><li>作業ブランチ: <code>codex/022-issue-6-source-registry</code></li><li>コミット: 最終commitのSHAはGit履歴を参照する。</li><li>PRレビュー・CI: Reviewerの再レビューは重大・中・軽微の未解決事項0件で合格した。CIはPR作成後に確認する。</li><li>未解決事項: Issue #6の実装範囲ではなし。source有効化、受入、公開は後続Issueの条件を満たすまで行わない。</li><li>次アクション: #7の共通命名・metadata validatorへ進む。B側では#28の親READMEリンク修正を別ブランチで進める。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-06"><div class="section-intro"><p class="section-label">06　Issue状況</p><h2 id="section-06">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-19 10:58 取得範囲: <code>tj-999-comp/sandbox-pages</code> #5、#6、#7、#8、#9、#10、#17、および <code>tj-999-comp/B_Stats_Site</code> #28、#29。Pull Requestは対象外。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#5（sandbox-pagesの親Epic・未完了）
+├── sandbox-pages #6（A-01・未完了）
+├── sandbox-pages #7（A-02・未完了）
+├── sandbox-pages #8（A-03・未完了）
+├── sandbox-pages #9（A-04・未完了）
+├── sandbox-pages #10（A-05・未完了）
+├── sandbox-pages #17（A-12・未完了）
+├── B_Stats_Site #28（B-01・未完了）
+└── B_Stats_Site #29（B-02・未完了）</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/6">sandbox-pages #6</a> 公開元source登録を設定ファイル化する</td><td>未完了</td><td>本作業。A-01。完了後に#7へ進む</td></tr><tr><td>2</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/7">sandbox-pages #7</a> 共通命名・metadata schema validatorを実装する</td><td>未完了</td><td>#6完了後</td></tr><tr><td>3</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/8">sandbox-pages #8</a> 受入ファイルのpath・種別・容量validatorを実装する</td><td>未完了</td><td>#6/#7完了後</td></tr><tr><td>4</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/9">sandbox-pages #9</a> source_html向けHTML・CSS・URL安全validatorを実装する</td><td>未完了</td><td>#7/#8完了後</td></tr><tr><td>5</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/10">sandbox-pages #10</a> provenance manifest schemaとdrift検査を実装する</td><td>未完了</td><td>#6〜#8完了後</td></tr><tr><td>6</td><td>P0</td><td><a href="https://github.com/tj-999-comp/B_Stats_Site/issues/28">B_Stats_Site #28</a> 親ディレクトリREADMEリンクをproject内リンクへ修正する</td><td>未完了</td><td>#6と並行可能。通常publish有効化前に完了</td></tr><tr><td>7</td><td>P0</td><td><a href="https://github.com/tj-999-comp/B_Stats_Site/issues/29">B_Stats_Site #29</a> 001〜010のmetadataと生成元validator・CIを追加する</td><td>未完了</td><td>B-01完了後、Aの#7/#9と連携</td></tr><tr><td>8</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/17">sandbox-pages #17</a> read-only受入workflowをdry-runで実装する</td><td>未完了</td><td>A-01〜05とB-02完了後</td></tr><tr><td>9</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/5">sandbox-pages #5</a> プロジェクト進捗ページの自動公開を段階導入する</td><td>未完了</td><td>親Epic。全critical pathを追跡</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 020</span>
+        <span><a href="md/work_record_020.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
