@@ -35,6 +35,7 @@ SECTION_LABELS = {
     "追記": "経過",
     "追加対応": "追補",
     "最終結果": "確認",
+    "GitHub Issue状況": "Issue状況",
 }
 
 

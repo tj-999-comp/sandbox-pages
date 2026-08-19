@@ -1,0 +1,4 @@
+# Local credentials and environment overrides. Never commit real tokens.
+.env
+.env.*
+!.env.example
