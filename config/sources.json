@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "project_id": "B_Stats_Site",
+      "source_repository": "tj-999-comp/B_Stats_Site",
+      "source_ref": "refs/heads/main",
+      "source_directory": "work-records",
+      "metadata_directory": "work-records/metadata",
+      "destination_directory": "projects/B_Stats_Site",
+      "public_base_path": "/sandbox-pages/projects/B_Stats_Site/",
+      "support_files": [
+        "README.md",
+        "design.md",
+        "work_record.css"
+      ],
+      "generator_id": "b-stats-work-record-v1",
+      "html_mode": "source_html",
+      "enabled": false,
+      "limits": {
+        "max_files": 100,
+        "max_file_size_bytes": 1048576,
+        "max_total_size_bytes": 10485760
+      }
+    }
+  ]
+}

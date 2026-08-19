@@ -1,0 +1,134 @@
+import copy
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+from scripts.publish.source_registry import (
+    SourceRegistryError,
+    load_registry,
+    validate_registry,
+)
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class SourceRegistryTests(unittest.TestCase):
+    def test_repository_registry_loads_and_is_disabled(self):
+        registry = load_registry(ROOT / "config" / "sources.json")
+        self.assertEqual(registry["schema_version"], 1)
+        self.assertEqual([source["project_id"] for source in registry["sources"]], ["B_Stats_Site"])
+        source = registry["sources"][0]
+        self.assertFalse(source["enabled"])
+        self.assertEqual(source["html_mode"], "source_html")
+        self.assertEqual(source["generator_id"], "b-stats-work-record-v1")
+
+    def test_loading_is_deterministic(self):
+        first = load_registry(ROOT / "config" / "sources.json")
+        second = load_registry(ROOT / "config" / "sources.json")
+        self.assertEqual(first, second)
+
+        reordered = _registry()
+        additional = copy.deepcopy(reordered["sources"][0])
+        additional["project_id"] = "Another_Project"
+        additional["destination_directory"] = "projects/Another_Project"
+        additional["public_base_path"] = "/sandbox-pages/projects/Another_Project/"
+        reordered["sources"] = [additional, reordered["sources"][0]]
+        normalized = validate_registry(reordered)
+        self.assertEqual(
+            [source["project_id"] for source in normalized["sources"]],
+            ["Another_Project", "B_Stats_Site"],
+        )
+        self.assertEqual(
+            normalized["sources"][0]["support_files"],
+            ["README.md", "design.md", "work_record.css"],
+        )
+
+    def test_duplicate_project_ids_are_rejected(self):
+        registry = _registry()
+        registry["sources"].append(copy.deepcopy(registry["sources"][0]))
+        with self.assertRaisesRegex(SourceRegistryError, "duplicate project_id"):
+            validate_registry(registry)
+
+    def test_unknown_fields_are_rejected(self):
+        registry = _registry()
+        registry["sources"][0]["unexpected"] = True
+        with self.assertRaisesRegex(SourceRegistryError, "unknown field"):
+            validate_registry(registry)
+
+    def test_invalid_paths_are_rejected(self):
+        for field, value in (
+            ("source_directory", "/work-records"),
+            ("metadata_directory", "work-records/../private"),
+            ("source_directory", "work-records/../work-records"),
+            ("destination_directory", "projects/../outside"),
+            ("source_directory", r"work-records\\md"),
+            ("public_base_path", "/sandbox-pages/projects/../outside/"),
+        ):
+            registry = _registry()
+            registry["sources"][0][field] = value
+            with self.subTest(field=field, value=value), self.assertRaises(SourceRegistryError):
+                validate_registry(registry)
+
+    def test_unknown_mode_and_generator_are_rejected(self):
+        for field in ("html_mode", "generator_id"):
+            registry = _registry()
+            registry["sources"][0][field] = "unknown"
+            with self.subTest(field=field), self.assertRaises(SourceRegistryError):
+                validate_registry(registry)
+
+        for field, value in (("html_mode", {}), ("generator_id", [])):
+            registry = _registry()
+            registry["sources"][0][field] = value
+            with self.subTest(field=field, value=value), self.assertRaises(
+                SourceRegistryError
+            ):
+                validate_registry(registry)
+
+    def test_missing_and_wrong_schema_are_rejected(self):
+        registry = _registry()
+        del registry["sources"][0]["limits"]
+        with self.assertRaises(SourceRegistryError):
+            validate_registry(registry)
+        registry = _registry()
+        registry["schema_version"] = 2
+        with self.assertRaises(SourceRegistryError):
+            validate_registry(registry)
+
+    def test_capacity_limits_are_validated(self):
+        registry = _registry()
+        registry["sources"][0]["limits"]["max_files"] = 0
+        with self.assertRaises(SourceRegistryError):
+            validate_registry(registry)
+        registry = _registry()
+        registry["sources"][0]["limits"]["max_total_size_bytes"] = 1
+        with self.assertRaises(SourceRegistryError):
+            validate_registry(registry)
+
+    def test_load_rejects_invalid_json(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "sources.json"
+            path.write_text("{", encoding="utf-8")
+            with self.assertRaises(SourceRegistryError):
+                load_registry(path)
+
+    def test_fixture_rejects_non_string_generator_id(self):
+        fixture = (
+            ROOT
+            / "tests"
+            / "fixtures"
+            / "source_registry"
+            / "invalid_generator_type.json"
+        )
+        with self.assertRaises(SourceRegistryError):
+            load_registry(fixture)
+
+
+def _registry():
+    with (ROOT / "config" / "sources.json").open(encoding="utf-8") as stream:
+        return json.load(stream)
+
+
+if __name__ == "__main__":
+    unittest.main()
