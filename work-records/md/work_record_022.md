@@ -57,8 +57,8 @@
 - 解決したこと: 既存21件の作業記録HTMLから上部リンクを撤去し、今後のconverter生成でも上部リンクが復活しない状態にした。
 - 変更ファイル: `scripts/dev/convert_work_records_to_html.py`、`tests/test_work_record_converter.py`、`work-records/work_record_001.html`〜`work_record_021.html`、本作業記録のMarkdownとHTML。Issue #7実装の未コミット変更も同じPR対象に含める。
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（19件合格）、`py_compile`、converter `--check`、work-record filename validator、上部リンク検索、`git diff --check`、PlaywrightのPC/320px確認に合格した。
-- 未解決事項: GitHubへのPushとPR作成はこの記録作成後に実施する。
-- 次アクション: Macのキーチェーン資格情報を使ってPushし、PRを作成する。
+- 未解決事項: なし。
+- 次アクション: PR #28の外部レビューとマージ判断を待つ。
 
 ## GitHub Issue状況
 
@@ -90,3 +90,12 @@
 | [sandbox-pages #5 プロジェクト進捗ページの自動公開を段階導入する](https://github.com/tj-999-comp/sandbox-pages/issues/5) | 未完了 | 親Epic |
 | [sandbox-pages #6 公開元source登録を設定ファイル化する](https://github.com/tj-999-comp/sandbox-pages/issues/6) | 完了（completed） | #7の依存Issue |
 | [B_Stats_Site #28 親ディレクトリREADMEリンクをproject内リンクへ修正する](https://github.com/tj-999-comp/B_Stats_Site/issues/28) | 完了（completed） | 今回の参照元。上部リンク撤去を追加適用 |
+
+### PR・CI状況
+
+- PR: [sandbox-pages #28 共通metadata validator実装と作業記録上部リンク撤去](https://github.com/tj-999-comp/sandbox-pages/pull/28)
+- base: `main`
+- head: `codex/023-issue-7-metadata-validator`
+- commit: `6399953` および作業記録更新commit
+- Push: Macの`osxkeychain`をGit credential helperとして使用して完了
+- CI: GitHub status checkは設定されておらず、statusは空。ローカル検証は全件合格
