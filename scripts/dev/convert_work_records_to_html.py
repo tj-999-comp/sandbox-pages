@@ -440,16 +440,8 @@ def render_document(path: Path) -> str:
     <title>{html.escape(title)} — 作業記録 {number}</title>
     <link rel="stylesheet" href="work_record.css">
   </head>
-  <body>
+    <body>
     <div class="shell">
-      <header class="topbar">
-        <a class="wordmark" href="../index.html">SANDBOX PAGES</a>
-        <nav class="toplinks" aria-label="関連文書">
-          <a href="README.md">運用ルール</a>
-          <a href="design.md">デザインガイド</a>
-          <a href="md/{html.escape(path.name, quote=True)}">Markdown原本</a>
-        </nav>
-      </header>
       <main>
         <header class="record-header">
           <p class="kicker">作業記録 {number} ・ <time datetime="{date}">{date}</time></p>
