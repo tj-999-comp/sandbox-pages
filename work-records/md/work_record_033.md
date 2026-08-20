@@ -42,9 +42,9 @@
 - 変更ファイル: `.github/workflows/accept-source.yml`、`scripts/publish/apply_engine.py`、`scripts/publish/read_only_acceptance.py`、`tests/test_apply_engine.py`、`tests/test_pages_workflow.py`、`tests/test_read_only_acceptance.py`、本作業記録のMarkdownと対応HTML。
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（64件合格）、`PYTHONPYCACHEPREFIX=/tmp/sandbox-pages-pycache python3 -m py_compile ...`（合格）、Ruby YAML parse（合格）、`git diff --check`（合格）。新規HTMLはPlaywrightで確認を試みたが、ChromiumがmacOS Machポート権限エラーで起動せず、実ブラウザ確認は未完了。
 - 作業ブランチ: `codex/033-issue-19-actions`
-- コミット: commit前のため未確定
+- コミット: `8f7d785`（Issue #19実装・テスト・作業記録）
 - PR: 未作成
-- PRレビュー・CI: GitHub API認証障害のため未確認
+- PRレビュー・CI: PR未作成のため未実施
 - 未解決事項: GitHub Actions実環境での外部source checkout、apply commit、固定SHA Pages deploy、ruleset・branch保護、PRレビュー、CIは未確認。Chromium起動環境復旧後にwork_record_033.htmlのPC・320px幅確認も必要。
 - 次アクション: GitHub接続復旧後に#19のworkflowを手動dispatchし、現行`enabled:false`ではno-opになることを確認する。#22で有効化した後、テスト用新規recordでcommit・Pages・公開URLを実行する。
 
