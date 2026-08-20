@@ -43,8 +43,8 @@
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（64件合格）、`PYTHONPYCACHEPREFIX=/tmp/sandbox-pages-pycache python3 -m py_compile ...`（合格）、Ruby YAML parse（合格）、`git diff --check`（合格）。Playwrightで`work_record_033.html`を1280px・900px・640px・320px幅で確認し、全viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。レポート: `/private/tmp/playwright-browser-verify/2026-08-20T09-23-12-880Z/report.json`。
 - 作業ブランチ: `codex/033-issue-19-actions`
 - コミット: `8f7d785`（Issue #19実装・テスト・作業記録）
-- PR: 未作成
-- PRレビュー・CI: PR未作成のため未実施
+- PR: [#37 Issue #19: 受入workflowへcommit・固定SHA deployを接続](https://github.com/tj-999-comp/sandbox-pages/pull/37)（Draft、base `main`、head `codex/033-issue-19-actions`）
+- PRレビュー・CI: Draft PR #37を作成。外部レビューとCIは未確認。
 - 未解決事項: GitHub Actions実環境での外部source checkout、apply commit、固定SHA Pages deploy、ruleset・branch保護、PRレビュー、CIは未確認。
 - 次アクション: GitHub接続復旧後に#19のworkflowを手動dispatchし、現行`enabled:false`ではno-opになることを確認する。#22で有効化した後、テスト用新規recordでcommit・Pages・公開URLを実行する。
 
