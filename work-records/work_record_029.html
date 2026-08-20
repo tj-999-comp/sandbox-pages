@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #14〜#16 Actions方針・Pages deploy・進捗index — 作業記録 029</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 029 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>Issue #14〜#16 Actions方針・Pages deploy・進捗index</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_029.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #14、#15、#16。</li><li>目的: Actions botの<code>main</code>反映方針を確定し、固定commit SHAのGitHub Pages deployと、provenance metadataだけを使うproject/global進捗indexを実装する。</li><li>完了条件: #14の判断・ruleset・権限・競合・復旧手順が文書化され、#15のworkflowと#16の決定的generatorがテストに合格し、生成indexをPC・320pxの実ブラウザで確認できていること。GitHub上のPages切替とruleset設定は、workflowを<code>main</code>へmergeした後に実施する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Planner</h3>
+<ul><li>入力: Issue #14〜#16、<code>projects/README.md</code>、GitHub上のruleset・Pages実状態。</li><li>実施内容: bot直接commit方式、人間変更のPR必須、job別最小permissions、許可差分、競合時の再適用上限、no-op、固定SHA deploy、緊急停止・復旧を決定した。GitHub APIではruleset 0件、Pagesは<code>main /</code>のlegacyであることを確認した。</li><li>成果物: <code>docs/ACTIONS_MAIN_POLICY.md</code>。</li><li>検証結果: #15、#17〜#19のworkflow契約と矛盾せず、sourceを<code>enabled: false</code>のまま維持する段階導入になっている。</li><li>未解決事項: <code>protect-main</code> rulesetのActive設定とPagesの<code>build_type: workflow</code>切替は、workflowのmerge後にGitHub上で実施する。</li><li>次工程への引き継ぎ: merge後にruleset証跡を取得し、Pages Actions切替と最初の固定SHA deployへ進む。</li></ul>
+<h3>Portfolio UI Designer / Copywriter</h3>
+<ul><li>入力: <code>DESIGN.md</code>、Issue #16、既存トップページ、provenanceに保存されたBの10件の正規化metadata。</li><li>実施内容: 白・parchment・ink・Action Blueを使う低密度の一覧、日付・project・basename・タイトルの視線順、global/project間の短い導線、320pxで1列になるレイアウトを設計した。タイトルや件数は事実だけを短く表示した。</li><li>成果物: <code>projects/progress-index.css</code>、global/project indexのHTML構造、サイトトップのProject progress導線。</li><li>検証結果: 1280/900/640/320pxで横overflowなし。見出し階層、skip link、リンクfocus、長い日本語タイトルの折り返しを確認した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: Frontend Engineerへ決定的HTML生成とgolden testを引き継いだ。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: #14方針、GitHub公式Pages workflow要件、公式Actionの現行major tag SHA、provenance manifest schema。</li><li>実施内容: <code>push</code>、<code>workflow_dispatch</code>、<code>workflow_call</code>に対応するPages workflowを追加し、build前とdeploy直前の2回、固定SHAとremote <code>main</code>の一致を検査した。公式Actionはcommit SHAへ固定し、buildは<code>contents: read</code>、deployは<code>contents: read</code>・<code>pages: write</code>・<code>id-token: write</code>へ分離した。provenance directoryごとの最新manifestを選び、metadataをescapeして日付降順・project ID・record番号降順でglobal/project indexを生成するCLIと<code>--check</code>を追加した。</li><li>成果物: <code>.github/workflows/deploy-pages.yml</code>、<code>.github/workflows/validate.yml</code>、<code>scripts/publish/index_generator.py</code>、<code>projects/index.html</code>、<code>projects/B_Stats_Site/index.html</code>、golden fixtureとテスト。</li><li>検証結果: unit test 50件、Python構文、YAML構文、index再生成check、work-record再生成check、filename validator、<code>git diff --check</code>に合格した。既存#12 no-opは、A所有project indexを生成元manifestから分離したうえで非回帰を確認した。</li><li>未解決事項: workflowのGitHub Actions実行、legacyからActionsへのPages設定変更、公開URLの本番確認はmerge前のため未実施。</li><li>次工程への引き継ぎ: Reviewer、Performance &amp; Accessibility Tester、PR工程へ引き継ぐ。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: <code>projects/index.html</code>、<code>projects/B_Stats_Site/index.html</code>、<code>index.html</code>、Playwright Browser Verify。</li><li>実施内容: 1280x900、900x900、640x900、320x800で表示し、横overflow、console error、page error、failed requestを確認した。Tabでskip linkへfocusし、global indexからproject index、既存<code>work_record_010.html</code>へ実リンクで遷移した。</li><li>成果物: <code>/private/tmp/playwright-browser-verify/2026-08-20T06-20-06-451Z/report.json</code>、<code>/private/tmp/playwright-browser-verify/2026-08-20T06-20-05-544Z/report.json</code>、<code>/private/tmp/playwright-browser-verify/2026-08-20T06-20-04-703Z/report.json</code>、scenario evidence。</li><li>検証結果: 全viewportで横overflowなし、console/page error・failed request 0件。h1は各ページ1件、skip linkとリンク遷移は期待どおりで合格した。</li><li>未解決事項: GitHub Pages公開URLはworkflow merge・Pages切替後に再確認する。</li><li>次工程への引き継ぎ: Reviewerへ静的検証とブラウザ証跡を引き継ぐ。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #14〜#16、全差分、unit test、生成check、ブラウザ証跡。</li><li>実施内容: 要件適合、権限分離、固定SHA照合、外部Action SHA固定、metadata以外を一覧文言へ使用していないこと、legacy補助HTMLを掲載していないこと、#12非回帰、作業記録と生成HTMLの対応を確認した。3ページの全ローカルリンクと変更対象ファイルも照合した。</li><li>成果物: PR作成前レビュー。</li><li>検証結果: 重大0件、中0件、軽微0件。差し戻し不要と判定した。</li><li>未解決事項: commit、push、PR、GitHub Actions CIは未実施。</li><li>次工程への引き継ぎ: 対象限定commit・push・Draft PRの明示承認後にPR工程へ進む。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 公開成果物の反映はA所有workflowの直接commit方式とし、人間変更はPR必須とする。</li><li>理由: 検証、provenance、index、commit、固定SHA deployを同じrunで監査でき、no-opで不要なPRを作らないため。</li><li>判断: Pages workflowはartifact作成前とdeploy直前にremote <code>main</code>を照合する。</li><li>理由: concurrency待機中に<code>main</code>が進んだ場合、古いartifactを公開しないため。</li><li>判断: project indexはA所有の派生成果物としてsource/published manifest inventoryから分離し、generator <code>--check</code>でdriftを検出する。</li><li>理由: Bへindexの所有を戻さず、bootstrap manifestをA所有派生物で循環更新しないため。生成元の同名<code>index.html</code>は引き続き受入対象外である。</li><li>判断: global indexは既存portfolio rootを置き換えず<code>projects/index.html</code>へ生成し、rootから導線を追加する。</li><li>理由: 既存ゲーム・keyboard導線を維持しつつ、複数projectの進捗一覧を独立して拡張できるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: #14の運用方針を文書化し、#15の固定SHA Pages workflowと#16のproject/global index generatorをローカル実装・検証した。</li><li>変更ファイル: <code>docs/ACTIONS_MAIN_POLICY.md</code>、<code>.github/workflows/deploy-pages.yml</code>、<code>.github/workflows/validate.yml</code>、<code>scripts/publish/index_generator.py</code>、<code>projects/progress-index.css</code>、<code>projects/index.html</code>、<code>projects/B_Stats_Site/index.html</code>、<code>index.html</code>、<code>projects/README.md</code>、#12境界修正、テスト・golden fixture、本作業記録と対応HTML。</li><li>検証結果: unit test 50件合格、Python/YAML構文合格、index/work-record生成check合格、filename validator合格、PC/320pxを含む4 viewportとキーボード操作に合格。</li><li>作業ブランチ: <code>codex/029-issues-14-16-pages-index</code></li><li>コミット: 未実施（明示承認待ち）。</li><li>PR: 未作成（明示承認待ち）。</li><li>PRレビュー・CI: ローカル事前レビューは重大0件、中0件、軽微0件で合格。GitHub Actions CIはpush後に確認する。</li><li>未解決事項: <code>protect-main</code> ruleset設定、PagesのActions切替、workflow本番実行、公開URLのPC/320px確認はmerge後に必要。sourceは<code>enabled: false</code>のまま維持する。</li><li>次アクション: 最終レビュー後に対象限定commit・push・Draft PRを作成し、merge後に#14/#15のGitHub設定と本番Pages確認を完了する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-20 15:22 取得範囲: <code>tj-999-comp/sandbox-pages</code> Issue #5、#14〜#17。GitHub sub-issue APIでは#14〜#17を#5の子として返さず、各Issue本文の<code>Parent: #5</code>参照だけを確認した。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">GitHub sub-issueとしての親子関係なし
+#14〜#17のIssue本文にParent: #5の参照あり</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/14">#14 Actions botのmain反映方針とbranch rulesetを確定する</a></td><td>Open</td><td>方針文書を実装。ruleset設定証跡はmerge後</td></tr><tr><td>2</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/15">#15 legacy PagesをカスタムActions deployへ移行する</a></td><td>Open</td><td>workflowを実装。Actions切替と本番deployはmerge後</td></tr><tr><td>3</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/16">#16 project・global進捗index generatorを実装する</a></td><td>Open</td><td>generator・golden test・ブラウザ確認済み。PR反映待ち</td></tr><tr><td>4</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/17">#17 read-only受入workflowをdry-runで実装する</a></td><td>Open</td><td>#14〜#16反映後の次工程</td></tr><tr><td>5</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/5">#5 プロジェクト進捗ページの自動公開を段階導入する</a></td><td>Open</td><td>親Epicとして本文から参照。critical path全体を追跡</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 029</span>
+        <span><a href="md/work_record_029.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
