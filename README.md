@@ -12,6 +12,7 @@
 
 補足:
 - 役割定義・詳細ルール・テンプレートはAGENTS.mdを参照
+- B/C/Dの作業・GitHub・作業記録標準は [docs/PORTFOLIO_STANDARD.md](docs/PORTFOLIO_STANDARD.md) を参照
 - UI作業はDESIGN.mdと該当するSkillsを参照
 - Markdown原本は `work-records/md/work_record_###.md` で管理する
 - 同じ番号のHTMLを `work-records/work_record_###.html` へ生成する

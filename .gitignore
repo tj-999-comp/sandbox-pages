@@ -2,3 +2,6 @@
 .env
 .env.*
 !.env.example
+
+# GitHub App private keys must remain outside the repository.
+*.pem
