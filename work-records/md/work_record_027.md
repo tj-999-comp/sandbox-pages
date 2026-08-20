@@ -24,7 +24,7 @@
 - 実施内容: source/public双方の完全一致、変更時の早期停止、読み取り専用性、bootstrapの`notify: false`を確認した。
 - 成果物: no-op判定と差分停止のレビュー結果。
 - 検証結果: 重大・中・軽微の未解決事項はない。
-- 未解決事項: GitHub CLIのAPI接続エラーによりIssueの最新状態は取得できていない。
+- 未解決事項: GitHub Actions workflowへの接続、外部B checkoutを使ったE2E、通常publish・Pages deploy・Slack通知は後続課題である。
 - 次工程への引き継ぎ: workflow実装時に、dry-run成功後の副作用が発生しないことをActions fixtureまたは実環境で再確認する。
 
 ## 主要な判断
@@ -44,19 +44,21 @@
 
 ## GitHub Issue状況
 
-確認日時（JST）: 2026-08-20（CLI/API接続エラーのため最新状態は取得不可）
-取得範囲: `tj-999-comp/sandbox-pages` のIssue #12、および関連する#5・#11
+確認日時（JST）: 2026-08-20 15:01
+取得範囲: `tj-999-comp/sandbox-pages` のIssue #5・#11・#12
 
 ### 親子関係
 
 ```text
-親子関係はGitHub API接続エラーのため取得不可
+Issue #5
+├── Issue #11（完了）
+└── Issue #12（本作業）
 ```
 
 ### 優先順位順の未完了一覧
 
 | 順位 | 優先度 | GitHub Issue | 状態 | 関係・着手条件 |
 | ---: | --- | --- | --- | --- |
-| 1 | P1 | [#12 既存Bのno-op同期dry-runを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/12) | 最新状態取得不可 | 本作業の対象。#10/#11の後続 |
-| 2 | P0 | [#5 プロジェクト進捗ページの自動公開を段階導入する](https://github.com/tj-999-comp/sandbox-pages/issues/5) | 最新状態取得不可 | 親Epic。dry-run後のworkflow・公開導線を含む |
-| 3 | P1 | [#11 B既存001〜010の初期provenance manifestを登録する](https://github.com/tj-999-comp/sandbox-pages/issues/11) | 最新状態取得不可 | 本作業の前提。初期manifestは登録済み |
+| 1 | P1 | [#12 既存Bのno-op同期dry-runを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/12) | Open | 本作業の対象。#10/#11の後続。workflow接続・E2Eは後続 |
+| 2 | P0 | [#5 プロジェクト進捗ページの自動公開を段階導入する](https://github.com/tj-999-comp/sandbox-pages/issues/5) | Open | 親Epic。dry-run後のworkflow・公開導線を含む |
+| 3 | P1 | [#11 B既存001〜010の初期provenance manifestを登録する](https://github.com/tj-999-comp/sandbox-pages/issues/11) | Closed（completed） | 本作業の前提。初期manifest登録済み |
