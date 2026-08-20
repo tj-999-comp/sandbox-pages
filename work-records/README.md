@@ -2,6 +2,8 @@
 
 更新日: 2026-08-18
 
+共通のGitHub・Issue・PR・B/C/D適用標準は[`docs/PORTFOLIO_STANDARD.md`](../docs/PORTFOLIO_STANDARD.md)を参照する。この文書は作業記録のMarkdown/HTML作成と表示検証を定める。
+
 このディレクトリには、リポジトリ内で行った調査、実装、判断、検証、残件を保存する。GitHub上のIssueと混同しないよう、ローカルの記録はすべて「作業記録」と呼ぶ。
 
 ## 呼称

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>B/C/D作業記録とGitHub運用の標準化 — 作業記録 028</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 028 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>B/C/D作業記録とGitHub運用の標準化</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_028.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: B、C、Dなど複数の生成元へ作業記録、GitHub、HTML公開の運用を拡張できる共通ガイドを整備する。</li><li>目的: GitHub接続、Issue・PR状態、Markdown/HTML作業記録、project追加、検証と例外処理を一つの標準へ揃える。</li><li>完了条件: 共通正本と各既存文書の参照関係が明確で、GitHub App接続設定とヘルパーが再利用でき、作業記録の生成・検証手順が既存テストへ影響しないこと。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Planner</h3>
+<ul><li>入力: 既存<code>AGENTS.md</code>、<code>README.md</code>、<code>work-records/README.md</code>、<code>projects/README.md</code>、ユーザー要件。</li><li>実施内容: 複数生成元を前提に、共通標準、Repository Aの公開契約、生成元ごとの作業記録運用、GitHub App認証の責務を分離した。Issue closeはPR merge後または明示承認後とする状態遷移を定義した。</li><li>成果物: <code>docs/PORTFOLIO_STANDARD.md</code>。</li><li>検証結果: B既存方式を維持し、C/Dは原則<code>a_rendered</code>で追加する適用順序を文書化した。</li><li>未解決事項: C/Dの具体的なsource repositoryとproject_idは未確定であり、registry追加は行っていない。</li><li>次工程への引き継ぎ: 新しい生成元ごとにregistry、validator fixture、no-op、E2Eを順番に追加する。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: GitHub AppのApp ID、Client ID、Macキーチェーン項目、既存Issue取得の失敗履歴。</li><li>実施内容: キーチェーンからPEMを読み、Client IDでJWTを生成し、対象repositoryのInstallation IDを自動発見して短期Installation tokenを発行する<code>github_app_token.py</code>と設定ファイルを追加した。秘密鍵・JWT・tokenはリポジトリへ保存しない。</li><li>成果物: <code>config/github_app.json</code>、<code>scripts/dev/github_app_token.py</code>、PEM漏洩防止の<code>.gitignore</code>設定。</li><li>検証結果: <code>py_compile</code>、ヘルプ表示、ユーザーのMac通常ターミナルでtoken発行とIssue取得の成功を確認した。</li><li>未解決事項: このsandbox実行環境はMacログインキーチェーンへアクセスできないため、同環境内での再現テストはできない。</li><li>次工程への引き継ぎ: Issue状況取得時は<code>GH_TOKEN="$(python3 scripts/dev/github_app_token.py --print-token)" gh ...</code>を使う。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 標準ガイド、既存運用文書、GitHub Appヘルパー。</li><li>実施内容: 正本文書の分担、Issue状態の推測禁止、HTML生成物の直接編集禁止、B/C/Dの有効化順序、secret非保存を確認した。</li><li>成果物: 参照関係と例外ルールのレビュー結果。</li><li>検証結果: 重大・中・軽微の未解決事項はない。</li><li>未解決事項: PR作成後のGitHub Actions CIは、この標準化変更のpush後に確認する。</li><li>次工程への引き継ぎ: staged diff、全テスト、作業記録HTML、ブラウザ確認を完了してからPRを作成する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 共通詳細は<code>docs/PORTFOLIO_STANDARD.md</code>へ集約し、<code>AGENTS.md</code>は実行上の必須ルール、<code>work-records/README.md</code>は記録生成、<code>projects/README.md</code>は公開受入契約に限定する。</li><li>理由: 同じルールを複数箇所へ全文複製すると、B/C/D追加時に内容が分岐するため。</li><li>判断: Issue closeはPR merge後または明示承認後とする。</li><li>理由: PR作成済みでもmainへ反映されていない状態を、公開完了と誤認しないため。</li><li>判断: GitHub APIには個人OAuth/PATではなく、実行時発行のGitHub App Installation tokenを使う。</li><li>理由: Macキーチェーンの期限切れ問題を避け、対象repository・権限を限定し、tokenを保存しないため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: B/C/D共通の作業記録・GitHub・HTML・project追加標準を文書化し、既存の正本から参照できるようにした。GitHub AppでIssue/PR/APIを取得するローカルヘルパーを追加し、対象repositoryのInstallation ID自動発見まで実装した。</li><li>変更ファイル: <code>docs/PORTFOLIO_STANDARD.md</code>、<code>AGENTS.md</code>、<code>README.md</code>、<code>work-records/README.md</code>、<code>projects/README.md</code>、<code>.gitignore</code>、<code>config/github_app.json</code>、<code>scripts/dev/github_app_token.py</code>、本作業記録のMarkdownと生成HTML。</li><li>検証結果: helperの<code>py_compile</code>、converter check、filename validator、既存unit test、作業記録HTMLのPC/320pxブラウザ確認を実行する。</li><li>作業ブランチ: <code>codex/029-standardize-work-records</code></li><li>コミット: 未実施</li><li>PR: 未作成</li><li>PRレビュー・CI: 未実施</li><li>未解決事項: C/Dのsource registry登録、公開workflow、Pages deploy、Issue closeの実運用接続は対象外。</li><li>次アクション: staged diffと全検証を確認し、commit・push・PR作成へ進む。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 028</span>
+        <span><a href="md/work_record_028.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
