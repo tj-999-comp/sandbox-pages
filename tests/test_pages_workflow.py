@@ -27,6 +27,21 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertNotIn("contents: write", workflow)
         self.assertIn("python3 -m scripts.publish.index_generator --check", workflow)
 
+    def test_source_acceptance_is_manual_read_only_and_dry_run_only(self):
+        workflow = (ROOT / ".github/workflows/accept-source.yml").read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", workflow)
+        for input_name in ("project_id", "source_commit_sha", "target_basename"):
+            self.assertIn(f"      {input_name}:", workflow)
+        self.assertIn("permissions: {}", workflow)
+        self.assertIn("contents: read", workflow)
+        self.assertNotIn("contents: write", workflow)
+        self.assertNotIn("secrets.", workflow)
+        self.assertIn('"$GITHUB_REF" != "refs/heads/main"', workflow)
+        self.assertIn("token: ${{ github.token }}", workflow)
+        acceptance = (ROOT / "scripts/publish/read_only_acceptance.py").read_text(encoding="utf-8")
+        self.assertIn('"merge-base", "--is-ancestor"', acceptance)
+        self.assertIn("dry_run", acceptance)
+
 
 if __name__ == "__main__":
     unittest.main()

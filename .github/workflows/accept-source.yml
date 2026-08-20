@@ -1,0 +1,107 @@
+name: Read-only source acceptance
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: Registered project identifier
+        required: true
+        type: string
+      source_commit_sha:
+        description: Exact source commit SHA to accept
+        required: true
+        type: string
+      target_basename:
+        description: Numbered work-record basename to inspect
+        required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: source-acceptance-${{ inputs.project_id }}
+  cancel-in-progress: false
+
+jobs:
+  dry-run:
+    name: Validate fixed source commit (dry-run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Repository A
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Require A main branch
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "read-only acceptance must run from Repository A main" >&2
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Resolve registered source
+        id: source
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+        run: |
+          set -euo pipefail
+          python3 -m scripts.publish.read_only_acceptance resolve \
+            --registry config/sources.json \
+            --project-id "$PROJECT_ID" \
+            --source-commit-sha "$SOURCE_COMMIT_SHA" \
+            --target-basename "$TARGET_BASENAME"
+
+      - name: Checkout registered source at fixed SHA
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: ${{ steps.source.outputs.source_repository }}
+          ref: ${{ inputs.source_commit_sha }}
+          token: ${{ github.token }}
+          path: _source
+          fetch-depth: 0
+          sparse-checkout: ${{ steps.source.outputs.source_directory }}
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+
+      - name: Verify source checkout
+        env:
+          SOURCE_BRANCH: ${{ steps.source.outputs.source_branch }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _source rev-parse HEAD)" = "$SOURCE_COMMIT_SHA"
+          test -n "$(git -C _source rev-parse --verify "refs/remotes/origin/$SOURCE_BRANCH^{commit}")"
+
+      - name: Run A-owned validators
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+        run: |
+          set -euo pipefail
+          python3 -m scripts.publish.read_only_acceptance run \
+            --registry config/sources.json \
+            --project-id "$PROJECT_ID" \
+            --source-commit-sha "$SOURCE_COMMIT_SHA" \
+            --target-basename "$TARGET_BASENAME" \
+            --source-checkout _source \
+            --branch-ref "refs/remotes/origin/${{ steps.source.outputs.source_branch }}" \
+            --provenance-root provenance \
+            --output-dir _acceptance
+
+      - name: Upload acceptance inventory and normalized metadata
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-acceptance-${{ inputs.project_id }}-${{ inputs.target_basename }}
+          path: _acceptance/acceptance.json
+          if-no-files-found: error
+          retention-days: 7
