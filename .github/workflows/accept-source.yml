@@ -1,4 +1,4 @@
-name: Read-only source acceptance
+name: Source acceptance and publish
 
 on:
   workflow_dispatch:
@@ -19,7 +19,7 @@ on:
 permissions: {}
 
 concurrency:
-  group: source-acceptance-${{ inputs.project_id }}
+  group: pages-production-main
   cancel-in-progress: false
 
 jobs:
@@ -27,6 +27,10 @@ jobs:
     name: Validate fixed source commit (dry-run)
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      source_repository: ${{ steps.source.outputs.source_repository }}
+      source_branch: ${{ steps.source.outputs.source_branch }}
+      source_directory: ${{ steps.source.outputs.source_directory }}
     permissions:
       contents: read
     steps:
@@ -58,7 +62,8 @@ jobs:
             --registry config/sources.json \
             --project-id "$PROJECT_ID" \
             --source-commit-sha "$SOURCE_COMMIT_SHA" \
-            --target-basename "$TARGET_BASENAME"
+            --target-basename "$TARGET_BASENAME" \
+            --allow-enabled
 
       - name: Checkout registered source at fixed SHA
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -96,7 +101,8 @@ jobs:
             --source-checkout _source \
             --branch-ref "refs/remotes/origin/${{ steps.source.outputs.source_branch }}" \
             --provenance-root provenance \
-            --output-dir _acceptance
+            --output-dir _acceptance \
+            --allow-enabled
 
       - name: Upload acceptance inventory and normalized metadata
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -105,3 +111,153 @@ jobs:
           path: _acceptance/acceptance.json
           if-no-files-found: error
           retention-days: 7
+
+  apply:
+    name: Apply validated source and deploy fixed commit
+    needs: dry-run
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    outputs:
+      commit_sha: ${{ steps.apply.outputs.commit_sha }}
+      no_op: ${{ steps.apply.outputs.no_op }}
+    steps:
+      - name: Checkout latest Repository A main
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: refs/heads/main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Require A main branch
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "source apply must run from Repository A main" >&2
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Download validated acceptance payload
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: source-acceptance-${{ inputs.project_id }}-${{ inputs.target_basename }}
+          path: _acceptance
+
+      - name: Checkout registered source at fixed SHA
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: ${{ needs.dry-run.outputs.source_repository }}
+          ref: ${{ inputs.source_commit_sha }}
+          token: ${{ github.token }}
+          path: _source
+          fetch-depth: 0
+          sparse-checkout: ${{ needs.dry-run.outputs.source_directory }}
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+
+      - name: Verify fixed source checkout
+        env:
+          SOURCE_BRANCH: ${{ needs.dry-run.outputs.source_branch }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+        run: |
+          set -euo pipefail
+          test "$(git -C _source rev-parse HEAD)" = "$SOURCE_COMMIT_SHA"
+          test -n "$(git -C _source rev-parse --verify "refs/remotes/origin/$SOURCE_BRANCH^{commit}")"
+
+      - name: Move external inputs outside Repository A worktree
+        run: |
+          set -euo pipefail
+          mv _source "$RUNNER_TEMP/source"
+          mv _acceptance "$RUNNER_TEMP/acceptance"
+
+      - name: Apply, commit, and push with one bounded retry
+        id: apply
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if [[ "$(jq -r '.enabled' "$RUNNER_TEMP/acceptance/acceptance.json")" != "true" ]]; then
+            echo '{"no_op":true,"reason":"source is disabled; validation completed without apply"}' > "$RUNNER_TEMP/apply-result.json"
+            echo "no_op=true" >> "$GITHUB_OUTPUT"
+            echo "commit_sha=" >> "$GITHUB_OUTPUT"
+            cp "$RUNNER_TEMP/apply-result.json" _apply-result.json
+            exit 0
+          fi
+
+          for retry in 0 1; do
+            git fetch --no-tags origin main
+            git checkout --detach origin/main
+            git clean -ffdx
+            expected_main_sha="$(git rev-parse HEAD)"
+
+            result="$(python3 -m scripts.publish.apply_engine \
+              --acceptance "$RUNNER_TEMP/acceptance/acceptance.json" \
+              --source-checkout "$RUNNER_TEMP/source" \
+              --repository-root . \
+              --registry config/sources.json \
+              --provenance-root provenance \
+              --publication-id "accept-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${PROJECT_ID}-${TARGET_BASENAME}" \
+              --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+              --operation auto \
+              --expected-main-sha "$expected_main_sha" \
+              --source-branch-ref "refs/remotes/origin/${{ needs.dry-run.outputs.source_branch }}")"
+            echo "$result" > "$RUNNER_TEMP/apply-result.json"
+
+            if [[ "$(jq -r '.no_op' <<<"$result")" == "true" ]]; then
+              echo "no_op=true" >> "$GITHUB_OUTPUT"
+              echo "commit_sha=" >> "$GITHUB_OUTPUT"
+              cp "$RUNNER_TEMP/apply-result.json" _apply-result.json
+              exit 0
+            fi
+
+            destination_directory="$(jq -r '.changed_paths[]' <<<"$result" | sed -n 's#^\(projects/[^/]\+\).*#\1#p' | head -n 1)"
+            test -n "$destination_directory"
+            git add -- "$destination_directory" projects/index.html "provenance/$PROJECT_ID"
+            git diff --cached --check
+            git commit -m "chore(publish): apply $PROJECT_ID $TARGET_BASENAME"
+
+            if git push origin HEAD:refs/heads/main; then
+              commit_sha="$(git rev-parse HEAD)"
+              echo "commit_sha=$commit_sha" >> "$GITHUB_OUTPUT"
+              echo "no_op=false" >> "$GITHUB_OUTPUT"
+              cp "$RUNNER_TEMP/apply-result.json" _apply-result.json
+              exit 0
+            fi
+
+            if [[ "$retry" == "1" ]]; then
+              echo "main advanced again while pushing the apply commit" >&2
+              exit 1
+            fi
+            echo "main advanced during apply; rechecking and retrying once" >&2
+          done
+
+      - name: Upload apply result
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: source-apply-${{ inputs.project_id }}-${{ inputs.target_basename }}
+          path: _apply-result.json
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: Deploy committed fixed SHA
+    needs: apply
+    if: needs.apply.outputs.no_op != 'true'
+    uses: ./.github/workflows/deploy-pages.yml
+    with:
+      commit_sha: ${{ needs.apply.outputs.commit_sha }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

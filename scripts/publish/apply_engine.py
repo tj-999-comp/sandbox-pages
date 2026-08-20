@@ -279,6 +279,15 @@ def apply_with_bounded_retry(
     raise ApplyConflictError("apply retry limit exceeded")
 
 
+def infer_operation(*, acceptance_path: str | Path, provenance_root: str | Path) -> str:
+    """Infer create/update from the latest manifest without trusting source input."""
+
+    payload = _load_acceptance(acceptance_path)
+    previous = _latest_manifest(Path(provenance_root), payload["project_id"])
+    basenames = {record["basename"] for record in previous["records"]}
+    return "update" if payload["target_basename"] in basenames else "create"
+
+
 def _load_acceptance(path: str | Path) -> dict[str, Any]:
     try:
         data = json.loads(Path(path).read_text(encoding="utf-8"))
@@ -602,7 +611,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--provenance-root", type=Path, default=None)
     parser.add_argument("--publication-id", required=True)
     parser.add_argument("--accepted-at", required=True)
-    parser.add_argument("--operation", choices=("create", "update"), required=True)
+    parser.add_argument(
+        "--operation", choices=("auto", "create", "update"), default="auto"
+    )
     parser.add_argument("--expected-main-sha")
     parser.add_argument("--source-branch-ref")
     parser.add_argument("--notify", action="store_true")
@@ -611,6 +622,12 @@ def main(argv: list[str] | None = None) -> int:
     registry = args.registry or root / "config/sources.json"
     provenance = args.provenance_root or root / "provenance"
     try:
+        operation = args.operation
+        if operation == "auto":
+            operation = infer_operation(
+                acceptance_path=args.acceptance,
+                provenance_root=provenance,
+            )
         result = apply_verified_payload(
             acceptance_path=args.acceptance,
             source_checkout=args.source_checkout,
@@ -619,7 +636,7 @@ def main(argv: list[str] | None = None) -> int:
             provenance_root=provenance,
             publication_id=args.publication_id,
             accepted_at=args.accepted_at,
-            operation=args.operation,
+            operation=operation,
             expected_main_sha=args.expected_main_sha,
             source_branch_ref=args.source_branch_ref,
             notify=args.notify,

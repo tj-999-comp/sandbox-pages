@@ -25,6 +25,32 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
         self.assertEqual(source["source_repository"], "tj-999-comp/B_Stats_Site")
         self.assertFalse(source["enabled"])
 
+    def test_enabled_source_requires_explicit_apply_mode_opt_in(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            registry = json.loads(
+                (ROOT / "config/sources.json").read_text(encoding="utf-8")
+            )
+            registry["sources"][0]["enabled"] = True
+            registry_path = Path(temp_dir) / "sources.json"
+            registry_path.write_text(json.dumps(registry), encoding="utf-8")
+
+            with self.assertRaisesRegex(ReadOnlyAcceptanceError, "enabled:false"):
+                resolve_source(
+                    registry_path=registry_path,
+                    project_id="B_Stats_Site",
+                    source_commit_sha="a" * 40,
+                    target_basename="work_record_001",
+                )
+
+            source = resolve_source(
+                registry_path=registry_path,
+                project_id="B_Stats_Site",
+                source_commit_sha="a" * 40,
+                target_basename="work_record_001",
+                allow_enabled=True,
+            )
+            self.assertTrue(source["enabled"])
+
     def test_run_acceptance_outputs_selected_inventory_and_metadata(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             temp = Path(temp_dir)
