@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import tempfile
 import unittest
@@ -18,7 +20,7 @@ class SyncDryRunTests(unittest.TestCase):
             source_tree = source_root / "work-records"
             published_root = Path(temp) / "published"
             _copy_tree(ROOT / "projects/B_Stats_Site", published_root)
-            _copy_tree(ROOT / "projects/B_Stats_Site", source_tree)
+            _copy_tree(ROOT / "projects/B_Stats_Site", source_tree, exclude={"index.html"})
             result = run_noop_dry_run(
                 source_root=source_root,
                 published_root=published_root,
@@ -33,7 +35,11 @@ class SyncDryRunTests(unittest.TestCase):
     def test_published_extra_file_stops_before_any_sync(self):
         with tempfile.TemporaryDirectory() as temp:
             source_root = Path(temp) / "source"
-            _copy_tree(ROOT / "projects/B_Stats_Site", source_root / "work-records")
+            _copy_tree(
+                ROOT / "projects/B_Stats_Site",
+                source_root / "work-records",
+                exclude={"index.html"},
+            )
             published_root = Path(temp) / "published"
             _copy_tree(ROOT / "projects/B_Stats_Site", published_root)
             (published_root / "unexpected.txt").write_text("do not overwrite", encoding="utf-8")
@@ -48,7 +54,11 @@ class SyncDryRunTests(unittest.TestCase):
     def test_source_change_stops_before_published_comparison(self):
         with tempfile.TemporaryDirectory() as temp:
             source_root = Path(temp) / "source"
-            _copy_tree(ROOT / "projects/B_Stats_Site", source_root / "work-records")
+            _copy_tree(
+                ROOT / "projects/B_Stats_Site",
+                source_root / "work-records",
+                exclude={"index.html"},
+            )
             (source_root / "work-records/README.md").write_text("changed", encoding="utf-8")
             with self.assertRaisesRegex(SyncDryRunError, "source inventory.*changed=README.md"):
                 run_noop_dry_run(
@@ -59,9 +69,12 @@ class SyncDryRunTests(unittest.TestCase):
                 )
 
 
-def _copy_tree(source: Path, destination: Path) -> None:
+def _copy_tree(source: Path, destination: Path, exclude: set[str] | None = None) -> None:
+    excluded = exclude or set()
     for path in source.rglob("*"):
         relative = path.relative_to(source)
+        if relative.as_posix() in excluded:
+            continue
         target = destination / relative
         if path.is_dir():
             target.mkdir(parents=True, exist_ok=True)

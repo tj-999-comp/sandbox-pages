@@ -334,6 +334,8 @@ projectごとに公開リポジトリが管理し、少なくとも次を記録�
 
 manifestの`source_files`はA#8で受入した生成元ファイルのdigest、`published_files`は実際に公開先へ反映したファイルのdigestとして分ける。`a_rendered`ではAが生成したHTMLを`published_files`へ含められるため、両者は同一集合であることを要求しない。`records`には各`work_record_###`の公開URL、正規化metadata、metadata digestを記録する。
 
+project単位の`index.html`と`projects/index.html`はA所有の派生成果物であり、生成元payloadとproject単位の`published_files`には含めない。indexのdriftはprovenance metadataからの決定的再生成checkで検出し、生成元のno-op比較では公開側のA所有`index.html`だけを除外する。生成元に同名`index.html`があっても受入対象にはしない。
+
 drift検査は直前manifestの`published_files`と現在の公開ファイルをpath・size・SHA-256で完全比較する。missing、extra、changedのいずれかがあれば自動上書きせず失敗し、manifestや公開先を更新しない。
 
 公開リポジトリの生成物が記録済みdigestと異なる場合、自動上書きせず停止する。
@@ -345,6 +347,13 @@ drift検査は直前manifestの`published_files`と現在の公開ファイル�
 - provenance manifestに保存した正規化済みmetadataをHTML escapeし、日付の降順と安定した第二ソートキーで決定的に生成する。
 - indexからは既存の公開URLへリンクする。
 - 生成元側の「作業記録とは別の一覧HTMLを作らない」という規則と、公開サイト側のindexは責務が異なるため両立する。
+
+`scripts.publish.index_generator`は`provenance/<project_id>/`ごとに`accepted_at`と`publication_id`が最新の検証済みmanifestを選び、`projects/index.html`と`projects/<project_id>/index.html`を生成する。出力へ生成時刻を含めず、日付降順、project ID、record番号降順で決定的に並べる。
+
+```bash
+python3 -m scripts.publish.index_generator
+python3 -m scripts.publish.index_generator --check
+```
 
 ## 公開取り下げ
 
@@ -384,7 +393,7 @@ TokenやWebhook URLをリポジトリ、metadata、ログへ記載しない。To
 
 Actionsのpublish automationは、公開リポジトリだけにインストールした必要最小限のGitHub Appと短期installation tokenへ移行する。ローカルのIssue・PR取得も、リポジトリ内の`docs/PORTFOLIO_STANDARD.md`に従い、同じくGitHub App tokenを使う。非公開の生成元を追加する場合は、公開リポジトリ側に生成元read用の別権限を用意し、dispatch tokenと兼用しない。
 
-公開リポジトリのworkflowが`main`へcommitできるよう、branch rulesetとbotの扱いを公開リポジトリ側で明文化する。直接commitを許可しない場合は、A workflowがPRを作成し、承認・merge後にdeployする。
+公開リポジトリのworkflowが`main`へcommitする際のbranch ruleset、bot例外、最小permissions、競合、緊急停止・復旧方針は[`docs/ACTIONS_MAIN_POLICY.md`](../docs/ACTIONS_MAIN_POLICY.md)を正本とする。人間の変更はPRを必須とし、Actions botの直接commitはA所有workflowが検証した公開成果物、index、provenance manifestだけに限定する。
 
 ## 現在の同期基準
 

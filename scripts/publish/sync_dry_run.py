@@ -76,7 +76,12 @@ def run_noop_dry_run(
     actual_source = _file_map(accepted)
     _assert_inventory_match("source", expected_source, actual_source)
 
-    actual_published = _file_map(_inventory_directory(Path(published_root)))
+    # Project index files are derived and owned by repository A. They are
+    # verified by index_generator --check instead of the source publication
+    # manifest, which intentionally tracks only accepted project payloads.
+    actual_published = _file_map(
+        _inventory_directory(Path(published_root), ignored_paths={"index.html"})
+    )
     expected_published = _file_map(manifest["published_files"])
     _assert_inventory_match("published", expected_published, actual_published)
 
@@ -90,15 +95,20 @@ def run_noop_dry_run(
     )
 
 
-def _inventory_directory(root: Path) -> list[AcceptedFile]:
+def _inventory_directory(
+    root: Path, *, ignored_paths: set[str] | None = None
+) -> list[AcceptedFile]:
     if not root.is_dir() or root.is_symlink():
         raise SyncDryRunError(f"published root must be a regular directory: {root}")
     files: list[AcceptedFile] = []
+    ignored = ignored_paths or set()
     for path in sorted(root.rglob("*"), key=lambda item: item.as_posix()):
         relative = path.relative_to(root).as_posix()
         if path.is_symlink():
             raise SyncDryRunError(f"published tree contains a symlink: {relative}")
         if path.is_dir():
+            continue
+        if relative in ignored:
             continue
         if not path.is_file():
             raise SyncDryRunError(f"published tree contains a non-regular file: {relative}")
