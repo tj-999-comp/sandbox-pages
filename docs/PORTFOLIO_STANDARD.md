@@ -50,7 +50,7 @@ Git操作の認証はSSHを基本とし、GitHub API用のInstallation tokenと�
 
 ### Issueスナップショット
 
-Issue状況を作業記録へ記載する場合、作成直前に次を取得する。
+すべての作業記録にIssue状況を記載する。Issueに直接関係しない作業であっても省略せず、作業記録の作成直前に次を取得する。
 
 - 対象Issueの番号、タイトル、URL、state、state reason
 - 関連する親Issue・子Issue・依存Issue
