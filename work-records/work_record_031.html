@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>未完了一覧のIssueスナップショット再取得ルールを標準化 — 作業記録 031</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 031 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>未完了一覧のIssueスナップショット再取得ルールを標準化</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_031.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 作業記録の未完了一覧が、現在のOpen Issue総数ではなく、過去に限定取得したIssue範囲だけを反映していた。</li><li>目的: 作業記録ごとに未完了一覧をGitHubから再取得し、集計範囲と一覧の内容を一致させる。</li><li>完了条件: <code>docs/PORTFOLIO_STANDARD.md</code>へ再取得、対象範囲、除外範囲、件数一致のルールを追記し、作業記録と対応HTMLを生成・検証して<code>main</code>へpushする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>work_record_030</code>で確認された、現在のOpen Issue数と記録内の未完了一覧の差異。</li><li>実施内容: Issueスナップショットの標準に、未完了一覧を作業記録ごとにGitHub APIから再取得すること、複数リポジトリ・関連Issueを含む場合の対象範囲明記、限定取得時の理由・除外範囲の記録、件数と行数の一致を追記した。</li><li>成果物: <code>docs/PORTFOLIO_STANDARD.md</code>、本作業記録のMarkdown原本と対応HTML。</li><li>検証結果: <code>git diff --check</code>、作業記録ファイル名検証、HTML生成後の再生成差分検証に合格した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: 今後の作業記録では、作成直前のOpen Issue一覧を取得して記録する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 標準文書の追記差分、作業記録テンプレート、HTML生成結果。</li><li>実施内容: 未完了一覧の再取得条件、対象範囲の記録、件数と一覧行数の一致が明文化され、既存のGitHub API失敗時の扱いと矛盾しないことを確認した。</li><li>成果物: commit前の差分レビュー。</li><li>検証結果: 対象ファイル以外の変更がないこと、Markdownと生成HTMLの対応、差分の空白エラーがないことを確認した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: <code>main</code>への限定commit・pushを行う。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 未完了一覧は過去の作業記録やIssue本文の一覧を引き継がず、作業記録作成直前のOpen Issueスナップショットから作成する。</li><li>理由: Issueの追加・状態変更による現在数との乖離を防ぎ、記録時点の対象範囲と一覧内容を追跡可能にするため。</li><li>判断: 対象範囲を限定する場合は、対象条件と除外範囲を作業記録に残す。</li><li>理由: 特定リポジトリや親Issue配下だけを集計した場合でも、全体のOpen Issue数と混同しないようにするため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 未完了一覧を作業記録ごとに再取得するルールと、範囲・件数の整合条件を標準文書へ追加した。</li><li>変更ファイル: <code>docs/PORTFOLIO_STANDARD.md</code>、<code>work-records/md/work_record_031.md</code>、<code>work-records/work_record_031.html</code>。</li><li>検証結果: <code>git diff --check</code> 合格、<code>python3 scripts/dev/convert_work_records_to_html.py --check</code> 合格、<code>python3 scripts/dev/validate_work_record_filenames.py</code> 合格。</li><li>作業ブランチ: <code>main</code>（ドキュメントのみのため標準に従い直接push）。</li><li>コミット: 作業記録・HTML生成後のcommitとして完了報告に記載。</li><li>PR: 作成なし。ドキュメント専用の短縮工程を適用。</li><li>PRレビュー・CI: PRなし。ローカル差分・生成物検証を実施。</li><li>未解決事項: なし。</li><li>次アクション: 次回以降の作業記録作成時に、GitHubからOpen Issue一覧を都度取得する。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 031</span>
+        <span><a href="md/work_record_031.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
