@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #18 許可範囲限定の同期apply engine — 作業記録 032</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 032 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>Issue #18 許可範囲限定の同期apply engine</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_032.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: Issue #5のPhase 4として、検証済み受入payloadを公開リポジトリへ反映するapply engineが未実装だった。</li><li>目的: A側で受入payload、source inventory、直前provenance、公開ファイル、生成indexを再照合し、対象projectだけを安全に反映できるようにする。</li><li>完了条件: 許可範囲外差分、manifest drift、payload改ざん、no-op、競合、削除・改名を拒否または安全に扱い、対象projectの公開ファイル・provenance・indexを一貫して更新する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: GitHub Issue #18、<code>scripts/publish/read_only_acceptance.py</code>、<code>scripts/publish/provenance.py</code>、<code>scripts/publish/index_generator.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>。</li><li>実施内容: <code>apply_engine.py</code>を追加し、read-only acceptance JSONの厳格なfield検証、registry照合、source固定SHA・branch来歴確認、source inventoryとtarget digestの再照合、metadata再検証、直前manifest drift検査、生成indexの事前検査を実装した。公開ツリーは一時ディレクトリで組み立て、metadataを公開せず、対象projectの通常ファイルだけを上書きし、manifestとglobal/project indexを同時に反映する。<code>publish:false</code>、<code>withdraw</code>、<code>a_rendered</code>、自動削除・改名は専用workflowへ分離して拒否した。</li><li>成果物: <code>scripts/publish/apply_engine.py</code>、<code>tests/test_apply_engine.py</code>。</li><li>検証結果: create、metadata改ざん、manifest drift、余計な公開ファイル、別project redirect、no-op、競合retryのテストを追加し、全61件のunit testに合格した。</li><li>未解決事項: GitHub Actions上での実apply、commit・固定SHA deploy、Bの実sourceを使った手動E2EはIssue #19以降の工程で実施する。</li><li>次工程への引き継ぎ: Issue #19でworkflowからengineを呼び出し、最新mainの再checkout・commit・Pages deployへ接続する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: #18の完了条件、apply engineと専用テスト、既存のprovenance/index実装。</li><li>実施内容: 対象project以外への書き込み境界、直前manifestとの差分、同一run payloadのdigest、index生成、no-op、競合retry、危険な削除・改名の扱いをレビューした。サブエージェントを利用できないため、主担当がReviewer基準で差分を再確認した。</li><li>成果物: commit前レビュー結果。</li><li>検証結果: 重大0件。<code>git diff --check</code>、Python構文確認、全unit test合格を確認した。</li><li>未解決事項: GitHub Actionsの実workflowと外部PRレビューは未実施。</li><li>次工程への引き継ぎ: Issue #19のworkflow実装時に、clean worktree、expected main SHA、bounded retryをworkflow境界でも再確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 実ファイルへの書き込み前に一時destinationで公開ファイル、manifest、indexを組み立てる。</li><li>理由: driftやpayload不一致の途中で公開ツリーだけが更新される状態を避けるため。</li><li>判断: <code>provenance/&lt;project_id&gt;/</code>の直前manifestと公開ファイルを完全比較し、extra・missing・changedのいずれも自動修復しない。</li><li>理由: 手動変更や別工程の破損をapplyが上書きせず、監査可能な復旧へ戻すため。</li><li>判断: <code>apply_with_bounded_retry</code>の再試行上限を1回に固定する。</li><li>理由: main進行時に対象projectだけを最新SHAへ再適用できる一方、再競合を無制限に繰り返さないため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: #18のA側apply engineと再現可能な安全性テストを実装した。検証済みpayloadの再照合、対象project限定反映、provenance manifest更新、global/project index再生成、no-op、drift拒否、競合上限をコード化した。</li><li>変更ファイル: <code>scripts/publish/apply_engine.py</code>、<code>tests/test_apply_engine.py</code>、本作業記録のMarkdown原本と対応HTML。</li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（61件合格）、Python構文確認（合格）、<code>git diff --check</code>（合格）。表示コード変更はないためブラウザ確認は対象外。</li><li>作業ブランチ: <code>codex/032-issue-18-apply-engine</code></li><li>コミット: <code>34095b0</code>（apply engine・テスト・作業記録）。PR情報追記は後続commitで反映する。</li><li>PR: <a href="https://github.com/tj-999-comp/sandbox-pages/pull/36">#36 Issue #18: 許可範囲限定の同期apply engineを実装</a>（Draft、base <code>main</code>、head <code>codex/032-issue-18-apply-engine</code>）。</li><li>PRレビュー・CI: GitHub上の差分は4ファイルで意図した#18対応のみ。<code>validate</code> run <code>32351101736</code>はpass。外部レビューは未実施。</li><li>未解決事項: #19で受入workflowへ接続し、GitHub Actionsの実apply・commit・固定SHA deployを確認する必要がある。</li><li>次アクション: Draft PR #36の外部レビューを確認し、#19のActions接続へ進む。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-20 17:46 取得範囲: <code>tj-999-comp/sandbox-pages</code>の全Open Issue。Issue一覧APIは9件の番号・タイトル・状態を取得できた。個別Issue本文の再取得はGitHub API接続が断続的に失敗したため、#5と#18のみ本作業中に取得できた本文で関係を確認し、その他の親子関係は未確認と記録する。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">sandbox-pages #5が親Epic。
+sandbox-pages #18はIssue本文のParent: #5参照を取得済み。
+#13、#19、#20、#21、#22、#23、#24の個別本文は今回の再取得に失敗したため、関係未確認。</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td>[#5 [Epic] プロジェクト進捗ページの自動公開を段階導入する](https://github.com/tj-999-comp/sandbox-pages/issues/5)</td><td>Open</td><td>親Epic。critical path全体を追跡</td></tr><tr><td>2</td><td>P1</td><td>[#18 [Publish] 許可範囲限定の同期apply engineを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/18)</td><td>Open</td><td>Phase 4。#10、#16、#17完了後。今回の対象</td></tr><tr><td>3</td><td>P1</td><td>[#19 [Actions] 受入workflowへcommit・固定SHA deployを接続する](https://github.com/tj-999-comp/sandbox-pages/issues/19)</td><td>Open</td><td>#18完了後の次工程。個別本文は未再取得</td></tr><tr><td>4</td><td>P1</td><td>[#20 [Notification] deploy成功後のSlack通知jobを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/20)</td><td>Open</td><td>#19後の通知工程。個別本文は未再取得</td></tr><tr><td>5</td><td>P1</td><td>[#21 [E2E] disabled sourceでBの受入dry-runを実行する](https://github.com/tj-999-comp/sandbox-pages/issues/21)</td><td>Open</td><td>#18とB側準備完了後。個別本文は未再取得</td></tr><tr><td>6</td><td>P1</td><td>[#22 [Activation] B sourceを手動E2E可能な状態へ有効化する](https://github.com/tj-999-comp/sandbox-pages/issues/22)</td><td>Open</td><td>#19、#21完了後。個別本文は未再取得</td></tr><tr><td>7</td><td>P1</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>Open</td><td>#20とB側準備完了後。個別本文は未再取得</td></tr><tr><td>8</td><td>P2</td><td>[#13 [Renderer] a_rendered用の決定的rendererを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/13)</td><td>Open</td><td>Phase 6。critical path外。個別本文は未再取得</td></tr><tr><td>9</td><td>P2</td><td>[#24 [Operations] 監査可能な公開取り下げworkflowを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/24)</td><td>Open</td><td>Phase 6。critical path外。個別本文は未再取得</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 032</span>
+        <span><a href="md/work_record_032.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
