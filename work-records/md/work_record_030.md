@@ -42,11 +42,11 @@
 - 変更ファイル: `.github/workflows/accept-source.yml`、`scripts/publish/read_only_acceptance.py`、`tests/test_read_only_acceptance.py`、`tests/test_pages_workflow.py`、本作業記録と対応HTML。
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（54件合格）、`PYTHONPYCACHEPREFIX=/tmp/sandbox-pages-pycache python3 -m py_compile scripts/publish/read_only_acceptance.py`（合格）、workflow YAML parse（合格）、`git diff --check`（合格）。通常のpy_compileは環境側Pythonキャッシュ先の権限で失敗したため、一時キャッシュ先で再実行した。
 - 作業ブランチ: `codex/031-issue-17-read-only-acceptance`
-- コミット: `0e66fb3`（実装・作業記録）、作業記録更新commitはPRへ追加予定
+- コミット: `0e66fb3`（実装）、`329a0b1`（PR・CI情報を記録）
 - PR: [#35 Issue #17: read-only受入workflowのdry-runを追加](https://github.com/tj-999-comp/sandbox-pages/pull/35)（Draft、base `main`）
-- PRレビュー・CI: GitHub上の差分は6ファイル・729行で意図した#17対応だけ。`Validate` run #5はsuccess。外部レビューは未実施。
-- 未解決事項: GitHub Actions実環境での手動dispatch、実生成元Bからの固定SHA取得、artifact確認、外部PRレビューは未実施。作業記録更新commitをPRへ反映する。
-- 次アクション: 作業記録更新commitをpushし、Draft PR #35の外部レビュー・CI追加結果を確認する。
+- PRレビュー・CI: GitHub上の差分は6ファイル・729行で意図した#17対応だけ。`Validate` run #5はsuccess。作業記録更新commitもPRへpush済み。外部レビューは未実施。
+- 未解決事項: GitHub Actions実環境での手動dispatch、実生成元Bからの固定SHA取得、artifact確認、外部PRレビューは未実施。
+- 次アクション: Draft PR #35の外部レビューと追加CI結果を確認する。
 
 ## GitHub Issue状況
 
