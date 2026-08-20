@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #9 HTML・CSS・URL安全validator — 作業記録 024</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 024 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>Issue #9 HTML・CSS・URL安全validator</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_024.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: AI生成HTMLを同一GitHub Pages originへ受け入れる前に、A側でHTML・CSS・URL・ローカル依存をallowlist検証する。</li><li>目的: 作業リポジトリ（B）の自己検証だけに依存せず、公開リポジトリ（A）が危険な実行機能、外部依存、project外参照、依存不足を独立して拒否できるようにする。</li><li>完了条件: Issue #9に記載された危険HTML要素・属性、危険URL、外部CSS、CSS実行構文、依存不足、<code>../README.md</code>を拒否するfixtureがあり、現行の安全な作業記録HTML/CSSを受け入れられること。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: 公開リポジトリ（A）のIssue #9、<code>projects/README.md</code>、Issue #8の<code>acceptance_files</code>、現行作業記録HTMLと<code>work_record.css</code>。</li><li>実施内容: Python標準ライブラリの<code>HTMLParser</code>で要素・属性・構造を検証し、<code>script</code>、<code>iframe</code>、<code>object</code>、<code>embed</code>、<code>form</code>、<code>base</code>、meta refresh、inline event handler、未知属性を拒否するvalidatorを追加した。URLはfragment、project内相対URL、許可HTTPSへ限定し、<code>..</code>、絶対path、protocol-relative、危険scheme、認証情報付きHTTPSを拒否するようにした。CSSは<code>@media</code>と登録済みpropertyだけを許可し、<code>@import</code>、外部・protocol-relative・危険な<code>url()</code>、<code>expression</code>、<code>behavior</code>、<code>-moz-binding</code>を拒否するようにした。</li><li>成果物: <code>scripts/publish/content_safety.py</code>、<code>tests/test_content_safety.py</code>、A#9の責務・拒否方針を追記した<code>projects/README.md</code>。</li><li>検証結果: 現行<code>work_record_023.html</code>とCSS、正常系fixture、危険要素・属性、危険URL、依存不足、CSS攻撃構文、source tree統合のテストが成功した。</li><li>未解決事項: Aの受入workflowから固定commitを取得して全HTMLへ適用する処理、provenance、Pages反映は後続Issueの対象である。</li><li>次工程への引き継ぎ: A#10のprovenance manifestで、A#8のファイルdigestとA#9の検証済み依存を記録する。A#17以降でdry-run workflowへ接続する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #9の完了条件、HTML/CSS allowlist、URL解決処理、fixtureテスト、公開契約。</li><li>実施内容: B側の自己検証とA側の最終受入を分離し、A側が固定commit上のHTML/CSSを再解析する設計、<code>../README.md</code>を含むproject外参照拒否、support fileと同名Markdownの依存確認をレビューした。</li><li>成果物: Aが公開可否の最終判断を保持する責務分担の明文化。</li><li>検証結果: 重大・中・軽微の未解決事項はない。A#9単体の安全検証として範囲は妥当である。</li><li>未解決事項: 実際のGitHub Actions dispatch、固定SHA checkout、Pages deployを通したE2Eは未実施である。</li><li>次工程への引き継ぎ: A#10以降でdigest・検証結果・公開操作をprovenanceへ結び付ける。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: AのHTML安全検証は、既存HTMLが使っている要素・属性・CSS propertyを基準に狭いallowlistで実装する。</li><li>理由: 同一GitHub Pages originで公開するため、未知のHTML機能や任意CSSを後から許可するより、必要な表示機能だけを固定する方が受入境界を監査しやすいからである。</li><li>判断: 外部HTTPSは<code>a</code>要素のリンクだけ許可し、stylesheetやCSS <code>url()</code>では許可しない。</li><li>理由: 外部CSS・画像は追跡や将来の内容変更を公開成果物へ持ち込むため、公開HTMLの表示依存をsource内のファイルへ限定するからである。</li><li>判断: Bの安全validatorを再利用せず、A側で同等以上の検証を再実行する。</li><li>理由: Bは公開要求前の早期検出、Aはsource registryと公開先を所有する最終受入であり、Bの検証結果を信頼境界の代替にしないためである。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: A側でHTMLの構造・要素・属性、URL scheme・project内path、CSS at-rule・property・url()、HTML/CSSのローカル依存を検証できるようにした。<code>../README.md</code>などの親ディレクトリ参照は拒否し、現行の安全な作業記録HTML/CSSは受け入れる。</li><li>変更ファイル: <code>scripts/publish/content_safety.py</code>、<code>tests/test_content_safety.py</code>、<code>projects/README.md</code>、本作業記録のMarkdownと生成HTML。</li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（34件合格）。作業記録HTML再生成check、filename validator、<code>py_compile</code>、<code>git diff --check</code>に合格した。<code>work_record_024.html</code>をChromiumで1280×900、900×900、640×900、320×800で確認し、横overflow、console error、page error、failed requestは全条件0件だった。</li><li>未解決事項: A#9のvalidatorを受入workflowへ接続する処理、provenance manifest、固定commitの取得、公開先差分検証、Pages deployは未実装である。</li><li>次アクション: A#10のprovenance manifestとdrift検査へ進み、その後A#11〜#12の初期provenance・no-op同期dry-runへ接続する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-20 取得範囲: <code>tj-999-comp/sandbox-pages</code>の親Issue #5とIssue #6〜#10</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#5 [Epic] プロジェクト進捗ページの自動公開を段階導入する
+├── #6 [Publish] 公開元source登録を設定ファイル化する
+├── #7 [Publish] 共通命名・metadata schema validatorを実装する
+└── #8 [Publish] 受入ファイルのpath・種別・容量validatorを実装する</code></pre>
+<h3>対象Issue</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/9">#9 source_html向けHTML・CSS・URL安全validatorを実装する</a></td><td>未完了</td><td>本作業の対象。#7/#8完了後に実装</td></tr><tr><td>2</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/10">#10 provenance manifest schemaとdrift検査を実装する</a></td><td>未完了</td><td>#8/#9の後続。検証済みdigestを来歴へ記録</td></tr><tr><td>3</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/5">#5 プロジェクト進捗ページの自動公開を段階導入する</a></td><td>未完了</td><td>親Epic</td></tr></tbody></table>
+<h3>依存Issue</h3>
+<table><thead><tr><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係</th></tr></thead><tbody><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/6">#6 公開元source登録を設定ファイル化する</a></td><td>完了</td><td>A#9が参照するsource registryを提供</td></tr><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/7">#7 共通命名・metadata schema validatorを実装する</a></td><td>完了</td><td>A#9がrecord basenameとmetadata配置を前提にする</td></tr><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/8">#8 受入ファイルのpath・種別・容量validatorを実装する</a></td><td>未完了</td><td>A#9が受入済みファイル集合とsource scopeを再利用する</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 024</span>
+        <span><a href="md/work_record_024.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
