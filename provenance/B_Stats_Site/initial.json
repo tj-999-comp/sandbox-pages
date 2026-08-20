@@ -1,0 +1,400 @@
+{
+  "accepted_at": "2026-08-20T00:00:00Z",
+  "notify": false,
+  "operation": "create",
+  "project_id": "B_Stats_Site",
+  "public_base_path": "/sandbox-pages/projects/B_Stats_Site/",
+  "publication_id": "bootstrap-20260820-b-stats-site",
+  "published_files": [
+    {
+      "path": "README.md",
+      "sha256": "2b2ec1957c027c98923aafcdd42a7496b1cb6151dbe28fe923cb7fde8d87bf8e",
+      "size_bytes": 4922
+    },
+    {
+      "path": "design.md",
+      "sha256": "c8b779a28b0f294a629ace19e0d32febb0bb865c3e8b3f935845670d40936972",
+      "size_bytes": 7524
+    },
+    {
+      "path": "md/phase_1_tasks.md",
+      "sha256": "6c7a9cbaf26cf7c9c4be4c6d447dd80cc789bfc6c784b75d9773c11dea09014c",
+      "size_bytes": 631
+    },
+    {
+      "path": "md/scraping_db_automation.md",
+      "sha256": "02b8a47629c7523ece1f6a5661ef6ab83b9f09f42028506463f13c28318427a3",
+      "size_bytes": 63
+    },
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "3defb9333ab588e364046bd5341a7d583439799f4475242f735d2ad0a9bc2374",
+      "size_bytes": 5446
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "0f588662fd56613a564b721b603d80241fd7ef79fce03f855f2d43d7b3f6751f",
+      "size_bytes": 2567
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "1d02c28ea9684b6ea59e0519df620eadbb2a1f186a99f581bcd43110332f29c8",
+      "size_bytes": 3062
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "2c40997cfade9fc89cf0285a010ae8731bc531154f1c314b5951a505aeb21d79",
+      "size_bytes": 2232
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "1c3721e5982a80f73df7b9c3397a16eeea861e4d10845db84819360c516e9761",
+      "size_bytes": 3476
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "dfd25f66de0f4549efdbafaa14a9b6ef98c1a424d9ff06da8db8348966d4f3dd",
+      "size_bytes": 4926
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "11c687965e692dd0c7a310f8c0e2116d554e53293c9a0883486ad3d8a3a16f51",
+      "size_bytes": 10312
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "095d15df042ebc9fd4f33832c132b91d70338b9ba723527de4f13cd54ea7fcb2",
+      "size_bytes": 7317
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "650dd40e36c013527aa44ea3f7d75e18a9f6c844816aec5206bbaa5568a9fe01",
+      "size_bytes": 3249
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "dafa8de3efad0d9f6259b9ca42ba09e7cc871d5d872ffd027337bbf9afc34b86",
+      "size_bytes": 5155
+    },
+    {
+      "path": "work_record.css",
+      "sha256": "de9b06df510ab910ca01f6af5345cdf8260ef19f6f1fdda789a0672afaa9288a",
+      "size_bytes": 5535
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "0331e0f20b158086f9609b7a2b3923bde91465bbd3fa882aea3caaba355723df",
+      "size_bytes": 10026
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "801404647821cb88c324234be49da12d667824e96c226d4584d385ed059e12b1",
+      "size_bytes": 5528
+    },
+    {
+      "path": "work_record_003.html",
+      "sha256": "902673c76a8450a5f619d07fda51036a01e5eaa555c0bb52d3e70ed652e10751",
+      "size_bytes": 6381
+    },
+    {
+      "path": "work_record_004.html",
+      "sha256": "056bca70a7da7764e4697990cdbc5e20dfc9995a9fa81b96b557cdbae59b84c9",
+      "size_bytes": 4876
+    },
+    {
+      "path": "work_record_005.html",
+      "sha256": "b4760950ac0b77557e3afd9a1cf27b89807b825dfb30565006447d9b3ed55a47",
+      "size_bytes": 6647
+    },
+    {
+      "path": "work_record_006.html",
+      "sha256": "7c4eddbf7a10f39f62985e5aed6cc6def1d1f7608d2f998102e698bc068d434f",
+      "size_bytes": 8764
+    },
+    {
+      "path": "work_record_007.html",
+      "sha256": "b057611a27d90dd810b8044bcdd6681a4c143e2dddf1861207dd526348408d9e",
+      "size_bytes": 16107
+    },
+    {
+      "path": "work_record_008.html",
+      "sha256": "0afa54eb839799b74b924636a9761a683ac4156595a39f294e60b764e0723a0b",
+      "size_bytes": 6147
+    },
+    {
+      "path": "work_record_009.html",
+      "sha256": "2c002511a0517e947f89c646b3d55c3d9b4bb1d7443f5f18617c7c563bbfb370",
+      "size_bytes": 5457
+    },
+    {
+      "path": "work_record_010.html",
+      "sha256": "7d6ddd7ae077874fbcf4579a06c92284b16842f300d79aa3aa303cf41eb6fe0a",
+      "size_bytes": 8046
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-05-26",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "2016-2017 シーズン投入（初回失敗→再チャレンジ成功）"
+      },
+      "metadata_sha256": "77ea25b682a544babc7272a2ad7b780c2ab2f0e93340e5b35f3fcf73a3525a98",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_001.html"
+    },
+    {
+      "basename": "work_record_002",
+      "metadata": {
+        "date": "2026-05-26",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "players.nationality 追加手順整理とrebuild SQL一本化"
+      },
+      "metadata_sha256": "64fdc76bd5cfa114fd12deb089c89a179383e435c9d7bccabaa20fb8d545eda8",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_002.html"
+    },
+    {
+      "basename": "work_record_003",
+      "metadata": {
+        "date": "2026-05-26",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "プロフィール項目（リーグ登録国籍・出身地）取得とUpsert準備"
+      },
+      "metadata_sha256": "39ebed6db8218e0fc09adb4c7b48ea243380a0f2704159d054ae8150c07304c0",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_003.html"
+    },
+    {
+      "basename": "work_record_004",
+      "metadata": {
+        "date": "2026-06-02",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "playersのbirthplace欠損調査ログ（スレッド分割前サマリ）"
+      },
+      "metadata_sha256": "c8db906ac57570d8166d1bbead94c16ae1c12e648b0c032c2f54ec6549788b9d",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_004.html"
+    },
+    {
+      "basename": "work_record_005",
+      "metadata": {
+        "date": "2026-08-04",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "2021-22シーズン303試合の日時・year補正"
+      },
+      "metadata_sha256": "8b730dd83a4dbb6cfaee3b1c4c6cdbc7cfad1f1be9732a5223ec5a189c2dc144",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_005.html"
+    },
+    {
+      "basename": "work_record_006",
+      "metadata": {
+        "date": "2026-08-05",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "game_team_statsの得点誤マッピング補正"
+      },
+      "metadata_sha256": "c29e75d2f3c2157423b1afdcc792f9b8ca33c79fc68d039447499a76ac8cfa54",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_006.html"
+    },
+    {
+      "basename": "work_record_007",
+      "metadata": {
+        "date": "2026-08-05",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "GitHub Issue #12 players監査・差分補完基盤"
+      },
+      "metadata_sha256": "358dd0c0ff1448ba1c442d64a91dc6fc4cb1c63df39fe97a0fa2048adb34c97d",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_007.html"
+    },
+    {
+      "basename": "work_record_008",
+      "metadata": {
+        "date": "2026-08-13",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "GitHub Issue #21 欠損プロフィール目視補完・DBパッチ準備"
+      },
+      "metadata_sha256": "ee63921faf671419ea38877504ca72988c8f6667445d154643de006416de80dd",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_008.html"
+    },
+    {
+      "basename": "work_record_009",
+      "metadata": {
+        "date": "2026-08-13",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "未投入試合データ投入後の選手重複整理・プロフィール補完フロー"
+      },
+      "metadata_sha256": "f313938dca35536fb81b096c4bf21e008062ab3d12276f1cbc462efa6330ba0a",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_009.html"
+    },
+    {
+      "basename": "work_record_010",
+      "metadata": {
+        "date": "2026-08-13",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "作業記録の呼称・配置・表示ルール再編"
+      },
+      "metadata_sha256": "f3c4700fb7393585bee6e19139eb0726caa45d08940b83615c009c491b028b03",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_010.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "0fe9932255ac72e526e84887ee3f209af9f57c61",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/B_Stats_Site"
+  },
+  "source_files": [
+    {
+      "path": "README.md",
+      "sha256": "2b2ec1957c027c98923aafcdd42a7496b1cb6151dbe28fe923cb7fde8d87bf8e",
+      "size_bytes": 4922
+    },
+    {
+      "path": "design.md",
+      "sha256": "c8b779a28b0f294a629ace19e0d32febb0bb865c3e8b3f935845670d40936972",
+      "size_bytes": 7524
+    },
+    {
+      "path": "md/phase_1_tasks.md",
+      "sha256": "6c7a9cbaf26cf7c9c4be4c6d447dd80cc789bfc6c784b75d9773c11dea09014c",
+      "size_bytes": 631
+    },
+    {
+      "path": "md/scraping_db_automation.md",
+      "sha256": "02b8a47629c7523ece1f6a5661ef6ab83b9f09f42028506463f13c28318427a3",
+      "size_bytes": 63
+    },
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "3defb9333ab588e364046bd5341a7d583439799f4475242f735d2ad0a9bc2374",
+      "size_bytes": 5446
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "0f588662fd56613a564b721b603d80241fd7ef79fce03f855f2d43d7b3f6751f",
+      "size_bytes": 2567
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "1d02c28ea9684b6ea59e0519df620eadbb2a1f186a99f581bcd43110332f29c8",
+      "size_bytes": 3062
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "2c40997cfade9fc89cf0285a010ae8731bc531154f1c314b5951a505aeb21d79",
+      "size_bytes": 2232
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "1c3721e5982a80f73df7b9c3397a16eeea861e4d10845db84819360c516e9761",
+      "size_bytes": 3476
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "dfd25f66de0f4549efdbafaa14a9b6ef98c1a424d9ff06da8db8348966d4f3dd",
+      "size_bytes": 4926
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "11c687965e692dd0c7a310f8c0e2116d554e53293c9a0883486ad3d8a3a16f51",
+      "size_bytes": 10312
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "095d15df042ebc9fd4f33832c132b91d70338b9ba723527de4f13cd54ea7fcb2",
+      "size_bytes": 7317
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "650dd40e36c013527aa44ea3f7d75e18a9f6c844816aec5206bbaa5568a9fe01",
+      "size_bytes": 3249
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "dafa8de3efad0d9f6259b9ca42ba09e7cc871d5d872ffd027337bbf9afc34b86",
+      "size_bytes": 5155
+    },
+    {
+      "path": "work_record.css",
+      "sha256": "de9b06df510ab910ca01f6af5345cdf8260ef19f6f1fdda789a0672afaa9288a",
+      "size_bytes": 5535
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "0331e0f20b158086f9609b7a2b3923bde91465bbd3fa882aea3caaba355723df",
+      "size_bytes": 10026
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "801404647821cb88c324234be49da12d667824e96c226d4584d385ed059e12b1",
+      "size_bytes": 5528
+    },
+    {
+      "path": "work_record_003.html",
+      "sha256": "902673c76a8450a5f619d07fda51036a01e5eaa555c0bb52d3e70ed652e10751",
+      "size_bytes": 6381
+    },
+    {
+      "path": "work_record_004.html",
+      "sha256": "056bca70a7da7764e4697990cdbc5e20dfc9995a9fa81b96b557cdbae59b84c9",
+      "size_bytes": 4876
+    },
+    {
+      "path": "work_record_005.html",
+      "sha256": "b4760950ac0b77557e3afd9a1cf27b89807b825dfb30565006447d9b3ed55a47",
+      "size_bytes": 6647
+    },
+    {
+      "path": "work_record_006.html",
+      "sha256": "7c4eddbf7a10f39f62985e5aed6cc6def1d1f7608d2f998102e698bc068d434f",
+      "size_bytes": 8764
+    },
+    {
+      "path": "work_record_007.html",
+      "sha256": "b057611a27d90dd810b8044bcdd6681a4c143e2dddf1861207dd526348408d9e",
+      "size_bytes": 16107
+    },
+    {
+      "path": "work_record_008.html",
+      "sha256": "0afa54eb839799b74b924636a9761a683ac4156595a39f294e60b764e0723a0b",
+      "size_bytes": 6147
+    },
+    {
+      "path": "work_record_009.html",
+      "sha256": "2c002511a0517e947f89c646b3d55c3d9b4bb1d7443f5f18617c7c563bbfb370",
+      "size_bytes": 5457
+    },
+    {
+      "path": "work_record_010.html",
+      "sha256": "7d6ddd7ae077874fbcf4579a06c92284b16842f300d79aa3aa303cf41eb6fe0a",
+      "size_bytes": 8046
+    }
+  ]
+}
