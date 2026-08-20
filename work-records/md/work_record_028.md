@@ -49,10 +49,10 @@
 
 - 解決したこと: B/C/D共通の作業記録・GitHub・HTML・project追加標準を文書化し、既存の正本から参照できるようにした。GitHub AppでIssue/PR/APIを取得するローカルヘルパーを追加し、対象repositoryのInstallation ID自動発見まで実装した。
 - 変更ファイル: `docs/PORTFOLIO_STANDARD.md`、`AGENTS.md`、`README.md`、`work-records/README.md`、`projects/README.md`、`.gitignore`、`config/github_app.json`、`scripts/dev/github_app_token.py`、本作業記録のMarkdownと生成HTML。
-- 検証結果: helperの`py_compile`、converter check、filename validator、既存unit test、作業記録HTMLのPC/320pxブラウザ確認を実行する。
-- 作業ブランチ: `codex/029-standardize-work-records`
-- コミット: 未実施
-- PR: 未作成
-- PRレビュー・CI: 未実施
-- 未解決事項: C/Dのsource registry登録、公開workflow、Pages deploy、Issue closeの実運用接続は対象外。
-- 次アクション: staged diffと全検証を確認し、commit・push・PR作成へ進む。
+- 検証結果: helperの`py_compile`、converter check、filename validator、既存unit test、作業記録HTMLのPC/320pxブラウザ確認に合格した。
+- 作業ブランチ: `codex/030-standardization-pr`
+- コミット: `92f524a`
+- PR: [#31 B/C/Dの作業記録とGitHub運用を標準化](https://github.com/tj-999-comp/sandbox-pages/pull/31)（Draft）
+- PRレビュー・CI: PR作成済み。CI・外部レビュー待ち
+- 未解決事項: C/Dのsource registry登録、公開workflow、Pages deploy、Issue closeの実運用接続は対象外。PRレビュー・CIは未完了。
+- 次アクション: PR #31のCIとレビューを確認し、指摘があれば修正する。
