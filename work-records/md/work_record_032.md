@@ -42,11 +42,11 @@
 - 変更ファイル: `scripts/publish/apply_engine.py`、`tests/test_apply_engine.py`、本作業記録のMarkdown原本と対応HTML。
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（61件合格）、Python構文確認（合格）、`git diff --check`（合格）。表示コード変更はないためブラウザ確認は対象外。
 - 作業ブランチ: `codex/032-issue-18-apply-engine`
-- コミット: 未実施。
-- PR: 未作成。
-- PRレビュー・CI: ローカル事前レビューのみ。GitHub PR・CIは未実施。
+- コミット: `34095b0`（apply engine・テスト・作業記録）。PR情報追記は後続commitで反映する。
+- PR: [#36 Issue #18: 許可範囲限定の同期apply engineを実装](https://github.com/tj-999-comp/sandbox-pages/pull/36)（Draft、base `main`、head `codex/032-issue-18-apply-engine`）。
+- PRレビュー・CI: GitHub上の差分は4ファイルで意図した#18対応のみ。`validate` run `32351101736`はpass。外部レビューは未実施。
 - 未解決事項: #19で受入workflowへ接続し、GitHub Actionsの実apply・commit・固定SHA deployを確認する必要がある。
-- 次アクション: 対象ファイルをcommit・pushし、Draft PRを作成してCIと外部レビューを確認する。
+- 次アクション: Draft PR #36の外部レビューを確認し、#19のActions接続へ進む。
 
 ## GitHub Issue状況
 
