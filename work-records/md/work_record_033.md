@@ -40,12 +40,12 @@
 
 - 解決したこと: #17のread-only受入結果を#18のapply engineへ接続し、許可範囲限定のcommit、固定SHA Pages deploy、no-op skip、disabled source guard、1回限定のpush retryをworkflowへ追加した。enabled sourceへ切り替える場合も、`--allow-enabled`を明示したworkflow経路だけが進める構成にした。
 - 変更ファイル: `.github/workflows/accept-source.yml`、`scripts/publish/apply_engine.py`、`scripts/publish/read_only_acceptance.py`、`tests/test_apply_engine.py`、`tests/test_pages_workflow.py`、`tests/test_read_only_acceptance.py`、本作業記録のMarkdownと対応HTML。
-- 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（64件合格）、`PYTHONPYCACHEPREFIX=/tmp/sandbox-pages-pycache python3 -m py_compile ...`（合格）、Ruby YAML parse（合格）、`git diff --check`（合格）。新規HTMLはPlaywrightで確認を試みたが、ChromiumがmacOS Machポート権限エラーで起動せず、実ブラウザ確認は未完了。
+- 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（64件合格）、`PYTHONPYCACHEPREFIX=/tmp/sandbox-pages-pycache python3 -m py_compile ...`（合格）、Ruby YAML parse（合格）、`git diff --check`（合格）。Playwrightで`work_record_033.html`を1280px・900px・640px・320px幅で確認し、全viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。レポート: `/private/tmp/playwright-browser-verify/2026-08-20T09-23-12-880Z/report.json`。
 - 作業ブランチ: `codex/033-issue-19-actions`
 - コミット: `8f7d785`（Issue #19実装・テスト・作業記録）
 - PR: 未作成
 - PRレビュー・CI: PR未作成のため未実施
-- 未解決事項: GitHub Actions実環境での外部source checkout、apply commit、固定SHA Pages deploy、ruleset・branch保護、PRレビュー、CIは未確認。Chromium起動環境復旧後にwork_record_033.htmlのPC・320px幅確認も必要。
+- 未解決事項: GitHub Actions実環境での外部source checkout、apply commit、固定SHA Pages deploy、ruleset・branch保護、PRレビュー、CIは未確認。
 - 次アクション: GitHub接続復旧後に#19のworkflowを手動dispatchし、現行`enabled:false`ではno-opになることを確認する。#22で有効化した後、テスト用新規recordでcommit・Pages・公開URLを実行する。
 
 ## GitHub Issue状況
