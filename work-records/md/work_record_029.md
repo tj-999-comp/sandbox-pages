@@ -71,11 +71,11 @@
 - 変更ファイル: `docs/ACTIONS_MAIN_POLICY.md`、`.github/workflows/deploy-pages.yml`、`.github/workflows/validate.yml`、`scripts/publish/index_generator.py`、`projects/progress-index.css`、`projects/index.html`、`projects/B_Stats_Site/index.html`、`index.html`、`projects/README.md`、#12境界修正、テスト・golden fixture、本作業記録と対応HTML。
 - 検証結果: unit test 50件合格、Python/YAML構文合格、index/work-record生成check合格、filename validator合格、PC/320pxを含む4 viewportとキーボード操作に合格。
 - 作業ブランチ: `codex/029-issues-14-16-pages-index`
-- コミット: 未実施（明示承認待ち）。
-- PR: 未作成（明示承認待ち）。
-- PRレビュー・CI: ローカル事前レビューは重大0件、中0件、軽微0件で合格。GitHub Actions CIはpush後に確認する。
+- コミット: 実装commit `984b1ee`。PR情報の記録は後続commitで反映する。
+- PR: [#33 Issue #14〜#16: Pages Actions移行と進捗indexを実装](https://github.com/tj-999-comp/sandbox-pages/pull/33)（Draft）。base `main`、head `codex/029-issues-14-16-pages-index`。
+- PRレビュー・CI: ローカル事前レビューは重大0件、中0件、軽微0件で合格。GitHub Actions CIはPRへの記録更新push後に確認する。
 - 未解決事項: `protect-main` ruleset設定、PagesのActions切替、workflow本番実行、公開URLのPC/320px確認はmerge後に必要。sourceは`enabled: false`のまま維持する。
-- 次アクション: 最終レビュー後に対象限定commit・push・Draft PRを作成し、merge後に#14/#15のGitHub設定と本番Pages確認を完了する。
+- 次アクション: PR #33のGitHub差分、CI、レビュー指摘を確認する。merge後に#14/#15のGitHub設定と本番Pages確認を完了する。
 
 ## GitHub Issue状況
 
