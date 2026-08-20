@@ -330,6 +330,10 @@ projectごとに公開リポジトリが管理し、少なくとも次を記録�
 - schemaに従って正規化したtitle、date、tagsなどのindex用metadataと、そのdigest
 - Slack通知対象かどうか
 
+manifestの`source_files`はA#8で受入した生成元ファイルのdigest、`published_files`は実際に公開先へ反映したファイルのdigestとして分ける。`a_rendered`ではAが生成したHTMLを`published_files`へ含められるため、両者は同一集合であることを要求しない。`records`には各`work_record_###`の公開URL、正規化metadata、metadata digestを記録する。
+
+drift検査は直前manifestの`published_files`と現在の公開ファイルをpath・size・SHA-256で完全比較する。missing、extra、changedのいずれかがあれば自動上書きせず失敗し、manifestや公開先を更新しない。
+
 公開リポジトリの生成物が記録済みdigestと異なる場合、自動上書きせず停止する。
 
 ## indexの生成

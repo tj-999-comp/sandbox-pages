@@ -1,0 +1,53 @@
+{
+  "accepted_at": "2026-08-20T01:00:00Z",
+  "notify": false,
+  "operation": "create",
+  "project_id": "B_Stats_Site",
+  "public_base_path": "/sandbox-pages/projects/B_Stats_Site/",
+  "publication_id": "pub-001",
+  "published_files": [
+    {
+      "path": "work_record.css",
+      "sha256": "36e64f19f57a05c8cd5b6bf7eff72703b4bbab19def7832eb4e686e7fa482eef",
+      "size_bytes": 3
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "e5e239560bc125a20ff2ac1fea50915bc198dd4f5b5256ec447a8a71e00132b3",
+      "size_bytes": 4
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": ["publish"],
+        "title": "Record"
+      },
+      "metadata_sha256": "71e3752079c8a11da67697a5789936d08f51578069bb2f2e69492f633fbbf3ea",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_001.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/B_Stats_Site"
+  },
+  "source_files": [
+    {
+      "path": "work_record.css",
+      "sha256": "36e64f19f57a05c8cd5b6bf7eff72703b4bbab19def7832eb4e686e7fa482eef",
+      "size_bytes": 3
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "e5e239560bc125a20ff2ac1fea50915bc198dd4f5b5256ec447a8a71e00132b3",
+      "size_bytes": 4
+    }
+  ]
+}

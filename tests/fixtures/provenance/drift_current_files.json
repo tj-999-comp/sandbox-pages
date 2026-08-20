@@ -1,0 +1,17 @@
+[
+  {
+    "path": "work_record.css",
+    "sha256": "36e64f19f57a05c8cd5b6bf7eff72703b4bbab19def7832eb4e686e7fa482eef",
+    "size_bytes": 3
+  },
+  {
+    "path": "work_record_001.html",
+    "sha256": "d67e2e944994496c8d8ec76eed0cf9f09679448d584b532bebf941852a37f5ed",
+    "size_bytes": 7
+  },
+  {
+    "path": "unexpected.txt",
+    "sha256": "36e64f19f57a05c8cd5b6bf7eff72703b4bbab19def7832eb4e686e7fa482eef",
+    "size_bytes": 3
+  }
+]
