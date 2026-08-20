@@ -1,0 +1,154 @@
+import json
+import subprocess
+import tempfile
+import unittest
+from pathlib import Path
+
+from scripts.publish.read_only_acceptance import (
+    ReadOnlyAcceptanceError,
+    run_acceptance,
+    resolve_source,
+)
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class ReadOnlyAcceptanceTests(unittest.TestCase):
+    def test_resolve_requires_registered_disabled_source(self):
+        source = resolve_source(
+            registry_path=ROOT / "config/sources.json",
+            project_id="B_Stats_Site",
+            source_commit_sha="a" * 40,
+            target_basename="work_record_001",
+        )
+        self.assertEqual(source["source_repository"], "tj-999-comp/B_Stats_Site")
+        self.assertFalse(source["enabled"])
+
+    def test_run_acceptance_outputs_selected_inventory_and_metadata(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            checkout = temp / "checkout"
+            source_root = checkout / "work-records"
+            (source_root / "md").mkdir(parents=True)
+            (source_root / "metadata").mkdir()
+            for name, content in {
+                "README.md": "# Readme\n",
+                "design.md": "# Design\n",
+                "work_record.css": "body { color: #111; }\n",
+                "md/work_record_001.md": "# Record\n",
+                "metadata/work_record_001.yml": (
+                    "schema_version: 1\n"
+                    "title: Test record\n"
+                    "date: 2026-08-20\n"
+                    "project_id: B_Stats_Site\n"
+                    "tags: []\n"
+                    "publish: true\n"
+                ),
+                "work_record_001.html": (
+                    "<!DOCTYPE html><html lang=\"ja\"><head>"
+                    "<meta charset=\"utf-8\"><link rel=\"stylesheet\" href=\"work_record.css\">"
+                    "<title>Test</title></head><body><h1>Test</h1></body></html>\n"
+                ),
+            }.items():
+                path = source_root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(content, encoding="utf-8")
+
+            _run_git(checkout, "init", "--quiet")
+            _run_git(checkout, "config", "user.email", "test@example.com")
+            _run_git(checkout, "config", "user.name", "Test")
+            _run_git(checkout, "add", ".")
+            _run_git(checkout, "commit", "--quiet", "-m", "fixture")
+            commit = _run_git(checkout, "rev-parse", "HEAD")
+            _run_git(checkout, "branch", "-M", "main")
+
+            provenance_dir = temp / "provenance" / "B_Stats_Site"
+            provenance_dir.mkdir(parents=True)
+            manifest = json.loads(
+                (ROOT / "provenance/B_Stats_Site/initial.json").read_text(encoding="utf-8")
+            )
+            manifest["source"]["commit_sha"] = commit
+            (provenance_dir / "initial.json").write_text(
+                json.dumps(manifest), encoding="utf-8"
+            )
+
+            output_dir = temp / "output"
+            result = run_acceptance(
+                registry_path=ROOT / "config/sources.json",
+                project_id="B_Stats_Site",
+                source_commit_sha=commit,
+                target_basename="work_record_001",
+                source_checkout=checkout,
+                branch_ref="refs/heads/main",
+                provenance_root=temp / "provenance",
+                output_dir=output_dir,
+            )
+
+            self.assertTrue(result["dry_run"])
+            self.assertFalse(result["apply"])
+            self.assertEqual(result["target_basename"], "work_record_001")
+            self.assertEqual(result["destination"]["directory"], "projects/B_Stats_Site")
+            self.assertEqual(
+                result["destination"]["public_base_path"],
+                "/sandbox-pages/projects/B_Stats_Site/",
+            )
+            self.assertEqual(result["validators"]["content_safety"], "passed")
+            self.assertEqual(
+                {item["path"] for item in result["inventory"]},
+                {
+                    "README.md",
+                    "design.md",
+                    "work_record.css",
+                    "md/work_record_001.md",
+                    "metadata/work_record_001.yml",
+                    "work_record_001.html",
+                },
+            )
+            self.assertEqual(
+                {item["path"] for item in result["target_inventory"]},
+                {
+                    "README.md",
+                    "design.md",
+                    "work_record.css",
+                    "md/work_record_001.md",
+                    "metadata/work_record_001.yml",
+                    "work_record_001.html",
+                },
+            )
+            saved = json.loads((output_dir / "acceptance.json").read_text(encoding="utf-8"))
+            self.assertEqual(saved, result)
+
+    def test_source_commit_must_be_branch_ancestor(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            checkout = Path(temp_dir) / "checkout"
+            checkout.mkdir()
+            _run_git(checkout, "init", "--quiet")
+            _run_git(checkout, "config", "user.email", "test@example.com")
+            _run_git(checkout, "config", "user.name", "Test")
+            (checkout / "file").write_text("one\n", encoding="utf-8")
+            _run_git(checkout, "add", ".")
+            _run_git(checkout, "commit", "--quiet", "-m", "one")
+            first = _run_git(checkout, "rev-parse", "HEAD")
+            (checkout / "file").write_text("two\n", encoding="utf-8")
+            _run_git(checkout, "commit", "--quiet", "-am", "two")
+            _run_git(checkout, "branch", "-M", "main")
+
+            with self.assertRaises(ReadOnlyAcceptanceError):
+                from scripts.publish.read_only_acceptance import _verify_fixed_commit
+
+                _verify_fixed_commit(checkout, first, "refs/heads/missing")
+
+
+def _run_git(cwd: Path, *args: str) -> str:
+    completed = subprocess.run(
+        ["git", "-C", str(cwd), *args],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return completed.stdout.strip()
+
+
+if __name__ == "__main__":
+    unittest.main()
