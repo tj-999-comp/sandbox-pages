@@ -25,7 +25,7 @@
 - 成果物: 作業記録作成前レビュー。
 - 検証結果: 重大な未解決事項は確認されなかった。GitHub上の実workflow実行は未確認として残した。
 - 未解決事項: push・PR作成前のため、GitHub Actionsの実行結果と外部B repositoryからの取得可否は未確認。
-- 次工程への引き継ぎ: 対象ファイルを限定してcommitし、明示承認後にpush・Draft PRへ進む。
+- 次工程への引き継ぎ: Draft PR #35の外部レビューとCI結果を確認し、指摘があれば修正する。
 
 ## 主要な判断
 
@@ -41,12 +41,12 @@
 - 解決したこと: #17のread-only受入workflowとA所有のdry-run orchestrationを実装し、固定SHA、branch ancestor、直前provenanceからの同一・子孫検証、registry解決、A-02〜A-04 validator、全inventory/対象digest/metadata artifact、disabled source guardを追加した。GitHub Issue #25を`completed`理由でクローズした。
 - 変更ファイル: `.github/workflows/accept-source.yml`、`scripts/publish/read_only_acceptance.py`、`tests/test_read_only_acceptance.py`、`tests/test_pages_workflow.py`、本作業記録と対応HTML。
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（54件合格）、`PYTHONPYCACHEPREFIX=/tmp/sandbox-pages-pycache python3 -m py_compile scripts/publish/read_only_acceptance.py`（合格）、workflow YAML parse（合格）、`git diff --check`（合格）。通常のpy_compileは環境側Pythonキャッシュ先の権限で失敗したため、一時キャッシュ先で再実行した。
-- 作業ブランチ: `codex/030-issue-17-read-only-acceptance`
-- コミット: 実装・記録commit準備中
-- PR: 未作成
-- PRレビュー・CI: ローカル事前レビュー済み。GitHub上のPRレビュー・CIは未実施。
-- 未解決事項: GitHub Actions実環境での手動dispatch、実生成元Bからの固定SHA取得、artifact確認は未実施。PRレビュー・CIも未実施。
-- 次アクション: 対象ファイルをcommit・pushし、Draft PRのレビュー・CIへ進む。
+- 作業ブランチ: `codex/031-issue-17-read-only-acceptance`
+- コミット: `0e66fb3`（実装・作業記録）、作業記録更新commitはPRへ追加予定
+- PR: [#35 Issue #17: read-only受入workflowのdry-runを追加](https://github.com/tj-999-comp/sandbox-pages/pull/35)（Draft、base `main`）
+- PRレビュー・CI: GitHub上の差分は6ファイル・729行で意図した#17対応だけ。`Validate` run #5はsuccess。外部レビューは未実施。
+- 未解決事項: GitHub Actions実環境での手動dispatch、実生成元Bからの固定SHA取得、artifact確認、外部PRレビューは未実施。作業記録更新commitをPRへ反映する。
+- 次アクション: 作業記録更新commitをpushし、Draft PR #35の外部レビュー・CI追加結果を確認する。
 
 ## GitHub Issue状況
 
