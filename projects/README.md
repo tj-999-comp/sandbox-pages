@@ -8,6 +8,8 @@
 
 正本URL: <https://github.com/tj-999-comp/sandbox-pages/blob/main/projects/README.md>
 
+B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用は[`docs/PORTFOLIO_STANDARD.md`](../docs/PORTFOLIO_STANDARD.md)を参照する。この文書は公開リポジトリAの受入・配信契約を正本とする。
+
 ## この文書の位置付け
 
 - `tj-999-comp/sandbox-pages` にあるこの文書を公開ルールの正本とする。
@@ -363,7 +365,7 @@ Actions writeはdispatch以外のActions APIも利用可能なため、対象を
 
 TokenやWebhook URLをリポジトリ、metadata、ログへ記載しない。Tokenを定期的にローテーションする。
 
-長期的には、公開リポジトリだけにインストールし、必要最小限のActions権限を持つGitHub Appの短期installation tokenへ移行する。非公開の生成元を追加する場合は、公開リポジトリ側に生成元read用の別権限を用意し、dispatch tokenと兼用しない。
+Actionsのpublish automationは、公開リポジトリだけにインストールした必要最小限のGitHub Appと短期installation tokenへ移行する。ローカルのIssue・PR取得も、リポジトリ内の`docs/PORTFOLIO_STANDARD.md`に従い、同じくGitHub App tokenを使う。非公開の生成元を追加する場合は、公開リポジトリ側に生成元read用の別権限を用意し、dispatch tokenと兼用しない。
 
 公開リポジトリのworkflowが`main`へcommitできるよう、branch rulesetとbotの扱いを公開リポジトリ側で明文化する。直接commitを許可しない場合は、A workflowがPRを作成し、承認・merge後にdeployする。
 
@@ -419,7 +421,7 @@ TokenやWebhook URLをリポジトリ、metadata、ログへ記載しない。To
 8. 生成元に手動実行可能な公開要求workflow、公開リポジトリにdry-run可能な受入workflowを追加する。
 9. 既存分のno-op同期と、新規1件のE2E公開を確認する。
 10. 安定後に生成元`main`へのpush triggerを有効化する。
-11. 運用安定後にFine-grained PATからGitHub Appへ移行する。
+11. 運用安定後に、publish workflowのFine-grained PAT依存もGitHub Appへ移行する。
 
 ## 参考資料
 

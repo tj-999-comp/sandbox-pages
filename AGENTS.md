@@ -51,6 +51,18 @@ Codexは依頼内容を分類し、必要な専門役割だけをサブエージ
 
 ## 4. GitブランチとPRワークフロー
 
+### 共通標準への参照
+
+- B、C、Dなど複数projectに共通する作業開始、GitHub App認証、Issue・PR状態遷移、作業記録MD/HTML、project追加手順は`docs/PORTFOLIO_STANDARD.md`を正本とする。
+- ユーザーが「作業記録を残して」と依頼した場合は、対応するMarkdownと生成HTMLを作成し、検証、commit、push、PR作成、Issueへの完了コメントまでを標準工程に含める。Issue closeはPR merge後または明示承認後とする。
+
+### GitHub Appによる接続
+
+- Issue、PR、レビュー、CIの取得は、原則として`python3 scripts/dev/github_app_token.py`で発行したInstallation tokenを`GH_TOKEN`へ一時設定して行う。
+- `config/github_app.json`にはApp ID、Client ID、対象repository、Keychain serviceだけを置き、PEM秘密鍵・JWT・Installation tokenは保存しない。
+- 標準形式は`GH_TOKEN="$(python3 scripts/dev/github_app_token.py --print-token)" gh ...`とし、tokenをログ、作業記録、PR本文、Issueコメントへ出力しない。
+- GitHub API取得前に対象repositoryとIssue番号を明示し、取得日時をJSTで記録する。接続失敗時は状態を推測しない。
+
 ### 適用条件
 
 - HTML、CSS、JavaScriptなどソースコードの変更を含む課題では、ユーザーが明示的に不要としない限り、Codexが課題専用の作業ブランチを作成する。
