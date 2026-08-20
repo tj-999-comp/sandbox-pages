@@ -70,6 +70,19 @@ limits:
 
 ## 正本と所有境界
 
+### 生成元の自己検証と公開側の最終受入
+
+公開フローでは、作業リポジトリ（B）と公開リポジトリ（A）が同じ検証を重複して担当するのではなく、次の二段階に分ける。
+
+- 作業リポジトリ（B）は公開要求前の自己検証を担当する。命名、metadata、Markdown・HTMLの対応、HTML再生成、安全性、support file依存を確認し、公開候補commitを作る。
+- 公開リポジトリ（A）は受入時の独立した最終検証を担当する。Aのsource registryから許可path・ファイル種別・容量上限・通常ファイル条件・digestを再導出し、A所有の安全validator、provenance、公開先差分を確認する。
+- B側validatorの成功は公開許可を意味しない。A側validatorの成功と、Aの受入workflow・provenance・Pages処理の完了をもって公開とする。
+- BへAのContents write権限や公開先の編集権限を渡さない。Bは固定commitと公開対象basenameを公開要求として送り、Aがsource登録に基づいて取得・再検証する。
+- `source_html`のHTML安全validatorは、Aが許可した要素・属性・URL schemeだけを通し、ローカル依存をA側で解決する。現在の`../README.md`のように生成元と公開先で意味が変わる親ディレクトリ参照は、公開前に拒否する。
+- CSS安全validatorは、Aが許可したpropertyと`@media`だけを通し、`@import`、外部・protocol-relative・危険な`url()`、実行につながる構文を拒否する。B側の同等チェックは公開要求前の早期検出、A側のチェックは受入可否の最終判定である。
+
+この分担により、生成元が誤設定・侵害・想定外ファイルを含むcommitを送った場合でも、公開側で受入範囲を再計算して拒否できる。
+
 | 対象 | 所有者・正本 |
 | --- | --- |
 | Markdownとmetadataの内容 | 生成元リポジトリの受入対象commit |
@@ -316,6 +329,10 @@ projectごとに公開リポジトリが管理し、少なくとも次を記録�
 - `create`、`update`、`withdraw`の操作種別
 - schemaに従って正規化したtitle、date、tagsなどのindex用metadataと、そのdigest
 - Slack通知対象かどうか
+
+manifestの`source_files`はA#8で受入した生成元ファイルのdigest、`published_files`は実際に公開先へ反映したファイルのdigestとして分ける。`a_rendered`ではAが生成したHTMLを`published_files`へ含められるため、両者は同一集合であることを要求しない。`records`には各`work_record_###`の公開URL、正規化metadata、metadata digestを記録する。
+
+drift検査は直前manifestの`published_files`と現在の公開ファイルをpath・size・SHA-256で完全比較する。missing、extra、changedのいずれかがあれば自動上書きせず失敗し、manifestや公開先を更新しない。
 
 公開リポジトリの生成物が記録済みdigestと異なる場合、自動上書きせず停止する。
 

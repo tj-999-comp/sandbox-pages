@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #10 provenance manifestとdrift検査 — 作業記録 025</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 025 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>Issue #10 provenance manifestとdrift検査</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_025.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 生成元commit、受入ファイル、公開ファイル、metadata、公開操作、通知対象を監査可能なmanifestとして追跡する。</li><li>目的: A#8の受入結果とA#9の安全検証を通過した公開物を、後続の同期・更新・取り下げで再照合できるようにする。</li><li>完了条件: manifestを決定的に生成・検証でき、source digestとpublished digestを記録し、直前manifestとの差分がある場合に自動上書きを停止できること。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: 公開リポジトリ（A）のIssue #10、<code>projects/README.md</code>のprovenance契約、A#8の<code>AcceptedFile</code>、A#9の安全検証方針。</li><li>実施内容: <code>schema_version</code>、<code>publication_id</code>、project、生成元repository/ref/commit SHA、操作種別、UTC受入日時、公開base path、<code>source_files</code>、<code>published_files</code>、record metadata、metadata digest、通知対象を持つmanifest schemaを追加した。JSONの決定的serialize、未知field・未知schema・不正digest・metadata digest不一致の拒否、missing/extra/changedを返すdrift検査、差分時に例外で停止するAPIを実装した。</li><li>成果物: <code>scripts/publish/provenance.py</code>、<code>tests/test_provenance.py</code>、provenanceのsource/published分離とdrift停止条件を追記した<code>projects/README.md</code>。</li><li>検証結果: 正常manifest、決定的serialize、未知schema・未知field、metadata digest不一致、公開URL不一致、missing/extra/changed drift、clean drift、<code>a_rendered</code>のA生成HTML分離をテストした。</li><li>未解決事項: 初期manifestの実ファイル作成、受入workflowからの固定commit取得、公開先の実digest収集、Pages反映、Slack通知は後続Issueの対象である。</li><li>次工程への引き継ぎ: A#11で既存公開物の初期manifestを作成し、A#12以降でno-op同期とdry-run受入workflowからdrift検査へ接続する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #10の完了条件、manifest schema、serializer、drift検査、fixtureテスト、公開契約。</li><li>実施内容: source入力とpublished成果物を別digest集合として扱うこと、<code>a_rendered</code>でA生成HTMLを追跡できること、drift時に自動上書きしないこと、metadata digestと公開URLを再検証することをレビューした。</li><li>成果物: A#8・A#9・A#10の責務境界と、後続workflowが利用するmanifest APIのレビュー結果。</li><li>検証結果: 重大・中・軽微の未解決事項はない。manifest schemaとdrift検査を後続workflowへ接続できる範囲で実装されている。</li><li>未解決事項: 実際の既存公開ファイルとの初期照合はA#11で行う。</li><li>次工程への引き継ぎ: A#11で初期provenanceを生成し、公開中ファイルと生成元commitのbyte単位一致を記録する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>source_files</code>と<code>published_files</code>を別フィールドにする。</li><li>理由: <code>source_html</code>では生成元HTMLが公開される一方、<code>a_rendered</code>ではAがMarkdownからHTMLを生成するため、入力と公開成果物のpath集合が一致しないからである。</li><li>判断: driftはpath・size・SHA-256の完全比較とし、missing・extra・changedを分類する。</li><li>理由: ファイルの追加、削除、内容変更を同じ「不一致」として停止しつつ、監査ログと修正判断に必要な差分を失わないためである。</li><li>判断: manifestは未知fieldと未知schemaを拒否し、JSONをsort key付きで決定的にserializeする。</li><li>理由: 将来のworkflowやprovenance比較で、入力順や未定義拡張による再現性・監査性の低下を防ぐためである。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: A#8の受入元digest、A#9の安全検証後に公開するファイルdigest、record metadataとdigest、公開URL、操作・受入日時・通知対象をmanifestへ正規化できるようにした。直前manifestと公開中ファイルが不一致なら、drift例外を発生させて自動上書きを止める。</li><li>変更ファイル: <code>scripts/publish/provenance.py</code>、<code>tests/test_provenance.py</code>、<code>projects/README.md</code>、本作業記録のMarkdownと生成HTML。</li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（41件合格）。正常、drift、未知schemaのJSON fixtureを含む。HTML再生成check、filename validator、<code>py_compile</code>、<code>git diff --check</code>に合格した。<code>work_record_025.html</code>をChromiumで1280×900、900×900、640×900、320×800で確認し、横overflow、console error、page error、failed requestは全条件0件だった。</li><li>未解決事項: A#10単体では実manifestをまだ配置しない。既存公開物の初期manifestはA#11、no-op同期・受入workflow接続はA#12・A#17以降で実装する。source registryの<code>enabled: false</code>も維持する。</li><li>次アクション: A#11で既存公開物の初期provenance manifestを作成し、A#12でno-op同期dry-runへ接続する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-20 取得範囲: <code>tj-999-comp/sandbox-pages</code>の親Issue #5とIssue #6〜#11</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#5 [Epic] プロジェクト進捗ページの自動公開を段階導入する
+├── #6 [Publish] 公開元source登録を設定ファイル化する
+├── #7 [Publish] 共通命名・metadata schema validatorを実装する
+└── #8 [Publish] 受入ファイルのpath・種別・容量validatorを実装する</code></pre>
+<h3>対象Issue</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/10">#10 provenance manifest schemaとdrift検査を実装する</a></td><td>未完了</td><td>本作業の対象。#8/#9のdigestを来歴へ接続</td></tr><tr><td>2</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/11">#11 B既存001〜010の初期provenance manifestを登録する</a></td><td>未完了</td><td>#10完了後。既存公開物の初期照合</td></tr><tr><td>3</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/12">#12 既存Bのno-op同期dry-runを実装する</a></td><td>未完了</td><td>#10/#11の後続</td></tr><tr><td>4</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/5">#5 プロジェクト進捗ページの自動公開を段階導入する</a></td><td>未完了</td><td>親Epic</td></tr></tbody></table>
+<h3>依存Issue</h3>
+<table><thead><tr><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係</th></tr></thead><tbody><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/6">#6 公開元source登録を設定ファイル化する</a></td><td>完了</td><td>source repository/ref/path/容量上限を提供</td></tr><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/7">#7 共通命名・metadata schema validatorを実装する</a></td><td>完了</td><td>record metadataの正規化を提供</td></tr><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/8">#8 受入ファイルのpath・種別・容量validatorを実装する</a></td><td>未完了</td><td>source digestの入力を提供</td></tr><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/9">#9 source_html向けHTML・CSS・URL安全validatorを実装する</a></td><td>未完了</td><td>published digest前の安全検証を提供</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 025</span>
+        <span><a href="md/work_record_025.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

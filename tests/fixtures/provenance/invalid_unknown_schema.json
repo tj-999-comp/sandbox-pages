@@ -1,0 +1,17 @@
+{
+  "accepted_at": "2026-08-20T01:00:00Z",
+  "notify": false,
+  "operation": "create",
+  "project_id": "B_Stats_Site",
+  "public_base_path": "/sandbox-pages/projects/B_Stats_Site/",
+  "publication_id": "pub-001",
+  "published_files": [],
+  "records": [],
+  "schema_version": 2,
+  "source": {
+    "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/B_Stats_Site"
+  },
+  "source_files": []
+}
