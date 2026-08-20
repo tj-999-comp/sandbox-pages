@@ -31,7 +31,12 @@ class ReadOnlyAcceptanceError(ValueError):
 
 
 def resolve_source(
-    *, registry_path: str | Path, project_id: str, source_commit_sha: str, target_basename: str
+    *,
+    registry_path: str | Path,
+    project_id: str,
+    source_commit_sha: str,
+    target_basename: str,
+    allow_enabled: bool = False,
 ) -> dict[str, Any]:
     """Resolve and validate workflow inputs using only A's registry."""
 
@@ -44,9 +49,9 @@ def resolve_source(
     if project_id not in sources:
         raise ReadOnlyAcceptanceError(f"project_id is not registered: {project_id}")
     source = dict(sources[project_id])
-    # Issue #17 is deliberately a dry-run gate.  An enabled source must not
-    # silently turn this workflow into an apply path.
-    if source["enabled"] is not False:
+    # The default remains the Issue #17 dry-run gate.  The full publish
+    # workflow opts in explicitly after the source has passed activation.
+    if source["enabled"] is not False and not allow_enabled:
         raise ReadOnlyAcceptanceError(
             f"read-only acceptance requires enabled:false: {project_id}"
         )
@@ -63,6 +68,7 @@ def run_acceptance(
     branch_ref: str,
     provenance_root: str | Path,
     output_dir: str | Path,
+    allow_enabled: bool = False,
 ) -> dict[str, Any]:
     """Validate a fixed source commit and write deterministic dry-run output."""
 
@@ -71,6 +77,7 @@ def run_acceptance(
         project_id=project_id,
         source_commit_sha=source_commit_sha,
         target_basename=target_basename,
+        allow_enabled=allow_enabled,
     )
     checkout = Path(source_checkout)
     source_root = checkout / Path(source["source_directory"])
@@ -287,6 +294,7 @@ def main(argv: list[str] | None = None) -> int:
     resolve_parser.add_argument("--project-id", required=True)
     resolve_parser.add_argument("--source-commit-sha", required=True)
     resolve_parser.add_argument("--target-basename", required=True)
+    resolve_parser.add_argument("--allow-enabled", action="store_true")
 
     run_parser = subparsers.add_parser("run")
     run_parser.add_argument("--registry", type=Path, required=True)
@@ -297,6 +305,7 @@ def main(argv: list[str] | None = None) -> int:
     run_parser.add_argument("--branch-ref", required=True)
     run_parser.add_argument("--provenance-root", type=Path, required=True)
     run_parser.add_argument("--output-dir", type=Path, required=True)
+    run_parser.add_argument("--allow-enabled", action="store_true")
 
     args = parser.parse_args(argv)
     try:
@@ -306,6 +315,7 @@ def main(argv: list[str] | None = None) -> int:
                 project_id=args.project_id,
                 source_commit_sha=args.source_commit_sha,
                 target_basename=args.target_basename,
+                allow_enabled=args.allow_enabled,
             )
             _write_resolved_outputs(source)
             return 0
@@ -318,6 +328,7 @@ def main(argv: list[str] | None = None) -> int:
             branch_ref=args.branch_ref,
             provenance_root=args.provenance_root,
             output_dir=args.output_dir,
+            allow_enabled=args.allow_enabled,
         )
     except (OSError, ReadOnlyAcceptanceError) as exc:
         parser.exit(1, f"read-only acceptance failed: {exc}\n")

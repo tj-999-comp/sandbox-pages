@@ -10,6 +10,7 @@ from scripts.publish.apply_engine import (
     ApplyEngineError,
     apply_verified_payload,
     apply_with_bounded_retry,
+    infer_operation,
 )
 from scripts.publish.read_only_acceptance import run_acceptance
 
@@ -18,6 +19,30 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ApplyEngineTests(unittest.TestCase):
+    def test_operation_inference_uses_previous_provenance(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            acceptance = fixture.create_acceptance("work_record_011")
+
+            self.assertEqual(
+                infer_operation(
+                    acceptance_path=acceptance,
+                    provenance_root=fixture.repo / "provenance",
+                ),
+                "create",
+            )
+            fixture.apply(acceptance, "pub-011", "create")
+            _git(fixture.repo, "add", ".")
+            _git(fixture.repo, "commit", "--quiet", "-m", "apply record")
+
+            self.assertEqual(
+                infer_operation(
+                    acceptance_path=acceptance,
+                    provenance_root=fixture.repo / "provenance",
+                ),
+                "update",
+            )
+
     def test_create_rechecks_payload_and_updates_only_allowed_files(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             fixture = _Fixture(Path(temp_dir))

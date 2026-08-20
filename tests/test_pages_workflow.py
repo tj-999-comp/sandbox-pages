@@ -27,20 +27,38 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertNotIn("contents: write", workflow)
         self.assertIn("python3 -m scripts.publish.index_generator --check", workflow)
 
-    def test_source_acceptance_is_manual_read_only_and_dry_run_only(self):
+    def test_source_acceptance_commits_and_deploys_only_validated_changes(self):
         workflow = (ROOT / ".github/workflows/accept-source.yml").read_text(encoding="utf-8")
         self.assertIn("workflow_dispatch:", workflow)
         for input_name in ("project_id", "source_commit_sha", "target_basename"):
             self.assertIn(f"      {input_name}:", workflow)
         self.assertIn("permissions: {}", workflow)
         self.assertIn("contents: read", workflow)
-        self.assertNotIn("contents: write", workflow)
+        self.assertIn("contents: write", workflow)
         self.assertNotIn("secrets.", workflow)
         self.assertIn('"$GITHUB_REF" != "refs/heads/main"', workflow)
         self.assertIn("token: ${{ github.token }}", workflow)
+        self.assertIn("actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093", workflow)
+        self.assertIn("python3 -m scripts.publish.apply_engine", workflow)
+        self.assertIn("--allow-enabled", workflow)
+        self.assertIn("source is disabled; validation completed without apply", workflow)
+        self.assertIn("--operation auto", workflow)
+        self.assertIn("git push origin HEAD:refs/heads/main", workflow)
+        self.assertIn("for retry in 0 1", workflow)
+        self.assertIn("main advanced during apply; rechecking and retrying once", workflow)
+        self.assertIn("uses: ./.github/workflows/deploy-pages.yml", workflow)
+        self.assertIn("commit_sha: ${{ needs.apply.outputs.commit_sha }}", workflow)
+        self.assertIn("group: pages-production-main", workflow)
+        self.assertNotIn("rsync --delete", workflow)
         acceptance = (ROOT / "scripts/publish/read_only_acceptance.py").read_text(encoding="utf-8")
         self.assertIn('"merge-base", "--is-ancestor"', acceptance)
         self.assertIn("dry_run", acceptance)
+        self.assertIn("allow_enabled: bool = False", acceptance)
+
+    def test_apply_cli_can_infer_create_or_update_from_provenance(self):
+        apply_engine = (ROOT / "scripts/publish/apply_engine.py").read_text(encoding="utf-8")
+        self.assertIn('choices=("auto", "create", "update")', apply_engine)
+        self.assertIn("def infer_operation", apply_engine)
 
 
 if __name__ == "__main__":
