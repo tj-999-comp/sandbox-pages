@@ -70,6 +70,17 @@ limits:
 
 ## 正本と所有境界
 
+### 生成元の自己検証と公開側の最終受入
+
+公開フローでは、作業リポジトリ（B）と公開リポジトリ（A）が同じ検証を重複して担当するのではなく、次の二段階に分ける。
+
+- 作業リポジトリ（B）は公開要求前の自己検証を担当する。命名、metadata、Markdown・HTMLの対応、HTML再生成、安全性、support file依存を確認し、公開候補commitを作る。
+- 公開リポジトリ（A）は受入時の独立した最終検証を担当する。Aのsource registryから許可path・ファイル種別・容量上限・通常ファイル条件・digestを再導出し、A所有の安全validator、provenance、公開先差分を確認する。
+- B側validatorの成功は公開許可を意味しない。A側validatorの成功と、Aの受入workflow・provenance・Pages処理の完了をもって公開とする。
+- BへAのContents write権限や公開先の編集権限を渡さない。Bは固定commitと公開対象basenameを公開要求として送り、Aがsource登録に基づいて取得・再検証する。
+
+この分担により、生成元が誤設定・侵害・想定外ファイルを含むcommitを送った場合でも、公開側で受入範囲を再計算して拒否できる。
+
 | 対象 | 所有者・正本 |
 | --- | --- |
 | Markdownとmetadataの内容 | 生成元リポジトリの受入対象commit |
