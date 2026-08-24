@@ -263,6 +263,7 @@ class _Fixture:
             branch_ref="refs/heads/main",
             provenance_root=self.repo / "provenance",
             output_dir=output,
+            allow_enabled=True,
         )
         return output / "acceptance.json"
 

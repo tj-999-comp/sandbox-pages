@@ -15,12 +15,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SourceRegistryTests(unittest.TestCase):
-    def test_repository_registry_loads_and_is_disabled(self):
+    def test_repository_registry_loads_and_is_enabled(self):
         registry = load_registry(ROOT / "config" / "sources.json")
         self.assertEqual(registry["schema_version"], 1)
         self.assertEqual([source["project_id"] for source in registry["sources"]], ["B_Stats_Site"])
         source = registry["sources"][0]
-        self.assertFalse(source["enabled"])
+        self.assertTrue(source["enabled"])
         self.assertEqual(source["html_mode"], "source_html")
         self.assertEqual(source["generator_id"], "b-stats-work-record-v1")
 
