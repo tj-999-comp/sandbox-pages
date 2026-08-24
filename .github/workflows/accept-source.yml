@@ -267,10 +267,10 @@ jobs:
   deploy:
     name: Deploy committed fixed SHA
     needs: apply
-    if: needs.apply.outputs.no_op != 'true'
     uses: ./.github/workflows/deploy-pages.yml
     with:
       commit_sha: ${{ needs.apply.outputs.commit_sha }}
+      should_deploy: ${{ needs.apply.outputs.no_op != 'true' }}
     permissions:
       contents: read
       pages: write

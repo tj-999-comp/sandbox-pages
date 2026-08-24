@@ -16,6 +16,11 @@ on:
         description: Exact main commit SHA to deploy
         required: true
         type: string
+      should_deploy:
+        description: Whether the caller has a new publication to deploy
+        required: false
+        default: true
+        type: boolean
     outputs:
       page_url:
         description: Deployed GitHub Pages URL
@@ -30,6 +35,7 @@ concurrency:
 jobs:
   build:
     name: Build fixed SHA artifact
+    if: github.event_name != 'workflow_call' || inputs.should_deploy
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -79,6 +85,7 @@ jobs:
   deploy:
     name: Deploy fixed SHA
     needs: build
+    if: github.event_name != 'workflow_call' || inputs.should_deploy
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
