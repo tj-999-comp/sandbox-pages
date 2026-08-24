@@ -14,16 +14,16 @@
 - 入力: `work_record_039`・`work_record_040`、A側run #32715367822、apply artifact、`.github/workflows/accept-source.yml`、`.github/workflows/deploy-pages.yml`。
 - 実施内容: `uses: ./.github/workflows/deploy-pages.yml`のcaller jobから`if`を除去し、`should_deploy` booleanをcalled workflowへ渡す構成へ変更した。called workflow内部でworkflow_call時だけ`should_deploy`を評価し、push・手動dispatchの既存経路は維持した。静的テストへcreate/no-op分岐の契約を追加した。
 - 成果物: `accept-source.yml`、`deploy-pages.yml`、`tests/test_pages_workflow.py`、`docs/ACTIONS_MAIN_POLICY.md`、本作業記録。
-- 検証結果: unit test 73件、Python構文、両workflow YAML構文、index生成check、作業記録検証、`git diff --check`に合格した。
-- 未解決事項: CIと修正後の実GitHub Actions E2Eは作業記録作成時点で未実行。
-- 次工程への引き継ぎ: PRのCI合格後、B側固定SHA `8210edbcd271089d6942ce44371a90261bcfc0a0`・`work_record_026`で受入workflowを再実行し、Pages URL・Slack・同一要求no-opを確認する。
+- 検証結果: unit test 73件、Python構文、両workflow YAML構文、index生成check、作業記録検証、`git diff --check`に合格した。PR #43の`Validate / validate`（run #32791465943）も成功した。
+- 未解決事項: 修正後の実GitHub Actions E2Eは未実行。
+- 次工程への引き継ぎ: PR #43のmerge後、B側固定SHA `8210edbcd271089d6942ce44371a90261bcfc0a0`・`work_record_026`で受入workflowを再実行し、Pages URL・Slack・同一要求no-opを確認する。
 
 ### Portfolio Reviewer
 
 - 入力: 公式GitHub Actionsのreusable workflow仕様、実run #32715367822のjob構成とapply artifact。
 - 実施内容: `no_op=false`、`operation=create`、`notify=true`でもcallerの`deploy` child jobが存在せず、push起点の別Pages runだけが成功していたことを照合した。caller jobの`if`を使わず、called workflow内部へ条件を移す差分を確認した。
 - 成果物: 原因分析と最小差分レビュー。
-- 検証結果: 変更範囲は受入・Pages workflow、workflow契約テスト、運用方針文書に限定され、既存のpublish実装・公開成果物・provenanceを変更していない。
+- 検証結果: 変更範囲は受入・Pages workflow、workflow契約テスト、運用方針文書に限定され、既存のpublish実装・公開成果物・provenanceを変更していない。PR #43の差分もこの6ファイルに一致し、CIは成功した。
 - 未解決事項: 実環境での修正後run確認。
 - 次工程への引き継ぎ: CIと実E2Eの結果を作業記録へ追記し、失敗時はworkflowを再修正する。
 
@@ -44,16 +44,17 @@
   - `docs/ACTIONS_MAIN_POLICY.md`
   - `work-records/md/work_record_041.md`
   - `work-records/work_record_041.html`
-- 検証結果: ローカルunit test 73件、Python構文、YAML構文、index生成check、作業記録・filename検証、`git diff --check`に合格。CI・実E2Eは継続確認する。
+- 検証結果: ローカルunit test 73件、Python構文、YAML構文、index生成check、作業記録・filename検証、`git diff --check`に合格。PR #43の`Validate / validate`（run #32791465943）も成功した。
 - 作業ブランチ: `codex/041-issue23-e2e-fix`
-- コミット: 作業記録作成時点では未commit。
-- PR: 作業記録作成時点では未作成。
-- 未解決事項: 修正後のaccept-source成功、固定SHA Pages deploy、公開URL、Slack通知、同一要求no-op、CI・PRレビュー。
-- 次アクション: commit・push・PR作成後、CIと実E2Eを確認し、必要なら修正と再検証を繰り返す。
+- コミット: `f15fc25`（workflow修正・テスト・作業記録）および本更新commit。
+- PR: [#43 Issue #23: reusable Pages deploy条件を修正](https://github.com/tj-999-comp/sandbox-pages/pull/43)（Open / Ready、base `main`、head `codex/041-issue23-e2e-fix`）。
+- PRレビュー・CI: CI `Validate / validate` run #32791465943は成功。外部レビューは未確認。
+- 未解決事項: PR merge後のaccept-source成功、固定SHA Pages deploy、公開URL、Slack通知、同一要求no-op、外部レビュー。
+- 次アクション: PR #43のレビュー・merge後、固定SHAで実E2Eを実行し、失敗時は修正と再検証を繰り返す。
 
 ## GitHub Issue状況
 
-確認日時（JST）: 2026-08-25 08:41
+確認日時（JST）: 2026-08-25 08:55
 取得範囲: `tj-999-comp/sandbox-pages`の#20・#22〜#24、および`tj-999-comp/B_Stats_Site`の#31をGitHub APIで個別取得した時点のsnapshot。
 
 ### 親子関係
