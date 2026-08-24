@@ -53,7 +53,7 @@
 - 検証結果: `PYTHONPYCACHEPREFIX=/tmp/issue20_pycache python3 -m unittest discover -s tests -p 'test_*.py'`（73件成功）、Python compile（成功）、Ruby YAML parser（成功）、`git diff --check`（成功）。
 - ブラウザ確認: `work_record_037.html`をChromiumで1280px、900px、640px、320px幅にて確認。全幅でHTTP 200、横overflowなし、console/page errorなし、failed requestなし。workflow・運用文書変更自体は表示コードではない。
 - 作業ブランチ: `codex/037-issue-20-slack-notification`
-- コミット: `009935c feat: add post-deploy Slack notification`
+- コミット: `009935c feat: add post-deploy Slack notification`、`e847b25 docs: record Issue #20 Slack notification`
 - PR: 未作成。PR作成は外部公開操作のため、commit・push後に明示承認を得て実施する。
 - PRレビュー・CI: ローカル事前レビュー合格。GitHub ActionsのCIとPR上のレビューは未実施。
 - 未解決事項: `SLACK_WEBHOOK_URL`のRepository Secret登録、GitHub Actions実run、実Slack通知、B側#31の新規publish要求。
