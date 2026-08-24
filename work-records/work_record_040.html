@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>PR #42のvalidation失敗修正 — 作業記録 040</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 040 ・ <time datetime="2026-08-25">2026-08-25</time></p>
+          <h1>PR #42のvalidation失敗修正</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_040.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: PR #42の<code>Validate / validate</code>がunit testで失敗していた。</li><li>目的: 現行の公開済みprovenanceとテストfixtureの前提を一致させ、PRのvalidationを通す。</li><li>完了条件: 失敗原因を修正し、CIと同じ検証コマンドがすべて成功する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: PR #42の失敗check、<code>tests/test_apply_engine.py</code>、<code>tests/test_sync_dry_run.py</code>、現行のprovenance manifest。</li><li>実施内容: テストが古い<code>initial.json</code>を参照し続けていたため、現行公開ファイルを基にテスト専用bootstrap manifestを組み立てるよう修正した。fixtureでは<code>create</code>・<code>notify=false</code>・現行の公開inventoryを使い、公開履歴のmanifest自体は変更していない。</li><li>成果物: 更新したunit test fixtureとPR #42向けの作業記録。</li><li>検証結果: unit test 73件、index生成チェック、作業記録HTMLチェック、ファイル名検証が成功した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: PR #42へcommitをpushし、GitHub Actionsの再実行結果を確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 実装差分とCI相当の検証結果。</li><li>実施内容: 変更範囲がテストfixtureの基準manifest切替に限定され、<code>initial.json</code>や公開成果物を変更していないことを確認した。</li><li>成果物: 差分レビュー結果。</li><li>検証結果: <code>git diff --check</code>成功、重大な未解決事項なし。</li><li>未解決事項: GitHub上の再実行checkはpush後に確認する。</li><li>次工程への引き継ぎ: push後のPR checkでvalidation成功を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 本番の<code>initial.json</code>を現行公開状態へ書き換えず、テスト側で現行公開manifestからbootstrap fixtureを作る。</li><li>理由: <code>initial.json</code>は公開履歴上のbootstrap記録であり、後続publishの成果物を反映して上書きする対象ではないため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: PR #42のunit testが古いbootstrap manifestと現行公開ツリーを比較して失敗する問題を解消した。</li><li>変更ファイル:<ul><li><code>tests/test_apply_engine.py</code></li><li><code>tests/test_sync_dry_run.py</code></li><li><code>work-records/md/work_record_040.md</code></li><li><code>work-records/work_record_040.html</code></li></ul></li><li>検証結果:<ul><li><code>python3 -m unittest discover -s tests -p 'test_*.py'</code>: 成功（73件）</li><li><code>python3 -m scripts.publish.index_generator --check</code>: 成功</li><li><code>python3 scripts/dev/convert_work_records_to_html.py --check</code>: 成功</li><li><code>python3 scripts/dev/validate_work_record_filenames.py</code>: 成功</li><li><code>git diff --check</code>: 成功</li></ul></li><li>ブラウザ確認: <code>work_record_040.html</code>をChromiumで1280/900/640/320px幅にて確認。全幅HTTP 200、横overflowなし、console errorなし、page errorなし、failed requestなし。</li><li>未解決事項: GitHub Actionsのpush後check結果のみ未確認。</li><li>次アクション: PR #42へpush後、<code>Validate / validate</code>の再実行結果を確認する。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 040</span>
+        <span><a href="md/work_record_040.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
