@@ -15,7 +15,7 @@
 - 実施内容: apply結果へ`operation`、`publication_id`、`notify`を追加し、createだけを通知対象としてprovenanceへ記録するようにした。Pages deploy成功後にだけ動く`notify` jobを追加し、公開URLの確認、Slack payload生成、Incoming Webhook送信を実装した。validation、apply、deployへWebhook Secretを渡さず、通知jobの送信stepだけへ`SLACK_WEBHOOK_URL`を渡す構成にした。
 - 成果物: `.github/workflows/accept-source.yml`、`scripts/publish/apply_engine.py`、`scripts/publish/slack_notification.py`、運用文書、テスト。
 - 検証結果: Python unittest 73件成功、Python compile成功、Ruby YAML parserによるworkflow構文確認成功、`git diff --check`成功。
-- 未解決事項: GitHub Secret `SLACK_WEBHOOK_URL`の登録と実Webhookへの送信確認は、外部設定が必要なため未実施。
+- 未解決事項: 実Webhookへの送信確認は未実施。GitHub Secret `SLACK_WEBHOOK_URL`は登録済みとして次工程へ引き継ぐ。
 - 次工程への引き継ぎ: Secret登録後、非bootstrapの新規publishでPages deploy・公開URL・Slack通知を実環境確認する。
 
 ### Portfolio Reviewer
@@ -54,10 +54,10 @@
 - ブラウザ確認: `work_record_037.html`をChromiumで1280px、900px、640px、320px幅にて確認。全幅でHTTP 200、横overflowなし、console/page errorなし、failed requestなし。workflow・運用文書変更自体は表示コードではない。
 - 作業ブランチ: `codex/037-issue-20-slack-notification`
 - コミット: `009935c feat: add post-deploy Slack notification`、`e847b25 docs: record Issue #20 Slack notification`
-- PR: 未作成。PR作成は外部公開操作のため、commit・push後に明示承認を得て実施する。
-- PRレビュー・CI: ローカル事前レビュー合格。GitHub ActionsのCIとPR上のレビューは未実施。
-- 未解決事項: `SLACK_WEBHOOK_URL`のRepository Secret登録、GitHub Actions実run、実Slack通知、B側#31の新規publish要求。
-- 次アクション: 作業記録をcommit・pushまで進める。その後、Secret登録とPR作成承認を依頼する。
+- PR: [#40 Issue #20: deploy成功後のSlack通知jobを追加](https://github.com/tj-999-comp/sandbox-pages/pull/40)（Draft / OPEN）。
+- PRレビュー・CI: ローカル事前レビュー合格。GitHub Actions Validate [run #32705496102](https://github.com/tj-999-comp/sandbox-pages/actions/runs/32705496102)はSUCCESS。GitHub上の外部レビューは未実施。
+- 未解決事項: 実publish run、実Slack通知、B側#31の新規publish要求。
+- 次アクション: PR #40のレビュー・merge後、非bootstrapの新規publishでPages deployとSlack通知を実環境確認する。mergeは自動実行しない。
 
 ## GitHub Issue状況
 
