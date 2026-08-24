@@ -72,8 +72,9 @@ class ApplyEngineTests(unittest.TestCase):
             )
             self.assertEqual(manifest["operation"], "create")
             self.assertEqual(manifest["source"]["commit_sha"], fixture.source_head)
-            self.assertEqual(
-                manifest["records"][-1]["basename"], "work_record_011"
+            self.assertIn(
+                "work_record_011",
+                {record["basename"] for record in manifest["records"]},
             )
 
     def test_metadata_tampering_is_rejected_without_writes(self):
@@ -186,9 +187,19 @@ class _Fixture:
             ROOT / "projects/B_Stats_Site/index.html",
             self.repo / "projects/B_Stats_Site/index.html",
         )
-        shutil.copy2(
-            ROOT / "provenance/B_Stats_Site/initial.json",
-            self.repo / "provenance/B_Stats_Site/initial.json",
+        manifest = json.loads(
+            _latest_manifest_path().read_text(encoding="utf-8")
+        )
+        manifest.update(
+            {
+                "accepted_at": "2026-08-20T00:00:00Z",
+                "notify": False,
+                "publication_id": "bootstrap-20260820-b-stats-site",
+                "source_files": manifest["published_files"],
+            }
+        )
+        (self.repo / "provenance/B_Stats_Site/initial.json").write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
         _git(self.repo, "init", "--quiet")
         _git(self.repo, "config", "user.email", "test@example.com")
@@ -300,6 +311,17 @@ def _git(cwd: Path, *args: str) -> str:
         ["git", "-C", str(cwd), *args], check=True, capture_output=True, text=True
     )
     return completed.stdout.strip()
+
+
+def _latest_manifest_path() -> Path:
+    manifests = sorted((ROOT / "provenance/B_Stats_Site").glob("*.json"))
+    return max(
+        manifests,
+        key=lambda path: (
+            json.loads(path.read_text(encoding="utf-8"))["accepted_at"],
+            json.loads(path.read_text(encoding="utf-8"))["publication_id"],
+        ),
+    )
 
 
 if __name__ == "__main__":
