@@ -24,8 +24,8 @@
 - 実施内容: 変更範囲がテストfixtureの基準manifest切替に限定され、`initial.json`や公開成果物を変更していないことを確認した。
 - 成果物: 差分レビュー結果。
 - 検証結果: `git diff --check`成功、重大な未解決事項なし。
-- 未解決事項: GitHub上の再実行checkはpush後に確認する。
-- 次工程への引き継ぎ: push後のPR checkでvalidation成功を確認する。
+- 未解決事項: なし。
+- 次工程への引き継ぎ: なし。
 
 ## 主要な判断
 
@@ -40,6 +40,9 @@
   - `tests/test_sync_dry_run.py`
   - `work-records/md/work_record_040.md`
   - `work-records/work_record_040.html`
+- 作業ブランチ: `codex/039-record-issue23-e2e`
+- コミット: `b31e35a fix: align publish tests with current provenance`
+- PR: [#42 Issue #23の途中E2E結果と次セッション引き継ぎを記録](https://github.com/tj-999-comp/sandbox-pages/pull/42)（Draft / Open）
 - 検証結果:
   - `python3 -m unittest discover -s tests -p 'test_*.py'`: 成功（73件）
   - `python3 -m scripts.publish.index_generator --check`: 成功
@@ -47,5 +50,6 @@
   - `python3 scripts/dev/validate_work_record_filenames.py`: 成功
   - `git diff --check`: 成功
 - ブラウザ確認: `work_record_040.html`をChromiumで1280/900/640/320px幅にて確認。全幅HTTP 200、横overflowなし、console errorなし、page errorなし、failed requestなし。
-- 未解決事項: GitHub Actionsのpush後check結果のみ未確認。
-- 次アクション: PR #42へpush後、`Validate / validate`の再実行結果を確認する。
+- GitHub Actions: `Validate / validate` 成功（run #32784882711）。
+- 未解決事項: なし。
+- 次アクション: なし。
