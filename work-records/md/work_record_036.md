@@ -49,7 +49,7 @@
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（67件、成功）、JSON構文確認（成功）、`git diff --check`（成功）。
 - ブラウザ確認: `work-records/work_record_036.html`をChromiumで1280px、900px、640px、320px幅で確認。全幅でHTTP 200、横overflowなし、console/page errorなし、failed requestなし。
 - 作業ブランチ: `codex/035-issue-22-activation`
-- コミット: 未実施
+- コミット: `84e01a7 feat: enable B source for manual E2E`
 - PR: 未作成
 - PRレビュー・CI: commit前のローカルレビュー済み。push後に確認予定。
 - 未解決事項: Issue #23の実公開E2E、Pages公開URL、Slack通知の確認は未実施。
