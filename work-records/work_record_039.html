@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #23実publish E2Eの途中結果 — 作業記録 039</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 039 ・ <time datetime="2026-08-25">2026-08-25</time></p>
+          <h1>Issue #23実publish E2Eの途中結果</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_039.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: B側<code>work_record_026</code>のpublish要求から、A側受入・Pages公開・公開URL・Slack通知までのE2Eを確認する。</li><li>目的: Issue #23の一連の公開経路を実環境で確認し、次セッションへ正確な再開点を引き継ぐ。</li><li>完了条件: B側要求、A側dry-run/apply、Pages deploy、公開URL、Slack通知、同一要求のno-op再実行を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: B側Issue #31の<code>work_record_026</code>、source commit <code>8210edbcd271089d6942ce44371a90261bcfc0a0</code>、修正済みA側main、前回のapply失敗ログ。</li><li>実施内容: A側apply時の<code>__pycache__</code>生成を抑止する修正PR #41のmerge後、B側publish Workflowを再dispatchした。B側検証・A側dry-run・A側applyの結果を確認した。</li><li>成果物: A側mainへpublishされた<code>projects/B_Stats_Site/work_record_026.html</code>、provenance manifest、実行履歴。</li><li>検証結果: B側run #32715094512成功、A側dry-run成功、A側apply成功。applyはcommit <code>c88a5cc77fb46a15546554d3bbcf539f3f8862b8</code>を作成し、provenanceは<code>operation=create</code>・<code>notify=true</code>となった。</li><li>未解決事項: A側accept-source run #32715367822はfailure扱い。Slack通知jobはskippedで、実Slack受信は未確認。</li><li>次工程への引き継ぎ: A側のreusable deploy jobがaccept-source run上で成功扱いにならず、notifyがskippedになった境界を調査する。Pagesの公開成功とaccept-source runのfailureの関係を切り分ける。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 公開URL<code>https://tj-999-comp.github.io/sandbox-pages/projects/B_Stats_Site/work_record_026.html</code>。</li><li>実施内容: 公開済みwork_record_026をChromiumで1280/900/640/320px幅にて確認した。</li><li>成果物: ブラウザ確認レポート。</li><li>検証結果: 全幅HTTP 200、横overflowなし、console errorなし、page errorなし、failed requestなし。project indexとglobal indexもHTTP 200。</li><li>未解決事項: Slack通知の受信確認、同一要求再実行時のno-op確認。</li><li>次工程への引き継ぎ: deploy/notifyの状態を解消後、同じ公開ページを再確認し、no-op再実行のcommit・deploy・通知なしを確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: B側run #32715094512、A側run #32715367822、Pages deployment #32715402294、provenance manifest、公開URL。</li><li>実施内容: B側の入力検証とA側dispatchが成功したこと、A側applyが<code>__pycache__</code>問題を越えてpublish commitを作成したこと、Pagesの動的deploymentが成功したこと、notify jobがskippedであることを照合した。</li><li>成果物: 実行履歴とprovenanceの照合結果。</li><li>検証結果: publishとPages表示は確認済み。Issue #23の完了条件であるSlack受信とno-op再実行は未達。</li><li>未解決事項: accept-source全体はfailureのため、Issue #23を完了扱いにしない。</li><li>次工程への引き継ぎ: A側accept-sourceのdeploy job結果を取得可能な形で確認し、必要なworkflow修正を別PRで実施する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: publish commitとPages表示が成功していても、今回のE2Eを完了扱いにしない。</li><li>理由: accept-source run全体がfailureで、Slack通知jobがskippedだったため。公開成功だけではSlack通知までの完了条件を満たさない。</li><li>判断: 今回はWorkflowの追加修正を行わず、実行事実を作業記録として保存する。</li><li>理由: deploy reusable jobのfailure境界を特定せずに通知条件を緩めると、古い公開URLを新規公開として通知する危険があるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: B側からA側へのdispatch、固定source検証、A側apply、Pages公開、公開URL表示までを実環境で確認した。</li><li>変更ファイル:<ul><li><code>work-records/md/work_record_039.md</code></li><li><code>work-records/work_record_039.html</code></li></ul></li><li>検証結果: B側run #32715094512 SUCCESS、A側apply SUCCESS、Pages deployment #32715402294 SUCCESS。公開ページのHTTP・ブラウザ確認成功。</li><li>作業ブランチ: <code>codex/039-record-issue23-e2e</code></li><li>コミット: 未コミット</li><li>PR: 未作成</li><li>PRレビュー・CI: 未実行。</li><li>未解決事項: A側accept-source #32715367822のfailure原因、Slack通知jobのskipped、no-op再実行。</li><li>次アクション: 本記録をPR化し、次セッションでdeploy/notify境界の調査と修正を続ける。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-25 06:43 取得範囲: <code>tj-999-comp/sandbox-pages</code>の#20・#23・#24、および<code>tj-999-comp/B_Stats_Site</code>の#30〜#32を個別取得した。今回のE2E runと依存関係にあるIssueを対象とした。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">sandbox-pages #5
+├── sandbox-pages #20（Closed / completed）
+└── sandbox-pages #23（Open、今回のE2E）
+
+B_Stats_Site #30（Closed / completed）
+└── B_Stats_Site #31（Open / reopened、work_record_026のpublish要求）</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>Open</td><td>Slack通知とno-op再実行が未確認。deploy/notify境界の調査後に継続する。</td></tr><tr><td>2</td><td>未設定</td><td>[B_Stats_Site #31 [E2E] 新規作業記録1件を手動publish要求する](https://github.com/tj-999-comp/B_Stats_Site/issues/31)</td><td>Open / reopened</td><td>publish要求は実行済みだが、A側accept-source全体とSlack通知が未完了。</td></tr><tr><td>3</td><td>未設定</td><td>[#24 [Operations] 監査可能な公開取り下げworkflowを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/24)</td><td>Open</td><td>今回のE2Eとは独立。</td></tr><tr><td>4</td><td>未設定</td><td>[B_Stats_Site #32 [Automation] main更新時の公開要求triggerを有効化する](https://github.com/tj-999-comp/B_Stats_Site/issues/32)</td><td>Open</td><td>#23完了後の自動化課題。</td></tr></tbody></table>
+<h3>完了済みの関連Issue</h3>
+<table><thead><tr><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">本作業との関係</th></tr></thead><tbody><tr><td>[#20 [Notification] deploy成功後のSlack通知jobを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/20)</td><td>Closed / completed</td><td>Slack通知jobの実装は完了済み。今回の実Slack受信確認は#23の範囲。</td></tr><tr><td>[B_Stats_Site #30 [Actions] 手動公開要求workflowとdispatch権限を設定する](https://github.com/tj-999-comp/B_Stats_Site/issues/30)</td><td>Closed / completed</td><td>B側からA側へpublish要求をdispatchする前提。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 039</span>
+        <span><a href="md/work_record_039.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
