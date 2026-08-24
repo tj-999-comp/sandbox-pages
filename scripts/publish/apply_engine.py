@@ -43,6 +43,7 @@ class ApplyResult:
     operation: str
     publication_id: str
     no_op: bool
+    notify: bool
     changed_paths: tuple[str, ...]
     manifest_path: str | None
 
@@ -52,6 +53,7 @@ class ApplyResult:
             "operation": self.operation,
             "publication_id": self.publication_id,
             "no_op": self.no_op,
+            "notify": self.notify,
             "changed_paths": list(self.changed_paths),
             "manifest_path": self.manifest_path,
         }
@@ -179,6 +181,7 @@ def apply_verified_payload(
             _copy_one_regular_file(source_file, target_file, source_path)
 
         final_published = _inventory_directory(staged_destination, ignored_paths={"index.html"})
+        notification_target = notify and operation == "create"
         manifest = build_manifest(
             publication_id=publication_id,
             project_id=project_id,
@@ -191,7 +194,7 @@ def apply_verified_payload(
             metadata_by_basename=metadata_by_basename,
             source_files=_payload_files(payload["inventory"]),
             published_files=final_published,
-            notify=notify,
+            notify=notification_target,
         )
 
         if _is_content_noop(previous, manifest):
@@ -200,6 +203,7 @@ def apply_verified_payload(
                 operation=operation,
                 publication_id=publication_id,
                 no_op=True,
+                notify=False,
                 changed_paths=(),
                 manifest_path=None,
             )
@@ -235,6 +239,7 @@ def apply_verified_payload(
         operation=operation,
         publication_id=publication_id,
         no_op=False,
+        notify=notification_target,
         changed_paths=changed_paths,
         manifest_path=manifest_relative.as_posix(),
     )

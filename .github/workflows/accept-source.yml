@@ -122,6 +122,9 @@ jobs:
     outputs:
       commit_sha: ${{ steps.apply.outputs.commit_sha }}
       no_op: ${{ steps.apply.outputs.no_op }}
+      operation: ${{ steps.apply.outputs.operation }}
+      publication_id: ${{ steps.apply.outputs.publication_id }}
+      notify: ${{ steps.apply.outputs.notify }}
     steps:
       - name: Checkout latest Repository A main
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -191,6 +194,9 @@ jobs:
             echo '{"no_op":true,"reason":"source is disabled; validation completed without apply"}' > "$RUNNER_TEMP/apply-result.json"
             echo "no_op=true" >> "$GITHUB_OUTPUT"
             echo "commit_sha=" >> "$GITHUB_OUTPUT"
+            echo "operation=noop" >> "$GITHUB_OUTPUT"
+            echo "publication_id=" >> "$GITHUB_OUTPUT"
+            echo "notify=false" >> "$GITHUB_OUTPUT"
             cp "$RUNNER_TEMP/apply-result.json" _apply-result.json
             exit 0
           fi
@@ -210,6 +216,7 @@ jobs:
               --publication-id "accept-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${PROJECT_ID}-${TARGET_BASENAME}" \
               --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
               --operation auto \
+              --notify \
               --expected-main-sha "$expected_main_sha" \
               --source-branch-ref "refs/remotes/origin/${{ needs.dry-run.outputs.source_branch }}")"
             echo "$result" > "$RUNNER_TEMP/apply-result.json"
@@ -217,6 +224,9 @@ jobs:
             if [[ "$(jq -r '.no_op' <<<"$result")" == "true" ]]; then
               echo "no_op=true" >> "$GITHUB_OUTPUT"
               echo "commit_sha=" >> "$GITHUB_OUTPUT"
+              echo "operation=$(jq -r '.operation' <<<"$result")" >> "$GITHUB_OUTPUT"
+              echo "publication_id=$(jq -r '.publication_id' <<<"$result")" >> "$GITHUB_OUTPUT"
+              echo "notify=false" >> "$GITHUB_OUTPUT"
               cp "$RUNNER_TEMP/apply-result.json" _apply-result.json
               exit 0
             fi
@@ -231,6 +241,9 @@ jobs:
               commit_sha="$(git rev-parse HEAD)"
               echo "commit_sha=$commit_sha" >> "$GITHUB_OUTPUT"
               echo "no_op=false" >> "$GITHUB_OUTPUT"
+              echo "operation=$(jq -r '.operation' <<<"$result")" >> "$GITHUB_OUTPUT"
+              echo "publication_id=$(jq -r '.publication_id' <<<"$result")" >> "$GITHUB_OUTPUT"
+              echo "notify=$(jq -r '.notify' <<<"$result")" >> "$GITHUB_OUTPUT"
               cp "$RUNNER_TEMP/apply-result.json" _apply-result.json
               exit 0
             fi
@@ -261,3 +274,43 @@ jobs:
       contents: read
       pages: write
       id-token: write
+
+  notify:
+    name: Notify Slack after successful publish
+    needs: [apply, deploy]
+    if: >-
+      needs.apply.result == 'success' &&
+      needs.deploy.result == 'success' &&
+      needs.apply.outputs.no_op != 'true' &&
+      needs.apply.outputs.operation == 'create' &&
+      needs.apply.outputs.notify == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Verify public URL is available
+        env:
+          PUBLIC_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          python3 -m scripts.publish.slack_notification verify-url \
+            --url "$PUBLIC_URL" \
+            --attempts 5 \
+            --delay-seconds 10
+
+      - name: Send Slack notification
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PROJECT_ID: ${{ inputs.project_id }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+          PUBLICATION_ID: ${{ needs.apply.outputs.publication_id }}
+          PUBLIC_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          python3 -m scripts.publish.slack_notification send \
+            --webhook-env SLACK_WEBHOOK_URL \
+            --project-id "$PROJECT_ID" \
+            --target-basename "$TARGET_BASENAME" \
+            --publication-id "$PUBLICATION_ID" \
+            --public-url "$PUBLIC_URL"

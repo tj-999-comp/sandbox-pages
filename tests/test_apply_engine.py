@@ -19,6 +19,18 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ApplyEngineTests(unittest.TestCase):
+    def test_create_result_and_manifest_mark_notification_target(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            acceptance = fixture.create_acceptance("work_record_011")
+            result = fixture.apply(acceptance, "pub-011", "create", notify=True)
+
+            self.assertTrue(result.notify)
+            manifest = json.loads(
+                (fixture.repo / "provenance/B_Stats_Site/pub-011.json").read_text(encoding="utf-8")
+            )
+            self.assertTrue(manifest["notify"])
+
     def test_operation_inference_uses_previous_provenance(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             fixture = _Fixture(Path(temp_dir))
@@ -267,7 +279,7 @@ class _Fixture:
         )
         return output / "acceptance.json"
 
-    def apply(self, acceptance: Path, publication_id: str, operation: str):
+    def apply(self, acceptance: Path, publication_id: str, operation: str, *, notify: bool = False):
         return apply_verified_payload(
             acceptance_path=acceptance,
             source_checkout=self.checkout,
@@ -279,6 +291,7 @@ class _Fixture:
             operation=operation,
             expected_main_sha=_git(self.repo, "rev-parse", "HEAD"),
             source_branch_ref="refs/heads/main",
+            notify=notify,
         )
 
 

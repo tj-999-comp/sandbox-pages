@@ -374,6 +374,8 @@ Pages workflowは、受入workflowまたは公開リポジトリへの通常push
 
 Slack通知はdeploy成功後にだけ実行する。provenance manifestで通知対象となった公開URLを上限付きretryで確認してから送信する。
 
+現在の受入workflowでは、`create`の新規公開かつno-opでない場合だけ`notify` jobを実行する。`SLACK_WEBHOOK_URL`はこのjobの送信stepだけへ渡し、公開URLの確認は5回まで行う。通知本文には`publication_id`、project、対象basename、公開URLを含める。通知に失敗してもPagesの公開結果は巻き戻さず、同一workflow runの通知jobを再実行して同じ`publication_id`で再送できる。
+
 初期方針では新規 `create` だけ通知し、`update`、`withdraw`、再実行の通知要否は実装時に別途決める。初回bootstrapと無関係なサイト更新は通知しない。Incoming Webhookは少なくとも一回の配信となり得るため、`publication_id` を通知へ含め、再実行時の重複を識別できるようにする。
 
 Slack通知だけが失敗してもPages公開を巻き戻さない。通知jobの失敗として記録し、同じ `publication_id` で安全に再送できるようにする。
