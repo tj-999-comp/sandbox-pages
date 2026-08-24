@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>apply時のPython bytecode生成によるE2E失敗を修正 — 作業記録 038</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 038 ・ <time datetime="2026-08-24">2026-08-24</time></p>
+          <h1>apply時のPython bytecode生成によるE2E失敗を修正</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_038.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: A側の実publish E2Eで、apply jobが<code>__pycache__</code>を作業ツリーの変更として検出して停止した。</li><li>目的: Git作業ツリーのclean検査を壊さず、検証済みB sourceをAへ反映できるようにする。</li><li>完了条件: apply jobだけでPython bytecodeを生成しない設定を追加し、既存テスト・Workflow構文・作業記録生成を成功させる。修正をPR化し、merge後にB→A→Pages→Slackの再確認へ引き継ぐ。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: A側run #32714174339のapply jobログ、B側run #32712590804、<code>accept-source.yml</code>、<code>apply_engine.py</code>、関連テスト。</li><li>実施内容: <code>accept-source.yml</code>のapply stepへ<code>PYTHONDONTWRITEBYTECODE=1</code>を追加し、apply engineのimport時にRepository Aの<code>__pycache__</code>が生成されないようにした。Workflow契約テストへ設定の存在確認を追加した。</li><li>成果物: <code>.github/workflows/accept-source.yml</code>、<code>tests/test_pages_workflow.py</code>。</li><li>検証結果: unittest 73件成功、Python compile成功、Ruby YAML parser成功、<code>git diff --check</code>成功。</li><li>未解決事項: GitHub Actions上の修正後E2E、Pages公開、Slack受信は未確認。</li><li>次工程への引き継ぎ: PRをレビュー・merge後、B側#31の<code>work_record_026</code>要求を再実行してA側runを確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: A側apply jobの失敗ログと最小修正差分。</li><li>実施内容: 失敗原因が外部sourceやSecretではなく、Python import時に生成されたRepository A内の<code>__pycache__</code>であることを確認した。設定をapply stepだけに限定し、通知Secretやdeploy jobの境界を変更していないことを確認した。</li><li>成果物: <code>tests/test_pages_workflow.py</code>の回帰検証。</li><li>検証結果: 重大な未解決事項なし。実Workflow再実行は修正PRのmerge待ち。</li><li>未解決事項: 修正後の実E2E。</li><li>次工程への引き継ぎ: PR作成後、CI成功を確認してmergeし、A側accept-source runのapply・deploy・notifyを順に確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>apply_engine.py</code>のclean検査を緩めず、Workflowのapply stepへ<code>PYTHONDONTWRITEBYTECODE=1</code>を設定した。</li><li>理由: <code>__pycache__</code>以外の意図しない変更を見逃さず、実行時に生成されるbytecodeだけを抑制する最小変更とするため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: apply engineのimportでRepository Aがdirtyになる問題への修正を実装した。</li><li>変更ファイル:<ul><li><code>.github/workflows/accept-source.yml</code></li><li><code>tests/test_pages_workflow.py</code></li><li><code>work-records/md/work_record_038.md</code></li></ul></li><li>検証結果: <code>PYTHONPYCACHEPREFIX=/tmp/issue38_pycache python3 -m unittest discover -s tests -p 'test_*.py'</code>（73件成功）、Python compile（成功）、Ruby YAML parser（成功）、<code>git diff --check</code>（成功）。</li><li>作業ブランチ: <code>codex/038-fix-apply-pycache</code></li><li>コミット: 未コミット</li><li>PR: 未作成</li><li>PRレビュー・CI: ローカル確認のみ。GitHub Actionsは未実行。</li><li>未解決事項: 修正後のA側apply、Pages deploy、公開URL、Slack通知、no-op再実行の実確認。</li><li>次アクション: HTML生成・ブラウザ確認、commit・push・PR作成、CI確認後にmergeして実E2Eを再実行する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-24 19:01 取得範囲: <code>tj-999-comp/sandbox-pages</code>の#20・#23・#24、および<code>tj-999-comp/B_Stats_Site</code>の#30〜#32。今回のE2Eと修正の依存関係にあるIssueを個別取得した。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">sandbox-pages #5
+├── sandbox-pages #20（Closed / completed）
+└── sandbox-pages #23（Open、今回の実E2E）
+
+B_Stats_Site #30（Closed / completed）
+└── B_Stats_Site #31（Open / reopened、work_record_026のpublish要求）</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>Open</td><td>修正PRのmerge後、B側#31のpublish要求を再実行して確認する。</td></tr><tr><td>2</td><td>未設定</td><td>[B_Stats_Site #31 [E2E] 新規作業記録1件を手動publish要求する](https://github.com/tj-999-comp/B_Stats_Site/issues/31)</td><td>Open / reopened</td><td><code>work_record_026</code>のA側publishが今回の修正後に未完了。</td></tr><tr><td>3</td><td>未設定</td><td>[#24 [Operations] 監査可能な公開取り下げworkflowを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/24)</td><td>Open</td><td>今回のE2Eとは独立。</td></tr><tr><td>4</td><td>未設定</td><td>[B_Stats_Site #32 [Automation] main更新時の公開要求triggerを有効化する](https://github.com/tj-999-comp/B_Stats_Site/issues/32)</td><td>Open</td><td>#23完了後の自動化課題。</td></tr></tbody></table>
+<h3>完了済みの関連Issue</h3>
+<table><thead><tr><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">本作業との関係</th></tr></thead><tbody><tr><td>[#20 [Notification] deploy成功後のSlack通知jobを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/20)</td><td>Closed / completed</td><td>通知jobの実装は完了済み。</td></tr><tr><td>[B_Stats_Site #30 [Actions] 手動公開要求workflowとdispatch権限を設定する](https://github.com/tj-999-comp/B_Stats_Site/issues/30)</td><td>Closed / completed</td><td>BからAをdispatchする前提。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 038</span>
+        <span><a href="md/work_record_038.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

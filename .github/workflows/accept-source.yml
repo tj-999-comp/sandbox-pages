@@ -185,6 +185,7 @@ jobs:
           PROJECT_ID: ${{ inputs.project_id }}
           TARGET_BASENAME: ${{ inputs.target_basename }}
           SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          PYTHONDONTWRITEBYTECODE: "1"
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
