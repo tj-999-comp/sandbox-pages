@@ -14,8 +14,8 @@ from .acceptance_files import AcceptanceFileError, validate_source_tree
 
 ALLOWED_TAGS = frozenset(
     {
-        "a", "body", "code", "dd", "div", "dl", "dt", "footer", "h1", "h2", "h3",
-        "head", "header", "html", "hr", "li", "link", "main", "meta", "ol", "p", "pre",
+        "a", "aside", "body", "code", "dd", "div", "dl", "dt", "footer", "h1", "h2", "h3",
+        "h4", "head", "header", "html", "hr", "li", "link", "main", "meta", "ol", "p", "pre",
         "section", "span", "strong", "table", "tbody", "td", "th", "thead", "time", "title",
         "tr", "ul", "blockquote",
     }

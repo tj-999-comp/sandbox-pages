@@ -14,6 +14,12 @@
         "design.md",
         "work_record.css"
       ],
+      "ignored_files": [
+        "md/phase_1_tasks.md",
+        "md/scraping_db_automation.md",
+        "work_record_extra_01.html",
+        "work_record_extra_02.html"
+      ],
       "generator_id": "b-stats-work-record-v1",
       "html_mode": "source_html",
       "enabled": false,

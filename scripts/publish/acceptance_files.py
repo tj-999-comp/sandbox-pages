@@ -78,6 +78,17 @@ def validate_source_tree(source_root: str | Path, source: Mapping[str, Any]) -> 
     ):
         raise AcceptanceFileError("support_files must contain registered file names")
     support_paths = {PurePosixPath(path).as_posix() for path in support_files}
+    ignored_files = source.get("ignored_files")
+    if not isinstance(ignored_files, list) or any(
+        not isinstance(path, str) or not path or "\\" in path
+        or PurePosixPath(path).is_absolute()
+        or any(part in {"", ".", ".."} for part in PurePosixPath(path).parts)
+        for path in ignored_files
+    ):
+        raise AcceptanceFileError("ignored_files must contain normalized relative paths")
+    ignored_paths = {PurePosixPath(path).as_posix() for path in ignored_files}
+    if support_paths & ignored_paths:
+        raise AcceptanceFileError("support_files and ignored_files must not overlap")
     allowed_directories = {"md", "/".join(metadata_relative)}
 
     limits = source.get("limits")
@@ -99,6 +110,8 @@ def validate_source_tree(source_root: str | Path, source: Mapping[str, Any]) -> 
             continue
         if not path.is_file():
             raise AcceptanceFileError(f"non-regular file is not accepted: {relative_posix}")
+        if relative_posix in ignored_paths:
+            continue
         discovered.append((relative_posix, path))
 
     if len(discovered) > max_files:

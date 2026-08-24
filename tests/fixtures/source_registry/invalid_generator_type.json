@@ -10,6 +10,7 @@
       "destination_directory": "projects/B_Stats_Site",
       "public_base_path": "/sandbox-pages/projects/B_Stats_Site/",
       "support_files": ["README.md", "design.md", "work_record.css"],
+      "ignored_files": [],
       "generator_id": [],
       "html_mode": "source_html",
       "enabled": false,

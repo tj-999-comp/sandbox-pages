@@ -57,6 +57,11 @@ support_files:
   - README.md
   - design.md
   - work_record.css
+ignored_files:
+  - md/phase_1_tasks.md
+  - md/scraping_db_automation.md
+  - work_record_extra_01.html
+  - work_record_extra_02.html
 generator_id: b-stats-work-record-v1
 html_mode: source_html
 enabled: false
@@ -403,6 +408,7 @@ Actionsのpublish automationは、公開リポジトリだけにインストー�
 - 公開リポジトリ確認commit: `dd4c73c7820171a544d3e9b153904f538961ff80`
 - `projects/B_Stats_Site/` に現在存在する全ファイルは、生成元基準commitの対応ファイルとbyte単位で一致する。
 - 生成元にのみ存在する `phase_1_tasks.html` と `scraping_db_automation.html` は共通命名に適合せず、公開リポジトリでは未受入である。番号付き作業記録へ移行しない限り、自動追加しない。
+- `ignored_files`に登録した補助Markdown・補助HTMLは、A側のinventory、候補、HTML安全検証から除外する。未知のファイルは引き続き受入を拒否する。
 
 最初のpublishでは、この対応を初期provenance manifestとして記録し、既存ファイルが変更されないno-op同期を確認する。初回bootstrapのSlack通知は行わない。
 
