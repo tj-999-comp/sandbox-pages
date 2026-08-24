@@ -51,11 +51,11 @@
   - `work-records/work_record_039.html`
 - 検証結果: B側run #32715094512 SUCCESS、A側apply SUCCESS、Pages deployment #32715402294 SUCCESS。公開ページのHTTP・ブラウザ確認成功。
 - 作業ブランチ: `codex/039-record-issue23-e2e`
-- コミット: 未コミット
-- PR: 未作成
-- PRレビュー・CI: 未実行。
+- コミット: `884cc7d docs: record Issue 23 partial E2E result`
+- PR: [#42 Issue #23の途中E2E結果と次セッション引き継ぎを記録](https://github.com/tj-999-comp/sandbox-pages/pull/42)（Draft / Open）
+- PRレビュー・CI: 差分は作業記録のMarkdownと生成HTMLのみであることを確認。CI run `#32781175900`はfailure。既存のunit testが、公開済み`work_record_026`と更新前の初期manifestとの差分（`README.md`、`design.md`、`work_record.css`の変更、および記録2ファイルの追加）で失敗しており、今回の記録変更による失敗ではない。
 - 未解決事項: A側accept-source #32715367822のfailure原因、Slack通知jobのskipped、no-op再実行。
-- 次アクション: 本記録をPR化し、次セッションでdeploy/notify境界の調査と修正を続ける。
+- 次アクション: PR #42のCIベース不整合を確認したうえで、次セッションでdeploy/notify境界の調査とno-op再実行確認を続ける。PRはmergeせず、実装修正は別PRで扱う。
 
 ## GitHub Issue状況
 
