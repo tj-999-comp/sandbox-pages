@@ -42,15 +42,15 @@
 - 変更ファイル: `config/sources.json`、`projects/README.md`、`scripts/publish/source_registry.py`、`scripts/publish/acceptance_files.py`、`scripts/publish/content_safety.py`、`tests/fixtures/source_registry/invalid_generator_type.json`、`tests/test_acceptance_files.py`、`tests/test_content_safety.py`、`tests/test_source_registry.py`、本作業記録と対応HTML。
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（67件合格）、固定B-02 commitの001〜010ローカルread-only acceptance（10件合格）、B-02 commitがB `main`のancestorであること（合格）、workflow YAMLのdisabled guard・deploy skip確認（合格）、`git diff --check`（合格）。
 - 作業ブランチ: `codex/034-issue-21-disabled-e2e`。
-- コミット: 未実施。
-- PR: 未作成。
-- PRレビュー・CI: 外部PRレビューとCIは未実施。GitHub Actions実workflow dispatchも未実施。
+- コミット: `342215e49cfa24dbb24a79ea7180b950b64f8f15`（Issue #21のvalidator境界修正・テスト・作業記録）。
+- PR: [#38 Issue #21: disabled source受入dry-runの境界を修正](https://github.com/tj-999-comp/sandbox-pages/pull/38)（Draft、base `main`、head `codex/034-issue-21-disabled-e2e`）。
+- PRレビュー・CI: Draft PR #38を作成。ローカル事前レビューは重大0件。外部PRレビュー、CI、GitHub Actions実workflow dispatchは未実施。
 - 未解決事項: GitHub App tokenのKeychain復旧またはGitHub認証済みブラウザ接続が必要。実workflowのartifact、apply no-op、Pages deploy skip、Aのmain・Pages・Slack無変更を確認するまで、#21は未完了。
-- 次アクション: 認証復旧後に`accept-source.yml`を固定B-02 SHA `43ebad8db4eff14c0a8e0d928ad193291fdfd60d`、`B_Stats_Site`、`work_record_001`〜`010`でdispatchする。
+- 次アクション: PR #38を確認・マージ後、`accept-source.yml`を固定B-02 SHA `43ebad8db4eff14c0a8e0d928ad193291fdfd60d`、`B_Stats_Site`、`work_record_001`〜`010`で`main`からdispatchする。
 
 ## GitHub Issue状況
 
-確認日時（JST）: 2026-08-20 19:55
+確認日時（JST）: 2026-08-24 13:29
 取得範囲: `tj-999-comp/sandbox-pages`の#5、#12、#17〜#23、および`tj-999-comp/B_Stats_Site`の#28〜#29をGitHub connectorで取得した時点のsnapshot。
 
 ### 親子関係
