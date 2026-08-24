@@ -22,7 +22,7 @@
       ],
       "generator_id": "b-stats-work-record-v1",
       "html_mode": "source_html",
-      "enabled": false,
+      "enabled": true,
       "limits": {
         "max_files": 100,
         "max_file_size_bytes": 1048576,

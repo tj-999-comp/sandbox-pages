@@ -30,6 +30,10 @@ class PagesWorkflowTests(unittest.TestCase):
     def test_source_acceptance_commits_and_deploys_only_validated_changes(self):
         workflow = (ROOT / ".github/workflows/accept-source.yml").read_text(encoding="utf-8")
         self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn("\n  push:", workflow)
+        self.assertNotIn("\n  pull_request:", workflow)
+        self.assertNotIn("\n  repository_dispatch:", workflow)
+        self.assertNotIn("\n  schedule:", workflow)
         for input_name in ("project_id", "source_commit_sha", "target_basename"):
             self.assertIn(f"      {input_name}:", workflow)
         self.assertIn("permissions: {}", workflow)

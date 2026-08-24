@@ -15,15 +15,16 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReadOnlyAcceptanceTests(unittest.TestCase):
-    def test_resolve_requires_registered_disabled_source(self):
+    def test_resolve_allows_registered_enabled_source_with_explicit_opt_in(self):
         source = resolve_source(
             registry_path=ROOT / "config/sources.json",
             project_id="B_Stats_Site",
             source_commit_sha="a" * 40,
             target_basename="work_record_001",
+            allow_enabled=True,
         )
         self.assertEqual(source["source_repository"], "tj-999-comp/B_Stats_Site")
-        self.assertFalse(source["enabled"])
+        self.assertTrue(source["enabled"])
 
     def test_enabled_source_requires_explicit_apply_mode_opt_in(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -109,6 +110,7 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
                 branch_ref="refs/heads/main",
                 provenance_root=temp / "provenance",
                 output_dir=output_dir,
+                allow_enabled=True,
             )
 
             self.assertTrue(result["dry_run"])

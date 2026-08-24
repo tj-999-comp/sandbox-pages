@@ -64,7 +64,7 @@ ignored_files:
   - work_record_extra_02.html
 generator_id: b-stats-work-record-v1
 html_mode: source_html
-enabled: false
+enabled: true
 limits:
   max_files: 100
   max_file_size_bytes: 1048576
@@ -409,6 +409,8 @@ Actionsのpublish automationは、公開リポジトリだけにインストー�
 - `projects/B_Stats_Site/` に現在存在する全ファイルは、生成元基準commitの対応ファイルとbyte単位で一致する。
 - 生成元にのみ存在する `phase_1_tasks.html` と `scraping_db_automation.html` は共通命名に適合せず、公開リポジトリでは未受入である。番号付き作業記録へ移行しない限り、自動追加しない。
 - `ignored_files`に登録した補助Markdown・補助HTMLは、A側のinventory、候補、HTML安全検証から除外する。未知のファイルは引き続き受入を拒否する。
+- 2026-08-24のIssue #22対応で、`B_Stats_Site`のsource登録を`enabled: true`へ変更した。A側の受入workflowは`workflow_dispatch`だけを起動経路とし、Bの`main` pushからAの受入を自動起動する連携は設定していない。B側にあるPages・検証用のpush workflowは、Aの受入要求を起動するものではない。
+- 手動受入を停止する場合は`enabled: false`へ戻し、実行中workflowを停止してから最後の正常commitとprovenanceを照合する。公開済み成果物のrollbackが必要な場合は、人間レビュー付きPRで対象commitをrevertし、正常SHAを指定してPagesを再確認する。
 
 最初のpublishでは、この対応を初期provenance manifestとして記録し、既存ファイルが変更されないno-op同期を確認する。初回bootstrapのSlack通知は行わない。
 
