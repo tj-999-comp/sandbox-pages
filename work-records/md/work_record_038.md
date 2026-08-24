@@ -41,11 +41,11 @@
   - `work-records/md/work_record_038.md`
 - 検証結果: `PYTHONPYCACHEPREFIX=/tmp/issue38_pycache python3 -m unittest discover -s tests -p 'test_*.py'`（73件成功）、Python compile（成功）、Ruby YAML parser（成功）、`git diff --check`（成功）。
 - 作業ブランチ: `codex/038-fix-apply-pycache`
-- コミット: 未コミット
-- PR: 未作成
-- PRレビュー・CI: ローカル確認のみ。GitHub Actionsは未実行。
+- コミット: `ad6cbf6 fix: prevent apply bytecode in repository worktree`
+- PR: [#41 E2E再実行のためapply時の__pycache__生成を防止](https://github.com/tj-999-comp/sandbox-pages/pull/41)（Draft / OPEN）。
+- PRレビュー・CI: ローカル事前レビュー合格。GitHub Actions Validate [run #32714793120](https://github.com/tj-999-comp/sandbox-pages/actions/runs/32714793120)はSUCCESS。
 - 未解決事項: 修正後のA側apply、Pages deploy、公開URL、Slack通知、no-op再実行の実確認。
-- 次アクション: HTML生成・ブラウザ確認、commit・push・PR作成、CI確認後にmergeして実E2Eを再実行する。
+- 次アクション: PR #41のレビュー・merge後、B側#31のpublish要求を再実行して実E2Eを確認する。mergeは自動実行しない。
 
 ## GitHub Issue状況
 
