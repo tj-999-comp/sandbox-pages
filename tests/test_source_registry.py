@@ -44,6 +44,15 @@ class SourceRegistryTests(unittest.TestCase):
             normalized["sources"][0]["support_files"],
             ["README.md", "design.md", "work_record.css"],
         )
+        self.assertEqual(
+            normalized["sources"][0]["ignored_files"],
+            [
+                "md/phase_1_tasks.md",
+                "md/scraping_db_automation.md",
+                "work_record_extra_01.html",
+                "work_record_extra_02.html",
+            ],
+        )
 
     def test_duplicate_project_ids_are_rejected(self):
         registry = _registry()
@@ -55,6 +64,12 @@ class SourceRegistryTests(unittest.TestCase):
         registry = _registry()
         registry["sources"][0]["unexpected"] = True
         with self.assertRaisesRegex(SourceRegistryError, "unknown field"):
+            validate_registry(registry)
+
+    def test_support_and_ignored_file_overlap_is_rejected(self):
+        registry = _registry()
+        registry["sources"][0]["ignored_files"].append("README.md")
+        with self.assertRaisesRegex(SourceRegistryError, "also registered"):
             validate_registry(registry)
 
     def test_invalid_paths_are_rejected(self):

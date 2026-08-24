@@ -57,6 +57,27 @@ class AcceptanceFileTests(unittest.TestCase):
             with self.assertRaisesRegex(AcceptanceFileError, "not registered"):
                 validate_source_tree(root, self.source)
 
+    def test_registered_ignored_files_are_excluded_from_inventory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            _write_valid_record(root, "work_record_001")
+            for name in self.source["support_files"]:
+                (root / name).write_text(name, encoding="utf-8")
+            ignored = [
+                "md/phase_1_tasks.md",
+                "work_record_extra_01.html",
+            ]
+            self.source["ignored_files"] = ignored
+            for path in ignored:
+                ignored_path = root / path
+                ignored_path.parent.mkdir(parents=True, exist_ok=True)
+                ignored_path.write_text("ignored", encoding="utf-8")
+
+            result = validate_source_tree(root, self.source)
+
+        self.assertNotIn("md/phase_1_tasks.md", [item.path for item in result.files])
+        self.assertNotIn("work_record_extra_01.html", [item.path for item in result.files])
+
     def test_unregistered_empty_directory_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

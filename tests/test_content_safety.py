@@ -45,6 +45,9 @@ class ContentSafetyTests(unittest.TestCase):
         _validate_html_fragment("<a href='https://github.com/tj-999-comp/sandbox-pages'>link</a>")
         _validate_html_fragment("<a href='#section'>link</a>")
 
+    def test_h4_is_an_accepted_static_heading(self):
+        _validate_html_fragment("<aside><h4>subsection</h4></aside>")
+
     def test_missing_local_dependency_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

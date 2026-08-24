@@ -34,6 +34,7 @@ _SOURCE_FIELDS = frozenset(
         "destination_directory",
         "public_base_path",
         "support_files",
+        "ignored_files",
         "generator_id",
         "html_mode",
         "enabled",
@@ -151,6 +152,23 @@ def _validate_source(source: Any, index: int) -> dict[str, Any]:
         seen_support_files.add(normalized_file)
         normalized_support_files.append(normalized_file)
 
+    ignored_files = source["ignored_files"]
+    if not isinstance(ignored_files, list):
+        raise SourceRegistryError(f"{label}.ignored_files must be an array")
+    normalized_ignored_files = []
+    seen_ignored_files: set[str] = set()
+    for file_index, ignored_file in enumerate(ignored_files):
+        ignored_label = f"{label}.ignored_files[{file_index}]"
+        normalized_file = _validate_relative_path(ignored_file, ignored_label)
+        if normalized_file in seen_support_files:
+            raise SourceRegistryError(
+                f"ignored file is also registered as support file: {normalized_file}"
+            )
+        if normalized_file in seen_ignored_files:
+            raise SourceRegistryError(f"duplicate ignored file: {normalized_file}")
+        seen_ignored_files.add(normalized_file)
+        normalized_ignored_files.append(normalized_file)
+
     generator_id = source["generator_id"]
     if (
         not isinstance(generator_id, str)
@@ -173,6 +191,7 @@ def _validate_source(source: Any, index: int) -> dict[str, Any]:
         "destination_directory": destination_directory,
         "public_base_path": public_base_path,
         "support_files": sorted(normalized_support_files),
+        "ignored_files": sorted(normalized_ignored_files),
         "generator_id": generator_id,
         "html_mode": html_mode,
         "enabled": source["enabled"],
