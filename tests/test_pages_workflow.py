@@ -45,6 +45,7 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("token: ${{ github.token }}", workflow)
         self.assertIn("actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093", workflow)
         self.assertIn("python3 -m scripts.publish.apply_engine", workflow)
+        self.assertIn('PYTHONDONTWRITEBYTECODE: "1"', workflow)
         self.assertIn("--allow-enabled", workflow)
         self.assertIn("source is disabled; validation completed without apply", workflow)
         self.assertIn("--operation auto", workflow)
