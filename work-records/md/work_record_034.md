@@ -15,7 +15,7 @@
 - 実施内容: 固定B-02 commitを一時checkoutし、B現在`main`のancestorであることを確認した。実データでのローカル受入再現時に、A-03がBの既知補助Markdown・補助HTMLを一律拒否し、A-04が既存HTMLの`h4`・`aside`を拒否する問題を発見した。A所有のsource registryへ`ignored_files`を追加し、対象外ファイルをinventory・候補・HTML安全検証から除外した。A-04の静的許可タグへ`h4`・`aside`を追加した。
 - 成果物: `config/sources.json`、`scripts/publish/source_registry.py`、`scripts/publish/acceptance_files.py`、`scripts/publish/content_safety.py`、関連テスト、`projects/README.md`。
 - 検証結果: 固定B-02 commitに対し`work_record_001`〜`010`を個別に検証し、全件で`dry_run=true`、`apply=false`、`enabled=false`、inventory 45件、target inventory 6件、A-02 metadata・A-03 acceptance file・A-04 content safety合格となった。対象外は`md/phase_1_tasks.md`、`md/scraping_db_automation.md`、`work_record_extra_01.html`、`work_record_extra_02.html`で、inventoryに含まれないことを確認した。
-- 未解決事項: GitHub Actions上の実workflow dispatch、artifact取得、apply jobの実run、Aのmain・Pages・SlackのGitHub上での非変更確認は未実施。ローカルApp tokenはKeychain項目を読めず、in-app Browserも利用できなかった。
+- 未解決事項: GitHub Actions上の実workflow dispatch、artifact取得、apply jobの実run、Aのmain・Pages・SlackのGitHub上での非変更確認は未実施。KeychainからApp tokenは発行できたが、対象repoの権限はread-onlyで、Actions dispatch権限もなかった。
 - 次工程への引き継ぎ: GitHub認証を復旧して`accept-source.yml`を`main`からdispatchし、10件のrun、dry-run artifact、apply no-op、Pages deploy skipを確認する。実workflowが合格するまでIssue #21はクローズしない。
 
 ### Portfolio Reviewer
@@ -24,7 +24,7 @@
 - 実施内容: `ignored_files`がA所有の明示的な除外境界であること、未知ファイル・symlink・未登録directoryは従来どおり拒否されること、disabled source時にapply・deployへ進まないworkflow guardが残っていることを確認した。
 - 成果物: 本作業記録、差分レビュー結果。
 - 検証結果: 重大な未解決事項は、実GitHub Actions実行が未確認である点のみ。ローカルテストは全件合格した。
-- 未解決事項: 外部GitHub Actions実行と外部PRレビューは未実施。
+- 未解決事項: #21向けの外部GitHub Actions実workflowと外部PRレビューは未実施。PRのValidate workflowは成功した。
 - 次工程への引き継ぎ: 認証復旧後の実workflow結果を確認し、問題がなければIssue #21の完了判定とPRレビューへ進む。
 
 ## 主要な判断
@@ -40,12 +40,12 @@
 
 - 解決したこと: 固定B-02 commitのローカルread-only受入で発見した対象外ファイルと静的HTML要素の受入不整合を、A側の最小差分で修正した。001〜010の全候補をA-02〜A-04で検証できる状態にした。
 - 変更ファイル: `config/sources.json`、`projects/README.md`、`scripts/publish/source_registry.py`、`scripts/publish/acceptance_files.py`、`scripts/publish/content_safety.py`、`tests/fixtures/source_registry/invalid_generator_type.json`、`tests/test_acceptance_files.py`、`tests/test_content_safety.py`、`tests/test_source_registry.py`、本作業記録と対応HTML。
-- 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（67件合格）、固定B-02 commitの001〜010ローカルread-only acceptance（10件合格）、B-02 commitがB `main`のancestorであること（合格）、workflow YAMLのdisabled guard・deploy skip確認（合格）、`git diff --check`（合格）。
+- 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（67件合格）、固定B-02 commitの001〜010ローカルread-only acceptance（10件合格）、B-02 commitがB `main`のancestorであること（合格）、workflow YAMLのdisabled guard・deploy skip確認（合格）、`git diff --check`（合格）、PR #38のGitHub Actions Validate workflow #20（success）。ブラウザ証跡: `/private/tmp/playwright-browser-verify/2026-08-24T04-31-00-909Z/report.json`。
 - 作業ブランチ: `codex/034-issue-21-disabled-e2e`。
 - コミット: `342215e49cfa24dbb24a79ea7180b950b64f8f15`（Issue #21のvalidator境界修正・テスト・作業記録）。
 - PR: [#38 Issue #21: disabled source受入dry-runの境界を修正](https://github.com/tj-999-comp/sandbox-pages/pull/38)（Draft、base `main`、head `codex/034-issue-21-disabled-e2e`）。
-- PRレビュー・CI: Draft PR #38を作成。ローカル事前レビューは重大0件。外部PRレビュー、CI、GitHub Actions実workflow dispatchは未実施。
-- 未解決事項: GitHub App tokenのKeychain復旧またはGitHub認証済みブラウザ接続が必要。実workflowのartifact、apply no-op、Pages deploy skip、Aのmain・Pages・Slack無変更を確認するまで、#21は未完了。
+- PRレビュー・CI: Draft PR #38を作成。ローカル事前レビューは重大0件。GitHub Actions Validate workflow #20はsuccess。外部PRレビューと#21向け実workflow dispatchは未実施。
+- 未解決事項: 実workflowのartifact、apply no-op、Pages deploy skip、Aのmain・Pages・Slack無変更を確認するまで、#21は未完了。App tokenはKeychainから発行できるが、対象repoのpush・Actions dispatch権限がない。
 - 次アクション: PR #38を確認・マージ後、`accept-source.yml`を固定B-02 SHA `43ebad8db4eff14c0a8e0d928ad193291fdfd60d`、`B_Stats_Site`、`work_record_001`〜`010`で`main`からdispatchする。
 
 ## GitHub Issue状況
