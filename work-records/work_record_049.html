@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #23 no-op時のcaller skip — 作業記録 049</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 049 ・ <time datetime="2026-08-25">2026-08-25</time></p>
+          <h1>Issue #23 no-op時のcaller skip</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_049.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: PR #50のmainマージ後も、A側runでapply成功後のreusable workflow jobが生成されず、親runがfailureになる。</li><li>目的: no-op時にreusable workflowを呼ばず、publicationがある場合だけ固定SHA deployを呼ぶ構造へ整理する。</li><li>完了条件: no-opのB→A実E2Eがsuccessとなり、Pages deployとSlack通知が実行されないことを確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer相当</h3>
+<ul><li>入力: PR #50 merge commit <code>ea647de9c1435b5e0f6339ad4da4bc32af980395</code>、B側run #32803076203、A側run #32803266136、GitHub Actions公式のreusable workflow caller仕様。</li><li>実施内容: <code>accept-source.yml</code>のdeploy callerへ<code>apply.no_op != 'true'</code>の<code>if</code>を戻し、no-op時はcaller自体をskipする。<code>deploy-pages.yml</code>はno-op入力とnoop jobを削除し、<code>workflow_call.commit_sha</code>をrequiredに戻してpublication時だけbuild/deployする。</li><li>成果物: <code>.github/workflows/accept-source.yml</code>、<code>.github/workflows/deploy-pages.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、本作業記録。</li><li>検証結果: 追加修正後のローカル検証とGitHub Actions再実行は未完了。</li><li>未解決事項: no-op時の親run成功とdeploy caller skipの実動確認。</li><li>次工程への引き継ぎ: ローカル検証、HTML検証、PR、mainマージ後にB→Aを再実行する。</li></ul>
+<h3>Portfolio Reviewer相当</h3>
+<ul><li>入力: A側run #32803266136の全job一覧とapply artifact（<code>no_op=true</code>、commit SHAなし）。</li><li>実施内容: dry-run/applyは成功したが、called workflowのjobが一度も作成されず、入力修正では解消しなかったことを確認した。no-opをcalled workflow内部で扱うより、callerの明示的skipに分離する方針へ差し戻した。</li><li>成果物: 構造変更方針と再検証条件。</li><li>検証結果: 修正前runはfailure。Issue #23は未完了として継続する。</li><li>未解決事項: 構造変更後の実動結果。</li><li>次工程への引き継ぎ: no-op skipとcreate deployの双方を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: no-op処理をreusable workflow内の条件分岐からcaller側のjob skipへ移す。</li><li>理由: no-opではdeployに必要なcommit SHAが存在せず、called workflowのjobを全skipして親runを完了させる構造が実行環境で安定しなかったため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: no-op時に空SHAを渡すreusable invocationを発生させない構成へ変更した。検証は継続中。</li><li>変更ファイル: <code>.github/workflows/accept-source.yml</code>、<code>.github/workflows/deploy-pages.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、本作業記録。</li><li>検証結果: 追加修正後は未検証。</li><li>未解決事項: Issue #23のno-op E2E成功確認とcreate経路確認。</li><li>次アクション: テスト、作業記録HTML検証、PR作成・マージ、B→A再実行、A側job・artifact・Pages・Slack結果の確認。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-25 12:00 取得範囲: <code>tj-999-comp/sandbox-pages</code> Issue #23、<code>tj-999-comp/B_Stats_Site</code> Issue #31、およびIssue #23の受入run。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>OPEN（REOPENED）</td><td>本作業の対象。no-op E2E成功とcreate経路の最終確認が必要。</td></tr><tr><td>2</td><td>P0</td><td>[#31 [E2E] 新規作業記録1件を手動publish要求する](https://github.com/tj-999-comp/B_Stats_Site/issues/31)</td><td>OPEN（REOPENED）</td><td>B側からの入力供給元。#23の受入再実行に使用。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 049</span>
+        <span><a href="md/work_record_049.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
