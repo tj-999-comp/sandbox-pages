@@ -17,10 +17,10 @@ on:
         required: false
         default: ""
         type: string
-      should_deploy:
-        description: Whether the caller has a new publication to deploy
+      no_op:
+        description: Whether the caller completed without a new publication
         required: false
-        default: "true"
+        default: "false"
         type: string
     outputs:
       page_url:
@@ -36,7 +36,7 @@ concurrency:
 jobs:
   noop:
     name: Complete no-op without deploying
-    if: ${{ github.event_name == 'workflow_call' && inputs.should_deploy != 'true' }}
+    if: ${{ github.event_name == 'workflow_call' && inputs.no_op == 'true' }}
     runs-on: ubuntu-latest
     permissions: {}
     steps:
@@ -45,7 +45,7 @@ jobs:
 
   build:
     name: Build fixed SHA artifact
-    if: ${{ github.event_name != 'workflow_call' || inputs.should_deploy == 'true' }}
+    if: ${{ github.event_name != 'workflow_call' || inputs.no_op != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -95,7 +95,7 @@ jobs:
   deploy:
     name: Deploy fixed SHA
     needs: build
-    if: ${{ github.event_name != 'workflow_call' || inputs.should_deploy == 'true' }}
+    if: ${{ github.event_name != 'workflow_call' || inputs.no_op != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

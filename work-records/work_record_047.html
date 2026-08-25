@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #23 no-op入力の文字列伝播を固定 — 作業記録 047</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 047 ・ <time datetime="2026-08-25">2026-08-25</time></p>
+          <h1>Issue #23 no-op入力の文字列伝播を固定</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_047.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: Issue #23の受入workflowで、apply成功後にreusable Pages workflowのdeployジョブが生成されず、親runがfailureになる。</li><li>目的: no-op判定値をcallerからcalled workflowへ型変換なしで伝播し、no-op時に成功する完了jobを実行できるようにする。</li><li>完了条件: no-opのB→A実E2Eが成功し、deploy・Pages更新・Slack通知が実行されないことを確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer相当</h3>
+<ul><li>入力: PR #48 merge commit <code>42909d81c11d5c25c2cc2d61dbc7b0430ffe7f1e</code>、B側run #32800412633、A側run #32800676465、GitHub Actions公式仕様。</li><li>実施内容: <code>should_deploy</code>の真偽比較式をcallerの<code>with</code>へ渡す方式から、applyの<code>no_op</code>文字列出力を<code>no_op</code>入力へそのまま渡す方式へ変更した。called workflow内で<code>'true'</code>ならno-op job、それ以外ならbuild/deployを選択する。</li><li>成果物: <code>.github/workflows/accept-source.yml</code>、<code>.github/workflows/deploy-pages.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>。</li><li>検証結果: 変更後のローカルテストとGitHub Actionsは実行中。</li><li>未解決事項: main反映後のno-op E2E再実行が未完了。</li><li>次工程への引き継ぎ: ローカル検証、HTML生成、事前レビュー、PR、mainマージ後にB→Aを再実行する。</li></ul>
+<h3>Portfolio Reviewer相当</h3>
+<ul><li>入力: PR #48のマージ後に確認したA側run #32800676465。</li><li>実施内容: dry-run/applyは成功したが、deploy callerとcalled workflowのjobが生成されず、notifyがskippedとなった事実を確認した。公式仕様上、reusable workflow callerの<code>with</code>入力は宣言型と一致させる必要があるため、比較式のboolean結果をstring入力へ渡さず、文字列outputを直接渡す修正方針とした。</li><li>成果物: 追加修正方針と再検証条件。</li><li>検証結果: 追加修正前のA側runはfailure。重大な未解決事項として差し戻した。</li><li>未解決事項: 追加修正後のGitHub上の実動結果。</li><li>次工程への引き継ぎ: Frontend Engineer修正後に再レビューする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>should_deploy</code>の否定条件をcaller側で評価せず、<code>no_op</code> outputを同名のstring inputへ直接渡す。</li><li>理由: <code>workflow_call</code>の入力型とcallerのexpression結果の型変換に依存せず、called workflowが受け取った文字列だけで分岐できるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: reusable workflowへ渡すno-op判定の型境界を単純化した。PR作成・mainマージ後の追加修正と検証は継続中。</li><li>変更ファイル: <code>.github/workflows/accept-source.yml</code>、<code>.github/workflows/deploy-pages.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、本作業記録。</li><li>検証結果: 追加修正後の検証は未完了。</li><li>未解決事項: Issue #23のno-op E2E成功確認。</li><li>次アクション: テスト、HTML検証、PR作成・マージ、B→A再実行、A側job・artifact・Pages・Slack結果の確認。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-25 11:00 取得範囲: <code>tj-999-comp/sandbox-pages</code> Issue #23、<code>tj-999-comp/B_Stats_Site</code> Issue #31、およびIssue #23の受入run。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>OPEN（REOPENED）</td><td>本作業の対象。no-op E2E成功とcreate経路の最終確認が必要。</td></tr><tr><td>2</td><td>P0</td><td>[#31 [E2E] 新規作業記録1件を手動publish要求する](https://github.com/tj-999-comp/B_Stats_Site/issues/31)</td><td>OPEN（REOPENED）</td><td>B側からの入力供給元。#23の受入再実行に使用。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 047</span>
+        <span><a href="md/work_record_047.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

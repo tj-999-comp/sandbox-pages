@@ -17,9 +17,9 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertEqual(workflow.count("git ls-remote --exit-code origin refs/heads/main"), 2)
         self.assertIn("pages: write", workflow)
         self.assertIn("id-token: write", workflow)
-        self.assertIn("should_deploy:", workflow)
-        self.assertIn("github.event_name != 'workflow_call' || inputs.should_deploy == 'true'", workflow)
-        self.assertIn("github.event_name == 'workflow_call' && inputs.should_deploy != 'true'", workflow)
+        self.assertIn("no_op:", workflow)
+        self.assertIn("github.event_name != 'workflow_call' || inputs.no_op != 'true'", workflow)
+        self.assertIn("github.event_name == 'workflow_call' && inputs.no_op == 'true'", workflow)
         workflow_call = workflow.split("\n  workflow_call:\n", 1)[1].split("\n    outputs:\n", 1)[0]
         self.assertIn("required: false", workflow_call)
         self.assertIn('default: ""', workflow_call)
@@ -64,7 +64,7 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("main advanced during apply; rechecking and retrying once", workflow)
         self.assertIn("uses: ./.github/workflows/deploy-pages.yml", workflow)
         self.assertIn("commit_sha: ${{ needs.apply.outputs.commit_sha }}", workflow)
-        self.assertIn("should_deploy: ${{ needs.apply.outputs.no_op != 'true' }}", workflow)
+        self.assertIn("no_op: ${{ needs.apply.outputs.no_op }}", workflow)
         deploy_block = workflow.split("\n  deploy:\n", 1)[1].split("\n  notify:\n", 1)[0]
         self.assertNotIn("\n    if:", deploy_block)
         self.assertIn("--notify", workflow)
