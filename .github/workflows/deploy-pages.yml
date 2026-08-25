@@ -14,13 +14,7 @@ on:
     inputs:
       commit_sha:
         description: Exact main commit SHA to deploy
-        required: false
-        default: ""
-        type: string
-      no_op:
-        description: Whether the caller completed without a new publication
-        required: false
-        default: "false"
+        required: true
         type: string
     outputs:
       page_url:
@@ -34,18 +28,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  noop:
-    name: Complete no-op without deploying
-    if: ${{ github.event_name == 'workflow_call' && inputs.no_op == 'true' }}
-    runs-on: ubuntu-latest
-    permissions: {}
-    steps:
-      - name: Confirm no-op publication
-        run: echo "No new publication; skipping Pages deploy"
-
   build:
     name: Build fixed SHA artifact
-    if: ${{ github.event_name != 'workflow_call' || inputs.no_op != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -95,7 +79,6 @@ jobs:
   deploy:
     name: Deploy fixed SHA
     needs: build
-    if: ${{ github.event_name != 'workflow_call' || inputs.no_op != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
