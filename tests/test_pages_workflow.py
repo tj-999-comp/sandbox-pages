@@ -20,6 +20,9 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("should_deploy:", workflow)
         self.assertIn("github.event_name != 'workflow_call' || inputs.should_deploy == true", workflow)
         self.assertIn("github.event_name == 'workflow_call' && inputs.should_deploy != true", workflow)
+        workflow_call = workflow.split("\n  workflow_call:\n", 1)[1].split("\n    outputs:\n", 1)[0]
+        self.assertIn("required: false", workflow_call)
+        self.assertIn('default: ""', workflow_call)
         self.assertIn("Complete no-op without deploying", workflow)
         self.assertIn("No new publication; skipping Pages deploy", workflow)
         self.assertIn("cancel-in-progress: false", workflow)

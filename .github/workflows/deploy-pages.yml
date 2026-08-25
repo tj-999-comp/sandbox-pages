@@ -14,7 +14,8 @@ on:
     inputs:
       commit_sha:
         description: Exact main commit SHA to deploy
-        required: true
+        required: false
+        default: ""
         type: string
       should_deploy:
         description: Whether the caller has a new publication to deploy
