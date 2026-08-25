@@ -17,6 +17,8 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertEqual(workflow.count("git ls-remote --exit-code origin refs/heads/main"), 2)
         self.assertIn("pages: write", workflow)
         self.assertIn("id-token: write", workflow)
+        self.assertIn("should_deploy:", workflow)
+        self.assertIn("github.event_name != 'workflow_call' || inputs.should_deploy", workflow)
         self.assertIn("cancel-in-progress: false", workflow)
         self.assertNotIn("contents: write", workflow)
         self.assertNotIn("SLACK_WEBHOOK_URL", workflow)
@@ -54,6 +56,9 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("main advanced during apply; rechecking and retrying once", workflow)
         self.assertIn("uses: ./.github/workflows/deploy-pages.yml", workflow)
         self.assertIn("commit_sha: ${{ needs.apply.outputs.commit_sha }}", workflow)
+        self.assertIn("should_deploy: ${{ needs.apply.outputs.no_op != 'true' }}", workflow)
+        deploy_block = workflow.split("\n  deploy:\n", 1)[1].split("\n  notify:\n", 1)[0]
+        self.assertNotIn("\n    if:", deploy_block)
         self.assertIn("--notify", workflow)
         self.assertIn("operation: ${{ steps.apply.outputs.operation }}", workflow)
         self.assertIn("publication_id: ${{ steps.apply.outputs.publication_id }}", workflow)

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #23 reusable Pages deploy条件の修正 — 作業記録 041</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 041 ・ <time datetime="2026-08-25">2026-08-25</time></p>
+          <h1>Issue #23 reusable Pages deploy条件の修正</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_041.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: Issue #23の実publish E2Eで、A側accept-source runのapply成功後にPages deployが同一runで実行されず、Slack通知がskippedになった。</li><li>目的: GitHub Actionsのreusable workflow呼び出しを正しい条件分岐へ修正し、createとno-opの両方で受入workflowの完了状態を正しくする。</li><li>完了条件: caller workflowの構文制約に適合し、create時に同一run内の固定SHA Pages deployと公開URL受け渡しが行われ、no-op時にdeploy・通知を行わないことをローカル検証、CI、実E2Eで確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>work_record_039</code>・<code>work_record_040</code>、A側run #32715367822、apply artifact、<code>.github/workflows/accept-source.yml</code>、<code>.github/workflows/deploy-pages.yml</code>。</li><li>実施内容: <code>uses: ./.github/workflows/deploy-pages.yml</code>のcaller jobから<code>if</code>を除去し、<code>should_deploy</code> booleanをcalled workflowへ渡す構成へ変更した。called workflow内部でworkflow_call時だけ<code>should_deploy</code>を評価し、push・手動dispatchの既存経路は維持した。静的テストへcreate/no-op分岐の契約を追加した。</li><li>成果物: <code>accept-source.yml</code>、<code>deploy-pages.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、本作業記録。</li><li>検証結果: unit test 73件、Python構文、両workflow YAML構文、index生成check、作業記録検証、<code>git diff --check</code>に合格した。PR #43の<code>Validate / validate</code>（run #32791465943）も成功した。</li><li>未解決事項: 修正後の実GitHub Actions E2Eは未実行。</li><li>次工程への引き継ぎ: PR #43のmerge後、B側固定SHA <code>8210edbcd271089d6942ce44371a90261bcfc0a0</code>・<code>work_record_026</code>で受入workflowを再実行し、Pages URL・Slack・同一要求no-opを確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 公式GitHub Actionsのreusable workflow仕様、実run #32715367822のjob構成とapply artifact。</li><li>実施内容: <code>no_op=false</code>、<code>operation=create</code>、<code>notify=true</code>でもcallerの<code>deploy</code> child jobが存在せず、push起点の別Pages runだけが成功していたことを照合した。caller jobの<code>if</code>を使わず、called workflow内部へ条件を移す差分を確認した。</li><li>成果物: 原因分析と最小差分レビュー。</li><li>検証結果: 変更範囲は受入・Pages workflow、workflow契約テスト、運用方針文書に限定され、既存のpublish実装・公開成果物・provenanceを変更していない。PR #43の差分もこの6ファイルに一致し、CIは成功した。</li><li>未解決事項: 実環境での修正後run確認。</li><li>次工程への引き継ぎ: CIと実E2Eの結果を作業記録へ追記し、失敗時はworkflowを再修正する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: caller側のreusable workflow jobに条件を残さず、<code>should_deploy</code>をcalled workflow内部のjob条件へ移した。</li><li>理由: GitHub公式仕様では、reusable workflowを呼ぶjobで使用できるキーが限定され、<code>if</code>はcaller側の許可キーに含まれない。実runでも条件が真のapply後にdeploy child jobが生成されず、通知が実行できなかった。</li><li>判断: no-opでもcalled workflow jobを呼び出し、内部条件でbuild/deployをskipする。</li><li>理由: caller側で<code>if</code>を使わずにno-op時のdeployを止めるため。create時はcalled workflowの<code>page_url</code> outputを通知jobへ渡し、no-op時は通知条件もfalseになる。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: reusable Pages workflowの条件分岐をGitHub Actionsのcaller契約に適合する形へ修正した。</li><li>変更ファイル:<ul><li><code>.github/workflows/accept-source.yml</code></li><li><code>.github/workflows/deploy-pages.yml</code></li><li><code>tests/test_pages_workflow.py</code></li><li><code>docs/ACTIONS_MAIN_POLICY.md</code></li><li><code>work-records/md/work_record_041.md</code></li><li><code>work-records/work_record_041.html</code></li></ul></li><li>検証結果: ローカルunit test 73件、Python構文、YAML構文、index生成check、作業記録・filename検証、<code>git diff --check</code>に合格。PR #43の<code>Validate / validate</code>（run #32791465943）も成功した。</li><li>作業ブランチ: <code>codex/041-issue23-e2e-fix</code></li><li>コミット: <code>f15fc25</code>（workflow修正・テスト・作業記録）および本更新commit。</li><li>PR: <a href="https://github.com/tj-999-comp/sandbox-pages/pull/43">#43 Issue #23: reusable Pages deploy条件を修正</a>（Open / Ready、base <code>main</code>、head <code>codex/041-issue23-e2e-fix</code>）。</li><li>PRレビュー・CI: CI <code>Validate / validate</code> run #32791465943は成功。外部レビューは未確認。</li><li>未解決事項: PR merge後のaccept-source成功、固定SHA Pages deploy、公開URL、Slack通知、同一要求no-op、外部レビュー。</li><li>次アクション: PR #43のレビュー・merge後、固定SHAで実E2Eを実行し、失敗時は修正と再検証を繰り返す。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-25 08:55 取得範囲: <code>tj-999-comp/sandbox-pages</code>の#20・#22〜#24、および<code>tj-999-comp/B_Stats_Site</code>の#31をGitHub APIで個別取得した時点のsnapshot。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">sandbox-pages #5
+├── sandbox-pages #20（Closed / completed）
+├── sandbox-pages #22（Closed / completed）
+├── sandbox-pages #23（Open、今回のE2E）
+└── sandbox-pages #24（Open、今回とは独立）
+
+B_Stats_Site #31（Open / reopened、今回の入力要求）</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>Open</td><td>今回の対象。修正後CIと実E2Eを完了する。</td></tr><tr><td>2</td><td>未設定</td><td>[B_Stats_Site #31 [E2E] 新規作業記録1件を手動publish要求する](https://github.com/tj-999-comp/B_Stats_Site/issues/31)</td><td>Open / reopened</td><td>固定SHA <code>8210edb...</code>の再publish要求。#23の実E2E入力。</td></tr><tr><td>3</td><td>未設定</td><td>[#24 [Operations] 監査可能な公開取り下げworkflowを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/24)</td><td>Open</td><td>#23とは独立した後続運用課題。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 041</span>
+        <span><a href="md/work_record_041.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
