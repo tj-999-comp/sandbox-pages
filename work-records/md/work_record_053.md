@@ -11,7 +11,7 @@
 - 入力: Issue #54、既存の`notify` job、`scripts.publish.slack_notification`、Issue #23のE2E結果。
 - 実施内容: apply済み固定commitのprovenance manifestから対象recordを一意に解決し、タイトルとrecord pathを取得する処理を追加した。Pages deployのoriginとmanifest pathを結合して完全URLを作り、公開確認とSlack送信へ渡すようworkflowを変更した。Slack本文へタイトル、project、対象basenameを追加し、運用文書とテストを更新した。
 - 成果物: `.github/workflows/accept-source.yml`、`scripts/publish/slack_notification.py`、`tests/test_pages_workflow.py`、`tests/test_slack_notification.py`、`docs/ACTIONS_MAIN_POLICY.md`、`projects/README.md`。
-- 検証結果: 全75テスト、workflow YAML構文、URL変換、作業記録生成チェックに合格した。
+- 検証結果: 全75テスト、workflow YAML構文、URL変換、作業記録生成チェックに合格した。実在するprovenance manifestを使ったrecord解決・完全URL化・URL検証・Slack payload送信の結合テストにも合格した。
 - 未解決事項: GitHub Actions上の新規createによるSlack本文・リンクの実動確認はPR反映後に必要。
 - 次工程への引き継ぎ: Reviewer確認後にcommit・pushし、PR作成とCI、main反映後のcreate E2EでSlack投稿本文と対象record URLを確認する。
 
@@ -39,11 +39,13 @@
   - `python3 scripts/dev/convert_work_records_to_html.py --check`: 成功。
   - `python3 scripts/dev/validate_work_record_filenames.py`: 52件の検証に成功。
   - `git diff --check`: 成功。
+  - 実在manifest `accept-32806773522-1-B_Stats_Site-work_record_023.json`を使ったworkflow同等のrecord解決・URL変換・payload送信結合テスト: 成功。
+  - 対象URL `https://tj-999-comp.github.io/sandbox-pages/projects/B_Stats_Site/work_record_023.html`への実HTTPS GET（外部ネットワーク許可）: 成功。
 - 作業ブランチ: `codex/053-slack-record-notification`
 - コミット: `d17e0b3`（実装commit）
 - PR: 未作成
 - PRレビュー・CI: 未実施
-- 未解決事項: GitHub Actions上の新規create E2E、Slack実投稿内容、対象record URLのクリック先確認。
+- 未解決事項: GitHub Actions上の新規create E2EとSlack実投稿内容の確認。ローカル結合テストでは外部副作用を避けるためWebhook送信をmockした。
 - 次アクション: 対象差分をcommit・pushし、PR作成後にCIと実動E2Eを確認する。
 
 ## GitHub Issue状況
