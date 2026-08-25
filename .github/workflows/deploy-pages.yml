@@ -23,10 +23,6 @@ on:
 
 permissions: {}
 
-concurrency:
-  group: ${{ github.event_name == 'workflow_call' && format('pages-production-reusable-{0}', github.run_id) || 'pages-production-main' }}
-  cancel-in-progress: false
-
 jobs:
   build:
     name: Build fixed SHA artifact

@@ -53,7 +53,7 @@ workflow、repository設定、source registry、運用文書、他projectは自�
 
 ## 競合、retry、no-op
 
-- 受入とPages deployは`cancel-in-progress: false`で直列化する。push・手動dispatchのPages workflowは`pages-production-main`を使い、受入workflowからのreusable invocationだけはcallerが同じgroupを保持したまま待機しないようrun単位の一意groupを使う。受入workflowのdeploy callerには`if`を置き、applyの`no_op=true`時はreusable workflow自体を呼ばずにno-opとする。新規publication時だけ完全なcommit SHAをrequiredな`workflow_call.commit_sha`へ渡し、called workflowはbuild/deployを実行する。これによりno-op時の空SHA入力と、called workflow内の全job skipによる親run failureを避ける。
+- 受入とPages deployは`cancel-in-progress: false`で直列化する。push・手動dispatchのPages workflowは`pages-production-main`を使い、受入workflowのcallerがこの共有groupを保持する。reusable Pages workflow自身にはworkflow-level concurrencyを置かず、callerが同じgroupを保持したままcalled workflowのjob生成を待つ競合を避ける。受入workflowのdeploy callerには`if`を置き、applyの`no_op=true`時はreusable workflow自体を呼ばずにno-opとする。新規publication時だけ完全なcommit SHAをrequiredな`workflow_call.commit_sha`へ渡し、called workflowはbuild/deployを実行する。これによりno-op時の空SHA入力と、called workflow内の全job skipによる親run failureを避ける。
 - push直前にremote `main`を再取得し、検証開始時のSHAと一致しなければ自projectの変更だけを再適用する。
 - 再適用は1回だけとし、再競合、他projectの変更、manifest driftを検出した場合はcommit・deployせず失敗する。
 - 差分0件は成功扱いとし、commit、deploy、Slack通知を行わない。
