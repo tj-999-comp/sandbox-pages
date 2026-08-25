@@ -270,7 +270,7 @@ jobs:
     uses: ./.github/workflows/deploy-pages.yml
     with:
       commit_sha: ${{ needs.apply.outputs.commit_sha }}
-      should_deploy: ${{ needs.apply.outputs.no_op != 'true' }}
+      no_op: ${{ needs.apply.outputs.no_op }}
     permissions:
       contents: read
       pages: write
