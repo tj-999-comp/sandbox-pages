@@ -42,6 +42,13 @@
 - 未解決事項: GitHub Actions workflowへの接続、外部B checkoutを使ったE2E、通常publish・Pages deploy・Slack通知は未実施。
 - 次アクション: #12のdry-runをA側workflowへ接続し、実際のB基準commitをcheckoutしたno-op E2Eを確認する。
 
+## 追記（2026-08-25）
+
+- 目的: 既存の作業記録027を更新し、`sandbox-pages` の作業記録更新・push経路を確認する。
+- 実施内容: `origin/main` を最新化し、本Markdownと対応HTMLだけを更新対象とした。
+- 検証結果: 作業記録のHTML再生成、ファイル名対応、差分の整合性を確認した。
+- push結果: この追記を `origin/main` へpushした。
+
 ## GitHub Issue状況
 
 確認日時（JST）: 2026-08-20 15:01
