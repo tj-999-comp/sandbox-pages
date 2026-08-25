@@ -30,7 +30,7 @@ on:
 permissions: {}
 
 concurrency:
-  group: pages-production-main
+  group: ${{ github.event_name == 'workflow_call' && format('pages-production-reusable-{0}', github.run_id) || 'pages-production-main' }}
   cancel-in-progress: false
 
 jobs:

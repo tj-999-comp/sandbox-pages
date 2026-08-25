@@ -26,6 +26,8 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("Complete no-op without deploying", workflow)
         self.assertIn("No new publication; skipping Pages deploy", workflow)
         self.assertIn("cancel-in-progress: false", workflow)
+        self.assertIn("pages-production-reusable-{0}", workflow)
+        self.assertIn("github.event_name == 'workflow_call'", workflow)
         self.assertNotIn("contents: write", workflow)
         self.assertNotIn("SLACK_WEBHOOK_URL", workflow)
 
