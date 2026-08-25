@@ -5,6 +5,7 @@ from scripts.publish.slack_notification import (
     NotificationInput,
     SlackNotificationError,
     build_payload,
+    resolve_public_url,
     send_slack_notification,
     should_notify,
     verify_public_url,
@@ -30,6 +31,7 @@ class SlackNotificationTests(unittest.TestCase):
         self.notification = NotificationInput(
             project_id="B_Stats_Site",
             target_basename="work_record_037",
+            title="Slack notification title",
             publication_id="accept-123-B_Stats_Site-work_record_037",
             public_url="https://tj-999-comp.github.io/sandbox-pages/projects/B_Stats_Site/work_record_037.html",
         )
@@ -40,11 +42,30 @@ class SlackNotificationTests(unittest.TestCase):
         self.assertFalse(should_notify(operation="create", no_op=True, notify=True, publication_id="pub", public_url="https://example.com"))
         self.assertFalse(should_notify(operation="create", no_op=False, notify=False, publication_id="pub", public_url="https://example.com"))
 
-    def test_payload_contains_identity_and_url_only(self):
+    def test_payload_contains_record_content_identity_and_url(self):
         payload = build_payload(self.notification)
+        self.assertIn(self.notification.title, payload["text"])
+        self.assertIn("プロジェクト: B_Stats_Site", payload["text"])
+        self.assertIn("対象: work_record_037", payload["text"])
         self.assertIn(self.notification.publication_id, payload["text"])
         self.assertIn(self.notification.public_url, payload["text"])
         self.assertNotIn("SLACK_WEBHOOK_URL", payload["text"])
+
+    def test_resolve_public_url_uses_pages_origin_and_manifest_path(self):
+        self.assertEqual(
+            resolve_public_url(
+                "https://tj-999-comp.github.io/sandbox-pages/",
+                "/sandbox-pages/projects/B_Stats_Site/work_record_037.html",
+            ),
+            self.notification.public_url,
+        )
+
+    def test_resolve_public_url_rejects_external_record_url(self):
+        with self.assertRaisesRegex(SlackNotificationError, "absolute site path"):
+            resolve_public_url(
+                "https://tj-999-comp.github.io/sandbox-pages/",
+                "https://attacker.example/work_record_037.html",
+            )
 
     def test_public_url_verification_retries_until_success(self):
         opener = Mock(side_effect=[OSError("not ready"), _Response(200)])

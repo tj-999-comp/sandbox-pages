@@ -21,6 +21,7 @@ class SlackNotificationError(RuntimeError):
 class NotificationInput:
     project_id: str
     target_basename: str
+    title: str
     publication_id: str
     public_url: str
 
@@ -42,11 +43,32 @@ def build_payload(notification: NotificationInput) -> dict[str, str]:
 
     return {
         "text": (
-            f"公開完了: {notification.project_id}/{notification.target_basename}\n"
+            f"公開完了: {notification.title}\n"
+            f"プロジェクト: {notification.project_id}\n"
+            f"対象: {notification.target_basename}\n"
             f"publication_id: {notification.publication_id}\n"
             f"公開URL: {notification.public_url}"
         )
     }
+
+
+def resolve_public_url(site_url: str, record_path: str) -> str:
+    """Combine the Pages origin with the manifest's absolute record path."""
+
+    site = urlparse(site_url)
+    record = urlparse(record_path)
+    if site.scheme != "https" or not site.netloc:
+        raise SlackNotificationError("Pages site URL must be an HTTPS URL")
+    if (
+        record.scheme
+        or record.netloc
+        or not record.path.startswith("/")
+        or record.params
+        or record.query
+        or record.fragment
+    ):
+        raise SlackNotificationError("record public URL must be an absolute site path")
+    return f"{site.scheme}://{site.netloc}{record.path}"
 
 
 def verify_public_url(
@@ -126,16 +148,23 @@ def main(argv: list[str] | None = None) -> int:
     verify.add_argument("--attempts", type=int, default=5)
     verify.add_argument("--delay-seconds", type=float, default=10)
 
+    resolve = subparsers.add_parser("resolve-url")
+    resolve.add_argument("--site-url", required=True)
+    resolve.add_argument("--record-path", required=True)
+
     send = subparsers.add_parser("send")
     send.add_argument("--webhook-env", default="SLACK_WEBHOOK_URL")
     send.add_argument("--project-id", required=True)
     send.add_argument("--target-basename", required=True)
+    send.add_argument("--title", required=True)
     send.add_argument("--publication-id", required=True)
     send.add_argument("--public-url", required=True)
 
     args = parser.parse_args(argv)
     try:
-        if args.command == "verify-url":
+        if args.command == "resolve-url":
+            print(resolve_public_url(args.site_url, args.record_path))
+        elif args.command == "verify-url":
             verify_public_url(args.url, attempts=args.attempts, delay_seconds=args.delay_seconds)
         else:
             webhook_url = os.environ.get(args.webhook_env, "")
@@ -146,6 +175,7 @@ def main(argv: list[str] | None = None) -> int:
                 NotificationInput(
                     project_id=args.project_id,
                     target_basename=args.target_basename,
+                    title=args.title,
                     publication_id=args.publication_id,
                     public_url=args.public_url,
                 ),

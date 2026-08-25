@@ -293,15 +293,40 @@ jobs:
       - name: Checkout Repository A
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          ref: refs/heads/main
+          ref: ${{ needs.apply.outputs.commit_sha }}
           fetch-depth: 1
           persist-credentials: false
 
-      - name: Verify public URL is available
+      - name: Resolve published record
+        id: record
         env:
-          PUBLIC_URL: ${{ needs.deploy.outputs.page_url }}
+          PROJECT_ID: ${{ inputs.project_id }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+          PUBLICATION_ID: ${{ needs.apply.outputs.publication_id }}
+          SITE_URL: ${{ needs.deploy.outputs.page_url }}
         run: |
           set -euo pipefail
+          manifest="provenance/$PROJECT_ID/$PUBLICATION_ID.json"
+          test -f "$manifest"
+          record="$(jq -cer --arg basename "$TARGET_BASENAME" '
+            [.records[] | select(.basename == $basename)]
+            | if length == 1 then .[0] else error("target record must be unique") end
+          ' "$manifest")"
+          jq -er '.metadata.title | select(type == "string" and length > 0)' <<<"$record" >/dev/null
+          jq -er '.public_url | select(type == "string" and length > 0)' <<<"$record" >/dev/null
+          record_path="$(jq -er '.public_url' <<<"$record")"
+          public_url="$(python3 -m scripts.publish.slack_notification resolve-url \
+            --site-url "$SITE_URL" \
+            --record-path "$record_path")"
+          record="$(jq -ce --arg public_url "$public_url" '.public_url = $public_url' <<<"$record")"
+          printf 'record_json=%s\n' "$record" >> "$GITHUB_OUTPUT"
+
+      - name: Verify public URL is available
+        env:
+          RECORD_JSON: ${{ steps.record.outputs.record_json }}
+        run: |
+          set -euo pipefail
+          PUBLIC_URL="$(jq -er '.public_url' <<<"$RECORD_JSON")"
           python3 -m scripts.publish.slack_notification verify-url \
             --url "$PUBLIC_URL" \
             --attempts 5 \
@@ -312,13 +337,16 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           PROJECT_ID: ${{ inputs.project_id }}
           TARGET_BASENAME: ${{ inputs.target_basename }}
+          RECORD_JSON: ${{ steps.record.outputs.record_json }}
           PUBLICATION_ID: ${{ needs.apply.outputs.publication_id }}
-          PUBLIC_URL: ${{ needs.deploy.outputs.page_url }}
         run: |
           set -euo pipefail
+          TITLE="$(jq -er '.metadata.title' <<<"$RECORD_JSON")"
+          PUBLIC_URL="$(jq -er '.public_url' <<<"$RECORD_JSON")"
           python3 -m scripts.publish.slack_notification send \
             --webhook-env SLACK_WEBHOOK_URL \
             --project-id "$PROJECT_ID" \
             --target-basename "$TARGET_BASENAME" \
+            --title "$TITLE" \
             --publication-id "$PUBLICATION_ID" \
             --public-url "$PUBLIC_URL"
