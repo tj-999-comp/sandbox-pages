@@ -36,9 +36,9 @@ rulesetのbypassはactor単位でありworkflow単位ではない。そのため
 Slack通知jobの実装契約:
 
 - `.github/workflows/accept-source.yml`の`notify` jobは、`apply`とPages `deploy`の成功後、`operation=create`、`no_op=false`、provenanceの`notify=true`を満たす場合だけ実行する。
-- `notify` jobはRepository Aのmainをcheckoutしてから`slack_notification`を実行し、workflow実行環境に依存せず通知用スクリプトをimportできる状態を作る。
+- `notify` jobはapply済みの固定commitをRepository Aからcheckoutしてから`slack_notification`を実行し、workflow実行環境に依存せず通知用スクリプトをimportできる状態を作る。
 - `SLACK_WEBHOOK_URL`は通知jobの送信stepの環境変数へだけ渡し、validation、apply、deployのjobへ渡さない。
-- deploy jobから受け取った公開URLを5回まで確認し、公開可能になってから`publication_id`、project、basename、公開URLをIncoming Webhookへ送る。
+- 固定commitのprovenance manifestから対象recordのタイトルと`public_url`を解決し、Pages deployのoriginと結合したrecord URLを5回まで確認してから、タイトル、`publication_id`、project、basename、対象作業記録URLをIncoming Webhookへ送る。Pages環境のサイトトップURL自体は通知URLに使わない。
 - 通知jobだけが失敗してもPages公開は巻き戻さない。workflow runを同じ`publication_id`の通知jobとして再実行できるよう、apply結果とprovenanceで識別する。
 
 workflow全体のdefault permissionsは空またはread-onlyとし、必要なjobだけへ明示的に付与する。
