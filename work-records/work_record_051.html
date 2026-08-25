@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #23 Slack通知jobのcheckout追加 — 作業記録 051</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 051 ・ <time datetime="2026-08-25">2026-08-25</time></p>
+          <h1>Issue #23 Slack通知jobのcheckout追加</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_051.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: PR #52反映後のcreate経路でPages deployはsuccessしたが、Slack通知jobが<code>scripts.publish.slack_notification</code>をimportできずfailureになった。</li><li>目的: 通知jobがRepository Aのスクリプトをcheckoutしてから公開URL確認とSlack送信を実行する。</li><li>完了条件: create経路でdry-run、apply、Pages build/deploy、公開URL確認、Slack送信がsuccessになる。no-op経路のsuccessも維持する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer相当</h3>
+<ul><li>入力: PR #52 merge後のA側create run #32804992375、Pages deploy成功、Slack通知jobログ。</li><li>実施内容: <code>notify</code> jobの先頭へRepository A mainの固定action checkoutを追加し、<code>scripts.publish.slack_notification</code>を実行可能にした。workflow契約テストとActions方針を更新した。</li><li>成果物: <code>.github/workflows/accept-source.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、本作業記録。</li><li>検証結果: 追加修正後のローカル検証とGitHub Actions再実行は未完了。</li><li>未解決事項: Slack送信の実動結果。</li><li>次工程への引き継ぎ: ローカル検証、HTML検証、PR、mainマージ後に未公開sourceをcreateし、Slackまで確認する。</li></ul>
+<h3>Portfolio Reviewer相当</h3>
+<ul><li>入力: A側run #32804992375の全jobとSlack通知失敗ログ。</li><li>実施内容: dry-run/apply、called workflow build/deploy、Pages deployはsuccessし、公開URLは<code>https://tj-999-comp.github.io/sandbox-pages/</code>だった。Slack通知の失敗はURLではなく、checkoutなしによる<code>ModuleNotFoundError: No module named 'scripts'</code>と特定した。</li><li>成果物: checkout追加方針と再検証条件。</li><li>検証結果: Pagesまでのcreate経路はsuccess、Slack通知はfailure。Issue #23は未完了として継続する。</li><li>未解決事項: checkout追加後のSlack送信。</li><li>次工程への引き継ぎ: create/no-op両経路の再実行結果を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: Slack通知job自身でRepository A mainをcheckoutする。</li><li>理由: reusable workflowのjobは独立した実行環境であり、caller jobの作業ツリーやRepository AのPython moduleを共有しないため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: Slack通知jobのmodule importに必要なcheckoutを追加した。検証は継続中。</li><li>変更ファイル: <code>.github/workflows/accept-source.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、本作業記録。</li><li>検証結果: 追加修正後は未検証。</li><li>未解決事項: Issue #23のcreate/no-op E2E最終確認。</li><li>次アクション: テスト、作業記録HTML検証、PR作成・マージ、createでSlack送信、no-op非回帰を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-25 12:35 取得範囲: <code>tj-999-comp/sandbox-pages</code> Issue #23、<code>tj-999-comp/B_Stats_Site</code> Issue #31、およびIssue #23の受入run。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>OPEN（REOPENED）</td><td>本作業の対象。Slack通知成功とno-op非回帰の確認が必要。</td></tr><tr><td>2</td><td>P0</td><td>[#31 [E2E] 新規作業記録1件を手動publish要求する](https://github.com/tj-999-comp/B_Stats_Site/issues/31)</td><td>OPEN（REOPENED）</td><td>B側からの入力供給元。B側checkout停滞時はA側を直接dispatchして検証。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 051</span>
+        <span><a href="md/work_record_051.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

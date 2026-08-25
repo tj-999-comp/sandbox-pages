@@ -69,6 +69,8 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("needs.apply.outputs.no_op != 'true'", workflow)
         self.assertIn("needs.apply.outputs.notify == 'true'", workflow)
         self.assertIn("SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}", workflow)
+        self.assertIn("name: Checkout Repository A", workflow)
+        self.assertIn("ref: refs/heads/main", workflow)
         self.assertIn("python3 -m scripts.publish.slack_notification verify-url", workflow)
         self.assertIn("python3 -m scripts.publish.slack_notification send", workflow)
         self.assertIn("group: pages-production-main", workflow)
