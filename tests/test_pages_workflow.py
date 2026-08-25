@@ -18,8 +18,8 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("pages: write", workflow)
         self.assertIn("id-token: write", workflow)
         self.assertIn("should_deploy:", workflow)
-        self.assertIn("github.event_name != 'workflow_call' || inputs.should_deploy == true", workflow)
-        self.assertIn("github.event_name == 'workflow_call' && inputs.should_deploy != true", workflow)
+        self.assertIn("github.event_name != 'workflow_call' || inputs.should_deploy == 'true'", workflow)
+        self.assertIn("github.event_name == 'workflow_call' && inputs.should_deploy != 'true'", workflow)
         workflow_call = workflow.split("\n  workflow_call:\n", 1)[1].split("\n    outputs:\n", 1)[0]
         self.assertIn("required: false", workflow_call)
         self.assertIn('default: ""', workflow_call)

@@ -53,7 +53,7 @@ workflow、repository設定、source registry、運用文書、他projectは自�
 
 ## 競合、retry、no-op
 
-- 受入とPages deployは共通concurrency groupを使い、`cancel-in-progress: false`で直列化する。受入workflowからreusable Pages workflowを呼ぶjobには`if`を置かず、no-op判定は`should_deploy`入力を通じてcalled workflow内部で行う。no-op時はapplyのcommit SHAが空になるため、`workflow_call.commit_sha`は任意入力とし、create時のbuild側で完全SHAを検証する。no-op時もcalled workflowに成功する完了jobを置き、親の受入runをfailureにしない。
+- 受入とPages deployは共通concurrency groupを使い、`cancel-in-progress: false`で直列化する。受入workflowからreusable Pages workflowを呼ぶjobには`if`を置かず、no-op判定は`should_deploy`文字列入力（`'true'`または`'false'`）を通じてcalled workflow内部で行う。no-op時はapplyのcommit SHAが空になるため、`workflow_call.commit_sha`は任意入力とし、create時のbuild側で完全SHAを検証する。no-op時もcalled workflowに成功する完了jobを置き、親の受入runをfailureにしない。
 - push直前にremote `main`を再取得し、検証開始時のSHAと一致しなければ自projectの変更だけを再適用する。
 - 再適用は1回だけとし、再競合、他projectの変更、manifest driftを検出した場合はcommit・deployせず失敗する。
 - 差分0件は成功扱いとし、commit、deploy、Slack通知を行わない。
