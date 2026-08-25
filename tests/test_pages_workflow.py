@@ -20,9 +20,7 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertNotIn("no_op:", workflow)
         workflow_call = workflow.split("\n  workflow_call:\n", 1)[1].split("\n    outputs:\n", 1)[0]
         self.assertIn("required: true", workflow_call)
-        self.assertIn("cancel-in-progress: false", workflow)
-        self.assertIn("pages-production-reusable-{0}", workflow)
-        self.assertIn("github.event_name == 'workflow_call'", workflow)
+        self.assertNotIn("concurrency:", workflow)
         self.assertNotIn("contents: write", workflow)
         self.assertNotIn("SLACK_WEBHOOK_URL", workflow)
 

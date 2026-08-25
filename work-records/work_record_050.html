@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #23 called workflow concurrencyの除去 — 作業記録 050</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 050 ・ <time datetime="2026-08-25">2026-08-25</time></p>
+          <h1>Issue #23 called workflow concurrencyの除去</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_050.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: caller側のno-op skip構造へ変更しても、create経路でreusable Pages workflowのdeploy callerが生成されず親runがfailureになる。</li><li>目的: reusable invocation時にcallerの共有concurrencyとcalled workflowのworkflow-level concurrencyが競合しない構成にする。</li><li>完了条件: create経路でcalled workflowのbuild/deployが実行され、Pages公開URL確認とSlack通知までsuccessになる。no-op経路のsuccessも維持する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer相当</h3>
+<ul><li>入力: PR #51 merge commit <code>f3336fc5be8ea5f4ba664559a4891e19aad0eb26</code>、create候補のA側run #32804468437、GitHub Actions公式のreusable workflow仕様。</li><li>実施内容: <code>deploy-pages.yml</code>からworkflow-level <code>concurrency</code>を除去し、caller側<code>accept-source.yml</code>の<code>pages-production-main</code>共有concurrencyだけで受入とPagesの直列化を担保する。workflow_callのbuild/deploy契約は維持する。</li><li>成果物: <code>.github/workflows/deploy-pages.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、本作業記録。</li><li>検証結果: 追加修正後のローカル検証とGitHub Actions再実行は未完了。</li><li>未解決事項: create経路のcalled workflow job生成、Pages、Slack。</li><li>次工程への引き継ぎ: ローカル検証、HTML検証、PR、mainマージ後にcreateとno-opを再実行する。</li></ul>
+<h3>Portfolio Reviewer相当</h3>
+<ul><li>入力: A側create run #32804468437の全job一覧。dry-run/applyはsuccess、deploy caller未生成、notify skipped、親run failure。</li><li>実施内容: no-op判定、空SHA、caller ifを順に切り分けた結果、createでも同じ未生成症状が残ったため、called workflowのworkflow-level concurrencyを最後の共通要因として差し戻した。</li><li>成果物: concurrency除去方針と再検証条件。</li><li>検証結果: 修正前create runはfailure。Issue #23は未完了として継続する。</li><li>未解決事項: called workflow実動結果。</li><li>次工程への引き継ぎ: create成功後にno-op非回帰を再確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: reusable workflow側のworkflow-level concurrencyを除去し、caller側だけで直列化する。</li><li>理由: GitHub Actions上でcaller jobが保持する共有groupとcalled workflow側groupを複数層に定義すると、called jobが生成されない症状がcreate/no-op双方で再現したため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: called workflowが独自にconcurrency groupを要求しない構成へ変更した。検証は継続中。</li><li>変更ファイル: <code>.github/workflows/deploy-pages.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、本作業記録。</li><li>検証結果: 追加修正後は未検証。</li><li>未解決事項: Issue #23のcreate/no-op E2E最終確認。</li><li>次アクション: テスト、作業記録HTML検証、PR作成・マージ、create経路、no-op経路、Pages公開URL、Slack通知結果の確認。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-25 12:20 取得範囲: <code>tj-999-comp/sandbox-pages</code> Issue #23、<code>tj-999-comp/B_Stats_Site</code> Issue #31、およびIssue #23の受入run。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>OPEN（REOPENED）</td><td>本作業の対象。create E2Eとno-op非回帰の最終確認が必要。</td></tr><tr><td>2</td><td>P0</td><td>[#31 [E2E] 新規作業記録1件を手動publish要求する](https://github.com/tj-999-comp/B_Stats_Site/issues/31)</td><td>OPEN（REOPENED）</td><td>B側からの入力供給元。B側checkout停滞時はA側を直接dispatchして検証。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 050</span>
+        <span><a href="md/work_record_050.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
