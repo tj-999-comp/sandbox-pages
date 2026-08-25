@@ -63,7 +63,7 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("for retry in 0 1", workflow)
         self.assertIn("main advanced during apply; rechecking and retrying once", workflow)
         self.assertIn("uses: ./.github/workflows/deploy-pages.yml", workflow)
-        self.assertIn("commit_sha: ${{ needs.apply.outputs.commit_sha }}", workflow)
+        self.assertIn("commit_sha: ${{ needs.apply.outputs.commit_sha || '' }}", workflow)
         self.assertIn("no_op: ${{ needs.apply.outputs.no_op }}", workflow)
         deploy_block = workflow.split("\n  deploy:\n", 1)[1].split("\n  notify:\n", 1)[0]
         self.assertNotIn("\n    if:", deploy_block)

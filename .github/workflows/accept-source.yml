@@ -269,7 +269,7 @@ jobs:
     needs: apply
     uses: ./.github/workflows/deploy-pages.yml
     with:
-      commit_sha: ${{ needs.apply.outputs.commit_sha }}
+      commit_sha: ${{ needs.apply.outputs.commit_sha || '' }}
       no_op: ${{ needs.apply.outputs.no_op }}
     permissions:
       contents: read
