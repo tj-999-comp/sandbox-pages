@@ -93,6 +93,31 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn('choices=("auto", "create", "update")', apply_engine)
         self.assertIn("def infer_operation", apply_engine)
 
+    def test_withdrawal_workflow_requires_preview_sha_and_has_no_slack_path(self):
+        workflow = (ROOT / ".github/workflows/withdraw.yml").read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", workflow)
+        for input_name in (
+            "project_id",
+            "target_basename",
+            "mode",
+            "expected_main_sha",
+            "expected_publication_id",
+            "confirmation",
+        ):
+            self.assertIn(f"      {input_name}:", workflow)
+        self.assertIn("permissions: {}", workflow)
+        self.assertIn("contents: read", workflow)
+        self.assertIn("contents: write", workflow)
+        self.assertIn("--expected-main-sha", workflow)
+        self.assertIn("--expected-publication-id", workflow)
+        self.assertIn('test "$CONFIRMATION" = "WITHDRAW"', workflow)
+        self.assertIn("python3 -m scripts.publish.withdraw_engine", workflow)
+        self.assertIn("git push origin HEAD:refs/heads/main", workflow)
+        self.assertIn("uses: ./.github/workflows/deploy-pages.yml", workflow)
+        self.assertIn("group: pages-production-main", workflow)
+        self.assertNotIn("SLACK", workflow)
+        self.assertNotIn("rsync --delete", workflow)
+
 
 if __name__ == "__main__":
     unittest.main()

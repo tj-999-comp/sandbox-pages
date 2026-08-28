@@ -14,6 +14,7 @@ from scripts.publish.apply_engine import (
 )
 from scripts.publish.provenance import build_manifest, serialize_manifest
 from scripts.publish.read_only_acceptance import run_acceptance
+from scripts.publish.withdraw_engine import apply_withdrawal, plan_withdrawal
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -184,6 +185,105 @@ class ApplyEngineTests(unittest.TestCase):
                 {"md/work_record_001.md", "metadata/work_record_001.yml"},
             )
             self.assertIn("work_record_001.html", {item["path"] for item in manifest["published_files"]})
+
+    def test_withdraw_plan_is_read_only_and_names_exact_target_files(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            head = _git(fixture.repo, "rev-parse", "HEAD")
+            result = plan_withdrawal(
+                repository_root=fixture.repo,
+                registry_path=fixture.repo / "config/sources.json",
+                provenance_root=fixture.repo / "provenance",
+                project_id="B_Stats_Site",
+                target_basename="work_record_001",
+                withdrawal_id="withdraw-preview",
+                expected_main_sha=head,
+            )
+
+            self.assertEqual(
+                set(result["removed_paths"]),
+                {
+                    "projects/B_Stats_Site/md/work_record_001.md",
+                    "projects/B_Stats_Site/work_record_001.html",
+                },
+            )
+            self.assertEqual(_git(fixture.repo, "rev-parse", "HEAD"), head)
+            self.assertEqual(_git(fixture.repo, "status", "--porcelain"), "")
+
+    def test_withdraw_apply_removes_target_and_writes_a_non_notifying_manifest(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            result = apply_withdrawal(
+                repository_root=fixture.repo,
+                registry_path=fixture.repo / "config/sources.json",
+                provenance_root=fixture.repo / "provenance",
+                project_id="B_Stats_Site",
+                target_basename="work_record_001",
+                withdrawal_id="withdraw-001",
+                expected_main_sha=_git(fixture.repo, "rev-parse", "HEAD"),
+                expected_publication_id="bootstrap-20260820-b-stats-site",
+                confirmation="WITHDRAW",
+                accepted_at="2026-08-28T03:00:00Z",
+            )
+
+            self.assertFalse((fixture.repo / "projects/B_Stats_Site/work_record_001.html").exists())
+            self.assertFalse((fixture.repo / "projects/B_Stats_Site/md/work_record_001.md").exists())
+            self.assertTrue((fixture.repo / "projects/B_Stats_Site/work_record_002.html").exists())
+            manifest = json.loads(
+                (fixture.repo / "provenance/B_Stats_Site/withdraw-001.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(manifest["operation"], "withdraw")
+            self.assertFalse(manifest["notify"])
+            self.assertNotIn("work_record_001", {record["basename"] for record in manifest["records"]})
+            self.assertIn("projects/B_Stats_Site/work_record_001.html", result["changed_paths"])
+            self.assertIn("projects/B_Stats_Site/md/work_record_001.md", result["changed_paths"])
+
+    def test_withdraw_rejects_wrong_confirmation_and_repeated_target(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            kwargs = {
+                "repository_root": fixture.repo,
+                "registry_path": fixture.repo / "config/sources.json",
+                "provenance_root": fixture.repo / "provenance",
+                "project_id": "B_Stats_Site",
+                "target_basename": "work_record_001",
+                "withdrawal_id": "withdraw-001",
+                "expected_main_sha": _git(fixture.repo, "rev-parse", "HEAD"),
+                "expected_publication_id": "bootstrap-20260820-b-stats-site",
+            }
+            with self.assertRaisesRegex(ValueError, "confirmation"):
+                apply_withdrawal(**kwargs, confirmation="DELETE")
+            apply_withdrawal(**kwargs, confirmation="WITHDRAW", accepted_at="2026-08-28T03:00:00Z")
+            _git(fixture.repo, "add", ".")
+            _git(fixture.repo, "commit", "--quiet", "-m", "withdraw record")
+            with self.assertRaisesRegex(ValueError, "target does not exist"):
+                plan_withdrawal(
+                    repository_root=fixture.repo,
+                    registry_path=fixture.repo / "config/sources.json",
+                    provenance_root=fixture.repo / "provenance",
+                    project_id="B_Stats_Site",
+                    target_basename="work_record_001",
+                    withdrawal_id="withdraw-preview-2",
+                )
+
+    def test_withdraw_rejects_public_drift_without_deleting_anything(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            extra = fixture.repo / "projects/B_Stats_Site/unexpected.txt"
+            extra.write_text("keep me\n", encoding="utf-8")
+            _git(fixture.repo, "add", "projects/B_Stats_Site/unexpected.txt")
+            _git(fixture.repo, "commit", "--quiet", "-m", "simulate drift")
+            with self.assertRaisesRegex(ValueError, "published files differ"):
+                plan_withdrawal(
+                    repository_root=fixture.repo,
+                    registry_path=fixture.repo / "config/sources.json",
+                    provenance_root=fixture.repo / "provenance",
+                    project_id="B_Stats_Site",
+                    target_basename="work_record_001",
+                    withdrawal_id="withdraw-preview",
+                )
+            self.assertTrue(extra.exists())
+            self.assertTrue((fixture.repo / "projects/B_Stats_Site/work_record_001.html").exists())
 
 
 class _Fixture:

@@ -1,0 +1,200 @@
+name: Withdraw published work record
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: Registered project identifier
+        required: true
+        type: string
+      target_basename:
+        description: Published work-record basename to withdraw
+        required: true
+        type: string
+      mode:
+        description: Preview first, then run apply in a separate dispatch
+        required: true
+        type: choice
+        options:
+          - dry-run
+          - apply
+        default: dry-run
+      expected_main_sha:
+        description: Full SHA returned by the dry-run (apply only)
+        required: false
+        type: string
+      expected_publication_id:
+        description: Latest publication_id returned by the dry-run (apply only)
+        required: false
+        type: string
+      confirmation:
+        description: Type WITHDRAW to authorize the deletion (apply only)
+        required: false
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: pages-production-main
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    name: Validate withdrawal plan (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Repository A main
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: refs/heads/main
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Require A main branch
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "withdrawal must run from Repository A main" >&2
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Run read-only withdrawal plan
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+          EXPECTED_MAIN_SHA: ${{ inputs.expected_main_sha }}
+          EXPECTED_PUBLICATION_ID: ${{ inputs.expected_publication_id }}
+        run: |
+          set -euo pipefail
+          args=(
+            plan
+            --repository-root .
+            --registry config/sources.json
+            --provenance-root provenance
+            --project-id "$PROJECT_ID"
+            --target-basename "$TARGET_BASENAME"
+            --withdrawal-id "withdraw-preview-${GITHUB_RUN_ID}-${PROJECT_ID}-${TARGET_BASENAME}"
+          )
+          if [[ -n "$EXPECTED_MAIN_SHA" ]]; then
+            args+=(--expected-main-sha "$EXPECTED_MAIN_SHA")
+          fi
+          if [[ -n "$EXPECTED_PUBLICATION_ID" ]]; then
+            args+=(--expected-publication-id "$EXPECTED_PUBLICATION_ID")
+          fi
+          python3 -m scripts.publish.withdraw_engine "${args[@]}" | tee withdrawal-plan.json
+          {
+            echo "## Withdrawal plan"
+            echo
+            echo '```json'
+            cat withdrawal-plan.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload withdrawal plan
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: withdrawal-plan-${{ inputs.project_id }}-${{ inputs.target_basename }}
+          path: withdrawal-plan.json
+          if-no-files-found: error
+          retention-days: 7
+
+  apply:
+    name: Apply approved withdrawal and deploy fixed commit
+    needs: plan
+    if: ${{ inputs.mode == 'apply' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    outputs:
+      commit_sha: ${{ steps.apply.outputs.commit_sha }}
+    steps:
+      - name: Checkout latest Repository A main
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: refs/heads/main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Apply only the reviewed withdrawal
+        id: apply
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+          EXPECTED_MAIN_SHA: ${{ inputs.expected_main_sha }}
+          EXPECTED_PUBLICATION_ID: ${{ inputs.expected_publication_id }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$CONFIRMATION" = "WITHDRAW"
+          test "$EXPECTED_MAIN_SHA" = "$(git rev-parse HEAD)"
+          remote_sha="$(git ls-remote --exit-code origin refs/heads/main | awk '{print $1}')"
+          test "$remote_sha" = "$EXPECTED_MAIN_SHA"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          withdrawal_id="withdraw-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${PROJECT_ID}-${TARGET_BASENAME}"
+          result="$(python3 -m scripts.publish.withdraw_engine apply \
+            --repository-root . \
+            --registry config/sources.json \
+            --provenance-root provenance \
+            --project-id "$PROJECT_ID" \
+            --target-basename "$TARGET_BASENAME" \
+            --withdrawal-id "$withdrawal_id" \
+            --expected-main-sha "$EXPECTED_MAIN_SHA" \
+            --expected-publication-id "$EXPECTED_PUBLICATION_ID" \
+            --confirmation "$CONFIRMATION" \
+            --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)")"
+          echo "$result" > withdrawal-result.json
+          git add -- \
+            "projects/$PROJECT_ID/$TARGET_BASENAME.html" \
+            "projects/$PROJECT_ID/md/$TARGET_BASENAME.md" \
+            "projects/$PROJECT_ID/index.html" \
+            projects/index.html \
+            "provenance/$PROJECT_ID"
+          git diff --cached --check
+          git commit -m "chore(publish): withdraw $PROJECT_ID $TARGET_BASENAME"
+          git push origin HEAD:refs/heads/main
+          echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Withdrawal applied"
+            echo
+            echo '```json'
+            cat withdrawal-result.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload withdrawal result
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: withdrawal-result-${{ inputs.project_id }}-${{ inputs.target_basename }}
+          path: withdrawal-result.json
+          if-no-files-found: error
+          retention-days: 30
+
+  deploy:
+    name: Deploy withdrawn fixed SHA
+    needs: apply
+    if: ${{ needs.apply.result == 'success' }}
+    uses: ./.github/workflows/deploy-pages.yml
+    with:
+      commit_sha: ${{ needs.apply.outputs.commit_sha }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
