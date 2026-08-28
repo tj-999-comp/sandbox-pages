@@ -1,0 +1,892 @@
+{
+  "accepted_at": "2026-08-28T05:38:53Z",
+  "notify": false,
+  "operation": "withdraw",
+  "project_id": "B_Stats_Site",
+  "public_base_path": "/sandbox-pages/projects/B_Stats_Site/",
+  "publication_id": "withdraw-33145378676-1-B_Stats_Site-work_record_027",
+  "published_files": [
+    {
+      "path": "README.md",
+      "sha256": "6058c31d3590dbae321c280834061a3f452886e11dd1eb5c15b89ee3ad0b83b5",
+      "size_bytes": 8255
+    },
+    {
+      "path": "design.md",
+      "sha256": "48449755e79acfbe6d8a285a2a515df57d75c879256cf190e1e3cd6a0b79bd0f",
+      "size_bytes": 8987
+    },
+    {
+      "path": "md/phase_1_tasks.md",
+      "sha256": "6c7a9cbaf26cf7c9c4be4c6d447dd80cc789bfc6c784b75d9773c11dea09014c",
+      "size_bytes": 631
+    },
+    {
+      "path": "md/scraping_db_automation.md",
+      "sha256": "02b8a47629c7523ece1f6a5661ef6ab83b9f09f42028506463f13c28318427a3",
+      "size_bytes": 63
+    },
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "3defb9333ab588e364046bd5341a7d583439799f4475242f735d2ad0a9bc2374",
+      "size_bytes": 5446
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "0f588662fd56613a564b721b603d80241fd7ef79fce03f855f2d43d7b3f6751f",
+      "size_bytes": 2567
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "1d02c28ea9684b6ea59e0519df620eadbb2a1f186a99f581bcd43110332f29c8",
+      "size_bytes": 3062
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "2c40997cfade9fc89cf0285a010ae8731bc531154f1c314b5951a505aeb21d79",
+      "size_bytes": 2232
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "1c3721e5982a80f73df7b9c3397a16eeea861e4d10845db84819360c516e9761",
+      "size_bytes": 3476
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "dfd25f66de0f4549efdbafaa14a9b6ef98c1a424d9ff06da8db8348966d4f3dd",
+      "size_bytes": 4926
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "11c687965e692dd0c7a310f8c0e2116d554e53293c9a0883486ad3d8a3a16f51",
+      "size_bytes": 10312
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "095d15df042ebc9fd4f33832c132b91d70338b9ba723527de4f13cd54ea7fcb2",
+      "size_bytes": 7317
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "650dd40e36c013527aa44ea3f7d75e18a9f6c844816aec5206bbaa5568a9fe01",
+      "size_bytes": 3249
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "dafa8de3efad0d9f6259b9ca42ba09e7cc871d5d872ffd027337bbf9afc34b86",
+      "size_bytes": 5155
+    },
+    {
+      "path": "md/work_record_023.md",
+      "sha256": "8d9bececdc4ad699be8576afa5446afbbc5bbd1fc5d0f5700b3f3d36582fe5ae",
+      "size_bytes": 10254
+    },
+    {
+      "path": "md/work_record_024.md",
+      "sha256": "194170ebe2cafede84552e4899eb3a8dd1fe6d31b65ef09e02a2fe92be85723d",
+      "size_bytes": 8164
+    },
+    {
+      "path": "md/work_record_025.md",
+      "sha256": "05863f90f618fc9697bb4ba88a9bcd18dea86d33212ca21ed23eecb48014b6cc",
+      "size_bytes": 6866
+    },
+    {
+      "path": "md/work_record_026.md",
+      "sha256": "31a7ef2f3f22c0f7cbafd5434c9b29b54c33f3247ec25b36a875b5a12a8a4471",
+      "size_bytes": 5428
+    },
+    {
+      "path": "md/work_record_028.md",
+      "sha256": "4751bf240ff54904eb87ded56ca1483e9808033dbf7fd8bd2282b1ce239a34cf",
+      "size_bytes": 7129
+    },
+    {
+      "path": "md/work_record_029.md",
+      "sha256": "9e9e942973bd4154bc7fa1197044abfac4aff1b2c248f75e1a8ce6a123df97ce",
+      "size_bytes": 8496
+    },
+    {
+      "path": "work_record.css",
+      "sha256": "25e5cca3492ab58bd940216f294056eeefaa2319723deb4033c59d51e0143b5f",
+      "size_bytes": 5562
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "0331e0f20b158086f9609b7a2b3923bde91465bbd3fa882aea3caaba355723df",
+      "size_bytes": 10026
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "801404647821cb88c324234be49da12d667824e96c226d4584d385ed059e12b1",
+      "size_bytes": 5528
+    },
+    {
+      "path": "work_record_003.html",
+      "sha256": "902673c76a8450a5f619d07fda51036a01e5eaa555c0bb52d3e70ed652e10751",
+      "size_bytes": 6381
+    },
+    {
+      "path": "work_record_004.html",
+      "sha256": "056bca70a7da7764e4697990cdbc5e20dfc9995a9fa81b96b557cdbae59b84c9",
+      "size_bytes": 4876
+    },
+    {
+      "path": "work_record_005.html",
+      "sha256": "b4760950ac0b77557e3afd9a1cf27b89807b825dfb30565006447d9b3ed55a47",
+      "size_bytes": 6647
+    },
+    {
+      "path": "work_record_006.html",
+      "sha256": "7c4eddbf7a10f39f62985e5aed6cc6def1d1f7608d2f998102e698bc068d434f",
+      "size_bytes": 8764
+    },
+    {
+      "path": "work_record_007.html",
+      "sha256": "b057611a27d90dd810b8044bcdd6681a4c143e2dddf1861207dd526348408d9e",
+      "size_bytes": 16107
+    },
+    {
+      "path": "work_record_008.html",
+      "sha256": "0afa54eb839799b74b924636a9761a683ac4156595a39f294e60b764e0723a0b",
+      "size_bytes": 6147
+    },
+    {
+      "path": "work_record_009.html",
+      "sha256": "2c002511a0517e947f89c646b3d55c3d9b4bb1d7443f5f18617c7c563bbfb370",
+      "size_bytes": 5457
+    },
+    {
+      "path": "work_record_010.html",
+      "sha256": "7d6ddd7ae077874fbcf4579a06c92284b16842f300d79aa3aa303cf41eb6fe0a",
+      "size_bytes": 8046
+    },
+    {
+      "path": "work_record_023.html",
+      "sha256": "985948fc12a184000eadaa7a4090e23d79229eda851625f04b110ef8b13bac32",
+      "size_bytes": 14366
+    },
+    {
+      "path": "work_record_024.html",
+      "sha256": "e4a6a6c36dff482abd9471844bbcf2a5297b8224630ffaa5bc9aafa36fc20347",
+      "size_bytes": 11998
+    },
+    {
+      "path": "work_record_025.html",
+      "sha256": "7f1f30ac0f47dcb50ff5d042948c1076962afeb6f9e2673a3017a583f2e6ebac",
+      "size_bytes": 10361
+    },
+    {
+      "path": "work_record_026.html",
+      "sha256": "96ca2736af0102c2eb02c7721d6035d357f3381c2fe0357f927a5351a83097ef",
+      "size_bytes": 8795
+    },
+    {
+      "path": "work_record_028.html",
+      "sha256": "839af58efeff9441f358227725a08c5f17bdf647d5fcc6c9f9a6583e13a0e8be",
+      "size_bytes": 10503
+    },
+    {
+      "path": "work_record_029.html",
+      "sha256": "4c5cbe4f3ea0d685806fc88db3b0d7166a130e5c557f6d4fa5f998e8aa1f153a",
+      "size_bytes": 11988
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-05-26",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "2016-2017 シーズン投入（初回失敗→再チャレンジ成功）"
+      },
+      "metadata_sha256": "77ea25b682a544babc7272a2ad7b780c2ab2f0e93340e5b35f3fcf73a3525a98",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_001.html"
+    },
+    {
+      "basename": "work_record_002",
+      "metadata": {
+        "date": "2026-05-26",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "players.nationality 追加手順整理とrebuild SQL一本化"
+      },
+      "metadata_sha256": "64fdc76bd5cfa114fd12deb089c89a179383e435c9d7bccabaa20fb8d545eda8",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_002.html"
+    },
+    {
+      "basename": "work_record_003",
+      "metadata": {
+        "date": "2026-05-26",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "プロフィール項目（リーグ登録国籍・出身地）取得とUpsert準備"
+      },
+      "metadata_sha256": "39ebed6db8218e0fc09adb4c7b48ea243380a0f2704159d054ae8150c07304c0",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_003.html"
+    },
+    {
+      "basename": "work_record_004",
+      "metadata": {
+        "date": "2026-06-02",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "playersのbirthplace欠損調査ログ（スレッド分割前サマリ）"
+      },
+      "metadata_sha256": "c8db906ac57570d8166d1bbead94c16ae1c12e648b0c032c2f54ec6549788b9d",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_004.html"
+    },
+    {
+      "basename": "work_record_005",
+      "metadata": {
+        "date": "2026-08-04",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "2021-22シーズン303試合の日時・year補正"
+      },
+      "metadata_sha256": "8b730dd83a4dbb6cfaee3b1c4c6cdbc7cfad1f1be9732a5223ec5a189c2dc144",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_005.html"
+    },
+    {
+      "basename": "work_record_006",
+      "metadata": {
+        "date": "2026-08-05",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "game_team_statsの得点誤マッピング補正"
+      },
+      "metadata_sha256": "c29e75d2f3c2157423b1afdcc792f9b8ca33c79fc68d039447499a76ac8cfa54",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_006.html"
+    },
+    {
+      "basename": "work_record_007",
+      "metadata": {
+        "date": "2026-08-05",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "GitHub Issue #12 players監査・差分補完基盤"
+      },
+      "metadata_sha256": "358dd0c0ff1448ba1c442d64a91dc6fc4cb1c63df39fe97a0fa2048adb34c97d",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_007.html"
+    },
+    {
+      "basename": "work_record_008",
+      "metadata": {
+        "date": "2026-08-13",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "GitHub Issue #21 欠損プロフィール目視補完・DBパッチ準備"
+      },
+      "metadata_sha256": "ee63921faf671419ea38877504ca72988c8f6667445d154643de006416de80dd",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_008.html"
+    },
+    {
+      "basename": "work_record_009",
+      "metadata": {
+        "date": "2026-08-13",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "未投入試合データ投入後の選手重複整理・プロフィール補完フロー"
+      },
+      "metadata_sha256": "f313938dca35536fb81b096c4bf21e008062ab3d12276f1cbc462efa6330ba0a",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_009.html"
+    },
+    {
+      "basename": "work_record_010",
+      "metadata": {
+        "date": "2026-08-13",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "作業記録の呼称・配置・表示ルール再編"
+      },
+      "metadata_sha256": "f3c4700fb7393585bee6e19139eb0726caa45d08940b83615c009c491b028b03",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_010.html"
+    },
+    {
+      "basename": "work_record_023",
+      "metadata": {
+        "date": "2026-08-24",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "b1",
+          "issue-45",
+          "json",
+          "scraping"
+        ],
+        "title": "欠落B1試合40件の取得と月次JSON統合"
+      },
+      "metadata_sha256": "895bc7dd4ce1213062483480c43c769a0cf0a8f58e4f419f73435c9211d5fd48",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_023.html"
+    },
+    {
+      "basename": "work_record_024",
+      "metadata": {
+        "date": "2026-08-24",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "b1",
+          "database",
+          "issue-46",
+          "sql"
+        ],
+        "title": "Issue #46 欠落B1試合40件のDB Upsert"
+      },
+      "metadata_sha256": "7ba3291d5496030539723213ed12fc284577eb7f05bbefd81ed42e5d07099aa7",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_024.html"
+    },
+    {
+      "basename": "work_record_025",
+      "metadata": {
+        "date": "2026-08-24",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "actions",
+          "issue-30",
+          "publish",
+          "security"
+        ],
+        "title": "固定commitの手動公開要求workflowとdispatch権限"
+      },
+      "metadata_sha256": "20e07d2a5415de3431c1a5d58c9174425fe174a71ad3ade41731c672a1445c1b",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_025.html"
+    },
+    {
+      "basename": "work_record_026",
+      "metadata": {
+        "date": "2026-08-24",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "e2e",
+          "issue-31",
+          "publish"
+        ],
+        "title": "新規作業記録の手動公開要求E2E"
+      },
+      "metadata_sha256": "0800664c87b63a52f84b4cf5e72bb10d1cf2fc215bd47fb06c396873fc814334",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_026.html"
+    },
+    {
+      "basename": "work_record_028",
+      "metadata": {
+        "date": "2026-08-27",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "github-pages",
+          "issue-planning",
+          "vercel",
+          "web"
+        ],
+        "title": "Web導入親IssueとMVP子Issueの作成"
+      },
+      "metadata_sha256": "2734697dc3e69f225a3cdf96cabdea520d5631bf7991a7cb630d03907d73f814",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_028.html"
+    },
+    {
+      "basename": "work_record_029",
+      "metadata": {
+        "date": "2026-08-27",
+        "project_id": "B_Stats_Site",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "github-pages",
+          "issue-planning",
+          "rls",
+          "supabase"
+        ],
+        "title": "Supabase公開読み取り設定の工程整理"
+      },
+      "metadata_sha256": "90681b5ab3678238a895a36d17aa15f4c89758e1308d81e4b01c00462e23d951",
+      "public_url": "/sandbox-pages/projects/B_Stats_Site/work_record_029.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "ae12376e8cf5d9716db83247d8b69e2d14964db0",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/B_Stats_Site"
+  },
+  "source_files": [
+    {
+      "path": "README.md",
+      "sha256": "6058c31d3590dbae321c280834061a3f452886e11dd1eb5c15b89ee3ad0b83b5",
+      "size_bytes": 8255
+    },
+    {
+      "path": "design.md",
+      "sha256": "48449755e79acfbe6d8a285a2a515df57d75c879256cf190e1e3cd6a0b79bd0f",
+      "size_bytes": 8987
+    },
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "3defb9333ab588e364046bd5341a7d583439799f4475242f735d2ad0a9bc2374",
+      "size_bytes": 5446
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "0f588662fd56613a564b721b603d80241fd7ef79fce03f855f2d43d7b3f6751f",
+      "size_bytes": 2567
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "1d02c28ea9684b6ea59e0519df620eadbb2a1f186a99f581bcd43110332f29c8",
+      "size_bytes": 3062
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "2c40997cfade9fc89cf0285a010ae8731bc531154f1c314b5951a505aeb21d79",
+      "size_bytes": 2232
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "1c3721e5982a80f73df7b9c3397a16eeea861e4d10845db84819360c516e9761",
+      "size_bytes": 3476
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "dfd25f66de0f4549efdbafaa14a9b6ef98c1a424d9ff06da8db8348966d4f3dd",
+      "size_bytes": 4926
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "11c687965e692dd0c7a310f8c0e2116d554e53293c9a0883486ad3d8a3a16f51",
+      "size_bytes": 10312
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "095d15df042ebc9fd4f33832c132b91d70338b9ba723527de4f13cd54ea7fcb2",
+      "size_bytes": 7317
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "650dd40e36c013527aa44ea3f7d75e18a9f6c844816aec5206bbaa5568a9fe01",
+      "size_bytes": 3249
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "dafa8de3efad0d9f6259b9ca42ba09e7cc871d5d872ffd027337bbf9afc34b86",
+      "size_bytes": 5155
+    },
+    {
+      "path": "md/work_record_011.md",
+      "sha256": "ab31c05718f3a1e9ff0f58f0df847435c549b09a8996bba6d357ccf05ea864f9",
+      "size_bytes": 6043
+    },
+    {
+      "path": "md/work_record_012.md",
+      "sha256": "f5e6c48da697237010a551e0cc285a2ee0a514acf7e506a365b435856ace5662",
+      "size_bytes": 7237
+    },
+    {
+      "path": "md/work_record_013.md",
+      "sha256": "b86dbdce728f073637b19d93ecc0315b7feae0a69cc8eb684d6c9b36bf66a4a1",
+      "size_bytes": 6145
+    },
+    {
+      "path": "md/work_record_014.md",
+      "sha256": "ff987b2649c9d108a7a9b0fd3ad091f6c4e0848eff62f99e8cb97bad72e6c708",
+      "size_bytes": 7418
+    },
+    {
+      "path": "md/work_record_015.md",
+      "sha256": "d6c3a34b78cde557ac7a6aacb4f460e1fb7db59c14a2bf76767faed26e75accd",
+      "size_bytes": 6279
+    },
+    {
+      "path": "md/work_record_016.md",
+      "sha256": "c0e579b4a514fcf784837af51fbbbf4e6af6c98c5dcaa1d86234c1e97d4915ab",
+      "size_bytes": 7740
+    },
+    {
+      "path": "md/work_record_017.md",
+      "sha256": "50dbae0efe2efa41402f908d9f127844fe20c486d9b701cb3e52b5dee0c9fd02",
+      "size_bytes": 6332
+    },
+    {
+      "path": "md/work_record_018.md",
+      "sha256": "08678732f1682678ac7035d50fb28635dd113692b9594eab113a0f8799985d78",
+      "size_bytes": 7450
+    },
+    {
+      "path": "md/work_record_019.md",
+      "sha256": "9012f39628106e47d283d21587e0f4a25a97e6c3fb90c3115c9220a0388ad31b",
+      "size_bytes": 6006
+    },
+    {
+      "path": "md/work_record_020.md",
+      "sha256": "3c8ab89444d310c1309bd59bb31920dce14f789bdab11d575dc89429f4b5bb25",
+      "size_bytes": 6320
+    },
+    {
+      "path": "md/work_record_021.md",
+      "sha256": "3c159b8d0a4db79ec65b62cac85f700c12f6f2bd8f5ae1cf83d6a5cd429bdac7",
+      "size_bytes": 7492
+    },
+    {
+      "path": "md/work_record_022.md",
+      "sha256": "b8e79f3a79ec2bbe96d5434ed310e6f030eebee146ff4f77c831bd2849f4fd7b",
+      "size_bytes": 7230
+    },
+    {
+      "path": "md/work_record_023.md",
+      "sha256": "8d9bececdc4ad699be8576afa5446afbbc5bbd1fc5d0f5700b3f3d36582fe5ae",
+      "size_bytes": 10254
+    },
+    {
+      "path": "md/work_record_024.md",
+      "sha256": "194170ebe2cafede84552e4899eb3a8dd1fe6d31b65ef09e02a2fe92be85723d",
+      "size_bytes": 8164
+    },
+    {
+      "path": "md/work_record_025.md",
+      "sha256": "05863f90f618fc9697bb4ba88a9bcd18dea86d33212ca21ed23eecb48014b6cc",
+      "size_bytes": 6866
+    },
+    {
+      "path": "md/work_record_026.md",
+      "sha256": "f51681aab9f9feaf6ebabe878aefa253925ff0a3637437dccb3773016a599173",
+      "size_bytes": 8283
+    },
+    {
+      "path": "md/work_record_027.md",
+      "sha256": "519c0653cad820200e743112227d65d448cc4572531c907c95a1d2350cd995dd",
+      "size_bytes": 3429
+    },
+    {
+      "path": "md/work_record_028.md",
+      "sha256": "4751bf240ff54904eb87ded56ca1483e9808033dbf7fd8bd2282b1ce239a34cf",
+      "size_bytes": 7129
+    },
+    {
+      "path": "md/work_record_029.md",
+      "sha256": "9e9e942973bd4154bc7fa1197044abfac4aff1b2c248f75e1a8ce6a123df97ce",
+      "size_bytes": 8496
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "b573a19d165c13f31b746b575ffbd0cdf969ed14a6ac873f1c26d94ea2521f84",
+      "size_bytes": 191
+    },
+    {
+      "path": "metadata/work_record_002.yml",
+      "sha256": "b7081ac3112bcf564929e3b30f1f704d0bd517217ff3d10eebe860076e58e359",
+      "size_bytes": 177
+    },
+    {
+      "path": "metadata/work_record_003.yml",
+      "sha256": "c62532cf5e84ded99d9c79e36c286be78e4e5fbceffcc269b6a1482d4b86c3cb",
+      "size_bytes": 201
+    },
+    {
+      "path": "metadata/work_record_004.yml",
+      "sha256": "750af8ace41fe17cd86837706aa64a157ed9a8c99d7b8791ce5e77859b3507bc",
+      "size_bytes": 191
+    },
+    {
+      "path": "metadata/work_record_005.yml",
+      "sha256": "82d1329e9c20c73f1d39e1a4694fe104cec9ea090199a1a74609cc2116bce11a",
+      "size_bytes": 168
+    },
+    {
+      "path": "metadata/work_record_006.yml",
+      "sha256": "4bc2763ae01174e5b28c62374a5414ea15c1c24443792d6573a1d734c68fc04a",
+      "size_bytes": 166
+    },
+    {
+      "path": "metadata/work_record_007.yml",
+      "sha256": "e92e3eaf803c6d241ccdb0b2509a1a044386faad56c8544fb9fdb7ab977c22a6",
+      "size_bytes": 179
+    },
+    {
+      "path": "metadata/work_record_008.yml",
+      "sha256": "1176bab3982cc200e0784c94ce2f7b468c617df8a0e74841fea27b520d10f386",
+      "size_bytes": 201
+    },
+    {
+      "path": "metadata/work_record_009.yml",
+      "sha256": "2b9b1ae692afe8350533fb760fa8de2d081a8abb2ff1491c52a8403b16020000",
+      "size_bytes": 207
+    },
+    {
+      "path": "metadata/work_record_010.yml",
+      "sha256": "48adc3244ed7aecad27f4269b21d6c2a8dff07fc07bdeb998b89c48b8367d84c",
+      "size_bytes": 181
+    },
+    {
+      "path": "metadata/work_record_011.yml",
+      "sha256": "3eea9427d24803e3abcdc1cfd8b3fac6bd33a5b450f8f119c192e12d5068ec46",
+      "size_bytes": 176
+    },
+    {
+      "path": "metadata/work_record_012.yml",
+      "sha256": "c2a2cd4092ffbde11f5c5f9d267e4ede1687851f20b8e938542911eed72631dc",
+      "size_bytes": 180
+    },
+    {
+      "path": "metadata/work_record_013.yml",
+      "sha256": "82321f4041b4d33360c13647638a210482f505469a4d78248970a87cb22fdd10",
+      "size_bytes": 193
+    },
+    {
+      "path": "metadata/work_record_014.yml",
+      "sha256": "88a8327b5076c90cd97d02e76222d5ac4d750bfb17287ea0616b6b5e4839fdcc",
+      "size_bytes": 214
+    },
+    {
+      "path": "metadata/work_record_015.yml",
+      "sha256": "edd8ae0d78c3ace506d30af2bec2742d09dccc54afec6d525d0f66b32ccb3880",
+      "size_bytes": 214
+    },
+    {
+      "path": "metadata/work_record_016.yml",
+      "sha256": "8c8a09353a87329c7d0307b10cd4c576ae755a49877d1a1670132ae475ef2471",
+      "size_bytes": 190
+    },
+    {
+      "path": "metadata/work_record_017.yml",
+      "sha256": "d47d21bd89b2108d91644c2ed07086905e91941599952b584dc09bf7ff5e6d01",
+      "size_bytes": 202
+    },
+    {
+      "path": "metadata/work_record_018.yml",
+      "sha256": "acd9e0a19dcb2c3e8d62fe911e949a500c946ed8e856ce509431b69a1202ac76",
+      "size_bytes": 179
+    },
+    {
+      "path": "metadata/work_record_019.yml",
+      "sha256": "8cca0f10b94c3eefe4a2da830d9bc9877833b4c22eb2c2847726ec13cbcb062e",
+      "size_bytes": 208
+    },
+    {
+      "path": "metadata/work_record_020.yml",
+      "sha256": "e33a200c9d34474266f89b3f4d97854354d66acf3596b5cc73ce70cbcebdbe26",
+      "size_bytes": 176
+    },
+    {
+      "path": "metadata/work_record_021.yml",
+      "sha256": "8d84c410b1e444790ceaef806d3610c27cf7077784611131ca980225e2f86d7c",
+      "size_bytes": 171
+    },
+    {
+      "path": "metadata/work_record_022.yml",
+      "sha256": "88f0a03457d9035a3ff0a8573b25b9fdec9e289b74cfbade98699891dd8ebdf1",
+      "size_bytes": 197
+    },
+    {
+      "path": "metadata/work_record_023.yml",
+      "sha256": "36c41d504592a4530b9677ec30ee012970316df1a881b65a799036b97cbd8e7f",
+      "size_bytes": 181
+    },
+    {
+      "path": "metadata/work_record_024.yml",
+      "sha256": "1899e7a178358aab9d26b763d9479e59c94e8aec005834267b69392a05c73374",
+      "size_bytes": 174
+    },
+    {
+      "path": "metadata/work_record_025.yml",
+      "sha256": "19a1a8d3c2c55a534b738ad76d110912d9226b66e79ee375023bf50b94bc1ae3",
+      "size_bytes": 200
+    },
+    {
+      "path": "metadata/work_record_026.yml",
+      "sha256": "a93f46bdb235028cd9b098ccf6d4ee7420dbc1078a981a44f6ecb91169bf9ae2",
+      "size_bytes": 167
+    },
+    {
+      "path": "metadata/work_record_027.yml",
+      "sha256": "3874fb66b915857455132fa126ffa21efaed291b466ba43b0789483cc0990f3c",
+      "size_bytes": 159
+    },
+    {
+      "path": "metadata/work_record_028.yml",
+      "sha256": "9aab031bc1c90ec67c45c898d39904bd75e8f464f0be5ccc64ef0811b3b468d2",
+      "size_bytes": 187
+    },
+    {
+      "path": "metadata/work_record_029.yml",
+      "sha256": "811ebf848eb39bea390a79cac065327115f069a10b9dfc9913a62c53fb1e6a53",
+      "size_bytes": 196
+    },
+    {
+      "path": "work_record.css",
+      "sha256": "25e5cca3492ab58bd940216f294056eeefaa2319723deb4033c59d51e0143b5f",
+      "size_bytes": 5562
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "0348561c2af087c96c6cc226397595a4abafdff771120b6654734199ec600bf6",
+      "size_bytes": 9773
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "a0a23a538c548ad853064a48095d657b7bab9312c247ca3473a109fb6535fcc1",
+      "size_bytes": 5275
+    },
+    {
+      "path": "work_record_003.html",
+      "sha256": "93fd46c1bf8288186c5fcc689245f5815f1d56b221968aa1d127b2b27d7da145",
+      "size_bytes": 6128
+    },
+    {
+      "path": "work_record_004.html",
+      "sha256": "0ec87878053c9d7fcbdc767f124d9d95649466ffc17075e2040aa95b377baa46",
+      "size_bytes": 4623
+    },
+    {
+      "path": "work_record_005.html",
+      "sha256": "4815f11e4f8878bf5ffd749770071c1e117f06db8aba704f939c5a2c363c2745",
+      "size_bytes": 6394
+    },
+    {
+      "path": "work_record_006.html",
+      "sha256": "e8f254e6de3d408ac956870920035a1e95cf646d0643f627266addfa6c298c33",
+      "size_bytes": 8511
+    },
+    {
+      "path": "work_record_007.html",
+      "sha256": "81f492fc2ea773f40904d06290e831ccbe6d653f383f41e4686fb7b6acaec831",
+      "size_bytes": 15854
+    },
+    {
+      "path": "work_record_008.html",
+      "sha256": "29f2bcfcb216c7366dae9574bb68cf85c8c8887a5202558ffbc9dfafd2b30f8d",
+      "size_bytes": 5894
+    },
+    {
+      "path": "work_record_009.html",
+      "sha256": "292cbda3d4afc7dfb8b4484bc5671479649932b12b2aec4b3750a219308d6dd0",
+      "size_bytes": 5204
+    },
+    {
+      "path": "work_record_010.html",
+      "sha256": "1441a0183e0ee7775698474fa43e6555976b9a8b88ee7c22f84675a40183c8ea",
+      "size_bytes": 7793
+    },
+    {
+      "path": "work_record_011.html",
+      "sha256": "0ab37704f4ded5efd9ff6239872d5b09cafc2fc4fd7a3208d5bccf3c7056199a",
+      "size_bytes": 9373
+    },
+    {
+      "path": "work_record_012.html",
+      "sha256": "d4bdf9e3fe168eaf5ba7bfb186ea45942b10acfc3c02761da6bad599994d766e",
+      "size_bytes": 10817
+    },
+    {
+      "path": "work_record_013.html",
+      "sha256": "6c43d7c6fa639978b78bb3a6af6d2f421977a5828c1896ab29f930e144c03292",
+      "size_bytes": 9368
+    },
+    {
+      "path": "work_record_014.html",
+      "sha256": "eb6c2956cf9874d3254293ea73d5c7f9f3cfa34c57dd9b45e7241f13a2279522",
+      "size_bytes": 11203
+    },
+    {
+      "path": "work_record_015.html",
+      "sha256": "0b45226c6c4518a568e7ebac011afbccf7fcbeb110fabde24d445d7c03a021fa",
+      "size_bytes": 9929
+    },
+    {
+      "path": "work_record_016.html",
+      "sha256": "1288107636834c805a792c213451e77679020580a47d22be8583fb074d94e352",
+      "size_bytes": 11871
+    },
+    {
+      "path": "work_record_017.html",
+      "sha256": "a6f7173661eae080887f14dcf7d3c43d7ab8bdead5baca548e14b7b06639fe4f",
+      "size_bytes": 9685
+    },
+    {
+      "path": "work_record_018.html",
+      "sha256": "3f43b4639d30fb5aab8ccc3f5d40ced80730732dbb087af069190dae44e49dd8",
+      "size_bytes": 10998
+    },
+    {
+      "path": "work_record_019.html",
+      "sha256": "33a513f949cb38f0070c9019a372d55854ccf7edc58b3242ebedba16052c62f6",
+      "size_bytes": 9400
+    },
+    {
+      "path": "work_record_020.html",
+      "sha256": "4e51813c67c635ccedb9f9f4d9daef67cd447dd1b5dbab03befeaf0b4490172c",
+      "size_bytes": 9599
+    },
+    {
+      "path": "work_record_021.html",
+      "sha256": "eb74861e7fe4265f07c5ed16a587fecdf006929fa964a796524045bb5fd5c0f8",
+      "size_bytes": 11129
+    },
+    {
+      "path": "work_record_022.html",
+      "sha256": "fcb84f22fc0b666af805298db2972310e45e5da631578be3cff5b6cf55b8b531",
+      "size_bytes": 10663
+    },
+    {
+      "path": "work_record_023.html",
+      "sha256": "985948fc12a184000eadaa7a4090e23d79229eda851625f04b110ef8b13bac32",
+      "size_bytes": 14366
+    },
+    {
+      "path": "work_record_024.html",
+      "sha256": "e4a6a6c36dff482abd9471844bbcf2a5297b8224630ffaa5bc9aafa36fc20347",
+      "size_bytes": 11998
+    },
+    {
+      "path": "work_record_025.html",
+      "sha256": "7f1f30ac0f47dcb50ff5d042948c1076962afeb6f9e2673a3017a583f2e6ebac",
+      "size_bytes": 10361
+    },
+    {
+      "path": "work_record_026.html",
+      "sha256": "f5526a59e413494c1d9a4dffb6899f91bb797f54c50e210b8605abb3b778427d",
+      "size_bytes": 12170
+    },
+    {
+      "path": "work_record_027.html",
+      "sha256": "c00714bb0f4ec32bf231021bfc06abeb81dd86da7b0c94d6e4f84151031664c5",
+      "size_bytes": 6076
+    },
+    {
+      "path": "work_record_028.html",
+      "sha256": "839af58efeff9441f358227725a08c5f17bdf647d5fcc6c9f9a6583e13a0e8be",
+      "size_bytes": 10503
+    },
+    {
+      "path": "work_record_029.html",
+      "sha256": "4c5cbe4f3ea0d685806fc88db3b0d7166a130e5c557f6d4fa5f998e8aa1f153a",
+      "size_bytes": 11988
+    }
+  ]
+}
