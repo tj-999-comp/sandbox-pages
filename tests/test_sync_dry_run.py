@@ -103,6 +103,7 @@ def _write_bootstrap_manifest(root: Path) -> tuple[Path, dict]:
         {
             "accepted_at": "2026-08-20T00:00:00Z",
             "notify": False,
+            "operation": "create",
             "publication_id": "bootstrap-20260820-b-stats-site",
             "source_files": manifest["published_files"],
         }

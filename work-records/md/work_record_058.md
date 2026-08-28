@@ -12,7 +12,7 @@
 - 本番dry-run run `33144942694`の失敗ログを確認した。
 - `PYTHONDONTWRITEBYTECODE=1`をdry-run stepにも設定した。
 - preview JSONをRepository A直下ではなくrunner一時領域へ出力し、artifactとstep summaryはそこから読むようにした。
-- 既存の取り下げテスト、workflow契約テスト、HTML・index・filename検証を再実行する。
+- 既存の取り下げテスト、workflow契約テスト、HTML・index・filename検証を再実行した。
 
 ## 主要な判断
 
@@ -24,12 +24,20 @@
 ## 検証結果
 
 - ローカル全91テスト、作業記録HTML・ファイル名検証、indexチェック、`git diff --check`を実行する。
-- 公開側dry-runは修正後に再実行し、成功した場合だけ返却されたSHAと最新publication_idを使ってapplyへ進む。
+- 公開側dry-run run `33145317338`は成功し、固定SHA `407482120b3799657784d79e3486664189687613`、最新publication_id `accept-33073917462-1-B_Stats_Site-work_record_029`、対象2ファイル、残り16件を返した。
+- apply・Pages deploy run `33145378676`は全job成功し、mainへ固定commit `e9fc4cd401608086ecdfaa321692955755d07ac8`（取り下げcommit）を反映した。
 - 失敗したrunでは対象ファイル削除、commit、Pages deploy、Slack通知はいずれも実行されていない。
+
+## 最終結果
+
+- 取り下げmanifest `provenance/B_Stats_Site/withdraw-33145378676-1-B_Stats_Site-work_record_027.json`を作成し、`operation: withdraw`、`notify: false`を記録した。
+- `projects/B_Stats_Site/work_record_027.html`と`projects/B_Stats_Site/md/work_record_027.md`だけを削除し、project indexは16件、global indexからも対象リンクが消えた。
+- 公開URL `https://tj-999-comp.github.io/sandbox-pages/projects/B_Stats_Site/work_record_027.html`はHTTP 404を返した。
+- Slack通知は発生していない。取り下げ前のprovenance manifestは履歴として保持され、復元時は取り下げcommitをrevertする方針を確認した。
 
 ## GitHub Issue状況
 
-確認日時（JST）: 2026-08-28 14:32
+確認日時（JST）: 2026-08-28 14:48
 取得範囲: `tj-999-comp/sandbox-pages`のIssue #24とopen Issue一覧をGitHub CLIで再取得した。Issue #24はCLOSED、更新日時は`2026-08-28T05:29:14Z`で、open Issueは0件だった。
 
 ### 親子関係
