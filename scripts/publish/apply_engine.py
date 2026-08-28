@@ -15,6 +15,7 @@ from typing import Any, Callable, Mapping
 from .acceptance_files import AcceptedFile, AcceptanceFileError, validate_source_tree
 from .index_generator import load_current_manifests, render_global_index, render_project_index
 from .metadata_schema import MetadataSchemaError, load_metadata, validate_metadata
+from .rendered_renderer import RenderedRendererError, render_work_record
 from .provenance import (
     ProvenanceDriftError,
     ProvenanceError,
@@ -180,6 +181,19 @@ def apply_verified_payload(
             target_file = staged_destination / relative
             _copy_one_regular_file(source_file, target_file, source_path)
 
+        if source["html_mode"] == "a_rendered":
+            try:
+                rendered_html = render_work_record(
+                    source_root / "md" / f"{target_basename}.md",
+                    metadata,
+                    expected_project_id=project_id,
+                )
+            except RenderedRendererError as exc:
+                raise ApplyEngineError(f"a_rendered renderer failed: {exc}") from exc
+            (staged_destination / f"{target_basename}.html").write_text(
+                rendered_html, encoding="utf-8"
+            )
+
         final_published = _inventory_directory(staged_destination, ignored_paths={"index.html"})
         notification_target = notify and operation == "create"
         manifest = build_manifest(
@@ -338,10 +352,10 @@ def _validate_payload_against_source(payload: Mapping[str, Any], source: Mapping
         raise ApplyEngineError("acceptance public base path does not match registry")
     if payload["generator_id"] != source["generator_id"] or payload["html_mode"] != source["html_mode"]:
         raise ApplyEngineError("acceptance generator or html mode does not match registry")
-    if source["html_mode"] != "source_html":
-        raise ApplyEngineError("a_rendered apply requires the dedicated renderer workflow")
     if not isinstance(payload["validators"], Mapping) or any(value != "passed" for value in payload["validators"].values()):
         raise ApplyEngineError("acceptance validators must all be passed")
+    if source["html_mode"] == "a_rendered" and payload["validators"].get("renderer") != "passed":
+        raise ApplyEngineError("a_rendered acceptance must pass the A-owned renderer")
 
 
 def _assert_payload_inventory(payload: Mapping[str, Any], source_root: Path, source: Mapping[str, Any]) -> None:
@@ -399,7 +413,8 @@ def _selected_paths(source: Mapping[str, Any], basename: str) -> set[str]:
     paths = set(source["support_files"])
     paths.add(f"md/{basename}.md")
     paths.add((relative_metadata / f"{basename}.yml").as_posix())
-    paths.add(f"{basename}.html")
+    if source["html_mode"] == "source_html":
+        paths.add(f"{basename}.html")
     return paths
 
 

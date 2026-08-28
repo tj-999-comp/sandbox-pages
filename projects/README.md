@@ -78,7 +78,7 @@ limits:
 
 ### `tech_article_nortification` の導入契約
 
-`tech_article_nortification` は、新規生成元向けの `a_rendered` 方式で登録する。source registryへの登録は済んでいるが、生成元の移行とA側の受入確認が完了するまでは `enabled: false` とする。
+`tech_article_nortification` は、新規生成元向けの `a_rendered` 方式で登録する。source registryへの登録とA側rendererの実装は済んでいるが、生成元の移行、受入確認、手動E2Eが完了するまでは `enabled: false` とする。
 
 生成元へ渡す固定情報は次のとおりである。
 

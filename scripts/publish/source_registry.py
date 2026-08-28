@@ -183,6 +183,15 @@ def _validate_source(source: Any, index: int) -> dict[str, Any]:
         or generator_id not in SUPPORTED_GENERATOR_IDS
     ):
         raise SourceRegistryError(f"{label}.generator_id is not supported")
+    expected_generator = (
+        "a-rendered-work-record-v1"
+        if html_mode == "a_rendered"
+        else "b-stats-work-record-v1"
+    )
+    if generator_id != expected_generator:
+        raise SourceRegistryError(
+            f"{label}.generator_id does not match html_mode"
+        )
     if not isinstance(source["enabled"], bool):
         raise SourceRegistryError(f"{label}.enabled must be boolean")
 

@@ -123,6 +123,17 @@ class SourceRegistryTests(unittest.TestCase):
             with self.subTest(field=field), self.assertRaises(SourceRegistryError):
                 validate_registry(registry)
 
+    def test_html_mode_and_generator_must_match(self):
+        registry = _registry()
+        registry["sources"][0]["html_mode"] = "a_rendered"
+        with self.assertRaisesRegex(SourceRegistryError, "does not match"):
+            validate_registry(registry)
+
+        registry = _registry()
+        registry["sources"][1]["generator_id"] = "b-stats-work-record-v1"
+        with self.assertRaisesRegex(SourceRegistryError, "does not match"):
+            validate_registry(registry)
+
         for field, value in (("html_mode", {}), ("generator_id", [])):
             registry = _registry()
             registry["sources"][0][field] = value
