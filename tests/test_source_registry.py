@@ -32,6 +32,21 @@ class SourceRegistryTests(unittest.TestCase):
         self.assertEqual(new_source["generator_id"], "a-rendered-work-record-v1")
         self.assertEqual(new_source["support_files"], [])
 
+    def test_tech_article_source_has_the_fixed_issue_contract(self):
+        registry = load_registry(ROOT / "config" / "sources.json")
+        source = next(
+            item for item in registry["sources"]
+            if item["project_id"] == "tech_article_nortification"
+        )
+
+        self.assertEqual(source["source_repository"], "tj-999-comp/tech_article_nortification")
+        self.assertEqual(source["source_ref"], "refs/heads/main")
+        self.assertEqual(source["source_directory"], "work-records")
+        self.assertEqual(source["metadata_directory"], "work-records/metadata")
+        self.assertEqual(source["destination_directory"], "projects/tech_article_nortification")
+        self.assertEqual(source["html_mode"], "a_rendered")
+        self.assertFalse(source["enabled"])
+
     def test_loading_is_deterministic(self):
         first = load_registry(ROOT / "config" / "sources.json")
         second = load_registry(ROOT / "config" / "sources.json")

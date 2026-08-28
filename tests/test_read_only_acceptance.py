@@ -15,6 +15,25 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReadOnlyAcceptanceTests(unittest.TestCase):
+    def test_unregistered_project_is_rejected(self):
+        with self.assertRaisesRegex(ReadOnlyAcceptanceError, "not registered"):
+            resolve_source(
+                registry_path=ROOT / "config/sources.json",
+                project_id="unregistered-project",
+                source_commit_sha="a" * 40,
+                target_basename="work_record_001",
+            )
+
+    def test_disabled_registered_source_is_resolved_as_disabled(self):
+        source = resolve_source(
+            registry_path=ROOT / "config/sources.json",
+            project_id="tech_article_nortification",
+            source_commit_sha="a" * 40,
+            target_basename="work_record_001",
+        )
+        self.assertFalse(source["enabled"])
+        self.assertEqual(source["destination_directory"], "projects/tech_article_nortification")
+
     def test_resolve_allows_registered_enabled_source_with_explicit_opt_in(self):
         source = resolve_source(
             registry_path=ROOT / "config/sources.json",
