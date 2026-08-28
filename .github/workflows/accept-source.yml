@@ -152,6 +152,24 @@ jobs:
           name: source-acceptance-${{ inputs.project_id }}-${{ inputs.target_basename }}
           path: _acceptance
 
+      - name: Bind acceptance payload to dispatch inputs
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+        run: |
+          set -euo pipefail
+          jq -e \
+            --arg project_id "$PROJECT_ID" \
+            --arg source_commit_sha "$SOURCE_COMMIT_SHA" \
+            --arg target_basename "$TARGET_BASENAME" \
+            '(
+              .project_id == $project_id and
+              .source.commit_sha == $source_commit_sha and
+              .target_basename == $target_basename
+            )' \
+            "$GITHUB_WORKSPACE/_acceptance/acceptance.json" >/dev/null
+
       - name: Checkout registered source at fixed SHA
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:

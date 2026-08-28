@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import tempfile
@@ -79,7 +80,8 @@ ACCEPTANCE_FIELDS = frozenset(
     }
 )
 FILE_FIELDS = frozenset({"path", "size_bytes", "sha256"})
-COMMIT_LENGTHS = {40, 64}
+REQUEST_COMMIT_SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+REQUEST_BASENAME_RE = re.compile(r"^work_record_[0-9]{3}$")
 
 
 def apply_verified_payload(
@@ -341,8 +343,15 @@ def _validate_payload_against_source(payload: Mapping[str, Any], source: Mapping
     if source_payload.get("ref") != source["source_ref"]:
         raise ApplyEngineError("acceptance source ref does not match registry")
     commit_sha = source_payload.get("commit_sha")
-    if not isinstance(commit_sha, str) or len(commit_sha) not in COMMIT_LENGTHS or commit_sha != commit_sha.lower() or any(character not in "0123456789abcdef" for character in commit_sha):
-        raise ApplyEngineError("acceptance source commit_sha must be lowercase hexadecimal")
+    if not isinstance(commit_sha, str) or not REQUEST_COMMIT_SHA_RE.fullmatch(commit_sha):
+        raise ApplyEngineError("acceptance source commit_sha must be a full lowercase SHA")
+    target_basename = payload.get("target_basename")
+    if not isinstance(target_basename, str) or not REQUEST_BASENAME_RE.fullmatch(target_basename):
+        raise ApplyEngineError(
+            "acceptance target_basename must match work_record_001 through work_record_999"
+        )
+    if not 1 <= int(target_basename.rsplit("_", 1)[1]) <= 999:
+        raise ApplyEngineError("acceptance target_basename number must be between 001 and 999")
     destination = payload["destination"]
     if not isinstance(destination, Mapping):
         raise ApplyEngineError("acceptance.destination must be an object")
