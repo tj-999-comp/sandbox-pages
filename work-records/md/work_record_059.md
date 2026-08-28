@@ -40,9 +40,9 @@
 - 変更ファイル: `.github/workflows/accept-source.yml`、`scripts/publish/apply_engine.py`、`provenance/tech_article_nortification/initial.json`、`projects/index.html`、`projects/tech_article_nortification/index.html`、関連テスト、作業記録Markdownと対応HTML。
 - 検証結果: `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_*.py'`（93件成功）、`python3 -m scripts.publish.index_generator --check`、`python3 scripts/dev/convert_work_records_to_html.py --check`、`python3 scripts/dev/validate_work_record_filenames.py`、Python AST、JSON、`git diff --check`に合格。Chromium確認証跡はglobal indexが`/private/tmp/playwright-browser-verify/2026-08-28T05-53-35-374Z/report.json`、tech indexが`/private/tmp/playwright-browser-verify/2026-08-28T05-53-46-286Z/report.json`、本作業記録HTMLが`/private/tmp/playwright-browser-verify/2026-08-28T05-55-35-041Z/report.json`。
 - 作業ブランチ: `codex/060-fixed-basename-acceptance`
-- コミット: 未コミット
+- コミット: `6d9b625`（feat(publish): harden fixed commit acceptance contract）
 - PR: 未作成
-- PRレビュー・CI: ローカル事前レビュー合格。push・PR作成・CI確認は未実施。
+- PRレビュー・CI: ローカル事前レビュー合格。専用ブランチはoriginへpush済み。PR作成前のためGitHub上の外部レビューとCIは未実施。
 - 未解決事項: publish承認済みsource固定commitでの実GitHub Actions dry-run、apply、Pages deploy、公開URL、Slack通知、GitHub上の外部レビュー。
 - 次アクション: 差分をcommitしてpushし、PR作成後にGitHub Actions `Validate`とPR差分を確認する。Issue #60はPR mergeと手動E2E完了までOpenのままにする。
 
