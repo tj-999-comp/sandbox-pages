@@ -1,0 +1,158 @@
+{
+  "accepted_at": "2026-08-28T08:21:19Z",
+  "notify": false,
+  "operation": "withdraw",
+  "project_id": "tech_article_nortification",
+  "public_base_path": "/sandbox-pages/projects/tech_article_nortification/",
+  "publication_id": "withdraw-33154990231-1-tech_article_nortification-work_record_014",
+  "published_files": [],
+  "records": [],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "2b872b09a6862973a3ed9da8293d373e2d675e00",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/tech_article_nortification"
+  },
+  "source_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "1437e4f4cc7632aabc2e9a349e687fd71f4a64f9acceb6832894b365838266ee",
+      "size_bytes": 1728
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "53a8e11024b7c8bafa55a5f0320186b876d8515473908190d26f8c1181a9a673",
+      "size_bytes": 1251
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "7859e74bf8168977ee4af77bc69b37de26df0bdc7fd0ca804db081d09e94bdee",
+      "size_bytes": 1448
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "3d1d85dcdba7f4a05a6b8da8dd704a8f1464d1ea3bf817370dda1ea23a5b054e",
+      "size_bytes": 1667
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "b4231cc837e46e7da7f8cc20c6db6edc741c5f2ed4f323de44673d44dcf44616",
+      "size_bytes": 1616
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "db831b2758ab142e7dd88adde07a83743856eadc5a76e166e0962e744a0d0869",
+      "size_bytes": 1639
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "1f13dd4db081eddebbc2972d599999357850c691516eb82583dbe700f1e509b3",
+      "size_bytes": 1644
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "e0aadd2d0d03139b1e0f5060585c342b5daf0105e568c919874a4b22d12efb88",
+      "size_bytes": 1712
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "6efe877abeb5f4efd0f7914139a13e27e6f77c874c94dde7a25a15b921772c4b",
+      "size_bytes": 1565
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "a92d797713e791382bb23a7418171b968b808891c1c25521d1bdd30419407a71",
+      "size_bytes": 1531
+    },
+    {
+      "path": "md/work_record_011.md",
+      "sha256": "a6b422264d84e902790fbec8f695fe4fb195de424933fbadf85644a38e5ca363",
+      "size_bytes": 3286
+    },
+    {
+      "path": "md/work_record_012.md",
+      "sha256": "128f38b49b89ca78c31dbf9dbb0b972dce510c4f83545b4819b68e43eb2f800a",
+      "size_bytes": 1363
+    },
+    {
+      "path": "md/work_record_013.md",
+      "sha256": "25f1a545b7011a0ac75fda7aac99c3d7e232d40e2f5e89bdfbe00c2e4a881300",
+      "size_bytes": 2981
+    },
+    {
+      "path": "md/work_record_014.md",
+      "sha256": "fdc9feb881d8878a1d030f4b174004ebeca385ddf9d155a019a3e2af3666aa02",
+      "size_bytes": 1057
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "93fe8716f1166eff6e2ccc8ca360a439c0631d5c1a49493146901bf3291e247c",
+      "size_bytes": 191
+    },
+    {
+      "path": "metadata/work_record_002.yml",
+      "sha256": "e9e6d3f7e38c20981dd0d266e47f42ef80936a24e4b489f3649a3221383a1126",
+      "size_bytes": 173
+    },
+    {
+      "path": "metadata/work_record_003.yml",
+      "sha256": "8ec4ec7b3a795b2f1e5e77fe43aae58496f0a11bcd09b8a9f03ba347ac6b7dde",
+      "size_bytes": 192
+    },
+    {
+      "path": "metadata/work_record_004.yml",
+      "sha256": "b91a7dd08d4ea899a17cebac5a382510a935fd652520fe3993e834e7c87b5cde",
+      "size_bytes": 227
+    },
+    {
+      "path": "metadata/work_record_005.yml",
+      "sha256": "026eab8a99575003606dbacd708742ea638994214d6d21d818306c58c6c5ba68",
+      "size_bytes": 198
+    },
+    {
+      "path": "metadata/work_record_006.yml",
+      "sha256": "fbde5c28de0ef2bc8993c78a5b2f14f4e3ad8e70bc9514c67f381a6d24ec4735",
+      "size_bytes": 184
+    },
+    {
+      "path": "metadata/work_record_007.yml",
+      "sha256": "ac232014c583bfa3def67e4a853da3f16bdbf67ce5d396ed7286527127169997",
+      "size_bytes": 195
+    },
+    {
+      "path": "metadata/work_record_008.yml",
+      "sha256": "6a51963efb8b02fd32b6757805e87bc10adda712569276d09aa776b56d5d52ff",
+      "size_bytes": 199
+    },
+    {
+      "path": "metadata/work_record_009.yml",
+      "sha256": "f67d36b10a2a99ebfed25c62640be666fda66776679fb772c532b0ad62daeb44",
+      "size_bytes": 212
+    },
+    {
+      "path": "metadata/work_record_010.yml",
+      "sha256": "150d5b44d81d0d0132a42f625bab9dd40bbb6fc304b33c37254adf338eeb65cb",
+      "size_bytes": 193
+    },
+    {
+      "path": "metadata/work_record_011.yml",
+      "sha256": "851366a14cb7975237840d9698ad3f6167670da35955e17b58287b3d659744eb",
+      "size_bytes": 229
+    },
+    {
+      "path": "metadata/work_record_012.yml",
+      "sha256": "cc989e3a508e355b8a1110e7cefb179feb65d4d6504bcc6d50639d2e5a3119a6",
+      "size_bytes": 216
+    },
+    {
+      "path": "metadata/work_record_013.yml",
+      "sha256": "95cc1d51f94701b64c311ebc1a2d88c60b5b2fc3559df7a5ac72f08ce63025f8",
+      "size_bytes": 222
+    },
+    {
+      "path": "metadata/work_record_014.yml",
+      "sha256": "63feb0a42cf5bee70bae809f5b7902e70e0cf480e670d21d7553d3cd374a773e",
+      "size_bytes": 197
+    }
+  ]
+}
