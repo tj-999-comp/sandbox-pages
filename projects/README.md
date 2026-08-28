@@ -386,7 +386,11 @@ python3 -m scripts.publish.index_generator --check
 
 `publish: false` や生成元でのファイル削除だけでは、公開済みファイルを削除しない。
 
-公開取り下げはA管理者による監査可能な操作とし、対象ファイル、project/global index、provenance manifestを同じ変更で更新する。対象URLへの対応方法、Slack通知、復元手順を確認してから実行する。
+公開取り下げはA管理者が公開リポジトリの`Withdraw published work record` workflowから行う。まず`mode=dry-run`で対象basename、現在のA `main` SHA、最新`publication_id`、削除対象ファイルを確認し、そのrunの結果を保存する。実行時は同じ`project_id`・basenameに加えて、dry-runのSHAと最新`publication_id`を入力し、確認欄へ`WITHDRAW`と入力する。SHAまたはprovenanceが変わっていれば停止し、再度dry-runからやり直す。
+
+applyは登録済みprojectのprovenanceに存在する`work_record_###`だけを対象とし、同名のHTMLとMarkdownを明示的に削除する。`projects/<project_id>/index.html`、`projects/index.html`、`provenance/<project_id>/<withdrawal_id>.json`を同じcommitへ含め、対象basenameを最新manifestの`records`から除外する。source側の削除や`publish: false`を理由にした自動削除、対象外ファイルの削除、`rsync --delete`は行わない。withdrawではSlack通知を送らない。
+
+取り下げ後のURLは404となる。復元が必要な場合は、取り下げcommitをrevertするPRを作成し、revert後の固定SHAを指定してPagesを再deployする。復元前後にprovenance、project/global index、対象URLを確認し、取り下げmanifestを削除・書き換えず履歴を残す。
 
 ## GitHub PagesとSlack通知
 
@@ -398,7 +402,7 @@ Slack通知はdeploy成功後にだけ実行する。provenance manifestで通�
 
 現在の受入workflowでは、`create`の新規公開かつno-opでない場合だけ`notify` jobを実行する。`SLACK_WEBHOOK_URL`はこのjobの送信stepだけへ渡し、apply済み固定commitのprovenance manifestから対象recordのタイトルと`public_url`を解決し、Pages deployのoriginと結合したrecord URLを5回まで確認する。通知本文にはタイトル、`publication_id`、project、対象basename、対象作業記録URLを含め、Pages環境のサイトトップURL自体は通知しない。通知に失敗してもPagesの公開結果は巻き戻さず、同一workflow runの通知jobを再実行して同じ`publication_id`で再送できる。
 
-初期方針では新規 `create` だけ通知し、`update`、`withdraw`、再実行の通知要否は実装時に別途決める。初回bootstrapと無関係なサイト更新は通知しない。Incoming Webhookは少なくとも一回の配信となり得るため、`publication_id` を通知へ含め、再実行時の重複を識別できるようにする。
+初期方針では新規 `create` だけ通知し、`update`、`withdraw`、再実行は通知しない。初回bootstrapと無関係なサイト更新は通知しない。Incoming Webhookは少なくとも一回の配信となり得るため、`publication_id` を通知へ含め、再実行時の重複を識別できるようにする。
 
 Slack通知だけが失敗してもPages公開を巻き戻さない。通知jobの失敗として記録し、同じ `publication_id` で安全に再送できるようにする。
 

@@ -50,6 +50,14 @@ workflow全体のdefault permissionsは空またはread-onlyとし、必要なjo
 - A所有のindex用stylesheet
 - `provenance/<project_id>/`のmanifest
 
+## 監査可能な公開取り下げ
+
+`publish: false`や生成元からのファイル削除を契機にした自動削除は行わない。A管理者が`.github/workflows/withdraw.yml`を`dry-run`で実行し、対象basename、現在の`main` SHA、最新`publication_id`、明示的な削除対象を確認する。applyは別dispatchで同じSHAとpublication_idを再指定し、`WITHDRAW`確認文字列を要求する。
+
+取り下げengineは登録済みprojectの最新manifestに対象basenameが存在すること、公開ファイルのdigest driftがないこと、生成済みindexが最新であることをapply前に検証する。削除は対象basenameのHTMLとMarkdownに限定し、project/global indexとwithdraw操作を記録する新しいprovenance manifestを同じcommitへ反映する。sourceの消失、対象外ファイル、symlink、index drift、mainの更新があれば失敗し、Slack通知は行わない。
+
+取り下げ後のURLは404となる。復元は取り下げcommitをrevertする人間レビュー付きPRで行い、既知の固定SHAを指定してPagesを再deployする。revertで取り下げmanifestを消去・改変せず、復元前後のmanifest、index、代表URLを確認する。
+
 workflow、repository設定、source registry、運用文書、他projectは自動変更しない。許可範囲外の差分、manifest drift、自動削除、自動改名、symlink、force push、`rsync --delete`を拒否する。
 
 ## 競合、retry、no-op
