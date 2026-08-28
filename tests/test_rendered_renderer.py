@@ -6,6 +6,16 @@ from scripts.publish.rendered_renderer import RenderedRendererError, render_work
 
 
 class RenderedRendererTests(unittest.TestCase):
+    def test_golden_fixture_is_reproducible(self):
+        markdown = Path(__file__).parent / "fixtures/rendered_renderer/work_record_001.md"
+        expected = (
+            Path(__file__).parent / "fixtures/rendered_renderer/golden.html"
+        ).read_text(encoding="utf-8")
+        self.assertEqual(
+            render_work_record(markdown, _metadata(title="Golden record", tags=["golden"])),
+            expected,
+        )
+
     def test_render_is_deterministic_and_uses_normalized_metadata(self):
         with tempfile.TemporaryDirectory() as directory:
             markdown = Path(directory) / "work_record_001.md"
@@ -71,13 +81,13 @@ class RenderedRendererTests(unittest.TestCase):
                 )
 
 
-def _metadata():
+def _metadata(*, title="Record", tags=None):
     return {
         "schema_version": 1,
-        "title": "Record",
+        "title": title,
         "date": "2026-08-28",
         "project_id": "tech_article_nortification",
-        "tags": [],
+        "tags": [] if tags is None else tags,
         "publish": True,
     }
 
