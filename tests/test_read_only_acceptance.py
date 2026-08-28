@@ -45,16 +45,14 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
                 target_basename="work_record_001",
             )
 
-    def test_tech_article_source_is_resolved_with_explicit_opt_in(self):
+    def test_tech_article_source_is_disabled_by_default(self):
         source = resolve_source(
             registry_path=ROOT / "config/sources.json",
             project_id="tech_article_nortification",
             source_commit_sha="a" * 40,
             target_basename="work_record_001",
-            allow_enabled=True,
         )
-        self.assertTrue(source["enabled"])
-        self.assertEqual(source["destination_directory"], "projects/tech_article_nortification")
+        self.assertFalse(source["enabled"])
 
     def test_resolve_allows_registered_enabled_source_with_explicit_opt_in(self):
         source = resolve_source(
@@ -265,7 +263,6 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
                 project_id="tech_article_nortification",
                 source_commit_sha=commit,
                 target_basename="work_record_001",
-                allow_enabled=True,
                 source_checkout=checkout,
                 branch_ref="refs/heads/main",
                 provenance_root=temp / "provenance",
