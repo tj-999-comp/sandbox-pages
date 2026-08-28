@@ -72,6 +72,7 @@ jobs:
           TARGET_BASENAME: ${{ inputs.target_basename }}
           EXPECTED_MAIN_SHA: ${{ inputs.expected_main_sha }}
           EXPECTED_PUBLICATION_ID: ${{ inputs.expected_publication_id }}
+          PYTHONDONTWRITEBYTECODE: "1"
         run: |
           set -euo pipefail
           args=(
@@ -89,12 +90,12 @@ jobs:
           if [[ -n "$EXPECTED_PUBLICATION_ID" ]]; then
             args+=(--expected-publication-id "$EXPECTED_PUBLICATION_ID")
           fi
-          python3 -m scripts.publish.withdraw_engine "${args[@]}" | tee withdrawal-plan.json
+          python3 -m scripts.publish.withdraw_engine "${args[@]}" | tee "$RUNNER_TEMP/withdrawal-plan.json"
           {
             echo "## Withdrawal plan"
             echo
             echo '```json'
-            cat withdrawal-plan.json
+            cat "$RUNNER_TEMP/withdrawal-plan.json"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -102,7 +103,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: withdrawal-plan-${{ inputs.project_id }}-${{ inputs.target_basename }}
-          path: withdrawal-plan.json
+          path: ${{ runner.temp }}/withdrawal-plan.json
           if-no-files-found: error
           retention-days: 7
 
