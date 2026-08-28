@@ -40,9 +40,9 @@
 - 変更ファイル: `work-records/md/work_record_060.md`、`work-records/work_record_060.html`。
 - 検証結果: GitHub Actions run `33146574362`（[run URL](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33146574362)）success。Issueコメント（[記録](https://github.com/tj-999-comp/sandbox-pages/issues/60#issuecomment-5449073168)）と訂正版（[記録](https://github.com/tj-999-comp/sandbox-pages/issues/60#issuecomment-5449075087)）を追加した。
 - 作業ブランチ: `main`
-- コミット: docs-only commit作成予定
+- コミット: `512b082`（docs: record Issue 60 disabled dry-run E2E）
 - PR: 作成しない（ドキュメントのみのため標準の短縮工程を適用）
-- PRレビュー・CI: merge済みPR #62のValidateはsuccess。今回のdocs-only commitはpush後にmainのValidateで確認する。
+- PRレビュー・CI: merge済みPR #62のValidateはsuccess。docs-only commit後のmain Validate run `33146939828`（[run URL](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33146939828)）もsuccess。
 - 未解決事項: `publish: true`固定commitによるfull E2E、公開URL、Slack通知。
 - 次アクション: 生成元側の人間承認済み公開commitを受け取り、同一受入workflowを再実行する。
 
