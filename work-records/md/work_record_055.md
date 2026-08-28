@@ -15,8 +15,8 @@
 - 実施内容: 既存の `tech_article_nortification` 登録を確認し、Issue指定のrepository/ref、生成元・metadata・公開先ディレクトリ、`a_rendered`、`enabled: false`を直接固定するテストを追加した。未登録projectの拒否とdisabled sourceの安全な解決もテストに追加した。
 - 成果物: source registry登録、registry loaderの `a_rendered` 対応、source registry・read-only acceptanceテスト、作業記録。
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（79件合格）、JSON構文、Python構文、`git diff --check`に合格した。
-- 未解決事項: PR作成前のため、GitHub上のPRレビュー・CI・マージは未確認。source側の作業記録移行、`a_rendered`の実E2E、source有効化は後続課題とする。
-- 次工程への引き継ぎ: PRを作成し、CIと差分レビューを確認した後、マージ結果を本記録へ追記する。
+- 未解決事項: source側の作業記録移行、`a_rendered`の実E2E、source有効化は後続課題とする。
+- 次工程への引き継ぎ: マージ済みmainを基準に後続のsource移行・受入検証へ進む。
 
 ### Portfolio Reviewer
 
@@ -41,10 +41,10 @@
 - 検証結果: 79件のユニットテスト、JSON/Python構文確認、`git diff --check`に合格。作業記録HTMLは1280/900/640/320pxでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。証跡: `/private/tmp/playwright-browser-verify/2026-08-28T01-27-50-528Z/report.json`。
 - 作業ブランチ: `codex/054-add-tech-article-source`
 - コミット: `8551d7c`（registry登録）、`5f15490`（完了条件テスト）
-- PR: [#56 Issue #4: tech_article_nortification のsource registry登録](https://github.com/tj-999-comp/sandbox-pages/pull/56)
-- PRレビュー・CI: GitHub上の差分レビューで重大な問題なし。`Validate` run `33132993507` はsuccess。
-- 未解決事項: PRのレビュー・CI・マージ、source側の公開入力移行、disabled dry-runの実データ確認、手動E2E、公開有効化。
-- 次アクション: PR #56をマージする。
+- PR: [#56 Issue #4: tech_article_nortification のsource registry登録](https://github.com/tj-999-comp/sandbox-pages/pull/56)（マージ済み、merge commit `970cd0be1966d2d47c163d6fd9ea2833ca530dc5`）
+- PRレビュー・CI: GitHub上の差分レビューで重大な問題なし。更新後の `Validate` run `33133044737` はsuccess。2026-08-28 10:30 JSTにマージされた。
+- 未解決事項: source側の公開入力移行、disabled dry-runの実データ確認、手動E2E、公開有効化。
+- 次アクション: source側のwork-records移行と、A側renderer完成後のdisabled dry-runへ進む。
 
 ## GitHub Issue状況
 
