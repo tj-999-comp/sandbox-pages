@@ -9,6 +9,7 @@ from scripts.publish.read_only_acceptance import (
     run_acceptance,
     resolve_source,
 )
+from scripts.publish.provenance import build_manifest, serialize_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -185,6 +186,75 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
                 from scripts.publish.read_only_acceptance import _verify_fixed_commit
 
                 _verify_fixed_commit(checkout, first, "refs/heads/missing")
+
+    def test_a_rendered_validates_markdown_without_source_html(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp = Path(temp_dir)
+            checkout = temp / "checkout"
+            (checkout / "seed").parent.mkdir(parents=True)
+            _run_git(checkout, "init", "--quiet")
+            _run_git(checkout, "config", "user.email", "test@example.com")
+            _run_git(checkout, "config", "user.name", "Test")
+            (checkout / "seed").write_text("seed\n", encoding="utf-8")
+            _run_git(checkout, "add", "seed")
+            _run_git(checkout, "commit", "--quiet", "-m", "seed")
+            previous = _run_git(checkout, "rev-parse", "HEAD")
+            source_root = checkout / "work-records"
+            (source_root / "md").mkdir(parents=True)
+            (source_root / "metadata").mkdir()
+            (source_root / "md/work_record_001.md").write_text(
+                "# Source title\n\n## 概要\n\nRenderer input.\n", encoding="utf-8"
+            )
+            (source_root / "metadata/work_record_001.yml").write_text(
+                "schema_version: 1\n"
+                "title: Rendered record\n"
+                "date: 2026-08-28\n"
+                "project_id: tech_article_nortification\n"
+                "tags: []\n"
+                "publish: false\n",
+                encoding="utf-8",
+            )
+            _run_git(checkout, "add", "work-records")
+            _run_git(checkout, "commit", "--quiet", "-m", "record")
+            commit = _run_git(checkout, "rev-parse", "HEAD")
+            _run_git(checkout, "branch", "-M", "main")
+
+            provenance_dir = temp / "provenance/tech_article_nortification"
+            provenance_dir.mkdir(parents=True)
+            manifest = build_manifest(
+                publication_id="bootstrap-tech-article",
+                project_id="tech_article_nortification",
+                source_repository="tj-999-comp/tech_article_nortification",
+                source_ref="refs/heads/main",
+                source_commit_sha=previous,
+                public_base_path="/sandbox-pages/projects/tech_article_nortification/",
+                accepted_at="2026-08-20T00:00:00Z",
+                operation="create",
+                metadata_by_basename={},
+                source_files=[],
+                published_files=[],
+                notify=False,
+            )
+            (provenance_dir / "initial.json").write_text(
+                serialize_manifest(manifest), encoding="utf-8"
+            )
+
+            result = run_acceptance(
+                registry_path=ROOT / "config/sources.json",
+                project_id="tech_article_nortification",
+                source_commit_sha=commit,
+                target_basename="work_record_001",
+                source_checkout=checkout,
+                branch_ref="refs/heads/main",
+                provenance_root=temp / "provenance",
+                output_dir=temp / "output",
+            )
+
+        self.assertEqual(result["validators"]["renderer"], "passed")
+        self.assertEqual(
+            {item["path"] for item in result["target_inventory"]},
+            {"md/work_record_001.md", "metadata/work_record_001.yml"},
+        )
 
 
 def _run_git(cwd: Path, *args: str) -> str:

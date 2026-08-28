@@ -19,6 +19,7 @@ from .acceptance_files import AcceptanceFileError, validate_source_tree
 from .content_safety import ContentSafetyError, validate_source_html_tree
 from .metadata_schema import MetadataSchemaError, load_metadata
 from .provenance import ProvenanceError, load_manifest
+from .rendered_renderer import RenderedRendererError, render_work_record
 from .source_registry import SourceRegistryError, load_registry
 
 
@@ -126,6 +127,17 @@ def run_acceptance(
     except MetadataSchemaError as exc:
         raise ReadOnlyAcceptanceError(f"A-02 metadata validation failed: {exc}") from exc
     validator_results["metadata"] = "passed"
+
+    if source["html_mode"] == "a_rendered":
+        try:
+            render_work_record(
+                source_root / "md" / f"{target_basename}.md",
+                metadata,
+                expected_project_id=project_id,
+            )
+        except RenderedRendererError as exc:
+            raise ReadOnlyAcceptanceError(f"A-04 renderer validation failed: {exc}") from exc
+        validator_results["renderer"] = "passed"
 
     if target_basename not in accepted.record_basenames:
         raise ReadOnlyAcceptanceError(

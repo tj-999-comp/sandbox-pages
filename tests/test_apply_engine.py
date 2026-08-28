@@ -12,6 +12,7 @@ from scripts.publish.apply_engine import (
     apply_with_bounded_retry,
     infer_operation,
 )
+from scripts.publish.provenance import build_manifest, serialize_manifest
 from scripts.publish.read_only_acceptance import run_acceptance
 
 
@@ -156,6 +157,33 @@ class ApplyEngineTests(unittest.TestCase):
                 ),
                 max_retries=1,
             )
+
+    def test_a_rendered_apply_generates_public_html_from_markdown(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _RenderedFixture(Path(temp_dir))
+            acceptance = fixture.create_acceptance()
+            result = fixture.apply(acceptance)
+
+            self.assertFalse(result.no_op)
+            generated = fixture.repo / "projects/tech_article_nortification/work_record_001.html"
+            self.assertTrue(generated.is_file())
+            rendered = generated.read_text(encoding="utf-8")
+            self.assertIn("Rendered record", rendered)
+            self.assertIn("<h2>概要</h2>", rendered)
+            self.assertNotIn("<script>", rendered)
+            self.assertFalse(
+                (fixture.repo / "projects/tech_article_nortification/metadata").exists()
+            )
+            manifest = json.loads(
+                (fixture.repo / "provenance/tech_article_nortification/pub-001.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(
+                {item["path"] for item in manifest["source_files"]},
+                {"md/work_record_001.md", "metadata/work_record_001.yml"},
+            )
+            self.assertIn("work_record_001.html", {item["path"] for item in manifest["published_files"]})
 
 
 class _Fixture:
@@ -303,6 +331,117 @@ class _Fixture:
             expected_main_sha=_git(self.repo, "rev-parse", "HEAD"),
             source_branch_ref="refs/heads/main",
             notify=notify,
+        )
+
+
+class _RenderedFixture:
+    def __init__(self, root: Path):
+        self.root = root
+        self.repo = root / "repo"
+        self.checkout = root / "source"
+        self._prepare_repository()
+        self._prepare_source()
+
+    def _prepare_repository(self):
+        (self.repo / "config").mkdir(parents=True)
+        (self.repo / "projects/tech_article_nortification").mkdir(parents=True)
+        (self.repo / "provenance/tech_article_nortification").mkdir(parents=True)
+        registry = json.loads((ROOT / "config/sources.json").read_text(encoding="utf-8"))
+        for source in registry["sources"]:
+            if source["project_id"] == "tech_article_nortification":
+                source["enabled"] = True
+        (self.repo / "config/sources.json").write_text(
+            json.dumps(registry, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        shutil.copy2(ROOT / "projects/progress-index.css", self.repo / "projects/progress-index.css")
+        manifest = build_manifest(
+            publication_id="bootstrap-tech-article",
+            project_id="tech_article_nortification",
+            source_repository="tj-999-comp/tech_article_nortification",
+            source_ref="refs/heads/main",
+            source_commit_sha="a" * 40,
+            public_base_path="/sandbox-pages/projects/tech_article_nortification/",
+            accepted_at="2026-08-20T00:00:00Z",
+            operation="create",
+            metadata_by_basename={},
+            source_files=[],
+            published_files=[],
+            notify=False,
+        )
+        (self.repo / "provenance/tech_article_nortification/initial.json").write_text(
+            serialize_manifest(manifest), encoding="utf-8"
+        )
+        from scripts.publish.index_generator import generate_indexes
+
+        generate_indexes(self.repo)
+        _git(self.repo, "init", "--quiet")
+        _git(self.repo, "config", "user.email", "test@example.com")
+        _git(self.repo, "config", "user.name", "Test")
+        _git(self.repo, "add", ".")
+        _git(self.repo, "commit", "--quiet", "-m", "baseline")
+
+    def _prepare_source(self):
+        source_root = self.checkout / "work-records"
+        source_root.mkdir(parents=True)
+        _git(self.checkout, "init", "--quiet")
+        _git(self.checkout, "config", "user.email", "test@example.com")
+        _git(self.checkout, "config", "user.name", "Test")
+        (self.checkout / "seed").write_text("seed\n", encoding="utf-8")
+        _git(self.checkout, "add", "seed")
+        _git(self.checkout, "commit", "--quiet", "-m", "seed")
+        self.previous_source_head = _git(self.checkout, "rev-parse", "HEAD")
+        (source_root / "md").mkdir()
+        (source_root / "metadata").mkdir()
+        (source_root / "md/work_record_001.md").write_text(
+            "# Source title\n\n## 概要\n\nRenderer content.\n", encoding="utf-8"
+        )
+        (source_root / "metadata/work_record_001.yml").write_text(
+            "schema_version: 1\n"
+            "title: Rendered record\n"
+            "date: 2026-08-28\n"
+            "project_id: tech_article_nortification\n"
+            "tags: []\n"
+            "publish: true\n",
+            encoding="utf-8",
+        )
+        _git(self.checkout, "add", "work-records")
+        _git(self.checkout, "commit", "--quiet", "-m", "record")
+        self.source_head = _git(self.checkout, "rev-parse", "HEAD")
+        _git(self.checkout, "branch", "-M", "main")
+        manifest_path = self.repo / "provenance/tech_article_nortification/initial.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["source"]["commit_sha"] = self.previous_source_head
+        manifest_path.write_text(serialize_manifest(manifest), encoding="utf-8")
+        _git(self.repo, "add", "provenance/tech_article_nortification/initial.json")
+        _git(self.repo, "commit", "--quiet", "-m", "pin source")
+
+    def create_acceptance(self):
+        output = self.root / "acceptance"
+        run_acceptance(
+            registry_path=self.repo / "config/sources.json",
+            project_id="tech_article_nortification",
+            source_commit_sha=self.source_head,
+            target_basename="work_record_001",
+            source_checkout=self.checkout,
+            branch_ref="refs/heads/main",
+            provenance_root=self.repo / "provenance",
+            output_dir=output,
+            allow_enabled=True,
+        )
+        return output / "acceptance.json"
+
+    def apply(self, acceptance: Path):
+        return apply_verified_payload(
+            acceptance_path=acceptance,
+            source_checkout=self.checkout,
+            repository_root=self.repo,
+            registry_path=self.repo / "config/sources.json",
+            provenance_root=self.repo / "provenance",
+            publication_id="pub-001",
+            accepted_at="2026-08-28T00:00:00Z",
+            operation="create",
+            expected_main_sha=_git(self.repo, "rev-parse", "HEAD"),
+            source_branch_ref="refs/heads/main",
         )
 
 
