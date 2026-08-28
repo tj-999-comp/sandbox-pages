@@ -17,7 +17,9 @@ DEFAULT_REGISTRY_PATH = REPOSITORY_ROOT / "config" / "sources.json"
 
 SUPPORTED_SCHEMA_VERSION = 1
 SUPPORTED_HTML_MODES = frozenset({"source_html", "a_rendered"})
-SUPPORTED_GENERATOR_IDS = frozenset({"b-stats-work-record-v1"})
+SUPPORTED_GENERATOR_IDS = frozenset(
+    {"a-rendered-work-record-v1", "b-stats-work-record-v1"}
+)
 
 _PROJECT_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
 _REPOSITORY_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
@@ -137,8 +139,14 @@ def _validate_source(source: Any, index: int) -> dict[str, Any]:
             f"{label}.metadata_directory must be inside source_directory"
         )
 
+    html_mode = source["html_mode"]
+    if not isinstance(html_mode, str) or html_mode not in SUPPORTED_HTML_MODES:
+        raise SourceRegistryError(f"{label}.html_mode is not supported")
+
     support_files = source["support_files"]
-    if not isinstance(support_files, list) or not support_files:
+    if not isinstance(support_files, list):
+        raise SourceRegistryError(f"{label}.support_files must be an array")
+    if html_mode == "source_html" and not support_files:
         raise SourceRegistryError(f"{label}.support_files must be a non-empty array")
     normalized_support_files = []
     seen_support_files: set[str] = set()
@@ -175,9 +183,6 @@ def _validate_source(source: Any, index: int) -> dict[str, Any]:
         or generator_id not in SUPPORTED_GENERATOR_IDS
     ):
         raise SourceRegistryError(f"{label}.generator_id is not supported")
-    html_mode = source["html_mode"]
-    if not isinstance(html_mode, str) or html_mode not in SUPPORTED_HTML_MODES:
-        raise SourceRegistryError(f"{label}.html_mode is not supported")
     if not isinstance(source["enabled"], bool):
         raise SourceRegistryError(f"{label}.enabled must be boolean")
 

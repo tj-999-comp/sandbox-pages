@@ -18,11 +18,34 @@ class SourceRegistryTests(unittest.TestCase):
     def test_repository_registry_loads_and_is_enabled(self):
         registry = load_registry(ROOT / "config" / "sources.json")
         self.assertEqual(registry["schema_version"], 1)
-        self.assertEqual([source["project_id"] for source in registry["sources"]], ["B_Stats_Site"])
+        self.assertEqual(
+            [source["project_id"] for source in registry["sources"]],
+            ["B_Stats_Site", "tech_article_nortification"],
+        )
         source = registry["sources"][0]
         self.assertTrue(source["enabled"])
         self.assertEqual(source["html_mode"], "source_html")
         self.assertEqual(source["generator_id"], "b-stats-work-record-v1")
+        new_source = registry["sources"][1]
+        self.assertFalse(new_source["enabled"])
+        self.assertEqual(new_source["html_mode"], "a_rendered")
+        self.assertEqual(new_source["generator_id"], "a-rendered-work-record-v1")
+        self.assertEqual(new_source["support_files"], [])
+
+    def test_tech_article_source_has_the_fixed_issue_contract(self):
+        registry = load_registry(ROOT / "config" / "sources.json")
+        source = next(
+            item for item in registry["sources"]
+            if item["project_id"] == "tech_article_nortification"
+        )
+
+        self.assertEqual(source["source_repository"], "tj-999-comp/tech_article_nortification")
+        self.assertEqual(source["source_ref"], "refs/heads/main")
+        self.assertEqual(source["source_directory"], "work-records")
+        self.assertEqual(source["metadata_directory"], "work-records/metadata")
+        self.assertEqual(source["destination_directory"], "projects/tech_article_nortification")
+        self.assertEqual(source["html_mode"], "a_rendered")
+        self.assertFalse(source["enabled"])
 
     def test_loading_is_deterministic(self):
         first = load_registry(ROOT / "config" / "sources.json")
@@ -53,6 +76,13 @@ class SourceRegistryTests(unittest.TestCase):
                 "work_record_extra_02.html",
             ],
         )
+
+    def test_a_rendered_source_may_have_no_support_files(self):
+        registry = _registry()
+        source = registry["sources"][1]
+        normalized = validate_registry(registry)
+        self.assertEqual(source["html_mode"], "a_rendered")
+        self.assertEqual(normalized["sources"][1]["support_files"], [])
 
     def test_duplicate_project_ids_are_rejected(self):
         registry = _registry()
