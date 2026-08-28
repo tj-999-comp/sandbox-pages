@@ -1,0 +1,17 @@
+{
+  "accepted_at": "2026-08-28T00:00:00Z",
+  "notify": false,
+  "operation": "create",
+  "project_id": "tech_article_nortification",
+  "public_base_path": "/sandbox-pages/projects/tech_article_nortification/",
+  "publication_id": "bootstrap-20260828-tech-article",
+  "published_files": [],
+  "records": [],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "36a6357f609adf7352edb8b1b5e1e830e02dcc94",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/tech_article_nortification"
+  },
+  "source_files": []
+}

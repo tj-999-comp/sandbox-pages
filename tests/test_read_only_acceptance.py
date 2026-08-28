@@ -16,6 +16,26 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReadOnlyAcceptanceTests(unittest.TestCase):
+    def test_dispatch_inputs_reject_non_contract_values(self):
+        invalid_requests = (
+            ("B_Stats_Site", "A" * 40, "work_record_001"),
+            ("B_Stats_Site", "a" * 39, "work_record_001"),
+            ("B_Stats_Site", "a" * 40, "main"),
+            ("B_Stats_Site", "a" * 40, "work_record_001,work_record_002"),
+            ("B_Stats_Site", "a" * 40, "../work_record_001"),
+            ("B_Stats_Site", "a" * 40, "work_record_000"),
+            ("B_Stats_Site", "a" * 40, "work_record_1000"),
+        )
+        for project_id, source_commit_sha, target_basename in invalid_requests:
+            with self.subTest(project_id=project_id, source_commit_sha=source_commit_sha, target_basename=target_basename), self.assertRaises(ReadOnlyAcceptanceError):
+                resolve_source(
+                    registry_path=ROOT / "config/sources.json",
+                    project_id=project_id,
+                    source_commit_sha=source_commit_sha,
+                    target_basename=target_basename,
+                    allow_enabled=True,
+                )
+
     def test_unregistered_project_is_rejected(self):
         with self.assertRaisesRegex(ReadOnlyAcceptanceError, "not registered"):
             resolve_source(

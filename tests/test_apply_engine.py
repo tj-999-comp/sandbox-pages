@@ -131,6 +131,23 @@ class ApplyEngineTests(unittest.TestCase):
             with self.assertRaisesRegex(ApplyEngineError, "destination directory"):
                 fixture.apply(acceptance, "pub-011", "create")
 
+    def test_apply_rejects_non_contract_commit_and_basename(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            acceptance = fixture.create_acceptance("work_record_011")
+            data = json.loads(acceptance.read_text(encoding="utf-8"))
+
+            data["source"]["commit_sha"] = "a" * 64
+            acceptance.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ApplyEngineError, "full lowercase SHA"):
+                fixture.apply(acceptance, "pub-011", "create")
+
+            data["source"]["commit_sha"] = fixture.source_head
+            data["target_basename"] = "../work_record_011"
+            acceptance.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ApplyEngineError, "target_basename"):
+                fixture.apply(acceptance, "pub-012", "create")
+
     def test_second_application_with_same_content_is_a_noop(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             fixture = _Fixture(Path(temp_dir))
@@ -329,6 +346,9 @@ class _Fixture:
         (self.repo / "provenance/B_Stats_Site/initial.json").write_text(
             json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )
+        from scripts.publish.index_generator import generate_indexes
+
+        generate_indexes(self.repo)
         _git(self.repo, "init", "--quiet")
         _git(self.repo, "config", "user.email", "test@example.com")
         _git(self.repo, "config", "user.name", "Test")
