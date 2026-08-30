@@ -40,9 +40,9 @@
 - 変更ファイル: `docs/PORTFOLIO_STANDARD.md`、`projects/README.md`、`work-records/md/work_record_061.md`、`work-records/work_record_061.html`。
 - 検証結果: `python3 scripts/dev/convert_work_records_to_html.py --check`（61件 current）、`python3 scripts/dev/validate_work_record_filenames.py`、既存unit test（93件成功）、`git diff --check`に合格した。ブラウザ確認では1280px、900px、640px、320pxの全viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなしを確認した。証跡は`/private/tmp/playwright-browser-verify/2026-08-30T04-41-59-699Z/report.json`。
 - 作業ブランチ: `codex/docs-github-app-source-template`
-- コミット: PR作成前に確定する。
-- PR: PR作成前に確定する。
-- PRレビュー・CI: ローカル事前レビューとCI確認をPR工程で実施する。
+- コミット: `d2b3f52`（標準文書・作業記録の初回変更）、`a3f8dde`（作業記録HTMLの再生成）。
+- PR: [#77 生成元リポジトリのGitHub App連携工程を標準化](https://github.com/tj-999-comp/sandbox-pages/pull/77)（`main`へマージ済み、merge commit `5550b6f37d43bbb512ccf0b4f334863ec1b1e031`）。
+- PRレビュー・CI: 主担当の事前レビューは重大0件。初回CIは作業記録HTMLの更新漏れで失敗したが、HTMLを再生成して修正後commitをpushし、Validate run `33293144376`はsuccessした。外部レビュー指摘はなかった。
 - 未解決事項: 生成元側の実Secret登録と実workflow E2Eは未実施。
 - 次アクション: PR作成後にGitHub上の差分とCIを確認し、問題がなければマージする。
 
