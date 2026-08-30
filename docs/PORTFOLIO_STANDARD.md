@@ -1,6 +1,6 @@
 # Portfolio作業標準
 
-更新日: 2026-08-20
+更新日: 2026-08-30
 
 この文書は、B、C、Dなど複数の生成元リポジトリで作業記録を作成し、GitHub IssueとPull Requestを使って公開可能な状態まで届けるための共通標準である。リポジトリ固有の細部は`AGENTS.md`、公開受入の契約は[`projects/README.md`](../projects/README.md)、作業記録HTMLの見た目は[`work-records/design.md`](../work-records/design.md)を正本とする。
 
@@ -47,6 +47,29 @@ GH_TOKEN="$(python3 scripts/dev/github_app_token.py --print-token)" \
 ```
 
 Git操作の認証はSSHを基本とし、GitHub API用のInstallation tokenと混ぜない。Appの秘密鍵、Installation token、JWTをリポジトリ、作業記録、ログ、PR本文へ記録しない。
+
+### 生成元リポジトリ用テンプレートのGitHub App連携
+
+新しい生成元リポジトリを追加するときは、生成元リポジトリのREADMEまたは運用テンプレートへ、公開リポジトリA（`tj-999-comp/sandbox-pages`）とのGitHub App連携工程を必ず記載する。生成元ごとに次を設定・確認する。
+
+1. 公開リポジトリAの受入workflowを`workflow_dispatch`できるGitHub Appを、必要な最小権限で対象リポジトリへ利用可能にする。
+2. 生成元リポジトリのActions Secretへ`PUBLISH_APP_PRIVATE_KEY`を登録する。値はGitHub AppのPEM秘密鍵そのものとし、base64文字列をSecretへ登録しない。
+3. Macキーチェーンの項目がbase64化されたPEMを保持している場合は、登録時だけデコードする。Secret値をファイル、ログ、作業記録へ保存しない。
+
+```bash
+gh repo view <生成元owner/repository> --json nameWithOwner,viewerPermission
+
+security find-generic-password \
+  -a "$(id -un)" \
+  -s "codex-github-app-private-key" \
+  -w | base64 -D | gh secret set PUBLISH_APP_PRIVATE_KEY \
+  --repo <生成元owner/repository>
+```
+
+キーチェーン項目がすでにPEM形式の場合は`base64 -D`を省略する。`gh secret set`は先に対象リポジトリのActions公開鍵を取得するため、404になった場合はPEM形式ではなく、リポジトリ名・所有者・`gh`のログインアカウント・Secret管理権限を確認する。登録後は`gh secret list --repo <生成元owner/repository>`でSecret名だけを確認し、値は取得・表示しない。
+
+4. 生成元workflowはSecretを使って短期Installation tokenを発行し、Aの受入workflowへ`project_id`、固定`source_commit_sha`、`target_basename`だけをdispatchする。token、JWT、PEMをartifactやログへ出力しない。
+5. `SANDBOX_PAGES_DISPATCH_TOKEN`などの旧PAT方式を新しい生成元のテンプレートへ追加しない。既存生成元を移行する場合は、移行確認後に旧Secretを失効・削除する。
 
 ### Issueスナップショット
 
@@ -132,6 +155,7 @@ python3 scripts/dev/validate_work_record_filenames.py
 - `a_rendered`または既存互換の`source_html`を選ぶ。新規C/Dは原則`a_rendered`。
 - metadata、命名、HTML生成、リンク、安全性、容量制限を確認する。
 - A側にregistry entry、validator fixture、provenanceの保管場所を追加する。
+- 生成元リポジトリのREADMEまたは運用テンプレートへ、上記のGitHub App連携、`PUBLISH_APP_PRIVATE_KEY`登録、Secret名確認の工程を追加する。
 - `enabled: false`のままdry-runとno-opを通す。
 
 ### 受入後
