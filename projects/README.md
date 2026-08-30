@@ -43,6 +43,8 @@ B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用�
 
 新しい生成元は、公開リポジトリ側で `project_id`、リポジトリ、branch、生成元ディレクトリ、公開先ディレクトリ、support file、generator ID、サイズ上限を登録し、受入テストを通過するまで無効とする。metadataの値から任意の公開先パスを組み立てず、公開リポジトリに登録された対応だけを使う。
 
+新しい生成元リポジトリのREADMEまたは運用テンプレートには、[`docs/PORTFOLIO_STANDARD.md`のGitHub App連携工程](../docs/PORTFOLIO_STANDARD.md#生成元リポジトリ用テンプレートのgithub-app連携)を必ず記載する。生成元からAへ公開要求を送るため、GitHub Appの利用設定と、PEM形式の`PUBLISH_APP_PRIVATE_KEY`を生成元リポジトリのActions Secretへ登録する工程を、source registry登録・受入テストと同じ導入チェックリストで管理する。
+
 この対応は公開リポジトリが所有する`config/sources.json`で管理し、生成元から更新させない。source registryのloaderは`scripts/publish/source_registry.py`である。次は登録エントリの概念例であり、実ファイルではJSONの`schema_version`と`sources`配列に含める。
 
 ```yaml
@@ -408,19 +410,22 @@ Slack通知だけが失敗してもPages公開を巻き戻さない。通知job�
 
 ## 認証と権限
 
-初期構成:
+現在の新規生成元向け構成:
 
-- 生成元リポジトリのSecret名: `SANDBOX_PAGES_DISPATCH_TOKEN`
-- Fine-grained PATの対象: `tj-999-comp/sandbox-pages` のみ
-- PATの権限: Actions write。Contents writeは与えない
-- PATの用途: 公開リポジトリの指定した受入workflowを `workflow_dispatch` することだけ
+- 生成元リポジトリのSecret名: `PUBLISH_APP_PRIVATE_KEY`
+- Secretの値: GitHub AppのPEM秘密鍵。base64文字列ではなく、`-----BEGIN ...-----`から始まるPEMを登録する
+- GitHub Appの用途: 公開リポジトリ `tj-999-comp/sandbox-pages` の指定した受入workflowを `workflow_dispatch` すること
+- GitHub Appの権限: 対象リポジトリとAの受入workflowに必要な最小権限。生成元やAのContents write権限は与えない
+- 生成元workflow: Secretから短期Installation tokenを発行し、`project_id`、固定`source_commit_sha`、`target_basename`の3入力だけをdispatchする
 - 公開リポジトリの検証job: `contents: read`。write権限とSecretなし
 - 公開リポジトリの反映job: `contents: write`。生成元コードを実行しない
 - 公開リポジトリのdeploy job: `contents: read`、`pages: write`、`id-token: write`
 - 公開リポジトリの通知job: `contents: read` と `SLACK_WEBHOOK_URL` だけ
 - 公開リポジトリのSlack Secret名: `SLACK_WEBHOOK_URL`
 
-Actions writeはdispatch以外のActions APIも利用可能なため、対象を公開リポジトリだけに絞り、有効期限を設定する。公開リポジトリでは手動起動可能なworkflowを最小限にし、入力を必ずA所有の登録情報と照合する。
+`PUBLISH_APP_PRIVATE_KEY`は生成元リポジトリへ登録するだけで、Aのリポジトリや公開成果物へ保存しない。登録時にKeychainからbase64化されたPEMを読み出す場合は、`base64 -D`でデコードしてから`gh secret set`へ渡す。登録後はSecret名だけを確認し、値をログ、artifact、作業記録へ出力しない。Actions writeはdispatch以外のActions APIも利用可能なため、対象をAだけに絞り、公開リポジトリでは手動起動可能なworkflowを最小限にして、入力を必ずA所有の登録情報と照合する。
+
+旧`SANDBOX_PAGES_DISPATCH_TOKEN`（Fine-grained PAT）方式は新しい生成元では使用しない。既存生成元をGitHub Appへ移行した後に、旧PATを失効・削除する。
 
 TokenやWebhook URLをリポジトリ、metadata、ログへ記載しない。Tokenを定期的にローテーションする。
 
