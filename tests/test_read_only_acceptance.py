@@ -45,14 +45,18 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
                 target_basename="work_record_001",
             )
 
-    def test_tech_article_source_is_disabled_by_default(self):
-        source = resolve_source(
-            registry_path=ROOT / "config/sources.json",
-            project_id="tech_article_nortification",
-            source_commit_sha="a" * 40,
-            target_basename="work_record_001",
-        )
-        self.assertFalse(source["enabled"])
+    def test_tech_article_source_requires_explicit_apply_mode_opt_in(self):
+        request = {
+            "registry_path": ROOT / "config/sources.json",
+            "project_id": "tech_article_nortification",
+            "source_commit_sha": "a" * 40,
+            "target_basename": "work_record_001",
+        }
+        with self.assertRaisesRegex(ReadOnlyAcceptanceError, "enabled:false"):
+            resolve_source(**request)
+
+        source = resolve_source(**request, allow_enabled=True)
+        self.assertTrue(source["enabled"])
 
     def test_resolve_allows_registered_enabled_source_with_explicit_opt_in(self):
         source = resolve_source(
@@ -267,6 +271,7 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
                 branch_ref="refs/heads/main",
                 provenance_root=temp / "provenance",
                 output_dir=temp / "output",
+                allow_enabled=True,
             )
 
         self.assertEqual(result["validators"]["renderer"], "passed")

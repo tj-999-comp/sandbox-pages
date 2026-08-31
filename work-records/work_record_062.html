@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>tech_article_nortification受入E2E準備 — 作業記録 062</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 062 ・ <time datetime="2026-08-31">2026-08-31</time></p>
+          <h1>tech_article_nortification受入E2E準備</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_062.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: <code>tech_article_nortification</code> のsource registryを <code>enabled: true</code> へ切り替えた後、受入前検証が無効化前提のテストで失敗していた。</li><li>目的: 実際のE2Eを起動・公開せず、受入workflowを実施できる状態まで公開側のテスト期待値と入力情報を整える。</li><li>完了条件: 有効化後のregistryを検証するテストが成功し、受入workflowの3入力と未確認範囲を整理する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>config/sources.json</code> の <code>tech_article_nortification.enabled: true</code>、受入workflow、source側の公開要求契約。</li><li>実施内容: 有効化後の状態に合わせてregistryテストの期待値を更新した。enabled sourceを受入処理へ渡すテストでは、workflowと同じ <code>allow_enabled=True</code> を明示した。</li><li>成果物: <code>tests/test_source_registry.py</code>、<code>tests/test_read_only_acceptance.py</code> の最小差分。</li><li>検証結果: sandbox-pagesのunit test 93件が成功した。<code>git diff --check</code> は作業記録追加後に再確認する。</li><li>未解決事項: source側remote <code>main</code> のtree取得はDNS制限で実施できず、最新commitのファイル実体は未確認。</li><li>次工程への引き継ぎ: 固定source SHAと対象basenameを指定して、GitHub Actionsの <code>Publish work record request</code> または <code>accept-source.yml</code> を手動実行する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: registry、受入workflow、source側の <code>work_record_###</code> とmetadataの契約。</li><li>実施内容: 有効化後もread-only acceptanceの既定ゲート自体は変更せず、実行workflowだけが <code>--allow-enabled</code> を使うことを確認した。公開反映、Pages deploy、Slack通知は今回実行していない。</li><li>成果物: 受入入力と確認項目の整理。</li><li>検証結果: <code>project_id</code> は <code>tech_article_nortification</code>、source repositoryは <code>tj-999-comp/tech_article_nortification</code>、対象branchは <code>refs/heads/main</code>、公開方式は <code>a_rendered</code> と照合した。source remote <code>main</code> の固定SHAは <code>eb4f269fe3e7590bf0676c05b4dbdf7c20d7f0fe</code> と取得できた。</li><li>未解決事項: GitHub Actionsのsource-side validation、受入run、Pages URL、provenance、Slack通知の実結果。GitHub AppのKeychain/API接続も利用できなかった。</li><li>次工程への引き継ぎ: source側の最新SHAで対象basename（今回の新規候補は <code>work_record_017</code> 想定）を確定し、1件だけ手動dispatchする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>enabled: true</code> の設定自体は変更せず、旧 <code>enabled: false</code> を期待していたテストだけを更新した。</li><li>理由: 有効化はユーザーが実施済みで、受入処理の既定ゲートや公開workflowの安全境界を変更する必要がないため。</li><li>判断: E2E dispatch、公開反映、通知送信は実施しない。</li><li>理由: 今回の依頼範囲は受入準備であり、実データの公開・Pages deploy・Slack通知は受入実施時に確認する対象だから。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: <code>tech_article_nortification</code> の <code>enabled: true</code> と整合するsandbox-pagesテスト状態に更新した。受入workflowへ渡す固定SHAと対象basenameの確認項目を整理した。</li><li>変更ファイル: <code>tests/test_source_registry.py</code>、<code>tests/test_read_only_acceptance.py</code>、<code>work-records/md/work_record_062.md</code>、生成HTML。</li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（93件成功）。source remote SHAの取得は成功したが、source treeの取得はDNS制限で未実施。</li><li>作業ブランチ: <code>codex/062-tech-article-acceptance-prep</code></li><li>コミット: 未実施</li><li>PR: 未作成</li><li>PRレビュー・CI: 未実施。E2E workflowも未実施。</li><li>未解決事項: source側の対象basenameと最新commitの内容、GitHub Actions受入・Pages・provenance・通知の実結果。</li><li>次アクション: <code>project_id=tech_article_nortification</code>、固定source SHA、対象basenameを1件だけ指定して手動受入E2Eを実施する。失敗時は再送せず、固定SHAとエラーを確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-31 取得範囲: GitHub App tokenによる <code>tj-999-comp/sandbox-pages</code> と <code>tj-999-comp/tech_article_nortification</code> のIssue取得を試行したが、Keychain item <code>codex-github-app-private-key</code> の取得失敗およびGitHub APIへの接続失敗により、最新状態は取得不可。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">取得不可。親子関係は未確認。</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未確認</td><td><a href="https://github.com/tj-999-comp/tech_article_nortification/issues/9">tech_article_nortification #9 新規1件の手動E2E</a></td><td>取得不可</td><td>今回の受入E2E候補。実行前にGitHub上の状態を再取得する。</td></tr><tr><td>2</td><td>未確認</td><td><a href="https://github.com/tj-999-comp/tech_article_nortification/issues/10">tech_article_nortification #10 E2E完了後のenabled・publish運用切替と引き継ぎ</a></td><td>取得不可</td><td>E2E結果確認後の運用切替判断。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 062</span>
+        <span><a href="md/work_record_062.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
