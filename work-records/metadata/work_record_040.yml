@@ -1,0 +1,6 @@
+schema_version: 1
+title: 'PR #42のvalidation失敗修正'
+date: "2026-08-25"
+project_id: sandbox_pages
+tags: []
+publish: true

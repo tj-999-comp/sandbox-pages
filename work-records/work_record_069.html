@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #81 sandbox_pages作業記録metadata整備 — 作業記録 069</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 069 ・ <time datetime="2026-08-31">2026-08-31</time></p>
+          <h1>Issue #81 sandbox_pages作業記録metadata整備</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_069.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #81「sandbox_pages既存作業記録63件のmetadataを整備する」。</li><li>目的: <code>sandbox_pages</code>の作業記録Markdown・HTMLへ、公開契約に適合するmetadataを付与し、全件を公開対象として受入可能にする。</li><li>完了条件: 現行の<code>work_record_001</code>〜<code>work_record_069</code>について、title・date・project_id・tags・publishを設定し、Markdown・metadata・HTMLのbasename対応と再生成整合を検証する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: GitHub Issue #81、ユーザーの「全てを公開扱い」という決定、<code>work-records/md/</code>、metadata schema、<code>sandbox_pages</code> source registry。</li><li>実施内容: 各MarkdownのH1からtitle、<code>作成日</code>からdateを機械的に抽出し、<code>project_id: sandbox_pages</code>、<code>tags: []</code>、<code>publish: true</code>を設定した。Issue本文の001〜063件ではなく、#80で確定した全件公開方針と現行mainの作業記録を優先し、着手時の001〜068と本作業記録069を対象にした。</li><li>成果物: <code>work-records/metadata/work_record_001.yml</code>〜<code>work_record_069.yml</code>、<code>tests/test_sandbox_pages_metadata.py</code>、本作業記録のMarkdown/HTML。</li><li>検証結果: 69件のmetadataをschema、basename、project登録、title/date対応で検証し、全件<code>publish: true</code>を確認した。実ファイルの3点対応を検証する専用テストも追加し、Markdown・HTML本文は変更していない。</li><li>未解決事項: 初期provenance、disabled dry-run、手動E2E、有効化、運用引き継ぎは後続Issue #82〜#87の対象。</li><li>次工程への引き継ぎ: #82で同一repository sourceの固定commit・basename限定受入を実装・検証する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #81、metadata schema、生成した69件のmetadata、Markdown・HTMLのファイル一覧、実ファイル対応テスト。</li><li>実施内容: title/dateを推測値にせずMarkdownから抽出したこと、全件の<code>project_id</code>がregistry登録値と一致すること、<code>publish: true</code>がユーザー決定に対応すること、basename対応と生成HTML整合を確認した。</li><li>成果物: metadata差分レビュー結果、<code>tests/test_sandbox_pages_metadata.py</code>のレビュー。</li><li>検証結果: 未知フィールド、欠落フィールド、無効日付、project_id不一致、basename不一致は検出されなかった。全69件のMarkdown・metadata・HTML対応を専用テストで確認し、重大な範囲外変更はない。</li><li>未解決事項: GitHub Actions上の固定commit受入とPages実反映は後続Issueで確認する。</li><li>次工程への引き継ぎ: #81のmetadata整備結果と、Issue本文の63件から現行69件へ対象を更新した判断を#82以降へ引き継ぐ。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: metadata対象は現行の<code>work_record_001</code>〜<code>work_record_069</code>全件とし、全件<code>publish: true</code>とした。</li><li>理由: ユーザーが全件公開を明示し、#80完了時点の初期候補001〜067、#80作業記録068、本作業記録069を含めて公開対象を欠落させないため。</li><li>判断: tagsは全件空配列とした。</li><li>理由: 内容からの分類を推測せず、Issue #81の必須schemaを満たす最小の明示値を採用するため。</li><li>判断: titleとdateはMarkdown本文から機械的に抽出した。</li><li>理由: metadataに別の推測値や手入力の表記揺れを持ち込まず、既存作業記録との一致を検証可能にするため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: <code>sandbox_pages</code>の現行作業記録69件へ公開契約準拠のmetadataを追加した。</li><li>変更ファイル: <code>work-records/metadata/work_record_001.yml</code>〜<code>work_record_069.yml</code>、<code>tests/test_sandbox_pages_metadata.py</code>、本作業記録のMarkdown/HTML。</li><li>検証結果: 101テスト、69件metadataのschema検証、JSON構文、index generator check、converter check、filename validator、<code>git diff --check</code>に合格した。作業記録HTMLをChromiumの1280×900、900×900、640×900、320×800で確認し、全viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。</li><li>未解決事項: #82〜#87の受入境界、初期provenance、dry-run、手動E2E、有効化、運用引き継ぎ。</li><li>次アクション: #82で固定commit、単一basename、source境界、disabled条件を実装・検証する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-31 22:09 取得範囲: <code>tj-999-comp/sandbox-pages</code>の全Open Issue（Pull Requestを除外）15件。GitHub App tokenで取得し、#79・#89のsub-issues APIも確認した。state reasonは全件null。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#79 [Epic] sandbox-pages自身の作業記録をPages公開・Slack通知対象へ接続する [Open]
+（GitHub sub-issues API上の子Issueなし。#81〜#87の本文にはParent: #79があるため、着手条件欄へ記録）
+
+#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する [Open]
+├── #90 各生成元の過去作業記録を棚卸しし公開対応表を確定する [Open]
+├── #91 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する [Open]
+├── #92 作業記録ページの構成とrecord間リンクを実装する [Open]
+├── #93 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する [Open]
+└── #94 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う [Open]</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#79 [Epic] sandbox-pages自身の作業記録をPages公開・Slack通知対象へ接続する](https://github.com/tj-999-comp/sandbox-pages/issues/79)</td><td>Open（state_reason: null）</td><td>親Epic。#81〜#87の本文は#79を親としているが、sub-issues API上の子登録は確認できない。</td></tr><tr><td>2</td><td>未設定</td><td>[#81 [Migration] sandbox_pages既存作業記録63件のmetadataを整備する](https://github.com/tj-999-comp/sandbox-pages/issues/81)</td><td>Open（state_reason: null）</td><td>本作業。#80完了後。Issue本文の63件を、ユーザー決定と現行作業記録に合わせて001〜069へ拡張した。</td></tr><tr><td>3</td><td>未設定</td><td>[#82 [Actions] 同一リポジトリsourceの固定commit・basename限定受入を実装・検証する](https://github.com/tj-999-comp/sandbox-pages/issues/82)</td><td>Open（state_reason: null）</td><td>#80・#81完了後。</td></tr><tr><td>4</td><td>未設定</td><td>[#83 [Bootstrap] sandbox_pages既存作業記録を初期公開状態としてprovenanceへ登録する](https://github.com/tj-999-comp/sandbox-pages/issues/83)</td><td>Open（state_reason: null）</td><td>#80〜#82完了後。</td></tr><tr><td>5</td><td>未設定</td><td>[#84 [E2E] sandbox_pagesのdisabled受入dry-runとno-opを検証する](https://github.com/tj-999-comp/sandbox-pages/issues/84)</td><td>Open（state_reason: null）</td><td>#83完了後。</td></tr><tr><td>6</td><td>未設定</td><td>[#85 [Activation] sandbox_pagesを手動E2E可能な状態へ有効化する](https://github.com/tj-999-comp/sandbox-pages/issues/85)</td><td>Open（state_reason: null）</td><td>#84のレビューと明示承認後。</td></tr><tr><td>7</td><td>未設定</td><td>[#86 [E2E] sandbox_pagesの新規作業記録をPages公開しSlack通知まで確認する](https://github.com/tj-999-comp/sandbox-pages/issues/86)</td><td>Open（state_reason: null）</td><td>#85完了後。</td></tr><tr><td>8</td><td>未設定</td><td>[#87 [Operations] sandbox_pagesの公開・停止・再通知手順を引き継ぐ](https://github.com/tj-999-comp/sandbox-pages/issues/87)</td><td>Open（state_reason: null）</td><td>#86完了後。</td></tr><tr><td>9</td><td>未設定</td><td>[#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する](https://github.com/tj-999-comp/sandbox-pages/issues/89)</td><td>Open（state_reason: null）</td><td>独立Epic。#90〜#94を追跡する。</td></tr><tr><td>10</td><td>未設定</td><td>[#90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する](https://github.com/tj-999-comp/sandbox-pages/issues/90)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>11</td><td>未設定</td><td>[#91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する](https://github.com/tj-999-comp/sandbox-pages/issues/91)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>12</td><td>未設定</td><td>[#92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/92)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>13</td><td>未設定</td><td>[#93 [Publish] 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する](https://github.com/tj-999-comp/sandbox-pages/issues/93)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>14</td><td>未設定</td><td>[#94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う](https://github.com/tj-999-comp/sandbox-pages/issues/94)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>15</td><td>未設定</td><td>[#102 [Operations] 作業記録のIssue状況を該当リポジトリ単位で全生成元へ統一する](https://github.com/tj-999-comp/sandbox-pages/issues/102)</td><td>Open（state_reason: null）</td><td>独立。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 069</span>
+        <span><a href="md/work_record_069.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

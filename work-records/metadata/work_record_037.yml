@@ -1,0 +1,6 @@
+schema_version: 1
+title: 'Issue #20 deploy後Slack通知job'
+date: "2026-08-24"
+project_id: sandbox_pages
+tags: []
+publish: true
