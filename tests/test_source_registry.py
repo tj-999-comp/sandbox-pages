@@ -27,7 +27,7 @@ class SourceRegistryTests(unittest.TestCase):
         self.assertEqual(source["html_mode"], "source_html")
         self.assertEqual(source["generator_id"], "b-stats-work-record-v1")
         new_source = registry["sources"][1]
-        self.assertFalse(new_source["enabled"])
+        self.assertTrue(new_source["enabled"])
         self.assertEqual(new_source["html_mode"], "a_rendered")
         self.assertEqual(new_source["generator_id"], "a-rendered-work-record-v1")
         self.assertEqual(new_source["support_files"], [])
@@ -45,7 +45,7 @@ class SourceRegistryTests(unittest.TestCase):
         self.assertEqual(source["metadata_directory"], "work-records/metadata")
         self.assertEqual(source["destination_directory"], "projects/tech_article_nortification")
         self.assertEqual(source["html_mode"], "a_rendered")
-        self.assertFalse(source["enabled"])
+        self.assertTrue(source["enabled"])
 
     def test_loading_is_deterministic(self):
         first = load_registry(ROOT / "config" / "sources.json")
