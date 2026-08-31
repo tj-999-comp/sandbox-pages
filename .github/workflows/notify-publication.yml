@@ -1,0 +1,112 @@
+name: Retry publication notification
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: Published project identifier
+        required: true
+        type: string
+      target_basename:
+        description: Published work-record basename
+        required: true
+        type: string
+      publication_id:
+        description: Existing create publication_id from provenance
+        required: true
+        type: string
+      commit_sha:
+        description: Apply commit SHA containing the provenance manifest
+        required: true
+        type: string
+
+permissions: {}
+
+jobs:
+  notify:
+    name: Retry Slack notification only
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout fixed apply commit
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Verify fixed commit and inputs
+        env:
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          set -euo pipefail
+          [[ "$COMMIT_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$COMMIT_SHA"
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Resolve existing create publication
+        id: record
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+          PUBLICATION_ID: ${{ inputs.publication_id }}
+          SITE_URL: https://tj-999-comp.github.io/sandbox-pages
+        run: |
+          set -euo pipefail
+          manifest="provenance/$PROJECT_ID/$PUBLICATION_ID.json"
+          test -f "$manifest"
+          jq -e \
+            --arg project_id "$PROJECT_ID" \
+            --arg publication_id "$PUBLICATION_ID" \
+            '(
+              .project_id == $project_id and
+              .publication_id == $publication_id and
+              .operation == "create" and
+              .notify == true
+            )' \
+            "$manifest" >/dev/null
+          record="$(jq -cer --arg basename "$TARGET_BASENAME" '
+            [.records[] | select(.basename == $basename)]
+            | if length == 1 then .[0] else error("target record must be unique") end
+          ' "$manifest")"
+          title="$(jq -er '.metadata.title | select(type == "string" and length > 0)' <<<"$record")"
+          record_path="$(jq -er '.public_url | select(type == "string" and length > 0)' <<<"$record")"
+          public_url="$(python3 -m scripts.publish.slack_notification resolve-url \
+            --site-url "$SITE_URL" \
+            --record-path "$record_path")"
+          printf 'title=%s\n' "$title" >> "$GITHUB_OUTPUT"
+          printf 'public_url=%s\n' "$public_url" >> "$GITHUB_OUTPUT"
+
+      - name: Verify existing public URL
+        env:
+          PUBLIC_URL: ${{ steps.record.outputs.public_url }}
+        run: |
+          set -euo pipefail
+          python3 -m scripts.publish.slack_notification verify-url \
+            --url "$PUBLIC_URL" \
+            --attempts 5 \
+            --delay-seconds 10
+
+      - name: Send Slack notification only
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PROJECT_ID: ${{ inputs.project_id }}
+          TARGET_BASENAME: ${{ inputs.target_basename }}
+          TITLE: ${{ steps.record.outputs.title }}
+          PUBLICATION_ID: ${{ inputs.publication_id }}
+          PUBLIC_URL: ${{ steps.record.outputs.public_url }}
+        run: |
+          set -euo pipefail
+          python3 -m scripts.publish.slack_notification send \
+            --webhook-env SLACK_WEBHOOK_URL \
+            --project-id "$PROJECT_ID" \
+            --target-basename "$TARGET_BASENAME" \
+            --title "$TITLE" \
+            --publication-id "$PUBLICATION_ID" \
+            --public-url "$PUBLIC_URL"

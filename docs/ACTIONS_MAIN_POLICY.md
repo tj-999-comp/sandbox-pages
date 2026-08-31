@@ -39,7 +39,7 @@ Slack通知jobの実装契約:
 - `notify` jobはapply済みの固定commitをRepository Aからcheckoutしてから`slack_notification`を実行し、workflow実行環境に依存せず通知用スクリプトをimportできる状態を作る。
 - `SLACK_WEBHOOK_URL`は通知jobの送信stepの環境変数へだけ渡し、validation、apply、deployのjobへ渡さない。
 - 固定commitのprovenance manifestから対象recordのタイトルと`public_url`を解決し、Pages deployのoriginと結合したrecord URLを5回まで確認してから、タイトル、`publication_id`、project、basename、対象作業記録URLをIncoming Webhookへ送る。Pages環境のサイトトップURL自体は通知URLに使わない。
-- 通知jobだけが失敗してもPages公開は巻き戻さない。workflow runを同じ`publication_id`の通知jobとして再実行できるよう、apply結果とprovenanceで識別する。
+- 通知jobだけが失敗してもPages公開は巻き戻さない。通常の受入workflowは再実行せず、`.github/workflows/notify-publication.yml`へapply commit、既存`publication_id`、project、basenameを渡し、同じprovenanceを検証して通知だけを再実行する。詳細は[`docs/SANDBOX_PAGES_OPERATIONS.md`](SANDBOX_PAGES_OPERATIONS.md)を参照する。
 
 workflow全体のdefault permissionsは空またはread-onlyとし、必要なjobだけへ明示的に付与する。
 

@@ -10,6 +10,8 @@
 
 B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用は[`docs/PORTFOLIO_STANDARD.md`](../docs/PORTFOLIO_STANDARD.md)を参照する。この文書は公開リポジトリAの受入・配信契約を正本とする。
 
+`sandbox_pages`自身の承認、停止、rollback、再通知の実運用は[`docs/SANDBOX_PAGES_OPERATIONS.md`](../docs/SANDBOX_PAGES_OPERATIONS.md)にまとめる。
+
 ## この文書の位置付け
 
 - `tj-999-comp/sandbox-pages` にあるこの文書を公開ルールの正本とする。

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #87 sandbox_pages公開運用の引き継ぎ — 作業記録 075</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 075 ・ <time datetime="2026-09-01">2026-09-01</time></p>
+          <h1>Issue #87 sandbox_pages公開運用の引き継ぎ</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_075.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #87「sandbox_pagesの公開・停止・再通知手順を引き継ぐ」。</li><li>目的: #86のE2E証跡を基に、承認、固定SHA公開、緊急停止、rollback、再開、Slack再通知の責任境界を運用可能な手順として文書化する。</li><li>完了条件: 固定SHA・単一basename・registry・acceptance・provenanceの確認、<code>publish: true</code>の扱い、<code>enabled: false</code>停止、Pagesを巻き戻さない通知再実行、通知対象外契約、恒久自動公開の別Issue条件を定義する。source registryの有効化とPages公開は行わない。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: Issue #87、#86のE2E結果、<code>accept-source.yml</code>、<code>withdraw.yml</code>、<code>slack_notification.py</code>、registry、provenance、既存のActions運用規約。</li><li>実施内容: <code>docs/SANDBOX_PAGES_OPERATIONS.md</code>へ責任境界、承認チェック、通常公開、停止、rollback、再開、通知対象外、恒久自動公開の条件を整理した。既存の受入workflowを再実行すると新しいpublication IDが発行されるため、固定apply commitと既存create manifestだけを検証してSlack通知を再実行する手動workflowを追加した。Pages公開やsource registryの値は変更していない。</li><li>成果物: <code>docs/SANDBOX_PAGES_OPERATIONS.md</code>、<code>.github/workflows/notify-publication.yml</code>、既存運用文書へのリンク・再通知契約の更新、workflow契約テスト。</li><li>検証結果: 全109テスト、workflow YAML構文、<code>git diff --check</code>に合格した。再通知workflowがPages write・OIDC・contents writeを持たず、create manifest以外を拒否することを静的確認した。</li><li>未解決事項: GitHub Actions上での再通知workflowの実送信は、Slackの外部副作用を伴うため今回実行していない。</li><li>次工程への引き継ぎ: PR反映後にCIでworkflow契約と作業記録生成物を確認し、Issue #87のmerge・closeは明示承認後に行う。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #87の完了条件、#86の初回create・再実行no-op・最終update証跡、公開・停止workflow、provenance契約。</li><li>実施内容: #86のrun、apply commit、publication ID、Pages URL確認結果を照合し、既存の通常受入workflowでは同一publication IDの通知だけを再実行できない差分を特定した。停止時の自動削除禁止、withdrawの明示承認、update/no-op/withdraw/bootstrapの通知抑制、恒久自動公開の別Issue条件をレビューした。</li><li>成果物: 運用手順のレビュー観点、再通知workflowの入力・権限境界。</li><li>検証結果: #86の初回runは<code>operation=create</code>、<code>no_op=false</code>、<code>notify=true</code>でPages・Slack成功、同一要求の再実行は<code>no_op=true</code>でcommit・deploy・通知なし、最終同期は<code>operation=update</code>かつ<code>notify=false</code>であることを確認した。重大な未解決事項はない。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: GitHub上のPR差分とCI結果を再照合する。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 新規作業記録HTMLと既存のwork-record表示基準。</li><li>実施内容: 作業記録HTML生成後、PCと320px幅で表示、横overflow、console/page error、failed requestを確認する。</li><li>成果物: <code>work_record_075.html</code>の表示確認結果。</li><li>検証結果: 生成後に1280pxと320pxで確認し、HTTP 200、横overflowなし、console/page errorなし、failed requestなしであることを確認した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: HTML生成物をMarkdownと同じPRへ含める。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 通常の<code>accept-source.yml</code>再実行を通知再送手順にせず、<code>notify-publication.yml</code>を追加する。</li><li>理由: 通常workflowのpublication IDはrun IDから生成されるため、再実行で同じIDを維持できず、Pages・provenanceの再処理と通知重複を招くため。</li><li>判断: 再通知workflowは<code>operation=create</code>かつ<code>notify=true</code>の既存manifestだけを受け付け、固定apply commitをcheckoutする。</li><li>理由: update、no-op、withdraw、bootstrap/backfillを通知対象外とする既存契約を、運用経路でも強制するため。</li><li>判断: Webhook送信結果が不明なtimeoutは、Slack到着を目視確認してから再送する。</li><li>理由: Incoming Webhookには通知済み判定がなく、成功済み送信の再実行は重複通知になるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: sandbox_pagesの公開承認、固定SHA・単一basename確認、停止、rollback、再開、Pagesを巻き戻さない同一publication IDのSlack再通知、通知対象外、恒久自動公開の承認条件を文書化した。再通知専用workflowを追加し、既存運用文書の誤解を招く表現も更新した。</li><li>変更ファイル: <code>.github/workflows/notify-publication.yml</code>、<code>docs/SANDBOX_PAGES_OPERATIONS.md</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、<code>projects/README.md</code>、<code>tests/test_pages_workflow.py</code>、本作業記録とmetadata・生成HTML。</li><li>検証結果: 全109テスト、workflow YAML構文、<code>git diff --check</code>、作業記録converter、filename validator、index generator、1280px/320pxブラウザ確認に合格した。#86の実E2E証跡は運用文書へ転記し、今回のPages公開・Slack実送信は非対象として実行していない。</li><li>作業ブランチ: <code>codex/075-issue-87-operations-handoff</code></li><li>コミット: 作業中（PR作成前）。</li><li>PR: 作業中（Issue #87と1対1で作成予定）。</li><li>PRレビュー・CI: 作業中。</li><li>未解決事項: 再通知workflowの実送信は外部Slack副作用を伴うため未実行。通常運用では送信step失敗を確認したケースに限定して実行する。</li><li>次アクション: PRのCIとGitHub上の差分を確認し、明示承認後にmerge・Issue closeする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-09-01 00:24 取得範囲: <code>tj-999-comp/sandbox-pages</code>の全Open Issue（Pull Requestを除外）9件。GitHub App tokenで取得し、#79・#89のsub-issues APIも確認した。state reasonはOpen Issue全件でnull。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#79 [Epic] sandbox-pages自身の作業記録をPages公開・Slack通知対象へ接続する [Open]
+（GitHub sub-issues API上の子Issueなし。#87本文にはParent: #79がある）
+
+#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する [Open]
+├── #90 各生成元の過去作業記録を棚卸しし公開対応表を確定する [Open]
+├── #91 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する [Open]
+├── #92 作業記録ページの構成とrecord間リンクを実装する [Open]
+├── #93 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する [Open]
+└── #94 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う [Open]</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#79 [Epic] sandbox-pages自身の作業記録をPages公開・Slack通知対象へ接続する](https://github.com/tj-999-comp/sandbox-pages/issues/79)</td><td>Open（state_reason: null）</td><td>親Epic。#87本文は#79を親としているが、sub-issues API上の子登録は確認できない。</td></tr><tr><td>2</td><td>未設定</td><td>[#87 [Operations] sandbox_pagesの公開・停止・再通知手順を引き継ぐ](https://github.com/tj-999-comp/sandbox-pages/issues/87)</td><td>Open（state_reason: null）</td><td>#79配下。#86完了後。本作業。</td></tr><tr><td>3</td><td>未設定</td><td>[#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する](https://github.com/tj-999-comp/sandbox-pages/issues/89)</td><td>Open（state_reason: null）</td><td>独立Epic。#90〜#94を追跡する。</td></tr><tr><td>4</td><td>未設定</td><td>[#90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する](https://github.com/tj-999-comp/sandbox-pages/issues/90)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>5</td><td>未設定</td><td>[#91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する](https://github.com/tj-999-comp/sandbox-pages/issues/91)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>6</td><td>未設定</td><td>[#92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/92)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>7</td><td>未設定</td><td>[#93 [Publish] 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する](https://github.com/tj-999-comp/sandbox-pages/issues/93)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>8</td><td>未設定</td><td>[#94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う](https://github.com/tj-999-comp/sandbox-pages/issues/94)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>9</td><td>未設定</td><td>[#102 [Operations] 作業記録のIssue状況を該当リポジトリ単位で全生成元へ統一する](https://github.com/tj-999-comp/sandbox-pages/issues/102)</td><td>Open（state_reason: null）</td><td>独立。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 075</span>
+        <span><a href="md/work_record_075.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
