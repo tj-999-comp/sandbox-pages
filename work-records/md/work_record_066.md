@@ -44,9 +44,9 @@
 - 作業ブランチ: `codex/066-record-issue-89`
 - コミット: `ba89267`（作業記録追加）
 - PR: [#96 過去作業記録公開計画の作業記録を追加](https://github.com/tj-999-comp/sandbox-pages/pull/96)
-- PRレビュー・CI: PR #96で確認中。
-- 未解決事項: #90〜#94の実装と受入、PRのmerge、関連Issueの完了確認。
-- 次アクション: PR #96のレビュー・CI確認後にmergeする。
+- PRレビュー・CI: GitHub上のPR #96の差分を確認済み。変更は作業記録MD/HTMLの2ファイルのみで、CIチェックは設定されていない。merge stateは`CLEAN`。
+- 未解決事項: #90〜#94の実装と受入、関連Issueの完了確認。作業記録PR #96はmerge前のため、main反映確認が残っている。
+- 次アクション: PR #96をmergeし、mainへの反映と作業ツリーの状態を確認する。
 
 ## GitHub Issue状況
 
