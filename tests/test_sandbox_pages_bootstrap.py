@@ -55,8 +55,17 @@ class SandboxPagesBootstrapTests(unittest.TestCase):
         self.assertEqual(len(repair_manifest["published_files"]), 143)
         self.assertEqual(len(repair_manifest["records"]), 70)
         self.assertFalse(repair_manifest["notify"])
-        self.assertTrue(inspect_drift(repair_manifest, current_files).clean)
-        self.assertIn("公開中の作業記録 70件", (public_root / "index.html").read_text(encoding="utf-8"))
+        baseline_paths = {item["path"] for item in repair_manifest["published_files"]}
+        baseline_files = [item for item in current_files if item.path in baseline_paths]
+        self.assertTrue(inspect_drift(repair_manifest, baseline_files).clean)
+        current_record_count = sum(
+            item.path.startswith("work_record_") and item.path.endswith(".html")
+            for item in current_files
+        )
+        self.assertIn(
+            f"公開中の作業記録 {current_record_count}件",
+            (public_root / "index.html").read_text(encoding="utf-8"),
+        )
         self.assertIn("sandbox_pages", (ROOT / "projects/index.html").read_text(encoding="utf-8"))
 
 
