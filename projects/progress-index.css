@@ -229,3 +229,274 @@ footer p {
     align-items: flex-start;
   }
 }
+
+/* Shared detail-page presentation for A-rendered records. */
+body.record-page {
+  color: #000000;
+  background: #fdfcfc;
+  font-family: Inter, "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.record-page .shell {
+  width: min(1080px, calc(100% - 128px));
+  margin: 0 auto;
+}
+
+.record-page .topbar {
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid #ebe8e4;
+}
+
+.record-page .wordmark {
+  color: #000000;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.record-page main {
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.record-page .record-header {
+  padding: 56px 0 32px;
+  border-bottom: 1px solid #ebe8e4;
+}
+
+.record-page .kicker,
+.record-page .section-label {
+  margin: 0;
+  color: #44403b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.record-page .record-header h1,
+.record-page .record-section h2,
+.record-page .record-section h3,
+.record-page .record-section h4 {
+  margin: 0;
+  font-family: Inter, "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  letter-spacing: -.01em;
+}
+
+.record-page .record-header h1 {
+  max-width: 900px;
+  margin-top: 12px;
+  font-size: clamp(32px, 3.5vw, 40px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.record-page .record-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 28px 0 0;
+  border-top: 1px solid #ebe8e4;
+  border-bottom: 1px solid #ebe8e4;
+}
+
+.record-page .record-meta div {
+  padding: 12px 16px 12px 0;
+}
+
+.record-page .record-meta div + div {
+  padding-left: 16px;
+  border-left: 1px solid #ebe8e4;
+}
+
+.record-page .record-meta dt {
+  color: #777169;
+  font-size: 12px;
+}
+
+.record-page .record-meta dd {
+  margin: 2px 0 0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.record-page .record-section {
+  padding: 64px 0 56px;
+  border-bottom: 1px solid #ebe8e4;
+}
+
+.record-page .section-intro {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 28px;
+}
+
+.record-page .section-label {
+  color: #44403b;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.record-page .record-section h2 {
+  max-width: 760px;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.record-page .section-content {
+  min-width: 0;
+  margin-left: 260px;
+}
+
+.record-page .section-content > p:first-child {
+  margin-top: 0;
+}
+
+.record-page .section-content p {
+  max-width: 860px;
+  margin: 14px 0;
+}
+
+.record-page .section-content ul,
+.record-page .section-content ol {
+  max-width: 900px;
+  margin: 14px 0;
+  padding-left: 1.6em;
+}
+
+.record-page .section-content li {
+  margin: 6px 0;
+  padding-left: 4px;
+}
+
+.record-page .section-content h3 {
+  margin: 34px 0 10px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.record-page .section-content h4 {
+  margin: 24px 0 8px;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.record-page .section-content table {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px 0;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.record-page .section-content th,
+.record-page .section-content td {
+  padding: 9px 12px 9px 0;
+  border-top: 1px solid #ebe8e4;
+  border-bottom: 1px solid #ebe8e4;
+  text-align: left;
+  vertical-align: top;
+}
+
+.record-page .section-content th {
+  color: #44403b;
+  font-weight: 500;
+}
+
+.record-page .section-content pre {
+  max-width: 900px;
+  margin: 20px 0;
+  padding: 16px;
+  overflow-x: auto;
+  border-top: 1px solid #ebe8e4;
+  border-bottom: 1px solid #ebe8e4;
+  background: #f5f3f1;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.record-page .section-content blockquote {
+  margin: 20px 0;
+  padding-left: 16px;
+  border-left: 2px solid #44403b;
+  color: #777169;
+}
+
+.record-page footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: auto;
+  margin: 64px 0 0;
+  padding: 24px 0 36px;
+  border-top: 1px solid #ebe8e4;
+  color: #777169;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .record-page .shell {
+    width: min(100% - 48px, 1080px);
+  }
+
+  .record-page .section-intro {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .record-page .section-content {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .record-page .shell {
+    width: min(100% - 28px, 1080px);
+  }
+
+  .record-page .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 0;
+  }
+
+  .record-page .record-header {
+    padding: 44px 0 28px;
+  }
+
+  .record-page .record-header h1 {
+    font-size: 32px;
+  }
+
+  .record-page .record-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .record-page .record-meta div + div {
+    padding-left: 0;
+    border-top: 1px solid #ebe8e4;
+    border-left: 0;
+  }
+
+  .record-page .record-section {
+    padding-top: 52px;
+    padding-bottom: 44px;
+  }
+
+  .record-page footer {
+    flex-direction: column;
+  }
+}
