@@ -40,6 +40,7 @@ B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用�
 | --- | --- | --- | --- | --- |
 | `B_Stats_Site` | `tj-999-comp/B_Stats_Site` | `main` | `work-records/` | `projects/B_Stats_Site/` |
 | `tech_article_nortification` | `tj-999-comp/tech_article_nortification` | `main` | `work-records/`（導入準備中） | `projects/tech_article_nortification/` |
+| `NBA_Draft_DB` | `tj-999-comp/NBA_Draft_DB` | `main` | `work-records/`（導入準備中） | `projects/NBA_Draft_DB/` |
 
 新しい生成元は、公開リポジトリ側で `project_id`、リポジトリ、branch、生成元ディレクトリ、公開先ディレクトリ、support file、generator ID、サイズ上限を登録し、受入テストを通過するまで無効とする。metadataの値から任意の公開先パスを組み立てず、公開リポジトリに登録された対応だけを使う。
 
@@ -98,6 +99,27 @@ limits:
 現在の生成元にある `Issues/Issue_###.md` は、この公開契約の作業記録とは別の課題資料であり、自動受入・index掲載の対象にしない。公開する作業記録は、内容を確認して `work-records/md/` と `work-records/metadata/` へ共通命名で移行する。番号付き作業記録がまだないため、採番は `work_record_001` から開始する。
 
 生成元は公開リポジトリをcheckout・編集・commit・pushせず、検証済みcommitの固定SHAと対象basenameだけを公開要求として送る。A側の `a_rendered` rendererと手動E2Eが完了するまで、公開要求を実公開へ進めない。
+
+### `NBA_Draft_DB` の導入契約
+
+`NBA_Draft_DB` は、新規生成元向けの `a_rendered` 方式で登録する。source registryには登録済みだが、生成元側の承認済み固定commit、受入dry-run、手動E2E、運用引き継ぎが完了するまでは `enabled: false` とする。
+
+生成元へ渡す固定情報は次のとおりである。
+
+| 項目 | 値 |
+| --- | --- |
+| `project_id` | `NBA_Draft_DB` |
+| 生成元リポジトリ | `tj-999-comp/NBA_Draft_DB` |
+| 生成元branch | `main` |
+| `generator_id` | `a-rendered-work-record-v1` |
+| 生成元入力 | `work-records/md/work_record_###.md` と `work-records/metadata/work_record_###.yml` |
+| `html_mode` | `a_rendered`（HTML・CSS・designは生成元へ追加しない） |
+| 公開先 | `projects/NBA_Draft_DB/` |
+| 公開要求 | `project_id`、固定 `source_commit_sha`、`target_basename` の3入力 |
+
+初期provenanceは公開済みレコードなしのbootstrap状態として保存する。生成元の `publish: true` は公開要求であり、`enabled: true` への変更や実公開は、固定commitを人間が確認した後に別途実施する。
+
+生成元は公開リポジトリをcheckout・編集・commit・pushせず、検証済みcommitの固定SHAと公開対象basenameだけを公開要求として送る。A側の受入validator、`a_rendered` renderer、Pages deploy、Slack通知の成功を確認するまで、公開要求を実公開へ進めない。
 
 ## 正本と所有境界
 

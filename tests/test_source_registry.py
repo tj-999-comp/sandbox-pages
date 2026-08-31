@@ -15,22 +15,29 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SourceRegistryTests(unittest.TestCase):
-    def test_repository_registry_loads_and_is_enabled(self):
+    def test_repository_registry_loads_with_expected_sources(self):
         registry = load_registry(ROOT / "config" / "sources.json")
         self.assertEqual(registry["schema_version"], 1)
         self.assertEqual(
             [source["project_id"] for source in registry["sources"]],
-            ["B_Stats_Site", "tech_article_nortification"],
+            ["B_Stats_Site", "NBA_Draft_DB", "tech_article_nortification"],
         )
         source = registry["sources"][0]
         self.assertTrue(source["enabled"])
         self.assertEqual(source["html_mode"], "source_html")
         self.assertEqual(source["generator_id"], "b-stats-work-record-v1")
-        new_source = registry["sources"][1]
-        self.assertTrue(new_source["enabled"])
-        self.assertEqual(new_source["html_mode"], "a_rendered")
-        self.assertEqual(new_source["generator_id"], "a-rendered-work-record-v1")
-        self.assertEqual(new_source["support_files"], [])
+        nba_source = registry["sources"][1]
+        self.assertEqual(nba_source["source_repository"], "tj-999-comp/NBA_Draft_DB")
+        self.assertEqual(nba_source["source_ref"], "refs/heads/main")
+        self.assertEqual(nba_source["source_directory"], "work-records")
+        self.assertEqual(nba_source["metadata_directory"], "work-records/metadata")
+        self.assertEqual(nba_source["destination_directory"], "projects/NBA_Draft_DB")
+        self.assertEqual(nba_source["public_base_path"], "/sandbox-pages/projects/NBA_Draft_DB/")
+        self.assertEqual(nba_source["html_mode"], "a_rendered")
+        self.assertEqual(nba_source["generator_id"], "a-rendered-work-record-v1")
+        self.assertFalse(nba_source["enabled"])
+        self.assertEqual(nba_source["support_files"], [])
+        self.assertEqual(nba_source["ignored_files"], [])
 
     def test_tech_article_source_has_the_fixed_issue_contract(self):
         registry = load_registry(ROOT / "config" / "sources.json")

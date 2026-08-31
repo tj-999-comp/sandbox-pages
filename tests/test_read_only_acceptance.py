@@ -58,6 +58,20 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
         source = resolve_source(**request, allow_enabled=True)
         self.assertTrue(source["enabled"])
 
+    def test_nba_draft_db_source_is_registered_and_disabled(self):
+        request = {
+            "registry_path": ROOT / "config/sources.json",
+            "project_id": "NBA_Draft_DB",
+            "source_commit_sha": "a" * 40,
+            "target_basename": "work_record_001",
+        }
+        source = resolve_source(**request)
+        self.assertEqual(source["source_repository"], "tj-999-comp/NBA_Draft_DB")
+        self.assertEqual(source["source_ref"], "refs/heads/main")
+        self.assertEqual(source["html_mode"], "a_rendered")
+        self.assertEqual(source["generator_id"], "a-rendered-work-record-v1")
+        self.assertFalse(source["enabled"])
+
     def test_resolve_allows_registered_enabled_source_with_explicit_opt_in(self):
         source = resolve_source(
             registry_path=ROOT / "config/sources.json",
