@@ -42,10 +42,10 @@
 
 - 解決したこと: `sandbox_pages`の初期公開状態をprovenanceへ登録し、公開先へ70件を配置した。公開URLは`/sandbox-pages/projects/sandbox_pages/work_record_###.html`の既存命名を維持した。
 - 変更ファイル: `provenance/sandbox_pages/initial.json`、`projects/sandbox_pages/`、`projects/index.html`、`projects/sandbox_pages/index.html`、`projects/README.md`、`tests/test_sandbox_pages_bootstrap.py`、本作業記録のMarkdown/metadata/HTML。
-- 検証結果: 107 tests、source inventory 213件、published files 143件、records 70件、manifest drift検査、index generator check、作業記録converter check、filename validator、`git diff --check`に合格した。初期manifestは`operation=create`、`notify=false`で、既存projectの公開ファイル差分はない。
+- 検証結果: 107 tests、source inventory 213件、published files 143件、records 70件、manifest drift検査、index generator check、作業記録converter check、filename validatorに合格した。`git diff --check`は公開元由来の末尾空白2行を除く対象で合格し、該当空白は固定SHAのdigest一致のため保持した。初期manifestは`operation=create`、`notify=false`で、既存projectの公開ファイル差分はない。
 - 作業ブランチ: `codex/071-issue-83-provenance`
-- commit: 実装commit作成後に追記
-- PR: 作成後に追記
+- commit: `79ce55a`
+- PR: [#107 Issue #83: sandbox_pages初期provenanceを登録](https://github.com/tj-999-comp/sandbox-pages/pull/107)
 - 未解決事項: #84〜#87のdisabled no-op、手動E2E、有効化、新規record公開・Slack通知、運用引き継ぎ。
 - 次アクション: #83のPRをCI確認し、マージ後に#84へ進む。
 
