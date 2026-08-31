@@ -24,8 +24,10 @@ class SourceRegistryTests(unittest.TestCase):
         )
         source = registry["sources"][0]
         self.assertTrue(source["enabled"])
-        self.assertEqual(source["html_mode"], "source_html")
-        self.assertEqual(source["generator_id"], "b-stats-work-record-v1")
+        self.assertEqual(source["html_mode"], "a_rendered")
+        self.assertEqual(source["generator_id"], "a-rendered-work-record-v1")
+        self.assertEqual(source["support_files"], [])
+        self.assertIn("work_record_031.html", source["ignored_files"])
         nba_source = registry["sources"][1]
         self.assertEqual(nba_source["source_repository"], "tj-999-comp/NBA_Draft_DB")
         self.assertEqual(nba_source["source_ref"], "refs/heads/main")
@@ -72,16 +74,11 @@ class SourceRegistryTests(unittest.TestCase):
         )
         self.assertEqual(
             normalized["sources"][0]["support_files"],
-            ["README.md", "design.md", "work_record.css"],
+            [],
         )
         self.assertEqual(
             normalized["sources"][0]["ignored_files"],
-            [
-                "md/phase_1_tasks.md",
-                "md/scraping_db_automation.md",
-                "work_record_extra_01.html",
-                "work_record_extra_02.html",
-            ],
+            load_registry(ROOT / "config" / "sources.json")["sources"][0]["ignored_files"],
         )
 
     def test_a_rendered_source_may_have_no_support_files(self):
@@ -105,6 +102,7 @@ class SourceRegistryTests(unittest.TestCase):
 
     def test_support_and_ignored_file_overlap_is_rejected(self):
         registry = _registry()
+        registry["sources"][0]["support_files"] = ["README.md"]
         registry["sources"][0]["ignored_files"].append("README.md")
         with self.assertRaisesRegex(SourceRegistryError, "also registered"):
             validate_registry(registry)
@@ -133,6 +131,7 @@ class SourceRegistryTests(unittest.TestCase):
     def test_html_mode_and_generator_must_match(self):
         registry = _registry()
         registry["sources"][0]["html_mode"] = "a_rendered"
+        registry["sources"][0]["generator_id"] = "b-stats-work-record-v1"
         with self.assertRaisesRegex(SourceRegistryError, "does not match"):
             validate_registry(registry)
 
