@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #60 固定commit・basename限定の受入境界を強化 — 作業記録 059</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 059 ・ <time datetime="2026-08-28">2026-08-28</time></p>
+          <h1>Issue #60 固定commit・basename限定の受入境界を強化</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_059.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #60「tech_article_nortificationの固定commit・basename限定公開要求を受け入れる」。</li><li>目的: <code>tech_article_nortification</code> からの公開要求を、A側source registryで定めた生成元からの固定commitと単一basenameだけに限定し、検証済み入力だけを既存のapply・Pages処理へ渡せる状態にする。</li><li>完了条件: dispatch入力が3項目に限定され、固定SHA・basename・registry・metadata・publish条件が検証され、artifact改変や不正入力で公開処理が進まないこと。正常系・異常系のテストとブラウザ確認が成功すること。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: Issue #60、既存の<code>.github/workflows/accept-source.yml</code>、<code>read_only_acceptance.py</code>、<code>apply_engine.py</code>、<code>config/sources.json</code>、既存のprovenance・index生成契約。</li><li>実施内容: apply jobへdispatchの<code>project_id</code>・<code>source_commit_sha</code>・<code>target_basename</code>と受入artifactの値を照合するstepを追加した。apply側でも40桁小文字SHAと<code>work_record_001</code>〜<code>work_record_999</code>を再検証するようにした。<code>tech_article_nortification</code>のremote main固定SHAを空の初期provenanceとして登録し、空のproject indexを生成した。</li><li>成果物: 受入workflow、apply境界検証、初期provenance、tech project index、正常系・異常系テスト。</li><li>検証結果: 全93件のPythonユニットテスト、index・作業記録・filename検証、Python AST構文、JSON構文、<code>git diff --check</code>に合格した。</li><li>未解決事項: <code>publish: false</code>の生成元を実際に公開する手動E2E、Pages公開URL、Slack通知は安全のため実施していない。</li><li>次工程への引き継ぎ: 生成元側で公開対象metadataを人間確認付きで<code>publish: true</code>にした固定commitを作成後、3入力だけで受入workflowを手動dispatchする。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #60の完了条件、workflow・apply engine・provenance・indexの差分、全テスト結果、ブラウザ確認結果。</li><li>実施内容: 3入力以外のdispatch契約が追加されていないこと、artifactがdispatch入力へ束縛されること、source repository/ref/directoryがregistry由来であること、source checkoutをRepository Aのworktree外へ移動していることを確認した。不正SHA・basename、<code>publish: false</code>、未登録projectを拒否する既存境界と、Pages deploy・通知の後段接続も確認した。</li><li>成果物: Issue #60事前レビュー結果。</li><li>検証結果: 重大な未解決事項なし。global/project indexをChromiumで1280px、900px、640px、320pxにて確認し、HTTP 200、横overflowなし、console/page errorなし、failed requestなし。</li><li>未解決事項: 実GitHub Actions手動E2Eと外部PRレビューは未実施。</li><li>次工程への引き継ぎ: source側のpublish承認後にdisabled状態を維持したままdry-runを実行し、その後に人間承認を得てsource registryの有効化とpublish E2Eへ進む。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>tech_article_nortification</code>は初期provenanceを空の公開状態で登録し、source registryの<code>enabled: false</code>を維持する。</li><li>理由: 現時点の生成元metadataは<code>publish: false</code>であり、受入経路を準備しても人間確認前の実公開は許可しないため。</li><li>判断: artifactを信頼してapplyせず、dispatchの3入力と<code>acceptance.json</code>内のproject・commit・basenameをapply jobで再照合する。</li><li>理由: dry-runからapplyへの境界で対象差し替えを検出し、workflow入力と公開対象の識別子を一致させるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 固定commit・basename限定の受入要求をworkflowとapply engineの両方で検証できるようにし、<code>tech_article_nortification</code>のdisabled dry-runを開始できるA側初期状態を追加した。</li><li>変更ファイル: <code>.github/workflows/accept-source.yml</code>、<code>scripts/publish/apply_engine.py</code>、<code>provenance/tech_article_nortification/initial.json</code>、<code>projects/index.html</code>、<code>projects/tech_article_nortification/index.html</code>、関連テスト、作業記録Markdownと対応HTML。</li><li>検証結果: <code>PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'test_*.py'</code>（93件成功）、<code>python3 -m scripts.publish.index_generator --check</code>、<code>python3 scripts/dev/convert_work_records_to_html.py --check</code>、<code>python3 scripts/dev/validate_work_record_filenames.py</code>、Python AST、JSON、<code>git diff --check</code>に合格。Chromium確認証跡はglobal indexが<code>/private/tmp/playwright-browser-verify/2026-08-28T05-53-35-374Z/report.json</code>、tech indexが<code>/private/tmp/playwright-browser-verify/2026-08-28T05-53-46-286Z/report.json</code>、本作業記録HTMLが<code>/private/tmp/playwright-browser-verify/2026-08-28T05-55-35-041Z/report.json</code>。</li><li>作業ブランチ: <code>codex/060-fixed-basename-acceptance</code></li><li>コミット: <code>6d9b625</code>（feat(publish): harden fixed commit acceptance contract）</li><li>PR: 未作成</li><li>PRレビュー・CI: ローカル事前レビュー合格。専用ブランチはoriginへpush済み。PR作成前のためGitHub上の外部レビューとCIは未実施。</li><li>未解決事項: publish承認済みsource固定commitでの実GitHub Actions dry-run、apply、Pages deploy、公開URL、Slack通知、GitHub上の外部レビュー。</li><li>次アクション: 差分をcommitしてpushし、PR作成後にGitHub Actions <code>Validate</code>とPR差分を確認する。Issue #60はPR mergeと手動E2E完了までOpenのままにする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-28 14:54 取得範囲: <code>tj-999-comp/sandbox-pages</code>のOpen Issue一覧（全件）とIssue #60の詳細、Issue #60のsub-issues。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#60 [Actions] tech_article_nortificationの固定commit・basename限定公開要求を受け入れる](https://github.com/tj-999-comp/sandbox-pages/issues/60)</td><td>Open</td><td>本作業の対象。source側のpublish承認済み固定commitによるdry-run・手動E2EとPR工程が未完了。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 059</span>
+        <span><a href="md/work_record_059.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>B既存001〜010の初期provenance manifest登録 — 作業記録 026</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 026 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>B既存001〜010の初期provenance manifest登録</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_026.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #11（A-06）</li><li>目的: <code>B_Stats_Site</code>の既存公開物を、自動同期開始前のprovenance baselineとして登録する。</li><li>完了条件: 指定されたB基準commitと公開側確認commitを根拠として、001〜010およびsupport fileのdigestを記録し、公開ファイルを変更せずno-op drift検査に合格させる。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: Issue #11の完了条件、Issue #10で確定したprovenance schema、<code>config/sources.json</code>、<code>projects/B_Stats_Site/</code>。</li><li>実施内容: Bの基準commit <code>0fe9932255ac72e526e84887ee3f209af9f57c61</code> と公開リポジトリ確認commit <code>dd4c73c7820171a544d3e9b153904f538961ff80</code> の対象ツリーを照合し、公開側の25ファイル（support file 3件、Markdown 12件、HTML 10件）をSHA-256でmanifest化した。001〜010のmetadataは基準MarkdownのH1と作成日からbootstrap用に正規化し、後続のmetadata導入とは分離した。</li><li>成果物: <code>provenance/B_Stats_Site/initial.json</code>。</li><li>検証結果: manifest schemaをロードでき、source/published file 25件、record 10件、<code>notify: false</code>、生成元commitの一致を確認した。</li><li>未解決事項: <code>B_Stats_Site</code>のsourceは受入条件が整うまで<code>enabled: false</code>のままであり、通常publish・Pages反映・Slack通知は未実施。</li><li>次工程への引き継ぎ: Issue #12でこのmanifestを基準にno-op同期dry-runへ接続する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: manifest、現行公開ファイル、Issue #11完了条件。</li><li>実施内容: manifestの<code>published_files</code>と現行<code>projects/B_Stats_Site/</code>をpath・size・SHA-256で完全比較し、指定commit、通知対象外、source無効を確認した。</li><li>成果物: no-op drift検査結果。</li><li>検証結果: <code>missing=()</code>、<code>extra=()</code>、<code>changed=()</code>で、重大・中・軽微の未解決事項はない。</li><li>未解決事項: manifestに公開側確認commit専用のフィールドはないため、本記録へ根拠commitを記録した。</li><li>次工程への引き継ぎ: Issue #12で受入validator・drift検査・同期dry-runをworkflowへ接続する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: bootstrap manifestの<code>source_files</code>と<code>published_files</code>は、指定された基準時点の同一25ファイル集合として記録する。</li><li>理由: <code>source_html</code>方式であり、今回のbootstrapでは生成元HTMLを変換せず、そのまま公開側へ対応付けたため。</li><li>判断: bootstrapを理由にmetadataファイルや公開ファイルを追加・修正しない。</li><li>理由: Issue #11の非対象であるmetadata・親リンク修正と初期監査を分離し、既存公開物のbaselineを保持するため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: B基準commit <code>0fe9932255ac72e526e84887ee3f209af9f57c61</code> と公開側確認commit <code>dd4c73c7820171a544d3e9b153904f538961ff80</code> に対応する既存公開物の初期provenance manifestを登録した。通知は無効、source registryは<code>enabled: false</code>のまま維持した。</li><li>変更ファイル: <code>provenance/B_Stats_Site/initial.json</code>、本作業記録のMarkdownと生成HTML。</li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（41件合格）、manifestロード、no-op drift検査、<code>git diff --check</code>に合格した。</li><li>未解決事項: Issue #12以降のno-op同期workflow、通常publish、Pages deploy、Slack通知は未実施。</li><li>次アクション: Issue #12で既存Bのno-op同期dry-runを実装する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-20 取得範囲: <code>tj-999-comp/sandbox-pages</code>の親Issue #5とIssue #10〜#11</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#5 [Epic] プロジェクト進捗ページの自動公開を段階導入する
+└── #11 [Bootstrap] B既存001〜010の初期provenance manifestを登録する
+    └── 依存: #10 [Publish] provenance manifest schemaとdrift検査を実装する</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/5">#5 プロジェクト進捗ページの自動公開を段階導入する</a></td><td>オープン</td><td>親Epic。A/Bの公開導入を追跡</td></tr><tr><td>2</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/11">#11 B既存001〜010の初期provenance manifestを登録する</a></td><td>オープン</td><td>本作業。#10完了後の初期監査</td></tr></tbody></table>
+<pre><code></code></pre></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 026</span>
+        <span><a href="md/work_record_026.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

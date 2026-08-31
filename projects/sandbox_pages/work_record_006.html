@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Typing Marathonの出題モード不一致修正 — 作業記録 006</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 006 ・ <time datetime="2026-05-19">2026-05-19</time></p>
+          <h1>Typing Marathonの出題モード不一致修正</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_006.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: Typing Marathon で単語モードを選んでも文章が出題されるケースがある。</li><li>目的: 単語モード時は単語のみ、文章モード時は文章のみを確実に出題し、モードと出題ロジックの不一致をなくす。</li><li>完了条件: 単語モードで文章が出ないことを実動確認し、計測モードの既存挙動を維持する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　実行</p><h2 id="section-02">進行ログ（バトンタッチ順）</h2></div><div class="section-content"><ol><li>Planner<ul><li>入力: ユーザー報告（単語モードで文章が出る）。</li><li>実施内容: 原因候補を「モード表示と抽選条件の不一致」「保存データ混在」に分解。</li><li>成果物: 画面状態の再現確認と抽選関数の見直し方針。</li><li>次役割への引き継ぎ: UI表示と内部 state の整合性を確認する。</li></ul></li><li>UI Designer<ul><li>入力: 計測画面で練習タイプUIが見えている状態のスクリーンショット。</li><li>実施内容: 「見出し（計測/反復）と練習タイプ選択の関係」を整理し、選択状態が出題に反映される体験を優先。</li><li>成果物: 練習タイプ選択を抽選ロジックへ優先反映する方針。</li><li>次役割への引き継ぎ: Frontend Engineer で最小差分実装。</li></ul></li><li>Frontend Engineer<ul><li>入力: 既存 <code>getPool()</code> と <code>openMode()</code> の実装。</li><li>実施内容:<ul><li><code>openMode("challenge")</code> の初期 <code>practiceKind</code> を <code>mixed</code> に変更。</li><li><code>getPool()</code> を修正し、<code>practiceKind</code> が <code>word/sentence</code> の場合はモードより選択を優先。</li><li>単語モードでは文章らしいエントリを除外、文章モードでは文章候補を優先取得。</li></ul></li><li>成果物: <code>scripts/typing-marathon.js</code> 更新。</li><li>次役割への引き継ぎ: Copywriter へ報告文整理。</li></ul></li><li>Copywriter<ul><li>入力: 実装差分とユーザー報告。</li><li>実施内容: 説明を「原因 -&gt; 修正内容 -&gt; 確認結果」に簡潔化。</li><li>成果物: ユーザー向け報告文。</li><li>次役割への引き継ぎ: Reviewer で回帰確認。</li></ul></li><li>Reviewer<ul><li>入力: 修正後コードと実動確認結果。</li><li>実施内容: 重大回帰（単語で文章混入、計測モードの破綻）を優先チェック。</li><li>指摘（重大/中/軽微）:<ul><li>重大: 0件</li><li>中: 0件</li><li>軽微: 0件</li></ul></li><li>次役割への引き継ぎ: SEO &amp; Analytics Specialist へ影響確認。</li></ul></li><li>SEO &amp; Analytics Specialist<ul><li>入力: JSロジック変更のみの差分。</li><li>実施内容: HTML構造/メタ情報に影響がないことを確認。</li><li>成果物: 追加対応なし。</li><li>次役割への引き継ぎ: Performance &amp; Accessibility Tester で最終確認。</li></ul></li><li>Performance &amp; Accessibility Tester<ul><li>入力: 修正後のブラウザ画面。</li><li>実施内容:<ul><li>反復 -&gt; 単語で連続出題し、文章混入がないことを確認。</li><li>計測モードで mixed 初期選択になり、既存の混合出題が維持されることを確認。</li></ul></li><li>テスト結果: いずれも期待どおり。</li><li>最終判定: 合格。</li></ul></li></ol></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　確認</p><h2 id="section-03">最終結果</h2></div><div class="section-content"><ul><li>解決したこと:<ul><li>単語モード選択時に文章が出る不具合を解消。</li><li>計測モードの初期選択を mixed に明確化。</li><li>抽選ロジックを表示選択と整合させた。</li></ul></li><li>変更ファイル:<ul><li><code>scripts/typing-marathon.js</code></li><li><code>work-records/md/work_record_006.md</code></li></ul></li><li>未解決事項:<ul><li>なし</li></ul></li><li>次アクション:<ul><li>実利用データで長時間プレイ時の分布を再確認し、必要なら文章判定閾値（長さ）を調整する。</li></ul></li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 006</span>
+        <span><a href="md/work_record_006.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #21 disabled source実E2E — 作業記録 035</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 035 ・ <time datetime="2026-08-24">2026-08-24</time></p>
+          <h1>Issue #21 disabled source実E2E</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_035.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #21「[E2E] disabled sourceでBの受入dry-runを実行する」。</li><li>目的: PR #38をmainへ反映した後、B-02固定SHAを使って<code>work_record_001</code>〜<code>010</code>を実GitHub Actionsで受入し、disabled sourceのread-only受入、apply no-op、Pages deploy skip、A側無変更を確認する。</li><li>完了条件: 10件すべてでA-02〜A-04が合格し、<code>enabled=false</code>、applyがno-op、deployがskip、Aの<code>main</code>・Pages・Slackに変更がないことを確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Reviewer</h3>
+<ul><li>入力: マージ済みPR #38、A <code>main</code>のmerge commit <code>cc54ce6227830b75b1d365cc7caa7e27cdb55e42</code>、B-02固定SHA <code>43ebad8db4eff14c0a8e0d928ad193291fdfd60d</code>、<code>accept-source.yml</code>。</li><li>実施内容: GitHub App installation tokenをKeychainから再発行し、A <code>main</code>からB_Stats_Siteの10対象をdispatchした。concurrencyにより初回同時dispatchの一部がcancelledになったため、残りを1件ずつ完了待ちで再dispatchした。各runのjob、acceptance artifact、apply artifactを取得して内容を照合した。</li><li>成果物: 10件のGitHub Actions実E2E結果、acceptance/apply artifact、Issue #21完了コメント、Issue #21のcompletedクローズ、作業記録035。</li><li>検証結果: 最終runは10件すべてでdry-run success、apply success、deploy skipped。全件で<code>enabled=false</code>、<code>dry_run=true</code>、<code>apply=false</code>、固定SHA一致、inventory 45件、target inventory 6件、metadata・acceptance files・content safety passed、<code>no_op=true</code>、<code>commit_sha=null</code>を確認した。</li><li>未解決事項: なし。初回同時dispatchでcancelledとなったrunは最終結果に採用せず、対象ごとの再実行successを採用した。</li><li>次工程への引き継ぎ: #21は完了済み。次は未完了Issue #20、#22、#23の依存条件を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: concurrencyでcancelledになった初回runを成功扱いにせず、対象basenameごとに完了したrunを再実行して採用する。</li><li>理由: <code>pages-production-main</code>の同一concurrency groupでは同時dispatchを一括投入するとpending runが置き換えられるため、10対象それぞれの実結果を独立して残す必要がある。</li><li>判断: disabled sourceではapply successをno-op成功として扱い、deploy skippedを合格とする。</li><li>理由: workflowの設計どおり、受入検証は実行するが、<code>enabled=false</code>のsourceをA <code>main</code>へ反映せず、Pages公開も実行しないことが今回の受入条件だからである。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: B-02固定SHAの001〜010を実workflowで受入し、disabled sourceのA-02〜A-04合格、apply no-op、deploy skip、A側無変更を実証した。</li><li>実行条件: repository A <code>tj-999-comp/sandbox-pages</code>、ref <code>main</code>、repository B <code>tj-999-comp/B_Stats_Site</code>、source commit <code>43ebad8db4eff14c0a8e0d928ad193291fdfd60d</code>。</li><li>run結果:</li></ul>
+<table><thead><tr><th scope="col">対象</th><th scope="col">Run</th><th scope="col">結果</th></tr></thead><tbody><tr><td><code>work_record_001</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697085244">32697085244</a></td><td>success / no-op / deploy skipped</td></tr><tr><td><code>work_record_002</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697209487">32697209487</a></td><td>success / no-op / deploy skipped</td></tr><tr><td><code>work_record_003</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697213303">32697213303</a></td><td>success / no-op / deploy skipped</td></tr><tr><td><code>work_record_004</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697250925">32697250925</a></td><td>success / no-op / deploy skipped</td></tr><tr><td><code>work_record_005</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697280267">32697280267</a></td><td>success / no-op / deploy skipped</td></tr><tr><td><code>work_record_006</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697302058">32697302058</a></td><td>success / no-op / deploy skipped</td></tr><tr><td><code>work_record_007</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697338632">32697338632</a></td><td>success / no-op / deploy skipped</td></tr><tr><td><code>work_record_008</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697367311">32697367311</a></td><td>success / no-op / deploy skipped</td></tr><tr><td><code>work_record_009</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697400976">32697400976</a></td><td>success / no-op / deploy skipped</td></tr><tr><td><code>work_record_010</code></td><td><a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/32697101368">32697101368</a></td><td>success / no-op / deploy skipped</td></tr></tbody></table>
+<ul><li>無変更確認: dispatch前後のA <code>main</code>は<code>cc54ce6227830b75b1d365cc7caa7e27cdb55e42</code>で一致。Pages deploy workflow runはなく、deploy jobは全件skipped。Slack通知も発生していない。</li><li>Issue状態: <a href="https://github.com/tj-999-comp/sandbox-pages/issues/21">#21</a>へ完了結果をコメントし、<code>completed</code>としてクローズした。</li><li>変更ファイル: 本作業記録と対応HTML。</li><li>検証結果: 10件のjob・artifact照合、A <code>main</code> ref照合、Pages workflow runなしの確認、Issue #21状態照合。</li><li>未解決事項: なし。</li><li>次アクション: #20、#22、#23の前提に従って次課題へ進む。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-24 15:32 取得範囲: <code>tj-999-comp/sandbox-pages</code>の#5、#12、#17〜#23、および<code>tj-999-comp/B_Stats_Site</code>の#28〜#29をGitHub APIで取得した時点のsnapshot。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">sandbox-pages #5（親Epic）
+├── sandbox-pages #12（完了）
+├── sandbox-pages #17（完了）
+├── sandbox-pages #18（完了）
+├── sandbox-pages #19（完了）
+├── sandbox-pages #20（未完了）
+├── sandbox-pages #21（今回の対象・完了）
+├── sandbox-pages #22（未完了）
+└── sandbox-pages #23（未完了）
+
+sandbox-pages #5
+├── B_Stats_Site #28（完了）
+└── B_Stats_Site #29（完了）</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P1</td><td>[#20 [Notification] deploy成功後のSlack通知jobを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/20)</td><td>Open</td><td>#19完了後の通知工程。#23の前提</td></tr><tr><td>2</td><td>P1</td><td>[#22 [Activation] B sourceを手動E2E可能な状態へ有効化する](https://github.com/tj-999-comp/sandbox-pages/issues/22)</td><td>Open</td><td>#19・#21完了後。source有効化前に#21の重大問題0が必要</td></tr><tr><td>3</td><td>P1</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>Open</td><td>#20とB側#31完了後</td></tr></tbody></table>
+<h3>完了済みの関連Issue</h3>
+<table><thead><tr><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">本作業との関係</th></tr></thead><tbody><tr><td>[#5 [Epic] プロジェクト進捗ページの自動公開を段階導入する](https://github.com/tj-999-comp/sandbox-pages/issues/5)</td><td>Closed / completed</td><td>親Epic</td></tr><tr><td>[#12 [Bootstrap] 既存Bのno-op同期dry-runを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/12)</td><td>Closed / completed</td><td>no-op/bootstrap検証の前提</td></tr><tr><td>[#17 [Actions] read-only受入workflowをdry-runで実装する](https://github.com/tj-999-comp/sandbox-pages/issues/17)</td><td>Closed / completed</td><td>受入workflowの前工程</td></tr><tr><td>[#18 [Publish] 許可範囲限定の同期apply engineを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/18)</td><td>Closed / completed</td><td>apply境界の前工程</td></tr><tr><td>[#19 [Actions] 受入workflowへcommit・固定SHA deployを接続する](https://github.com/tj-999-comp/sandbox-pages/issues/19)</td><td>Closed / completed</td><td>disabled時のapply/deploy skipを含むworkflow</td></tr><tr><td>[#21 [E2E] disabled sourceでBの受入dry-runを実行する](https://github.com/tj-999-comp/sandbox-pages/issues/21)</td><td>Closed / completed</td><td>本作業で実E2E完了</td></tr><tr><td><a href="https://github.com/tj-999-comp/B_Stats_Site/issues/28">B_Stats_Site #28 親ディレクトリREADMEリンクをproject内リンクへ修正する</a></td><td>Closed / completed</td><td>B-01固定commit</td></tr><tr><td><a href="https://github.com/tj-999-comp/B_Stats_Site/issues/29">B_Stats_Site #29 001〜010のmetadataと生成元validator・CIを追加する</a></td><td>Closed / completed</td><td>B-02固定commit</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 035</span>
+        <span><a href="md/work_record_035.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #23 no-op入力のworkflow_call検証修正 — 作業記録 044</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 044 ・ <time datetime="2026-08-25">2026-08-25</time></p>
+          <h1>Issue #23 no-op入力のworkflow_call検証修正</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_044.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: PR #45 merge後のno-op E2EでもA側accept-source runがfailureとなり、called workflowのjobが生成されなかった。</li><li>目的: no-op時に空のcommit SHAを渡してもreusable workflowの入力検証で失敗せず、no-op完了jobを実行できるようにする。</li><li>完了条件: <code>workflow_call.commit_sha</code>の任意入力化、CI、no-op実E2E、commit・Pages deploy・Slack通知なしを確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: PR #45 merge commit <code>cd8d0cc78a37e2b04eb412bd3569ceb884188064</code>、B側run #32797343514、A側run #32797547899、accept-source apply logic。</li><li>実施内容: <code>deploy-pages.yml</code>の<code>workflow_call.commit_sha</code>を<code>required: false</code>・空defaultへ変更した。no-op時はapplyが空SHAを渡して完了jobへ進み、create時はbuild jobの既存完全SHA検証で不正入力を拒否する。workflow契約テストとActions方針を更新した。</li><li>成果物: <code>.github/workflows/deploy-pages.yml</code>、<code>tests/test_pages_workflow.py</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、本作業記録。</li><li>検証結果: unit test 73件、Python構文、両workflow YAML構文、<code>git diff --check</code>に合格した。</li><li>未解決事項: 修正後CI、no-op実E2E、create実E2Eは未確認。</li><li>次工程への引き継ぎ: PR merge後に同じ固定SHAでno-op runを再実行し、called workflow jobの成功とdeploy・通知なしを確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: A側run #32797547899のjob構成、A側mainの<code>accept-source.yml</code>と<code>deploy-pages.yml</code>。</li><li>実施内容: strict comparison修正後もcalled workflowのjobが生成されなかった事実を確認した。apply artifactではno-op時の<code>commit_sha</code>が空であり、<code>workflow_call.commit_sha required: true</code>によるjob生成前の入力検証失敗と切り分けた。</li><li>成果物: 入力契約の原因分析と最小差分レビュー。</li><li>検証結果: 修正範囲はPages workflow、契約テスト、運用方針、作業記録に限定した。</li><li>未解決事項: GitHub Actions上での入力任意化確認。</li><li>次工程への引き継ぎ: CI合格後、同一固定SHAのno-op E2Eを再実行する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>workflow_call.commit_sha</code>だけを任意入力にし、<code>workflow_dispatch.commit_sha</code>は必須のまま維持する。</li><li>理由: no-opのcallerは空SHAを渡す必要がある一方、手動Pages deployとcreate時のbuildは完全SHAを要求するため。create時のSHA検証責務はcalled workflowのbuild jobに残す。</li><li>判断: no-op時の空SHAをbuild jobで検証しない。</li><li>理由: <code>should_deploy != true</code>のno-op jobだけを成功実行し、Pages artifact・deploy・Slack通知を発生させない設計だから。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: no-op時に空commit SHAがreusable workflowの必須入力検証で弾かれ、jobが生成されない経路を修正した。</li><li>変更ファイル:<ul><li><code>.github/workflows/deploy-pages.yml</code></li><li><code>tests/test_pages_workflow.py</code></li><li><code>docs/ACTIONS_MAIN_POLICY.md</code></li><li><code>work-records/md/work_record_044.md</code></li><li><code>work-records/work_record_044.html</code></li></ul></li><li>検証結果: ローカルunit test 73件、Python構文、YAML構文、<code>git diff --check</code>に合格。CI・修正後E2Eは継続確認する。</li><li>作業ブランチ: <code>codex/044-issue23-noop-input</code></li><li>コミット: 作業記録作成時点では未commit。</li><li>PR: 作業記録作成時点では未作成。</li><li>未解決事項: 修正後no-op受入run、create実publish、Pages公開URL、Slack通知、外部レビュー。</li><li>次アクション: commit・push・PR作成・merge後、固定SHAで実E2Eを実行し、必要なら修正と再検証を繰り返す。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-25 10:29 取得範囲: <code>tj-999-comp/sandbox-pages</code>の#23・#24、および<code>tj-999-comp/B_Stats_Site</code>の#31・#32をGitHub APIで個別取得した時点のsnapshot。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">sandbox-pages #5
+├── sandbox-pages #23（Open / reopened、今回のE2E）
+└── sandbox-pages #24（Open）
+
+B_Stats_Site #31（Open / reopened、今回のpublish要求）
+└── B_Stats_Site #32（Open、後続自動化）</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>Open / reopened</td><td>今回の対象。no-opとcreateの実E2Eを完了する。</td></tr><tr><td>2</td><td>未設定</td><td>[B_Stats_Site #31 [E2E] 新規作業記録1件を手動publish要求する](https://github.com/tj-999-comp/B_Stats_Site/issues/31)</td><td>Open / reopened</td><td>#23の固定SHA入力要求。</td></tr><tr><td>3</td><td>未設定</td><td>[#24 [Operations] 監査可能な公開取り下げworkflowを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/24)</td><td>Open</td><td>#23とは独立した後続運用課題。</td></tr><tr><td>4</td><td>未設定</td><td>[B_Stats_Site #32 [Automation] main更新時の公開要求triggerを有効化する](https://github.com/tj-999-comp/B_Stats_Site/issues/32)</td><td>Open</td><td>#23/#31完了後の自動化課題。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 044</span>
+        <span><a href="md/work_record_044.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

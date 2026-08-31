@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>projectsディレクトリの用途と公開構想の記録 — 作業記録 015</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 015 ・ <time datetime="2026-08-15">2026-08-15</time></p>
+          <h1>projectsディレクトリの用途と公開構想の記録</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_015.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 新設した<code>projects/</code>ディレクトリの用途と今後の構想が、リポジトリ内に記録されていない。</li><li>目的: GitHubプロジェクトとIssueの進捗をまとめる場所であること、GitHub Pagesからの閲覧とSlack通知を将来予定していることを簡潔に共有する。</li><li>完了条件: <code>projects/README.md</code>にディレクトリの用途、今後の予定、現在は未実装であることが明記されている。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>projects/</code>へGitHubプロジェクトとIssueの最新状況をまとめたHTMLを置き、GitHub Pagesから閲覧可能にし、将来は更新時にSlack通知を行う構想。</li><li>実施内容: 既存リポジトリの文体と<code>projects/</code>の状態を確認し、構想と現在の状態を簡潔に説明するREADMEを作成した。</li><li>成果物: <code>projects/README.md</code>と本作業記録。</li><li>検証結果: 要求された構想4点と未実装である旨が含まれ、HTML・GitHub Pages導線・Slack連携の実装変更を含まないことを確認した。</li><li>未解決事項: HTMLの構成、更新方法、GitHub Pagesからの導線、Slack通知方式は今後の実装時に決定する必要がある。</li><li>次工程への引き継ぎ: Portfolio Reviewerへ要件適合、簡潔さ、未実装範囲の明確さ、無関係な変更がないことの確認を依頼する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 作成後の<code>projects/README.md</code>、<code>work-records/md/work_record_015.md</code>、ユーザー要件、静的検証結果。</li><li>実施内容: 要件適合、簡潔さ、未実装範囲の明確さ、作業記録規定、依頼範囲外の記載がないことを確認した。</li><li>成果物: 重大・中・軽微の問題一覧と、remote <code>main</code>へのdirect commit・push可否の判定。</li><li>検証結果: 重大0・中0・軽微0。READMEは依頼された構想を簡潔に網羅し、現在の未実装範囲も明確であるため合格とした。</li><li>未解決事項: 重大な未解決事項は0件。</li><li>次工程への引き継ぎ: 最新のremote <code>main</code>との一致を再確認し、対象2ファイルだけをcommit・pushする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 今回は構想を記録するREADMEの作成だけとし、HTMLページやGitHub Pagesの導線、Slack通知は実装しない。</li><li>理由: ユーザーが「取り急ぎ」READMEの作成までを依頼しており、将来機能の具体的な仕様はまだ決まっていないため。</li><li>判断: 将来予定と現在の状態を見出しで分ける。</li><li>理由: 実装済みの機能と誤解されず、次の作業範囲を把握しやすくするため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: <code>projects/</code>の用途と将来構想をリポジトリ内で確認できるようにした。</li><li>変更ファイル: <code>projects/README.md</code>、<code>work-records/md/work_record_015.md</code>。</li><li>検証結果: 文書構成と要求事項を静的確認済み。表示コードの変更ではないためブラウザ確認は対象外。</li><li>作業ブランチ: 新規ブランチは作成せず、最新のremote default branchである<code>main</code>を使用する。</li><li>コミット: <code>projects/README.md</code>と本作業記録だけを対象とするdocsコミットとして記録する。</li><li>PR: ソースコードを含まないドキュメントのみの変更のため作成しない。</li><li>PRレビュー・CI: PR・CI対象外。Portfolio Reviewerの事前レビューは重大0・中0・軽微0で合格した。</li><li>未解決事項: HTMLページ、GitHub Pagesからの導線、Slack通知は未実装。今回の依頼範囲における重大な未解決事項はない。</li><li>次アクション: 今後、進捗HTMLの構成と更新方法を決めて実装する。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 015</span>
+        <span><a href="md/work_record_015.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

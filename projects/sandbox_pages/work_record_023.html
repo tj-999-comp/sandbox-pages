@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #8 受入ファイルのpath・種別・容量validator — 作業記録 023</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 023 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>Issue #8 受入ファイルのpath・種別・容量validator</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_023.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 公開リポジトリ（A）が、登録済みsourceから受け取るファイルのpath・種別・容量を独立して検証できるようにする。</li><li>目的: 作業リポジトリ（B）の自己検証結果だけに依存せず、Aが許可範囲を再導出して安全な受入候補だけを後続の公開処理へ渡せるようにする。</li><li>完了条件: 登録済みsupport fileと番号付き作業記録だけを受け入れ、symlink・未登録path・不正な種別・容量超過を拒否し、決定的なファイル一覧とSHA-256 digestを返すこと。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: 公開リポジトリ（A）のIssue #8、<code>config/sources.json</code>、<code>scripts/publish/source_registry.py</code>、<code>scripts/publish/metadata_schema.py</code>、<code>projects/README.md</code>。</li><li>実施内容: <code>source_directory</code>と<code>metadata_directory</code>の登録値から受入対象を導出し、<code>source_html</code>ではMarkdown・metadata・同名HTML、登録済みsupport fileだけを検証するvalidatorを追加した。通常ファイル、symlink、許可ディレクトリ、ファイル数、単体サイズ、合計サイズを確認し、受入ファイルを相対POSIX path・サイズ・SHA-256 digestの決定的な一覧へ正規化するようにした。</li><li>成果物: <code>scripts/publish/acceptance_files.py</code>、<code>tests/test_acceptance_files.py</code>、責務分担を追記した<code>projects/README.md</code>。</li><li>検証結果: 正常系、欠落、未登録ファイル、未登録ディレクトリ、symlink、容量超過、<code>a_rendered</code>の各fixtureを追加し、ユニットテストが全件成功した。</li><li>未解決事項: workflowからのcommit取得、provenance manifest、HTML・CSS・URL安全validator、公開先への反映は後続Issueの対象である。</li><li>次工程への引き継ぎ: 後続のA受入workflowは、このvalidatorの結果をmetadata・安全性・provenance・許可範囲差分の検証へ接続する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #8の完了条件、source registry、追加validator、fixtureテスト、公開契約。</li><li>実施内容: Bの自己検証とAの最終受入を同じ責務として扱っていないこと、Aがsource registryから受入集合を再計算すること、未登録ファイルと容量超過が拒否されることを確認した。</li><li>成果物: 本作業記録に記載する受入責務の提案とレビュー観点。</li><li>検証結果: 実装差分、Issue #8の範囲、後続Issueとの責務境界をレビューし、重大・中・軽微の未解決事項はないと判定した。後続のHTML安全validator・workflow接続前の基礎validatorとして範囲は妥当である。</li><li>未解決事項: 実際のGitHub Actions dispatchから固定commitを取得するE2Eは未実施である。</li><li>次工程への引き継ぎ: A#9以降でHTML/CSS/URL安全性、provenance、dry-run workflowを追加する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: Bは公開要求前の自己検証、Aは受入時の独立した最終検証を担当する。</li><li>理由: B側のvalidatorが誤設定や侵害を含むcommitを誤って通しても、A側でsource registryに基づくpath・種別・容量・digestの検証を再実行できるようにするため。</li><li>判断: A#8ではHTMLの内容安全性や公開反映まで実装しない。</li><li>理由: HTML・CSS・URL安全性はA#9、provenanceはA#10、初期同期とworkflowはA#11以降の責務であり、Issue #8のpath・種別・容量検証と分離するため。</li><li>判断: 番号なし補助HTMLは、source registryのsupport fileに明示されていない限り拒否する。</li><li>理由: 補助文書を作業記録として誤ってindex・通知・更新対象へ混入させないため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: A側で登録済みsupport file、番号付きMarkdown、metadata、<code>source_html</code>の同名HTMLだけを受入対象として導出し、未登録path、未登録ディレクトリ、symlink、欠落record、単体・合計容量超過を拒否できるようにした。受入ファイルは決定的な相対path一覧とSHA-256 digestへ正規化する。</li><li>変更ファイル: <code>scripts/publish/acceptance_files.py</code>、<code>tests/test_acceptance_files.py</code>、<code>projects/README.md</code>、本作業記録のMarkdownと生成HTML。</li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（26件合格）。追加fixtureは正常系、欠落、未登録ファイル・ディレクトリ、symlink、単体・合計容量、<code>a_rendered</code>を対象とした。<code>convert_work_records_to_html.py --check</code>、作業記録filename validator、<code>py_compile</code>、<code>git diff --check</code>も合格した。追加HTMLはChromiumで1280×900、900×900、640×900、320×800を確認し、横overflow、console error、page error、failed requestは全条件0件だった。</li><li>未解決事項: A#8のvalidatorを実際の受入workflowへ接続する処理、A#9のHTML・CSS・URL安全validator、provenance、Pages反映、Slack通知は未実装である。source registryの<code>enabled: false</code>も維持する。</li><li>次アクション: A#9のHTML・CSS・URL安全validatorへ進み、その後にA#10〜#12のprovenance・初期同期・dry-run受入workflowを実装する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-20 取得範囲: <code>tj-999-comp/sandbox-pages</code>のIssue #5〜#10</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#5 [Epic] プロジェクト進捗ページの自動公開を段階導入する
+├── #6 [Publish] 公開元source登録を設定ファイル化する
+├── #7 [Publish] 共通命名・metadata schema validatorを実装する
+└── #8 [Publish] 受入ファイルのpath・種別・容量validatorを実装する</code></pre>
+<h3>対象Issue</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/8">#8 受入ファイルのpath・種別・容量validatorを実装する</a></td><td>未完了</td><td>本作業の対象。validator実装後、workflow接続が必要</td></tr><tr><td>2</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/9">#9 source_html向けHTML・CSS・URL安全validatorを実装する</a></td><td>未完了</td><td>#8の後続。Aの内容安全性検証</td></tr><tr><td>3</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/10">#10 provenance manifest schemaとdrift検査を実装する</a></td><td>未完了</td><td>#8/#9の後続。公開来歴とdigestを管理</td></tr><tr><td>4</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/5">#5 プロジェクト進捗ページの自動公開を段階導入する</a></td><td>未完了</td><td>親Epic</td></tr></tbody></table>
+<h3>依存Issue</h3>
+<table><thead><tr><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係</th></tr></thead><tbody><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/6">#6 公開元source登録を設定ファイル化する</a></td><td>完了</td><td>A#8が参照するsource registryを提供</td></tr><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/7">#7 共通命名・metadata schema validatorを実装する</a></td><td>完了</td><td>A#8がrecord basenameとmetadata配置を前提にする</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 023</span>
+        <span><a href="md/work_record_023.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

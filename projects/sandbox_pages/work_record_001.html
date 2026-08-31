@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>ページ別テーマを維持した共通レイアウト設計 — 作業記録 001</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 001 ・ <time datetime="2026-05-04">2026-05-04</time></p>
+          <h1>ページ別テーマを維持した共通レイアウト設計</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_001.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: ページごとにカラー差分はあるが、ヘッダー/フッター、余白、導線設計の統一が不十分だった。</li><li>目的: ページ個性（色・フォント）を維持しつつ、共通パーツ仕様を定義して実装へ引き継ぐ。</li><li>完了条件: Planner/UI Designer/Frontend Engineer の成果を1本に統合し、実装指示として再利用できる状態にする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　実行</p><h2 id="section-02">進行ログ（バトンタッチ順）</h2></div><div class="section-content"><ol><li>Planner<ul><li>入力:<ul><li>サイト群の統一感向上要件</li><li>制約: ヘッダー/フッターの共通化、ページ別テーマ維持</li></ul></li><li>実施内容:<ul><li>ページ別テーマ（色/フォント/モチーフ）を定義</li><li>共通ヘッダー/フッター項目とモバイルルールを定義</li><li>導線優先順位と推奨構成を整理</li></ul></li><li>成果物:<ul><li><code>PORTFOLIO_THEME_PLANNER.md</code></li></ul></li><li>次役割への引き継ぎ:<ul><li>UI Designer にレイアウト2案とモバイル設計を依頼</li></ul></li></ul></li><li>UI Designer<ul><li>入力:<ul><li><code>PORTFOLIO_THEME_PLANNER.md</code></li></ul></li><li>実施内容:<ul><li>課題整理、改善方針、レイアウト案A/Bを提示</li><li>採用案として案A（Solid Bar Header + 3カラムFooter）を推奨</li><li>モバイル時のタップ領域・階層制限・崩れ防止ルールを定義</li></ul></li><li>成果物:<ul><li><code>UI_DESIGNER_HANDOFF.md</code></li><li><code>UI_DESIGNER_OUTPUT.md</code></li></ul></li><li>次役割への引き継ぎ:<ul><li>Frontend Engineer へ案A前提の最小差分実装を依頼</li></ul></li></ul></li><li>Frontend Engineer<ul><li>入力:<ul><li><code>UI_DESIGNER_OUTPUT.md</code></li><li><code>UI_DESIGNER_HANDOFF.md</code></li></ul></li><li>実施内容:<ul><li>対象ファイル、制約、完了条件、実装タスクを明文化</li><li>共通ヘッダー/フッター適用、active表示、モバイルナビ、A11y配慮を実装指示化</li></ul></li><li>成果物:<ul><li><code>FRONTEND_ENGINEER_HANDOFF.md</code></li></ul></li><li>次役割への引き継ぎ:<ul><li>実装反映とモバイル再レビュー</li></ul></li></ul></li><li>Copywriter<ul><li>入力:<ul><li>上記3ドキュメント</li></ul></li><li>実施内容:<ul><li>本作業記録では対象外（構造統一を優先）</li></ul></li><li>成果物:<ul><li>なし</li></ul></li><li>次役割への引き継ぎ:<ul><li>ReviewerでUI整合性の確認</li></ul></li></ul></li><li>Reviewer<ul><li>入力:<ul><li>Planner/UI/Frontendの成果</li></ul></li><li>実施内容:<ul><li>仕様整合のレビュー観点を整理（項目一致・順序一致・モバイル崩れ）</li></ul></li><li>指摘（重大/中/軽微）:<ul><li>重大: なし（設計統合フェーズ）</li><li>中: なし（設計統合フェーズ）</li><li>軽微: なし（設計統合フェーズ）</li></ul></li><li>次役割への引き継ぎ:<ul><li>実装後に再レビュー</li></ul></li></ul></li><li>SEO &amp; Analytics Specialist<ul><li>入力:<ul><li>導線設計と共通パーツ仕様</li></ul></li><li>実施内容:<ul><li>本作業記録では未実装（次フェーズ候補）</li></ul></li><li>成果物:<ul><li>なし</li></ul></li><li>次役割への引き継ぎ:<ul><li>実装完了後のメタ/計測最適化</li></ul></li></ul></li><li>Performance &amp; Accessibility Tester<ul><li>入力:<ul><li>共通仕様（44pxタップ領域、focus可視化、見出し構造）</li></ul></li><li>実施内容:<ul><li>本作業記録は設計統合が対象のため、実測テストは次フェーズへ繰越</li></ul></li><li>テスト結果:<ul><li>該当なし</li></ul></li><li>最終判定:<ul><li>設計・引き継ぎ資料として完了</li></ul></li></ul></li></ol></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　確認</p><h2 id="section-03">最終結果</h2></div><div class="section-content"><ul><li>解決したこと:<ul><li>指定4ファイルの内容を統合し、1本の作業記録に整理した。</li></ul></li><li>変更ファイル:<ul><li><code>work-records/md/work_record_001.md</code></li></ul></li><li>未解決事項:<ul><li>実機モバイル最終確認</li><li>SEO/計測の最小実装</li></ul></li><li>次アクション:<ul><li>1) Frontend Engineerの実装完了確認</li><li>2) Reviewerで重大課題0件確認</li><li>3) SEO/A11y/Performanceの最終チェック</li></ul></li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 001</span>
+        <span><a href="md/work_record_001.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

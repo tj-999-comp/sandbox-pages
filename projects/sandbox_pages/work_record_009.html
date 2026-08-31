@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Gitブランチ・PR・レビュー工程の追加 — 作業記録 009</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 009 ・ <time datetime="2026-07-30">2026-07-30</time></p>
+          <h1>Gitブランチ・PR・レビュー工程の追加</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_009.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: Codexの基本的なファイル変更作業へGitブランチ・PR・レビュー工程を追加する</li><li>目的: baseブランチへ直接変更せず、課題単位の差分をPRで検証・レビューできる運用にする</li><li>完了条件: ブランチ作成からPR作成後のレビュー・CI確認までがルール化され、今回の変更でも同工程を実行している</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Planner</h3>
+<ul><li>入力: ファイル変更時にCodexがブランチ作成、PR作成、レビューまで行う要件</li><li>実施内容: dirty worktree保護、命名、commit、push、PR、CI、レビュー対応、認証例外を含む標準工程を設計</li><li>成果物: Git/PRワークフローの追加方針</li><li>検証結果: 既存のCodex役割委任・Issue・検証ルールと接続できることを確認</li><li>未解決事項: なし</li><li>次工程への引き継ぎ: Frontend Engineer相当の主担当Codexへ文書実装を引き継ぎ</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: Plannerの設計と既存の<code>AGENTS.md</code></li><li>実施内容: 課題用ブランチを作成し、<code>AGENTS.md</code>、<code>README.md</code>、IssueテンプレートへGit/PR工程を追加</li><li>成果物: 作業開始前確認、ブランチ命名、commit、PR事前レビュー、push、PR作成後レビュー、CI、認証例外のルール</li><li>検証結果: 文書構造、Git差分、Issue命名、必須キーワードを確認</li><li>未解決事項: GitHub CLIの保存済み認証が無効。push時に利用可能なGit認証を確認する</li><li>次工程への引き継ぎ: Reviewerへbaseとの差分レビューを依頼</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: baseとの差分、要件、検証結果、作業記録</li><li>実施内容: PR作成前レビューでCIのない場合の完了条件と自己承認の表現を確認し、中程度2件を指摘</li><li>成果物: CIの有無を考慮した完了条件と、自己承認を外部承認として扱わない明確なルール</li><li>検証結果: 指摘2件を修正。再レビューは重大0件・中0件で合格</li><li>未解決事項: なし</li><li>次工程への引き継ぎ: 再レビュー合格後にscoped staging、commit、push、PR作成</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: ファイル変更では原則としてCodexが課題用ブランチからReady PR作成とレビュー対応まで行う</li><li>理由: baseへの直接変更を避け、変更内容と検証結果を追跡可能にするため</li><li>判断: PRのマージとブランチ削除は自動化しない</li><li>理由: 公開・統合に相当する最終判断は、ユーザーの明示指示を必要とするため</li><li>判断: Codex自身のGitHub上の自己承認を正式承認として扱わない</li><li>理由: サブエージェントレビューとCI結果は記録できるが、独立した外部承認を偽装しないため</li><li>判断: PR作成以外の通常Git工程は、初回の限定的な永続許可後に自動実行する</li><li>理由: 安全な定型操作の承認回数を減らしつつ、PR作成・マージ・ブランチ削除・破壊的操作はユーザー判断として残すため</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: Codexのファイル変更作業へブランチ、commit、PR、レビュー、CIの標準工程を追加</li><li>変更ファイル: <code>AGENTS.md</code>、<code>README.md</code>、<code>work-records/README.md</code>、<code>work-records/md/work_record_009.md</code></li><li>検証結果: 文書検証とPR作成前レビューに合格。配信対象コードを変更していないためブラウザ確認は対象外</li><li>作業ブランチ: <code>codex/009-add-pr-workflow</code></li><li>コミット: <code>a8e4221</code>（主要実装。記録更新の追加commitはPR履歴を参照）</li><li>PR: <a href="https://github.com/tj-999-comp/sandbox-pages/pull/1">#1</a>（<code>main</code> ← <code>codex/009-add-pr-workflow</code>、Ready、MERGEABLE）</li><li>PRレビュー・CI: GitHub上の差分がローカルと一致。サブエージェントレビューは重大0件。CI/checksは未設定であることを確認</li><li>未解決事項: 重大な未解決事項なし。正式な外部承認は未取得</li><li>次アクション: 必要に応じて外部レビュアーが承認する。PRのマージはユーザーの明示指示後に実施する</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 009</span>
+        <span><a href="md/work_record_009.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

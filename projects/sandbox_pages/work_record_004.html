@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Trackball Typing PracticeのUI・導線改善 — 作業記録 004</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 004 ・ <time datetime="2026-05-12">2026-05-12</time></p>
+          <h1>Trackball Typing PracticeのUI・導線改善</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_004.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: trackball-typing-practice のUI/UX・ゲーム導線・視認性を段階的に改善</li><li>目的: 開始前後の操作しやすさとゲーム状態の理解しやすさを高める</li><li>完了条件: 指定されたUI/挙動修正（オーバーレイ、文言統一、LIFE/BOMB表示、一時停止導線、視認性改善）が反映され、ブラウザで確認できる</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　実行</p><h2 id="section-02">進行ログ（バトンタッチ順）</h2></div><div class="section-content"><ol><li>Planner<ul><li>入力: ユーザーからの複数回の改善要望（開始オーバーレイ、操作導線、HUD、文言、配色、視認性）</li><li>実施内容: 修正方針を「最小差分で段階実装 + 都度ブラウザ検証」に整理</li><li>成果物: 実装優先順（操作阻害解消 -&gt; 視認性 -&gt; 文言統一 -&gt; デザイン）</li><li>次役割への引き継ぎ: UI配置と導線の再設計</li></ul></li><li>UI Designer<ul><li>入力: 既存のゲーム画面構成と開始/終了オーバーレイ</li><li>実施内容: 下部ステータス集約、開始/終了時の背面視認、北欧系ブルー配色方針を定義</li><li>成果物: LIFE/BOMB中央配置、危険帯の明確化、色トーン統一方針</li><li>次役割への引き継ぎ: フロント実装へ</li></ul></li><li>Frontend Engineer<ul><li>入力: UI方針とユーザー指定要件</li><li>実施内容:<ul><li>開始オーバーレイ外の背面操作と視認性を改善</li><li>Homeボタン削除、文言「モード選択へ」統一</li><li>ESCで一時停止/再開（3カウント）</li><li>Bomb化（ゲージ -&gt; ストック運用）</li><li>LIFEをハート表示化、中央下へ再配置</li><li>音量UIと「タイプ開始」UIを削除</li><li>敵ロック時ヒント表示をアイコン下固定・INPUT文言削除</li><li>ロックリングの色制御（ホバー黄色/ロック赤）と重なり調整</li><li>危険帯を明確な赤帯へ変更、全体を北欧系ブルーへ統一</li><li>敵上部HPバーを削除</li></ul></li><li>成果物: <code>games/trackball-typing-practice.html</code>, <code>css/trackball-typing-practice.css</code>, <code>scripts/trackball-typing-practice.js</code>, <code>scripts/site-layout.js</code> の更新</li><li>次役割への引き継ぎ: 文言・可読性確認</li></ul></li><li>Copywriter<ul><li>入力: ゲーム内文言、HUD文言、ボタン文言</li><li>実施内容: 表記ゆれ調整（Topへ戻る -&gt; モード選択へ など）</li><li>成果物: 一時停止・遷移系文言の統一</li><li>次役割への引き継ぎ: 実装レビュー</li></ul></li><li>Reviewer<ul><li>入力: 実装差分と画面確認結果</li><li>実施内容: 回帰観点（開始/終了オーバーレイ、操作不能化、下部レイアウト干渉、文言不一致）を重点確認</li><li>指摘（重大/中/軽微）:<ul><li>重大: なし</li><li>中: 一時的にリング視認性の不安定があり、リング要素方式で修正</li><li>軽微: 下部UI重なりを余白調整で解消</li></ul></li><li>非回帰チェック結果（既存合意事項が維持されているか）: 維持</li><li>次役割への引き継ぎ: SEO/計測の影響確認</li></ul></li><li>SEO &amp; Analytics Specialist<ul><li>入力: 画面UI変更中心の差分</li><li>実施内容: メタ情報・計測導線への直接影響なしを確認</li><li>成果物: 追加のSEO修正なし</li><li>次役割への引き継ぎ: 最終テスト</li></ul></li><li>Performance &amp; Accessibility Tester<ul><li>入力: 最終実装画面</li><li>実施内容: ブラウザで操作検証（開始/停止/再開/Top遷移、LIFE/BOMB表示、敵ロック表示）</li><li>テスト結果: エラーなし、主要挙動は要件どおり</li><li>最終判定: 合格</li></ul></li></ol></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　確認</p><h2 id="section-03">最終結果</h2></div><div class="section-content"><ul><li>解決したこと:<ul><li>開始時・終了時の視認性/操作性改善</li><li>HUDと下部ステータスの再設計（LIFE/BOMB）</li><li>一時停止導線の強化（ESC + ボタン）</li><li>文言統一（モード選択へ）</li><li>危険帯とロックUIの視認性向上</li><li>敵上部HPバー削除</li></ul></li><li>変更ファイル:<ul><li><code>games/trackball-typing-practice.html</code></li><li><code>css/trackball-typing-practice.css</code></li><li><code>scripts/trackball-typing-practice.js</code></li><li><code>scripts/site-layout.js</code></li><li><code>work-records/md/work_record_004.md</code></li></ul></li><li>未解決事項: なし</li><li>次アクション:<ul><li>実機（トラックボール）で操作感を確認し、必要なら入力補助の閾値を調整</li></ul></li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 004</span>
+        <span><a href="md/work_record_004.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
