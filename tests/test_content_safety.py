@@ -34,7 +34,10 @@ class ContentSafetyTests(unittest.TestCase):
             if item["project_id"] == "sandbox_pages"
         )
         documents = validate_source_html_tree(ROOT / "work-records", source)
-        self.assertEqual(len(documents), 71)
+        self.assertEqual(
+            len(documents),
+            len(list((ROOT / "work-records").glob("work_record_*.html"))),
+        )
 
     def test_dangerous_elements_and_attributes_are_rejected(self):
         for fragment in (
