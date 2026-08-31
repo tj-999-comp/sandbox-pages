@@ -1,0 +1,57 @@
+{
+  "accepted_at": "2026-08-31T07:40:45Z",
+  "notify": true,
+  "operation": "create",
+  "project_id": "NBA_Draft_DB",
+  "public_base_path": "/sandbox-pages/projects/NBA_Draft_DB/",
+  "publication_id": "accept-33369404796-1-NBA_Draft_DB-work_record_001",
+  "published_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "51a45dde9bdaa68b3a6cd4ba6883d71d8b3c74ed50f62d4ea5a03590251cde99",
+      "size_bytes": 2015
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "7f24a073fb43b535fb774469a72f8abe79d4ad6a90d0b6e0cf0328e1e559e970",
+      "size_bytes": 4139
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-08-30",
+        "project_id": "NBA_Draft_DB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "a-rendered",
+          "github-actions",
+          "validation"
+        ],
+        "title": "NBA_Draft_DBを公開作業記録の生成元として整備"
+      },
+      "metadata_sha256": "1f549f382ded8ee02b9baa7a833a65d3e09c11e9d4f738c5dd38a710828ecf17",
+      "public_url": "/sandbox-pages/projects/NBA_Draft_DB/work_record_001.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "055dec2165c3d67363338de48172206af7ed6b2b",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/NBA_Draft_DB"
+  },
+  "source_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "51a45dde9bdaa68b3a6cd4ba6883d71d8b3c74ed50f62d4ea5a03590251cde99",
+      "size_bytes": 2015
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "cd0dea31eedc98fbf01ea1effe8b9f127ce56d1839e7fb0e09d9740d4cd4dc67",
+      "size_bytes": 199
+    }
+  ]
+}
