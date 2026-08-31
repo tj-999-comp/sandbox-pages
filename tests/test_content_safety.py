@@ -27,6 +27,18 @@ class ContentSafetyTests(unittest.TestCase):
         document = validate_html_file(ROOT / "work-records", "work_record_023.html")
         self.assertEqual(document.css_paths, ("work_record.css",))
 
+    def test_sandbox_pages_source_html_tree_is_accepted(self):
+        source = next(
+            item
+            for item in load_registry(ROOT / "config" / "sources.json")["sources"]
+            if item["project_id"] == "sandbox_pages"
+        )
+        documents = validate_source_html_tree(ROOT / "work-records", source)
+        self.assertEqual(
+            len(documents),
+            len(list((ROOT / "work-records").glob("work_record_*.html"))),
+        )
+
     def test_dangerous_elements_and_attributes_are_rejected(self):
         for fragment in (
             "<script>alert(1)</script>",

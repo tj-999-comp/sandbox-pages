@@ -43,7 +43,19 @@ class SandboxPagesBootstrapTests(unittest.TestCase):
         self.assertEqual(len(manifest["records"]), 70)
         self.assertTrue(all(record["metadata"]["publish"] for record in manifest["records"]))
         self.assertFalse(any(item["path"].startswith("metadata/") for item in manifest["published_files"]))
-        self.assertTrue(inspect_drift(manifest, current_files).clean)
+        repair_manifest = load_manifest(
+            ROOT / "provenance/sandbox_pages/repair-20260831-work-record-005-links.json"
+        )
+        self.assertEqual(repair_manifest["operation"], "update")
+        self.assertEqual(
+            repair_manifest["source"]["commit_sha"],
+            "63e8124d5017b0de204abdb270072d3efb1c984a",
+        )
+        self.assertEqual(len(repair_manifest["source_files"]), 216)
+        self.assertEqual(len(repair_manifest["published_files"]), 143)
+        self.assertEqual(len(repair_manifest["records"]), 70)
+        self.assertFalse(repair_manifest["notify"])
+        self.assertTrue(inspect_drift(repair_manifest, current_files).clean)
         self.assertIn("公開中の作業記録 70件", (public_root / "index.html").read_text(encoding="utf-8"))
         self.assertIn("sandbox_pages", (ROOT / "projects/index.html").read_text(encoding="utf-8"))
 
