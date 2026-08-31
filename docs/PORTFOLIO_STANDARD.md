@@ -46,6 +46,14 @@ GH_TOKEN="$(python3 scripts/dev/github_app_token.py --print-token)" \
   gh issue view <番号> --repo <owner/repository> --json number,title,state,url
 ```
 
+Keychain項目の存在とPEM形式だけを秘密情報なしで確認する場合は、次を使う。
+
+```bash
+python3 scripts/dev/github_app_token.py --diagnose
+```
+
+`status` が `missing` の場合は、macOSのログインキーチェーンへ既存のGitHub App PEMをgeneric passwordとして登録する。accountは実行ユーザー、serviceは`codex-github-app-private-key`とし、PEM自体をリポジトリ、ログ、作業記録へ保存しない。登録後に`--diagnose`が`valid_pem`になったことを確認してから、Installation token発行コマンドを実行する。`access_denied`の場合はKeychain Accessでログインキーチェーンのロック状態と項目アクセス許可を確認する。
+
 Git操作の認証はSSHを基本とし、GitHub API用のInstallation tokenと混ぜない。Appの秘密鍵、Installation token、JWTをリポジトリ、作業記録、ログ、PR本文へ記録しない。
 
 ### 生成元リポジトリ用テンプレートのGitHub App連携
