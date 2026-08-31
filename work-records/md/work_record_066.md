@@ -42,11 +42,11 @@
 - 変更ファイル: `work-records/md/work_record_066.md`、`work-records/work_record_066.html`。
 - 検証結果: Issue作成、本文、Open状態、親子関係をGitHub上で確認済み。HTML生成後にconverterのcheck、ファイル名検証、Markdown構文確認、ブラウザ確認を行う。
 - 作業ブランチ: `codex/066-record-issue-89`
-- コミット: 作業記録追加commit（PR作成後に追記）
-- PR: 作成後に追記する。
-- PRレビュー・CI: 作業記録追加後に実施する。
+- コミット: `ba89267`（作業記録追加）
+- PR: [#96 過去作業記録公開計画の作業記録を追加](https://github.com/tj-999-comp/sandbox-pages/pull/96)
+- PRレビュー・CI: PR #96で確認中。
 - 未解決事項: #90〜#94の実装と受入、PRのmerge、関連Issueの完了確認。
-- 次アクション: 作業記録HTMLを生成・検証し、PRを作成してレビュー・CI確認後にmergeする。
+- 次アクション: PR #96のレビュー・CI確認後にmergeする。
 
 ## GitHub Issue状況
 
