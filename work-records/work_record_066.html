@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>過去作業記録の遡及公開・record間リンクIssue計画 — 作業記録 066</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 066 ・ <time datetime="2026-08-31">2026-08-31</time></p>
+          <h1>過去作業記録の遡及公開・record間リンクIssue計画</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_066.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 作業記録公開システムの本番実行開始後も過去の作業記録が反映されず、作業記録同士のリンクも整備されていない。</li><li>目的: 過去作業記録の棚卸しからmetadata・HTML整備、ページ構成変更、Pagesへの遡及反映、全体受入までを一つの親Issueと子Issueで追跡可能にする。</li><li>完了条件: 親Issue #89と、実施順・依存関係を持つ子Issue #90〜#94を登録し、GitHub上の親子関係と本文を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Planner</h3>
+<ul><li>入力: ユーザー要件、<code>docs/PORTFOLIO_STANDARD.md</code>、<code>projects/README.md</code>、登録済みsource、既存の導入Epic #70と#79、およびその関連Issue。</li><li>実施内容: 既存のsource導入課題と重複しない横断Epicとして、過去作業記録の遡及公開とrecord間リンクを親Issue #89へ整理した。棚卸し、metadata・命名・HTML整備、ページ構成・リンク実装、冪等なbootstrap公開、全体受入・運用引き継ぎの5タスクへ分解し、各Issueに完了条件、依存関係、安全条件、非対象を記載した。</li><li>成果物: <a href="https://github.com/tj-999-comp/sandbox-pages/issues/89">親Issue #89</a>、子Issue <a href="https://github.com/tj-999-comp/sandbox-pages/issues/90">#90</a>、<a href="https://github.com/tj-999-comp/sandbox-pages/issues/91">#91</a>、<a href="https://github.com/tj-999-comp/sandbox-pages/issues/92">#92</a>、<a href="https://github.com/tj-999-comp/sandbox-pages/issues/93">#93</a>、<a href="https://github.com/tj-999-comp/sandbox-pages/issues/94">#94</a>。</li><li>検証結果: 全Issueの作成URL、タイトル、本文、依存関係を確認した。</li><li>未解決事項: Issueに定義した実装・遡及公開・ブラウザ受入は後続タスクで実施する。</li><li>次工程への引き継ぎ: #90で全生成元の過去作業記録と公開先対応表を確定し、その結果を#91〜#94へ引き継ぐ。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 作成済みIssueの本文、GitHub Issue一覧、#89の<code>sub_issues</code> API結果、既存の#70〜#87。</li><li>実施内容: #89が既存の#70・#79のsource導入Epicと目的を分けていること、#90〜#94が対象範囲と完了条件を持つこと、本文上の<code>Parent: #89</code>とGitHub上の親子関係が一致することを確認した。</li><li>成果物: #89の子Issue一覧（#90〜#94）と、各IssueがOpenであることの確認結果。</li><li>検証結果: <code>gh issue list</code>で#89〜#94を取得し、<code>gh api repos/tj-999-comp/sandbox-pages/issues/89/sub_issues</code>で5件の子Issueを再取得した。作業ツリーにソース変更がないことも確認した。</li><li>未解決事項: GitHub App tokenはKeychain項目を読み出せず発行できなかったため、Issue取得・登録・親子関係確認には既存の<code>gh</code>認証を使用した。</li><li>次工程への引き継ぎ: 実装を開始する際は#90の対応表を基準に、既存URL・番号・provenanceを維持して進める。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: #89を既存の#70・#79とは別の横断Epicとして作成した。</li><li>理由: #70・#79は各projectを公開pipelineへ接続する導入課題であり、今回の課題は本番稼働後に残る過去分の遡及公開とrecord間リンクを扱うため。</li><li>判断: 実装タスクを5件に分割し、公開前の棚卸し・整備と、公開後の受入・運用を分離した。</li><li>理由: 公開対象の確定、生成物の整備、ページ導線、bootstrap実行、公開後検証を分けることで、未確認recordの公開や一括Slack通知を防ぎ、各段階の完了条件を明確にできるため。</li><li>判断: 既存URL・採番を維持し、過去分のbootstrapではSlack通知を抑制する方針を親Issueに含めた。</li><li>理由: 既存公開物の非回帰と、遡及公開による重複通知・意図しない削除の防止を完了条件に含めるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 過去作業記録の遡及公開とrecord間リンクをゴールとする親Issue #89を作成し、#90〜#94を実際の子Issueとして登録した。</li><li>変更ファイル: <code>work-records/md/work_record_066.md</code>、<code>work-records/work_record_066.html</code>。</li><li>検証結果: Issue作成、本文、Open状態、親子関係をGitHub上で確認済み。HTML生成後にconverterのcheck、ファイル名検証、Markdown構文確認、ブラウザ確認を行う。</li><li>作業ブランチ: <code>codex/066-record-issue-89</code></li><li>コミット: <code>ba89267</code>（作業記録追加）</li><li>PR: <a href="https://github.com/tj-999-comp/sandbox-pages/pull/96">#96 過去作業記録公開計画の作業記録を追加</a></li><li>PRレビュー・CI: GitHub上のPR #96の差分を確認済み。変更は作業記録MD/HTMLの2ファイルのみで、CIチェックは設定されていない。merge stateは<code>CLEAN</code>。</li><li>未解決事項: #90〜#94の実装と受入、関連Issueの完了確認。作業記録PR #96はmerge前のため、main反映確認が残っている。</li><li>次アクション: PR #96をmergeし、mainへの反映と作業ツリーの状態を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-31 16:02 取得範囲: <code>tj-999-comp/sandbox-pages</code>の今回作成した親Issue #89と子Issue #90〜#94。既存の関連導入Issue #70〜#87は依存関係の参照対象とし、今回の登録対象スナップショットには含めない。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#89 過去作業記録の遡及公開と作業記録間リンクを整備する
+├── #90 過去作業記録を棚卸しし公開対応表を確定する
+├── #91 過去作業記録のmetadata・命名・HTMLを整備する
+├── #92 作業記録ページの構成とrecord間リンクを実装する
+├── #93 過去作業記録をbootstrapでPagesへ遡及反映する
+└── #94 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/89">#89 過去作業記録の遡及公開と作業記録間リンクを整備する</a></td><td>Open</td><td>親Epic。#90〜#94の完了を追跡する。</td></tr><tr><td>2</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/90">#90 各生成元の過去作業記録を棚卸しし公開対応表を確定する</a></td><td>Open</td><td>最初の着手タスク。対象project、公開可否、生成元commit、公開先対応を確定する。</td></tr><tr><td>3</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/91">#91 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する</a></td><td>Open</td><td>#90の棚卸し完了後。公開対象の受入可能な生成物を整備する。</td></tr><tr><td>4</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/92">#92 作業記録ページの構成とrecord間リンクを実装する</a></td><td>Open</td><td>#90の対応表とmetadata仕様確定後。index・個別ページの導線を実装する。</td></tr><tr><td>5</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/93">#93 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する</a></td><td>Open</td><td>#90・#91・#92の受入後。固定commitとprovenanceで遡及公開する。</td></tr><tr><td>6</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/94">#94 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う</a></td><td>Open</td><td>#90〜#93完了後。件数、リンク、ブラウザ、再実行、運用手順を検証する。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 066</span>
+        <span><a href="md/work_record_066.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
