@@ -187,7 +187,9 @@ class ApplyEngineTests(unittest.TestCase):
             self.assertTrue(generated.is_file())
             rendered = generated.read_text(encoding="utf-8")
             self.assertIn("Rendered record", rendered)
+            self.assertIn('<section class="record-section">', rendered)
             self.assertIn("<h2>概要</h2>", rendered)
+            self.assertNotIn('class="record-content"', rendered)
             self.assertNotIn("<script>", rendered)
             self.assertFalse(
                 (fixture.repo / "projects/tech_article_nortification/metadata").exists()
