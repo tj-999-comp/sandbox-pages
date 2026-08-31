@@ -106,7 +106,7 @@ def _read_keychain_secret(account: str, service: str) -> str:
 
     if not secret.startswith("-----BEGIN"):
         try:
-            decoded = base64.b64decode(secret, validate=True).decode("utf-8")
+            decoded = base64.b64decode("".join(secret.split()), validate=True).decode("utf-8")
         except (binascii.Error, UnicodeDecodeError) as exc:
             raise GitHubAppError("Keychain item does not contain a PEM private key") from exc
         secret = decoded.strip()

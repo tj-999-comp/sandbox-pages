@@ -1,3 +1,4 @@
+import base64
 import subprocess
 import unittest
 from pathlib import Path
@@ -12,6 +13,22 @@ from scripts.dev.github_app_token import (
 
 
 class GitHubAppTokenTests(unittest.TestCase):
+    @patch("scripts.dev.github_app_token._keychain_candidates", return_value=(Path("/tmp/login.keychain-db"),))
+    @patch("scripts.dev.github_app_token.subprocess.run")
+    def test_raw_pem_is_accepted(self, run, _candidates):
+        pem = "-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----"
+        run.return_value = subprocess.CompletedProcess(args=[], returncode=0, stdout=pem, stderr="")
+        self.assertEqual(_read_keychain_secret("account", "service"), pem)
+
+    @patch("scripts.dev.github_app_token._keychain_candidates", return_value=(Path("/tmp/login.keychain-db"),))
+    @patch("scripts.dev.github_app_token.subprocess.run")
+    def test_base64_pem_with_line_breaks_is_accepted(self, run, _candidates):
+        pem = "-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----"
+        encoded = base64.b64encode(pem.encode("utf-8")).decode("ascii")
+        wrapped = "\n".join(encoded[index:index + 8] for index in range(0, len(encoded), 8))
+        run.return_value = subprocess.CompletedProcess(args=[], returncode=0, stdout=wrapped, stderr="")
+        self.assertEqual(_read_keychain_secret("account", "service"), pem)
+
     def test_keychain_failure_classification_is_safe(self):
         self.assertEqual(_classify_keychain_failure("The specified item could not be found"), "not_found")
         self.assertEqual(_classify_keychain_failure("User interaction is not allowed"), "access_denied")
