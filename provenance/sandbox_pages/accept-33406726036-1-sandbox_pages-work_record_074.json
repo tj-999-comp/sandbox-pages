@@ -1,0 +1,2793 @@
+{
+  "accepted_at": "2026-08-31T15:09:00Z",
+  "notify": false,
+  "operation": "update",
+  "project_id": "sandbox_pages",
+  "public_base_path": "/sandbox-pages/projects/sandbox_pages/",
+  "publication_id": "accept-33406726036-1-sandbox_pages-work_record_074",
+  "published_files": [
+    {
+      "path": "README.md",
+      "sha256": "d0aae120739f0abe08151c3e88c49d786feecec3c395bb8db64bde16025d3097",
+      "size_bytes": 7474
+    },
+    {
+      "path": "design.md",
+      "sha256": "661f5ebbf7999cbd8c796d8072028759d7b20074fd6509284d7404f228e92113",
+      "size_bytes": 7952
+    },
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "39b06788b206ceabfbcc9c6c890c3d521f05d843a11fdad798a1bf30047a07cd",
+      "size_bytes": 3624
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "bade83f57eda69b358aca13158e88142fc71f133b3752d726401e00fa2c9eb69",
+      "size_bytes": 4496
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "1af1a3d54a8b5a8b08e25c0d705af0a8af15fae1a5f997f36af5475a76b853a5",
+      "size_bytes": 4638
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "b59986ada77df4fc8b0d2f50ab32adc12f46a8eabd509830277644e40a10586e",
+      "size_bytes": 4209
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "f603afbf8b082b588a002498428322f977af1a45266120e26f9a78283b1a06c5",
+      "size_bytes": 7178
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "f1cfc349dca91ed42f793428b69b1cc27eb6e583c6dbd2a3208634e91ac965ce",
+      "size_bytes": 3587
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "f8b47a7bf90765810331b9ed0a29ec6fcb602b85399074552a0184854b2f2c21",
+      "size_bytes": 3619
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "d7aa75d3a1e17976bada06ff8b17c3c6ec2bd4cdd06fff66a8edb36ac20495d3",
+      "size_bytes": 3566
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "23b3fb519ef664a045dda33ef3af33368e7876b2880c7a75cfaf99340b1ab38e",
+      "size_bytes": 4273
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "60573a9de06a99d5dd8dcac1ee713109c127340385385d1248703704d6c9a34a",
+      "size_bytes": 5436
+    },
+    {
+      "path": "md/work_record_011.md",
+      "sha256": "1d046bf35a460b2c5c92a40c416a8de5c6fc7b4ba49a56536f652ef845256368",
+      "size_bytes": 5903
+    },
+    {
+      "path": "md/work_record_012.md",
+      "sha256": "66674c39fdf27e031fd74ef709f3f6ce2c6315e85efaf375ce506153d8c3bc41",
+      "size_bytes": 4793
+    },
+    {
+      "path": "md/work_record_013.md",
+      "sha256": "45b265a38a2a821f333213e55885473892a0adada4bcf4a3655654dae3b45249",
+      "size_bytes": 24047
+    },
+    {
+      "path": "md/work_record_014.md",
+      "sha256": "4d3a7034ac1c92318c319d146bba168cbd215cb01cf2988779984ea065dccfb9",
+      "size_bytes": 5775
+    },
+    {
+      "path": "md/work_record_015.md",
+      "sha256": "e75a77448748d981cb76f7f60249daa39c1ff5b3f44226cf971e9ee401e78d61",
+      "size_bytes": 3890
+    },
+    {
+      "path": "md/work_record_016.md",
+      "sha256": "67233a633b01ff160c9f6a29d0ebd1c4c69803b29e30e9e4244e6a4e585191a2",
+      "size_bytes": 4440
+    },
+    {
+      "path": "md/work_record_017.md",
+      "sha256": "cab5cc6832d5a3d41e47565c102c8d06350e031fbeb586f5779bc65b28d952c0",
+      "size_bytes": 4257
+    },
+    {
+      "path": "md/work_record_018.md",
+      "sha256": "6f2175c25e9f60382ee24038c11451ecc4718246c03cfcc8e9f529945c075212",
+      "size_bytes": 8799
+    },
+    {
+      "path": "md/work_record_019.md",
+      "sha256": "0e05fd04e083e722f508457cdee3ff2aa29185e794e42582f9f39298011d7816",
+      "size_bytes": 13922
+    },
+    {
+      "path": "md/work_record_020.md",
+      "sha256": "a415f672aa2fd4513986464176aad99724a751a699bcfac6403793bae88f7aba",
+      "size_bytes": 8777
+    },
+    {
+      "path": "md/work_record_021.md",
+      "sha256": "f70e16b7df3f7e371b882e11de64e7d21c6e3d804cace0cd8ece52f813255407",
+      "size_bytes": 4757
+    },
+    {
+      "path": "md/work_record_022.md",
+      "sha256": "2e42fdb439fc786703881ca6ae5b653054cd593e49613628aef0f6ccfc2a3145",
+      "size_bytes": 7310
+    },
+    {
+      "path": "md/work_record_023.md",
+      "sha256": "e85792b6f3039f2d49f1a870c5273d825a9ba922fb56fb3d3002b255ae3059cd",
+      "size_bytes": 7186
+    },
+    {
+      "path": "md/work_record_024.md",
+      "sha256": "6b392c0e825f172d88e699889bea3b2882ef78b8082248a94b57a327e011c6f9",
+      "size_bytes": 7062
+    },
+    {
+      "path": "md/work_record_025.md",
+      "sha256": "e3ae6309777d4ee9b8bd24548977b2300f3383b45ea3651193fc9c7b5adba21b",
+      "size_bytes": 7252
+    },
+    {
+      "path": "md/work_record_026.md",
+      "sha256": "3e811fdf02ec59e19c1ecad7e20bc8d90b21e614cb4aaebd8e715fbd842ccec7",
+      "size_bytes": 4595
+    },
+    {
+      "path": "md/work_record_027.md",
+      "sha256": "c475117bf71d15a753456ae5be8a27ac8f58f9989be122f364fc1c6ee02feb7e",
+      "size_bytes": 5256
+    },
+    {
+      "path": "md/work_record_028.md",
+      "sha256": "a8d17c523f7301b8c9b9acc80e149b73fda499d5b5159e4e10a6c1cea9eb2216",
+      "size_bytes": 5163
+    },
+    {
+      "path": "md/work_record_029.md",
+      "sha256": "2f97e3be484f4adebf00e47595214f7d2a928fc3603201d7483c9f31377e0fc0",
+      "size_bytes": 10063
+    },
+    {
+      "path": "md/work_record_030.md",
+      "sha256": "9c190a9193e83c28448fd00464f7fca37c61911b78ecfc44cfe9b0b77acfe444",
+      "size_bytes": 8694
+    },
+    {
+      "path": "md/work_record_031.md",
+      "sha256": "48277fb28443c33a4078ccd73a42f5831bbd24bc9989cf014ae8a9f6542dc230",
+      "size_bytes": 6446
+    },
+    {
+      "path": "md/work_record_032.md",
+      "sha256": "45ab0abcaceb78d53efa86e982fb31e92aab6158a40a685997b212198b12222e",
+      "size_bytes": 8229
+    },
+    {
+      "path": "md/work_record_033.md",
+      "sha256": "cd23825b22c7b6ef63cf48753fd1f9c608a0d27903928b3280ba7dcc15deaa02",
+      "size_bytes": 7765
+    },
+    {
+      "path": "md/work_record_034.md",
+      "sha256": "c1efd1be9a3d0573751df5943e778d1d79078e0d67fc8a956c8b0d2cbddd21f2",
+      "size_bytes": 9649
+    },
+    {
+      "path": "md/work_record_035.md",
+      "sha256": "749fc7f4b8619fa756f7a5692e005d92c1b93d48590cc98cc88cd2698ff67b2f",
+      "size_bytes": 8188
+    },
+    {
+      "path": "md/work_record_036.md",
+      "sha256": "c7bfa13dc5f674e88dde644ee07b360513c1d5365b56671e958a741a67d3b286",
+      "size_bytes": 7116
+    },
+    {
+      "path": "md/work_record_037.md",
+      "sha256": "4c793deb4cddd0239d1ca8d571d3ab9a156534dfda9aac28735ad20827d5c35b",
+      "size_bytes": 8723
+    },
+    {
+      "path": "md/work_record_038.md",
+      "sha256": "0daec2917aad6eeb24685dd24c8eaf8b71224a6688960dfe4b5bc84aac647195",
+      "size_bytes": 5784
+    },
+    {
+      "path": "md/work_record_039.md",
+      "sha256": "0bd7dc48c87e9101ec718b430976dffa997df860cd0fed83753188168b178126",
+      "size_bytes": 7438
+    },
+    {
+      "path": "md/work_record_040.md",
+      "sha256": "3cefe2a04ff8403b5152df20e418df2669a2f560fd8ba3eb3bd47de5e6d69568",
+      "size_bytes": 3260
+    },
+    {
+      "path": "md/work_record_041.md",
+      "sha256": "d51ba9f84e3d17aba860bd17e0f14ece9343e02369f70957aa96c89b9cf2903b",
+      "size_bytes": 6289
+    },
+    {
+      "path": "md/work_record_042.md",
+      "sha256": "4d6184d460c6baab94bbcc3f8365dfa57afb165e829581bb293c560b40476907",
+      "size_bytes": 5738
+    },
+    {
+      "path": "md/work_record_043.md",
+      "sha256": "0323d95b20793ea9dc54c53b18ff999b2f2d63f3c9f1aece9909f373e13f6efc",
+      "size_bytes": 5196
+    },
+    {
+      "path": "md/work_record_044.md",
+      "sha256": "16d3a019571eb2e601a1bba6fc5c1ec16ba35d3830c838fc4b4d83628ed34ba1",
+      "size_bytes": 5282
+    },
+    {
+      "path": "md/work_record_045.md",
+      "sha256": "cf6621090849f176cb78d15142bcfff1c03595485d3fcc86c9cc18cc8c4609d2",
+      "size_bytes": 5307
+    },
+    {
+      "path": "md/work_record_046.md",
+      "sha256": "3cb49ce1e5d169212dc802836f11343c7ecdb52be4060ba126c14df65087e3ce",
+      "size_bytes": 5315
+    },
+    {
+      "path": "md/work_record_047.md",
+      "sha256": "cf4bf597d8e2e3e44070a6c51fe1fc4fedfa75f600bbb62ef18df39b540e2830",
+      "size_bytes": 4038
+    },
+    {
+      "path": "md/work_record_048.md",
+      "sha256": "5c55e1b54866c251337b3b6d1f832708d428b5aaf09b2bd7acb6ba8ee5787563",
+      "size_bytes": 3642
+    },
+    {
+      "path": "md/work_record_049.md",
+      "sha256": "c47e7ed89b6d3387a0b2c4cebe1fb8a88d7bec45e00bd7b950baf8cb765918dd",
+      "size_bytes": 3923
+    },
+    {
+      "path": "md/work_record_050.md",
+      "sha256": "c45d445d60af71cb9e3065705a9753ddf2766b4264b39e71cee0c3ae4bf029f0",
+      "size_bytes": 3956
+    },
+    {
+      "path": "md/work_record_051.md",
+      "sha256": "0deda81ebf268097a2a7d13bd7c1a867fc9c912997c4d8f924e8696b75074a56",
+      "size_bytes": 3712
+    },
+    {
+      "path": "md/work_record_052.md",
+      "sha256": "d2d2ec74169a5503183e0e0190fe54d2cffd26ea39efe81a734c68e987458d84",
+      "size_bytes": 4086
+    },
+    {
+      "path": "md/work_record_053.md",
+      "sha256": "ab83c24ebe824111984d68d2dce1e6e31d6b423df7ad14cfc3fb80155de789d1",
+      "size_bytes": 7022
+    },
+    {
+      "path": "md/work_record_054.md",
+      "sha256": "6dcf173fd483b0dc540ac7c2fcf42b78498ac18c6fed06b6302c01e6994b90f0",
+      "size_bytes": 4738
+    },
+    {
+      "path": "md/work_record_055.md",
+      "sha256": "d2d65b4d8090c899b4cf52fa8e29fc1575392d5f13d91d3b736d7c93f9fd1856",
+      "size_bytes": 5080
+    },
+    {
+      "path": "md/work_record_056.md",
+      "sha256": "372ce2f4595d4a98d760661d57b8e8d7c3853a664c9fc12ab88ccc14486d2881",
+      "size_bytes": 6444
+    },
+    {
+      "path": "md/work_record_057.md",
+      "sha256": "f81cb5a94a1f381f59203b7b50c27ff4f3053e477ba6526641e82522e9457d87",
+      "size_bytes": 6152
+    },
+    {
+      "path": "md/work_record_058.md",
+      "sha256": "bbd600c05f9dd8a66ac50a9963564759f915117b32ef6295d0be0f4ac350e4a9",
+      "size_bytes": 3300
+    },
+    {
+      "path": "md/work_record_059.md",
+      "sha256": "6bd3e670b1799f9f2bf54562c1974db39d7a6b5c05a19b40c5ea45a4cb4ef919",
+      "size_bytes": 6411
+    },
+    {
+      "path": "md/work_record_060.md",
+      "sha256": "b997c550102c6c0f4cb40b29119b99385ea0fa5ba97d56be5a295bb2e1ff498e",
+      "size_bytes": 4703
+    },
+    {
+      "path": "md/work_record_061.md",
+      "sha256": "20b9e36bb50aa64cb4684392688ed3ae30bf5ca01df4947f904377c597cf3add",
+      "size_bytes": 8301
+    },
+    {
+      "path": "md/work_record_062.md",
+      "sha256": "a8c0f30a00f1f4fac9c51e4effc7d0c7baad459d0db6e73a6b4022925d553e1c",
+      "size_bytes": 5359
+    },
+    {
+      "path": "md/work_record_063.md",
+      "sha256": "7ed89534fcd6e492e9b38c0c25752914fd148a3e9c1c0133ca226f774d2d9142",
+      "size_bytes": 4871
+    },
+    {
+      "path": "md/work_record_064.md",
+      "sha256": "da251a15c6e8cd3edd5a1867317dafba9717dae107c20dde5f73f2d870666858",
+      "size_bytes": 7453
+    },
+    {
+      "path": "md/work_record_065.md",
+      "sha256": "0e303f8c611e010ae7832b9cf0e00fc22e0a7017117f43f1a38e654456a686e9",
+      "size_bytes": 8172
+    },
+    {
+      "path": "md/work_record_066.md",
+      "sha256": "2dc2dd4b52a4cb9bd6b77e5868b93b32fca276a159c399b1558159d66dbfb336",
+      "size_bytes": 7713
+    },
+    {
+      "path": "md/work_record_067.md",
+      "sha256": "d8ec0efff2f830b4e208729462cfe75aca35693d2163a13094a64b6d859e59c1",
+      "size_bytes": 11316
+    },
+    {
+      "path": "md/work_record_068.md",
+      "sha256": "ca42454a2728c9a3472ae2119c09c14dfb8a97564efe9984843a1ff0f0de1002",
+      "size_bytes": 12011
+    },
+    {
+      "path": "md/work_record_069.md",
+      "sha256": "17812f92209cbb530c09edf46df5d4d4c828615b634ed974a2f0b7d46b81c550",
+      "size_bytes": 9312
+    },
+    {
+      "path": "md/work_record_070.md",
+      "sha256": "2d7315035fc14a6c1dfd95dd214fbfa047cec7a7c2385cff9f24285848e5c699",
+      "size_bytes": 9487
+    },
+    {
+      "path": "md/work_record_074.md",
+      "sha256": "a2d0e934e877a0fde62cd8ea087b89c82bd1d6027905ec9f8b84e990d58db55b",
+      "size_bytes": 9830
+    },
+    {
+      "path": "work_record.css",
+      "sha256": "25e5cca3492ab58bd940216f294056eeefaa2319723deb4033c59d51e0143b5f",
+      "size_bytes": 5562
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "fc956dca8e7e4e1c1afa611dca0f85eb53c7a44992880f470515a18f1ec5d01c",
+      "size_bytes": 6084
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "09114cf5befb257da38bd3e847924658a26fa7b502c4963679ca5229c065dcb5",
+      "size_bytes": 6711
+    },
+    {
+      "path": "work_record_003.html",
+      "sha256": "9a2a57218b3976fdbb83c7c83e1529aa9b1142138635bc7bdc9091448bfcfda0",
+      "size_bytes": 7109
+    },
+    {
+      "path": "work_record_004.html",
+      "sha256": "13b75b54ef8533da72b16bd0de5484e4b12cb0bd9865ee975fdf6b1ed8555f88",
+      "size_bytes": 6360
+    },
+    {
+      "path": "work_record_005.html",
+      "sha256": "e5e2b873386b3b0768386239bf11206436485d455f4cf1f38c5cc7fde08c6e40",
+      "size_bytes": 10000
+    },
+    {
+      "path": "work_record_006.html",
+      "sha256": "3b55ce5c3827e36aaa46add65ec268d332f0047d6f514d75fdda825a03a040ea",
+      "size_bytes": 5737
+    },
+    {
+      "path": "work_record_007.html",
+      "sha256": "d39251a91d7f3f2f15074b60b8e116d8a4e1f390a196648b6aba08ad77c26eef",
+      "size_bytes": 5748
+    },
+    {
+      "path": "work_record_008.html",
+      "sha256": "b034d1c5f51acebcd79c00a55ffc4c2a23c8c6b5608cb19139bbad24a782d3fc",
+      "size_bytes": 5800
+    },
+    {
+      "path": "work_record_009.html",
+      "sha256": "6c8f9ff16c852e9421c51fedf2017c768006641876d483b29a8ca15d35b2466d",
+      "size_bytes": 6456
+    },
+    {
+      "path": "work_record_010.html",
+      "sha256": "2726e76b71406f045bf7ef7bc274dfb2f12b872509abb36eccbc763a25e988da",
+      "size_bytes": 7623
+    },
+    {
+      "path": "work_record_011.html",
+      "sha256": "c28393f06646e1577899aa96c8d0320ce1bf34e972c11a2a402bd9063cca6308",
+      "size_bytes": 8229
+    },
+    {
+      "path": "work_record_012.html",
+      "sha256": "bde554dbf4580cbdee2f96c9e226b3e7893027df2870ff3160b7182eaa94daf2",
+      "size_bytes": 6929
+    },
+    {
+      "path": "work_record_013.html",
+      "sha256": "ca3074b48686bb7d9e456859c8031ed64b020235eb09bc3f4fb9cc14bc0e3f2d",
+      "size_bytes": 27622
+    },
+    {
+      "path": "work_record_014.html",
+      "sha256": "126f3f409957a894cd0785a1661e2ef23afac64ef545b976105dd54a69f4ed9e",
+      "size_bytes": 8132
+    },
+    {
+      "path": "work_record_015.html",
+      "sha256": "2d9267581af76b40a4e24d25be3bad81f9b881a7364b98e86fd22cc9f576f1df",
+      "size_bytes": 6030
+    },
+    {
+      "path": "work_record_016.html",
+      "sha256": "66a42b0991f46483b7a17203e769f0f2ae41bdc94fb14fd4f598b62ca5f9d953",
+      "size_bytes": 6598
+    },
+    {
+      "path": "work_record_017.html",
+      "sha256": "1873a05d783b9868419f4969157e75acb23cd8d65819e837704b65db686113db",
+      "size_bytes": 6481
+    },
+    {
+      "path": "work_record_018.html",
+      "sha256": "2959996732594be4b0557425d45c1fa4438dd55e133c395abe9d86be3a8a697b",
+      "size_bytes": 12552
+    },
+    {
+      "path": "work_record_019.html",
+      "sha256": "08282ca0d90e2d45c120643d909d96ee016294fe9d50bba369615302b1d843e6",
+      "size_bytes": 18172
+    },
+    {
+      "path": "work_record_020.html",
+      "sha256": "68294ef09bc08fc756572e75b25d723fccccc234a21c9a97819f36a70faa5e44",
+      "size_bytes": 12265
+    },
+    {
+      "path": "work_record_021.html",
+      "sha256": "f336374f684333eb836ce9871e6c4c5e8e7aafcc369b03f9d0585670ccbe7bd5",
+      "size_bytes": 7519
+    },
+    {
+      "path": "work_record_022.html",
+      "sha256": "a7824f2623706ac279ae0069cc9e4b6eb285055872cda8bf85f4f5b950e6cac4",
+      "size_bytes": 10443
+    },
+    {
+      "path": "work_record_023.html",
+      "sha256": "b47eae2138074e1fa5746ccdc47ddbed695fca537563778652f27164a959592e",
+      "size_bytes": 10112
+    },
+    {
+      "path": "work_record_024.html",
+      "sha256": "335e17e9ebc389d2573c100f08eacacd1d0e0064bb645a5f4acf03ac4eb4f18c",
+      "size_bytes": 10087
+    },
+    {
+      "path": "work_record_025.html",
+      "sha256": "80a7eec59c5e2c09f91a63b77fb5ae5f7ed9058a7e6020c04cb65971b7a41e1a",
+      "size_bytes": 10254
+    },
+    {
+      "path": "work_record_026.html",
+      "sha256": "37aa242034468249a94ef834072930979ed5ce5e0cdef9c46ca9437dbd259bd7",
+      "size_bytes": 7283
+    },
+    {
+      "path": "work_record_027.html",
+      "sha256": "82c1a6c19d87b805ffde8fdd97b1b95789b59ac9de3b3ec2773c618965eb2562",
+      "size_bytes": 8103
+    },
+    {
+      "path": "work_record_028.html",
+      "sha256": "4a4b6babb6f914031803607c95ed036f1f0b46443d7ffc2de9db06d38e1bc127",
+      "size_bytes": 7497
+    },
+    {
+      "path": "work_record_029.html",
+      "sha256": "471f4923620dde17a5b27801d1c3b82c2027c3245faac7314354474d67497853",
+      "size_bytes": 13448
+    },
+    {
+      "path": "work_record_030.html",
+      "sha256": "b7ad97eac312bd9da2f0342b77b52e546e17ffa51971031509d02ae96c2befae",
+      "size_bytes": 11889
+    },
+    {
+      "path": "work_record_031.html",
+      "sha256": "e42d05ec21614828be34bc057771f371ca10ab07082856c21dc5d0721ad12b74",
+      "size_bytes": 9423
+    },
+    {
+      "path": "work_record_032.html",
+      "sha256": "51d0e318915c94c48a6462c1a42425384658831109fc09eea7ee92fdf3f80819",
+      "size_bytes": 11288
+    },
+    {
+      "path": "work_record_033.html",
+      "sha256": "ad1394e5ad1ebe72dc3c047b307c839c75f6b4e5296b763df3524f1bd8b83d4f",
+      "size_bytes": 10866
+    },
+    {
+      "path": "work_record_034.html",
+      "sha256": "8e54ad2796854bb8824e23f46737a8a573c39ca2c200d015d25334a8c037c825",
+      "size_bytes": 13064
+    },
+    {
+      "path": "work_record_035.html",
+      "sha256": "d133e6203978dd1644b66079e7e06c1c89c8e856d028a92bda2776abf9e21353",
+      "size_bytes": 11746
+    },
+    {
+      "path": "work_record_036.html",
+      "sha256": "f2585575bccf902e2fdb4d80c2899b36d56355ec82436c43e4e566249e17b9e2",
+      "size_bytes": 10350
+    },
+    {
+      "path": "work_record_037.html",
+      "sha256": "b0262d84883a9cf4bd9123f8cf5cca3c585b6d4b1adb0a1eb0f5bf075a4d86e6",
+      "size_bytes": 12078
+    },
+    {
+      "path": "work_record_038.html",
+      "sha256": "140cf9a22c788de79e9c8dcd6ca8f453b0d970bb7d62710fc46a7bf1a912c17a",
+      "size_bytes": 8731
+    },
+    {
+      "path": "work_record_039.html",
+      "sha256": "c3e3d2a182d41045f1d007445546de784bbdfc30f9ac48c5fc32a0a816afb2a8",
+      "size_bytes": 10368
+    },
+    {
+      "path": "work_record_040.html",
+      "sha256": "53bf2d48ee65a81c9c655870d3eb47d1eea89f01db7d19121b7a66a06ac0e0dd",
+      "size_bytes": 5524
+    },
+    {
+      "path": "work_record_041.html",
+      "sha256": "3174cb5e1a8732cfdf73edccca336c5fe8021ba3acf0005e2b7684e7b5e61ae7",
+      "size_bytes": 9222
+    },
+    {
+      "path": "work_record_042.html",
+      "sha256": "1a4430c1d18907fc501b84e2f308c8e92a365cf74cf22e4413d6c6530b935b1d",
+      "size_bytes": 8481
+    },
+    {
+      "path": "work_record_043.html",
+      "sha256": "c745ec1dce5e7cca6eb1b11fb66459ab8c3922a75a0f6ca1229da07d506bf0fa",
+      "size_bytes": 7922
+    },
+    {
+      "path": "work_record_044.html",
+      "sha256": "cae44c2a413620dda1d7734cf65162029580f23d8d95d39cfcfc7680fc8370ea",
+      "size_bytes": 8058
+    },
+    {
+      "path": "work_record_045.html",
+      "sha256": "1e41de907dd5747f249c0b46efb8ab2df9fd52a1f3643d53ec07672112c72ed2",
+      "size_bytes": 8089
+    },
+    {
+      "path": "work_record_046.html",
+      "sha256": "17411a581ba4f4ac3c4b6b316e94976f4f7655ddba8802bd3a38bca2152ecb7c",
+      "size_bytes": 8068
+    },
+    {
+      "path": "work_record_047.html",
+      "sha256": "ef4571d8c83ec6f3cb0a831d301dfc81d9035d0d0f888f48190b6de85e14e38e",
+      "size_bytes": 6634
+    },
+    {
+      "path": "work_record_048.html",
+      "sha256": "8606cfa255fd4cfaac768900a8a104b863fc9fab7b2738f13a9c3a42a2143764",
+      "size_bytes": 6154
+    },
+    {
+      "path": "work_record_049.html",
+      "sha256": "50dceb3bcc3041942ce9c09db2879982810e518133a65033add8d3a1975609e6",
+      "size_bytes": 6470
+    },
+    {
+      "path": "work_record_050.html",
+      "sha256": "d823e3122a002960ba33523a6027cbff02cdc6177fdd748a3317339e65527a52",
+      "size_bytes": 6473
+    },
+    {
+      "path": "work_record_051.html",
+      "sha256": "f752b2ab9a5188f7480c10354042b985d8414b55b23759e48cffbb1e6b9cb132",
+      "size_bytes": 6224
+    },
+    {
+      "path": "work_record_052.html",
+      "sha256": "75817cbbe4f3c077854c57615c92b215b56656dea4c2ead5a9d6e71468e13497",
+      "size_bytes": 6661
+    },
+    {
+      "path": "work_record_053.html",
+      "sha256": "d65962375fb0e3c95c8accbd4e09e268573d9c30494eb5febe55f260bdd58cb3",
+      "size_bytes": 9988
+    },
+    {
+      "path": "work_record_054.html",
+      "sha256": "11c863efd84d0d3a37b84ec1b3cb6e64b9c020ad387aac07aed54c4049b1bd4c",
+      "size_bytes": 7422
+    },
+    {
+      "path": "work_record_055.html",
+      "sha256": "2d9613bd21d1004d986d635cc99b0be6ed077483cd4c1f91bb6ccce72ddd4a30",
+      "size_bytes": 7809
+    },
+    {
+      "path": "work_record_056.html",
+      "sha256": "1ce69749018647da2671300b9d5d590c74082e9e0e202dbe1a4434b3e0e6e9fb",
+      "size_bytes": 9216
+    },
+    {
+      "path": "work_record_057.html",
+      "sha256": "9b758306269f9b354e7c77c457c954450ae54906a75a94c52a4a787792d26b27",
+      "size_bytes": 8815
+    },
+    {
+      "path": "work_record_058.html",
+      "sha256": "dbaa81e9120dda7fd30c14d5f0ea075d659c7603ff551f0f4263525802d87ed1",
+      "size_bytes": 5957
+    },
+    {
+      "path": "work_record_059.html",
+      "sha256": "fecbbc808f614e609dd214b79343892e897b8d3cb75bf0004256aebe9e531abd",
+      "size_bytes": 9199
+    },
+    {
+      "path": "work_record_060.html",
+      "sha256": "ea56939fdb0c0a3f86c5b98de2aec31dc115e9f1d167f5f86c45be43cce8b720",
+      "size_bytes": 7337
+    },
+    {
+      "path": "work_record_061.html",
+      "sha256": "0cd1b2e3a165e5f0edfe9c68755680b6ce37148b3ece8c475ede71b389ff3f88",
+      "size_bytes": 11408
+    },
+    {
+      "path": "work_record_062.html",
+      "sha256": "b03d8a713af45f3032b258c9b17142f1d8d4a098c590c260f3550c2cee45fb0d",
+      "size_bytes": 8161
+    },
+    {
+      "path": "work_record_063.html",
+      "sha256": "f30e60fa665cf37ca4ace8a8c3aab3692c8e4ad0ecf94a15e3a1962df0ee9241",
+      "size_bytes": 7684
+    },
+    {
+      "path": "work_record_064.html",
+      "sha256": "175be75f8af3f9457bb3fa8394d5b2a4ee85bb8a7b975556aefca243ad8488ba",
+      "size_bytes": 10994
+    },
+    {
+      "path": "work_record_065.html",
+      "sha256": "e21888b0a78b9e4ba3cd7305549f814e4a8d436fc55dcbfc18957f99a3fd3985",
+      "size_bytes": 11357
+    },
+    {
+      "path": "work_record_066.html",
+      "sha256": "75435bf39b3670f884ba1468993d33725248658fc7a0c1f1bc44b52b794a7edc",
+      "size_bytes": 10601
+    },
+    {
+      "path": "work_record_067.html",
+      "sha256": "05556da3d71ec2813312e9f25c8f63918920a917009b0035c5ee3314d49465a6",
+      "size_bytes": 14630
+    },
+    {
+      "path": "work_record_068.html",
+      "sha256": "bfaba7203830614c4c5e99891d21d2b5cb8c0d00ad23c6cc186d52e04fd0c709",
+      "size_bytes": 15661
+    },
+    {
+      "path": "work_record_069.html",
+      "sha256": "21faee8ce79923d0aa4f5b31fc955c5da4986dd7f1642e7ed069bf2711ebcb7f",
+      "size_bytes": 12460
+    },
+    {
+      "path": "work_record_070.html",
+      "sha256": "cafe0be21c51021371ec2f030caf532878dc1298a5f0830c14c277fe3c941a28",
+      "size_bytes": 12618
+    },
+    {
+      "path": "work_record_074.html",
+      "sha256": "3675acb93767b6e55383c83cf036748ee9e87caa8a0a895ce87904a74b67946a",
+      "size_bytes": 12971
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-05-04",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "ページ別テーマを維持した共通レイアウト設計"
+      },
+      "metadata_sha256": "97e1750d619717493c94690df8d7c314909e19cdbba2db73e2e2cb5e386682c6",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_001.html"
+    },
+    {
+      "basename": "work_record_002",
+      "metadata": {
+        "date": "2026-05-04",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Hardモードの罫線・角丸・Finish表示修正"
+      },
+      "metadata_sha256": "f246a7ad84a6f133514b8a483afa52951938b6f89fe4d88c61d0e77f233f5184",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_002.html"
+    },
+    {
+      "basename": "work_record_003",
+      "metadata": {
+        "date": "2026-05-04",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "共通ナビゲーションとフッターの整理"
+      },
+      "metadata_sha256": "9ed7af63177cd564df79b42c0b4d062b4a86df1a1d43c7751b237bc2df7f0c0d",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_003.html"
+    },
+    {
+      "basename": "work_record_004",
+      "metadata": {
+        "date": "2026-05-12",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Trackball Typing PracticeのUI・導線改善"
+      },
+      "metadata_sha256": "b8e2e760c2309e1b697d5f5e2351a15c3d8cedc2338d2c0e55d6ad547c10924b",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_004.html"
+    },
+    {
+      "basename": "work_record_005",
+      "metadata": {
+        "date": "2026-05-19",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Typing Marathonの操作・言語切替・編集画面修正"
+      },
+      "metadata_sha256": "552255833d740a2d2c4046f0b51ab34c1694d9c811efde9db8678514a91b763d",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_005.html"
+    },
+    {
+      "basename": "work_record_006",
+      "metadata": {
+        "date": "2026-05-19",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Typing Marathonの出題モード不一致修正"
+      },
+      "metadata_sha256": "f57febb64e28e11b4ee8dc3fe4e47a3a28ec697355262a47fa61200f3ba18f56",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_006.html"
+    },
+    {
+      "basename": "work_record_007",
+      "metadata": {
+        "date": "2026-07-30",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "shadcn/ui Skillsとデザイン定義の導入"
+      },
+      "metadata_sha256": "c6b5284215efd3fed0944bf47514aab8766735cc77a9bb2afcc432ed8402db2c",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_007.html"
+    },
+    {
+      "basename": "work_record_008",
+      "metadata": {
+        "date": "2026-07-30",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Codexを中心としたエージェント運用への移行"
+      },
+      "metadata_sha256": "b11eafae1fc06b7645080764822ed59098fd4fa0e90ab67066956f2cb67afd5c",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_008.html"
+    },
+    {
+      "basename": "work_record_009",
+      "metadata": {
+        "date": "2026-07-30",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Gitブランチ・PR・レビュー工程の追加"
+      },
+      "metadata_sha256": "1b28e834f8ea3777b09aefd6460f375c9372c6a4795e34a3e04786b5ee970b30",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_009.html"
+    },
+    {
+      "basename": "work_record_010",
+      "metadata": {
+        "date": "2026-07-30",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Trackball Controll Practiceのデザイン準拠"
+      },
+      "metadata_sha256": "3e1771da722a272f6a6380982a5cd253a4305e323c801b510d29f40ad1a37e11",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_010.html"
+    },
+    {
+      "basename": "work_record_011",
+      "metadata": {
+        "date": "2026-07-30",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Trackball Controll Practiceの配色・UX調整"
+      },
+      "metadata_sha256": "f0e7b2a0a5eda63eb892ce84356a519d1ad08cff23a740a885078d318edcb868",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_011.html"
+    },
+    {
+      "basename": "work_record_012",
+      "metadata": {
+        "date": "2026-07-30",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Trackball Controll Practiceの操作ボタン確定"
+      },
+      "metadata_sha256": "c02f479194b4fbad33e9ca993dae7e8349d7c6a14f140e96f905470d2dc64f09",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_012.html"
+    },
+    {
+      "basename": "work_record_013",
+      "metadata": {
+        "date": "2026-08-02",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Trackball Controll Practiceのスコア・ゲームフィードバック改善"
+      },
+      "metadata_sha256": "6c60cee4e9aa5f99b296756935492cdaf2700068afd7138aa2b1db7f6d65e95b",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_013.html"
+    },
+    {
+      "basename": "work_record_014",
+      "metadata": {
+        "date": "2026-08-02",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "ドキュメント変更時のGit運用簡略化"
+      },
+      "metadata_sha256": "bea4d194f73217155b902074750749847beedec430a72a0ee3b5874d7a2d260d",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_014.html"
+    },
+    {
+      "basename": "work_record_015",
+      "metadata": {
+        "date": "2026-08-15",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "projectsディレクトリの用途と公開構想の記録"
+      },
+      "metadata_sha256": "86d5ff0a4e7e4cb10ed5ebe7e03cfb887503843e7eb8ca73d8ad2358d06e3335",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_015.html"
+    },
+    {
+      "basename": "work_record_016",
+      "metadata": {
+        "date": "2026-08-18",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "複数生成元向け作業記録公開契約の策定"
+      },
+      "metadata_sha256": "9b874319131f8c047a5ddbc257a86545179c8c432d3fea3529352be5b9574491",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_016.html"
+    },
+    {
+      "basename": "work_record_017",
+      "metadata": {
+        "date": "2026-08-18",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "作業記録ファイル名とHTML生成方式の統一"
+      },
+      "metadata_sha256": "c7b6e9759e1c3090c3340fa38e04fc82c11e6509af0c4fa894edc384ec2bb683",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_017.html"
+    },
+    {
+      "basename": "work_record_018",
+      "metadata": {
+        "date": "2026-08-18",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issuesからwork-recordsへの移行と次セッションへの引き継ぎ"
+      },
+      "metadata_sha256": "75bb7c12345c6d56c96fffccb08db31cae5eab5d970ac88cef2ab98a46e44f76",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_018.html"
+    },
+    {
+      "basename": "work_record_019",
+      "metadata": {
+        "date": "2026-08-18",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "プロジェクト進捗ページ自動公開のIssue分解と登録"
+      },
+      "metadata_sha256": "298d168babe42f5ab390425e54755d88aaa94ae7a83846a2cbe70a4084903323",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_019.html"
+    },
+    {
+      "basename": "work_record_020",
+      "metadata": {
+        "date": "2026-08-19",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #6 source registryの導入"
+      },
+      "metadata_sha256": "3e40ab074a934dcb38ac8c8c131ff4d20a89e4d0532a696b1a25da0167db3614",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_020.html"
+    },
+    {
+      "basename": "work_record_021",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "共通命名・metadata schema validatorの実装"
+      },
+      "metadata_sha256": "73571a1b0b154266eb20b708ba06d46b4b381ffad951f9fd6c00f751db21cea1",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_021.html"
+    },
+    {
+      "basename": "work_record_022",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "作業記録HTML上部リンクの撤去"
+      },
+      "metadata_sha256": "776f39c0892dc0d44b7d6d4d788602ce7bcdc73d913051932277b66c5fb0a504",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_022.html"
+    },
+    {
+      "basename": "work_record_023",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #8 受入ファイルのpath・種別・容量validator"
+      },
+      "metadata_sha256": "a11aa8c6df04bb9b96fb1ebc06d4af7956093bfac8229d5874e40a1f6ed5040a",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_023.html"
+    },
+    {
+      "basename": "work_record_024",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #9 HTML・CSS・URL安全validator"
+      },
+      "metadata_sha256": "41514b3cab55d7efb712df6351b9533584c409b382f40831b2e6dbcc992135ea",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_024.html"
+    },
+    {
+      "basename": "work_record_025",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #10 provenance manifestとdrift検査"
+      },
+      "metadata_sha256": "dcfa084566a89a46217e0684d1d7530f51ec019941a8129e7decdba7627b9ad1",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_025.html"
+    },
+    {
+      "basename": "work_record_026",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "B既存001〜010の初期provenance manifest登録"
+      },
+      "metadata_sha256": "39d76aaae7cd136ea8e4c4d639d898cd1fbab905c8fa969f8fb9cf1c38fe484f",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_026.html"
+    },
+    {
+      "basename": "work_record_027",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #12 既存Bのno-op同期dry-run"
+      },
+      "metadata_sha256": "ec296b88eabb96ebc80041cddfe1eea28f8a8f600912e642e211f4087cf58b56",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_027.html"
+    },
+    {
+      "basename": "work_record_028",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "B/C/D作業記録とGitHub運用の標準化"
+      },
+      "metadata_sha256": "5a62226f67ac319370c11ba6556d7eb48f986e13babff39d1612884c73699f31",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_028.html"
+    },
+    {
+      "basename": "work_record_029",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #14〜#16 Actions方針・Pages deploy・進捗index"
+      },
+      "metadata_sha256": "8a84ee99f4f77ac537a459345d1f02d8c7ec5c46e8bbe87b8fddba14eebc1d81",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_029.html"
+    },
+    {
+      "basename": "work_record_030",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #17 read-only受入workflowのdry-run"
+      },
+      "metadata_sha256": "543e6a564b6cec4931eb75b18946fcbaf5e3bc2d616b0d236e50bbb24ad6149d",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_030.html"
+    },
+    {
+      "basename": "work_record_031",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "未完了一覧のIssueスナップショット再取得ルールを標準化"
+      },
+      "metadata_sha256": "a0be2c6076edd055270929777030aff800457fdc540bb89abec75e858cdf3a9b",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_031.html"
+    },
+    {
+      "basename": "work_record_032",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #18 許可範囲限定の同期apply engine"
+      },
+      "metadata_sha256": "b7eb95eff6f43e42762bfd2a28e5ea752375fcadffcf793dba84cb547a345732",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_032.html"
+    },
+    {
+      "basename": "work_record_033",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #19 受入workflowへのcommit・固定SHA deploy接続"
+      },
+      "metadata_sha256": "de1fd537c17ae7b8e8b5a31c42edb3f7080b38161620a9ddee2d30c5a0717173",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_033.html"
+    },
+    {
+      "basename": "work_record_034",
+      "metadata": {
+        "date": "2026-08-20",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #21 disabled source受入dry-run"
+      },
+      "metadata_sha256": "9c4e93772aae3bcaf123de3b1232164a7b14c3266f74acd89d35fd40cab8ad78",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_034.html"
+    },
+    {
+      "basename": "work_record_035",
+      "metadata": {
+        "date": "2026-08-24",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #21 disabled source実E2E"
+      },
+      "metadata_sha256": "59c82b47bd0ba5eb25cfdc492735e47615690d610cda360d5ee950048a39e923",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_035.html"
+    },
+    {
+      "basename": "work_record_036",
+      "metadata": {
+        "date": "2026-08-24",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #22 B source手動E2E有効化"
+      },
+      "metadata_sha256": "526652024568d789b6340c3829501b68788ff7485babfbf797f2039fb0a3684c",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_036.html"
+    },
+    {
+      "basename": "work_record_037",
+      "metadata": {
+        "date": "2026-08-24",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #20 deploy後Slack通知job"
+      },
+      "metadata_sha256": "1738cd203873d271dff4d39381b46c54ac6da2d4cb6d1519195f1fc0677d1cc5",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_037.html"
+    },
+    {
+      "basename": "work_record_038",
+      "metadata": {
+        "date": "2026-08-24",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "apply時のPython bytecode生成によるE2E失敗を修正"
+      },
+      "metadata_sha256": "7d5bb770d621384c43ea17b359a6bc24ce980e1bccc52b0d93567e34208bd86b",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_038.html"
+    },
+    {
+      "basename": "work_record_039",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23実publish E2Eの途中結果"
+      },
+      "metadata_sha256": "3b736130e7cfb164e909a3d16992273fcf01411c01323f8d450acf39eed0a54d",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_039.html"
+    },
+    {
+      "basename": "work_record_040",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "PR #42のvalidation失敗修正"
+      },
+      "metadata_sha256": "7b519b1d4ba0f5851506130e4ada78a1c4a8263ef06dbcde4614e95daf673330",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_040.html"
+    },
+    {
+      "basename": "work_record_041",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 reusable Pages deploy条件の修正"
+      },
+      "metadata_sha256": "68a041579a8a0b9014e3a8259e4a737f50b02fb251efbad7459cdeb982a6d129",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_041.html"
+    },
+    {
+      "basename": "work_record_042",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 no-op受入runの成功化"
+      },
+      "metadata_sha256": "cd89075ffb6d97ba9cfafedfb60b95b21c4f23ec9e68d6011376a317c678992b",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_042.html"
+    },
+    {
+      "basename": "work_record_043",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 should_deploy真偽値判定の修正"
+      },
+      "metadata_sha256": "4de143c0d9556da6e3c5db1571589db6d175310b8d105dabebb9280ac963bd39",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_043.html"
+    },
+    {
+      "basename": "work_record_044",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 no-op入力のworkflow_call検証修正"
+      },
+      "metadata_sha256": "f0200152ac91fac2ea1ff1ee3be832b81cf732d08c527d69de6316beb8a46a9c",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_044.html"
+    },
+    {
+      "basename": "work_record_045",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 should_deploy入力型の安定化"
+      },
+      "metadata_sha256": "085247dc42687f907c3ebe295e077bb9580e2273944fa2b1a9b0c6498f686cba",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_045.html"
+    },
+    {
+      "basename": "work_record_046",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 reusable workflow concurrencyの分離"
+      },
+      "metadata_sha256": "24375f1d31b1b230e0380356a0e0e94f41da5bed7dc83a2212c8080becffb2d1",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_046.html"
+    },
+    {
+      "basename": "work_record_047",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 no-op入力の文字列伝播を固定"
+      },
+      "metadata_sha256": "71e38436f10efde7c3c79872af68e1ecdf455dfaa905bb0c2724ef742b94ed67",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_047.html"
+    },
+    {
+      "basename": "work_record_048",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 空commit SHA入力の正規化"
+      },
+      "metadata_sha256": "634235c3d69a04c49ab5ddaab889091e7a794e934848e5ddb6a4b27411db8b89",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_048.html"
+    },
+    {
+      "basename": "work_record_049",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 no-op時のcaller skip"
+      },
+      "metadata_sha256": "fee21b1d8de1140f4425cd5a929efc4a5835e9f702f480327c65006dfa4bea8d",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_049.html"
+    },
+    {
+      "basename": "work_record_050",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 called workflow concurrencyの除去"
+      },
+      "metadata_sha256": "d757d1caca1e534890b38f00266373c704a3811c65b555252bad6dc47f90caec",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_050.html"
+    },
+    {
+      "basename": "work_record_051",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 Slack通知jobのcheckout追加"
+      },
+      "metadata_sha256": "10da15c94c9a31c43b6c0d4ee0c2d5623e5a4d1ea68c24133440d490deb5ff34",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_051.html"
+    },
+    {
+      "basename": "work_record_052",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #23 E2E完了"
+      },
+      "metadata_sha256": "16195d2d6cb25a500daa9a795571ba4d005eb6e746c81c88a1cfdd6f76e5d11e",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_052.html"
+    },
+    {
+      "basename": "work_record_053",
+      "metadata": {
+        "date": "2026-08-25",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #54 Slack投稿内容と対象作業記録URLの修正"
+      },
+      "metadata_sha256": "ee1312506b16ec4350bf1b2aa017e0e2d55eaca668db9a91d130c909b61f3138",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_053.html"
+    },
+    {
+      "basename": "work_record_054",
+      "metadata": {
+        "date": "2026-08-27",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "tech_article_nortification の生成元導入契約を追加"
+      },
+      "metadata_sha256": "6b16752d91b79416374db1ccbdd4e7c9e07dad3fc1a2c485f5c0a495f2435f11",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_054.html"
+    },
+    {
+      "basename": "work_record_055",
+      "metadata": {
+        "date": "2026-08-28",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #4 の tech_article_nortification source registry登録を検証"
+      },
+      "metadata_sha256": "3fe4fb0b8b040a9c8d6d04a9f0c87e795f0b2c40edf2bd4c844e3a4dea4b6aca",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_055.html"
+    },
+    {
+      "basename": "work_record_056",
+      "metadata": {
+        "date": "2026-08-28",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #13 a_rendered用の決定的rendererを実装"
+      },
+      "metadata_sha256": "973b8d6eed283a44cb9cccc0d9e2e4534a7b42e0f9bce59104bc237aa8c5d875",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_056.html"
+    },
+    {
+      "basename": "work_record_057",
+      "metadata": {
+        "date": "2026-08-28",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "監査可能な公開取り下げworkflowを実装"
+      },
+      "metadata_sha256": "9fa929126c3e5435e84b8a906482152eea4ca52afab35b975b469463c801c168",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_057.html"
+    },
+    {
+      "basename": "work_record_058",
+      "metadata": {
+        "date": "2026-08-28",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "取り下げdry-runの作業ツリー汚染を修正"
+      },
+      "metadata_sha256": "fcddf86fc9cdde3420266fc7b06be2a77be814f4cea9651865d702548e2a471e",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_058.html"
+    },
+    {
+      "basename": "work_record_059",
+      "metadata": {
+        "date": "2026-08-28",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #60 固定commit・basename限定の受入境界を強化"
+      },
+      "metadata_sha256": "426b300531b764f68d8659422397c7b22ef4ac62bb5633e58dd50f064c52e9ef",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_059.html"
+    },
+    {
+      "basename": "work_record_060",
+      "metadata": {
+        "date": "2026-08-28",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #60 disabled dry-run E2E"
+      },
+      "metadata_sha256": "191dd21b4a40a6e149de0a94aeacfe90fea203ccbf7d0b3b9721c217200a5f9b",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_060.html"
+    },
+    {
+      "basename": "work_record_061",
+      "metadata": {
+        "date": "2026-08-30",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "生成元テンプレートのGitHub App連携工程を標準化"
+      },
+      "metadata_sha256": "e6a29612ac6016b75ca8654d8019c4f6382b97dd5b3d9ce8b5ddd981a9b621e4",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_061.html"
+    },
+    {
+      "basename": "work_record_062",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "tech_article_nortification受入E2E準備"
+      },
+      "metadata_sha256": "1673f06a6fef784e337bc66279a6448e8f5124a3bca9317d2a47c8954767d6e3",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_062.html"
+    },
+    {
+      "basename": "work_record_063",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "tech_article_nortification受入E2E実施"
+      },
+      "metadata_sha256": "5b1314ac6abbd07b57b18ab71ee15d7d26211345868a439fcab667cf59a00c31",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_063.html"
+    },
+    {
+      "basename": "work_record_064",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "PR #65のコンフリクト解消"
+      },
+      "metadata_sha256": "1fcfc4b6b0085346cd406913b62b6c1c1e9a921aec8e217e85e818857f35c67b",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_064.html"
+    },
+    {
+      "basename": "work_record_065",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "NBA_Draft_DBのsource登録と初期公開状態の準備"
+      },
+      "metadata_sha256": "5a1afeb3cc18defacf7ee90202b418009fe3ada073dea85416e0626cf8e2a847",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_065.html"
+    },
+    {
+      "basename": "work_record_066",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "過去作業記録の遡及公開・record間リンクIssue計画"
+      },
+      "metadata_sha256": "98deeef57bac2de34cef45677b516ea01700955e7fbfb306b12bab934cf40571",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_066.html"
+    },
+    {
+      "basename": "work_record_067",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "NBA_Draft_DBの作業記録公開E2Eと運用引き継ぎ"
+      },
+      "metadata_sha256": "4b05996bf616b7e5c59099437a07f58a923f40aa25b80f5935708295fa93f720",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_067.html"
+    },
+    {
+      "basename": "work_record_068",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #80 sandbox-pages source registry登録"
+      },
+      "metadata_sha256": "7cdcc59865b78ce27c01bc57ca7acdbae5d28df6c76817b8ccf9db394d8f817b",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_068.html"
+    },
+    {
+      "basename": "work_record_069",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #81 sandbox_pages作業記録metadata整備"
+      },
+      "metadata_sha256": "3800cf59f690e0d136e0d71b207f9b990c9b1c0a3404c0062a420d3e45020d72",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_069.html"
+    },
+    {
+      "basename": "work_record_070",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #82 同一repository source受入隔離"
+      },
+      "metadata_sha256": "bd25303a7b81d82e648a92842effb9de7221b3613203d10d43955fc51aeaaf8a",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_070.html"
+    },
+    {
+      "basename": "work_record_074",
+      "metadata": {
+        "date": "2026-08-31",
+        "project_id": "sandbox_pages",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [],
+        "title": "Issue #86 sandbox_pages新規作業記録E2E"
+      },
+      "metadata_sha256": "60fdb93f514fdbdb07f42652b4cc79fda84188647c5d59bca784f1787cdcacde",
+      "public_url": "/sandbox-pages/projects/sandbox_pages/work_record_074.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "719a1806492244942c77738d5336865ac8b1c96d",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/sandbox-pages"
+  },
+  "source_files": [
+    {
+      "path": "README.md",
+      "sha256": "d0aae120739f0abe08151c3e88c49d786feecec3c395bb8db64bde16025d3097",
+      "size_bytes": 7474
+    },
+    {
+      "path": "design.md",
+      "sha256": "661f5ebbf7999cbd8c796d8072028759d7b20074fd6509284d7404f228e92113",
+      "size_bytes": 7952
+    },
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "39b06788b206ceabfbcc9c6c890c3d521f05d843a11fdad798a1bf30047a07cd",
+      "size_bytes": 3624
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "bade83f57eda69b358aca13158e88142fc71f133b3752d726401e00fa2c9eb69",
+      "size_bytes": 4496
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "1af1a3d54a8b5a8b08e25c0d705af0a8af15fae1a5f997f36af5475a76b853a5",
+      "size_bytes": 4638
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "b59986ada77df4fc8b0d2f50ab32adc12f46a8eabd509830277644e40a10586e",
+      "size_bytes": 4209
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "f603afbf8b082b588a002498428322f977af1a45266120e26f9a78283b1a06c5",
+      "size_bytes": 7178
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "f1cfc349dca91ed42f793428b69b1cc27eb6e583c6dbd2a3208634e91ac965ce",
+      "size_bytes": 3587
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "f8b47a7bf90765810331b9ed0a29ec6fcb602b85399074552a0184854b2f2c21",
+      "size_bytes": 3619
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "d7aa75d3a1e17976bada06ff8b17c3c6ec2bd4cdd06fff66a8edb36ac20495d3",
+      "size_bytes": 3566
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "23b3fb519ef664a045dda33ef3af33368e7876b2880c7a75cfaf99340b1ab38e",
+      "size_bytes": 4273
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "60573a9de06a99d5dd8dcac1ee713109c127340385385d1248703704d6c9a34a",
+      "size_bytes": 5436
+    },
+    {
+      "path": "md/work_record_011.md",
+      "sha256": "1d046bf35a460b2c5c92a40c416a8de5c6fc7b4ba49a56536f652ef845256368",
+      "size_bytes": 5903
+    },
+    {
+      "path": "md/work_record_012.md",
+      "sha256": "66674c39fdf27e031fd74ef709f3f6ce2c6315e85efaf375ce506153d8c3bc41",
+      "size_bytes": 4793
+    },
+    {
+      "path": "md/work_record_013.md",
+      "sha256": "45b265a38a2a821f333213e55885473892a0adada4bcf4a3655654dae3b45249",
+      "size_bytes": 24047
+    },
+    {
+      "path": "md/work_record_014.md",
+      "sha256": "4d3a7034ac1c92318c319d146bba168cbd215cb01cf2988779984ea065dccfb9",
+      "size_bytes": 5775
+    },
+    {
+      "path": "md/work_record_015.md",
+      "sha256": "e75a77448748d981cb76f7f60249daa39c1ff5b3f44226cf971e9ee401e78d61",
+      "size_bytes": 3890
+    },
+    {
+      "path": "md/work_record_016.md",
+      "sha256": "67233a633b01ff160c9f6a29d0ebd1c4c69803b29e30e9e4244e6a4e585191a2",
+      "size_bytes": 4440
+    },
+    {
+      "path": "md/work_record_017.md",
+      "sha256": "cab5cc6832d5a3d41e47565c102c8d06350e031fbeb586f5779bc65b28d952c0",
+      "size_bytes": 4257
+    },
+    {
+      "path": "md/work_record_018.md",
+      "sha256": "6f2175c25e9f60382ee24038c11451ecc4718246c03cfcc8e9f529945c075212",
+      "size_bytes": 8799
+    },
+    {
+      "path": "md/work_record_019.md",
+      "sha256": "0e05fd04e083e722f508457cdee3ff2aa29185e794e42582f9f39298011d7816",
+      "size_bytes": 13922
+    },
+    {
+      "path": "md/work_record_020.md",
+      "sha256": "a415f672aa2fd4513986464176aad99724a751a699bcfac6403793bae88f7aba",
+      "size_bytes": 8777
+    },
+    {
+      "path": "md/work_record_021.md",
+      "sha256": "f70e16b7df3f7e371b882e11de64e7d21c6e3d804cace0cd8ece52f813255407",
+      "size_bytes": 4757
+    },
+    {
+      "path": "md/work_record_022.md",
+      "sha256": "2e42fdb439fc786703881ca6ae5b653054cd593e49613628aef0f6ccfc2a3145",
+      "size_bytes": 7310
+    },
+    {
+      "path": "md/work_record_023.md",
+      "sha256": "e85792b6f3039f2d49f1a870c5273d825a9ba922fb56fb3d3002b255ae3059cd",
+      "size_bytes": 7186
+    },
+    {
+      "path": "md/work_record_024.md",
+      "sha256": "6b392c0e825f172d88e699889bea3b2882ef78b8082248a94b57a327e011c6f9",
+      "size_bytes": 7062
+    },
+    {
+      "path": "md/work_record_025.md",
+      "sha256": "e3ae6309777d4ee9b8bd24548977b2300f3383b45ea3651193fc9c7b5adba21b",
+      "size_bytes": 7252
+    },
+    {
+      "path": "md/work_record_026.md",
+      "sha256": "3e811fdf02ec59e19c1ecad7e20bc8d90b21e614cb4aaebd8e715fbd842ccec7",
+      "size_bytes": 4595
+    },
+    {
+      "path": "md/work_record_027.md",
+      "sha256": "c475117bf71d15a753456ae5be8a27ac8f58f9989be122f364fc1c6ee02feb7e",
+      "size_bytes": 5256
+    },
+    {
+      "path": "md/work_record_028.md",
+      "sha256": "a8d17c523f7301b8c9b9acc80e149b73fda499d5b5159e4e10a6c1cea9eb2216",
+      "size_bytes": 5163
+    },
+    {
+      "path": "md/work_record_029.md",
+      "sha256": "2f97e3be484f4adebf00e47595214f7d2a928fc3603201d7483c9f31377e0fc0",
+      "size_bytes": 10063
+    },
+    {
+      "path": "md/work_record_030.md",
+      "sha256": "9c190a9193e83c28448fd00464f7fca37c61911b78ecfc44cfe9b0b77acfe444",
+      "size_bytes": 8694
+    },
+    {
+      "path": "md/work_record_031.md",
+      "sha256": "48277fb28443c33a4078ccd73a42f5831bbd24bc9989cf014ae8a9f6542dc230",
+      "size_bytes": 6446
+    },
+    {
+      "path": "md/work_record_032.md",
+      "sha256": "45ab0abcaceb78d53efa86e982fb31e92aab6158a40a685997b212198b12222e",
+      "size_bytes": 8229
+    },
+    {
+      "path": "md/work_record_033.md",
+      "sha256": "cd23825b22c7b6ef63cf48753fd1f9c608a0d27903928b3280ba7dcc15deaa02",
+      "size_bytes": 7765
+    },
+    {
+      "path": "md/work_record_034.md",
+      "sha256": "c1efd1be9a3d0573751df5943e778d1d79078e0d67fc8a956c8b0d2cbddd21f2",
+      "size_bytes": 9649
+    },
+    {
+      "path": "md/work_record_035.md",
+      "sha256": "749fc7f4b8619fa756f7a5692e005d92c1b93d48590cc98cc88cd2698ff67b2f",
+      "size_bytes": 8188
+    },
+    {
+      "path": "md/work_record_036.md",
+      "sha256": "c7bfa13dc5f674e88dde644ee07b360513c1d5365b56671e958a741a67d3b286",
+      "size_bytes": 7116
+    },
+    {
+      "path": "md/work_record_037.md",
+      "sha256": "4c793deb4cddd0239d1ca8d571d3ab9a156534dfda9aac28735ad20827d5c35b",
+      "size_bytes": 8723
+    },
+    {
+      "path": "md/work_record_038.md",
+      "sha256": "0daec2917aad6eeb24685dd24c8eaf8b71224a6688960dfe4b5bc84aac647195",
+      "size_bytes": 5784
+    },
+    {
+      "path": "md/work_record_039.md",
+      "sha256": "0bd7dc48c87e9101ec718b430976dffa997df860cd0fed83753188168b178126",
+      "size_bytes": 7438
+    },
+    {
+      "path": "md/work_record_040.md",
+      "sha256": "3cefe2a04ff8403b5152df20e418df2669a2f560fd8ba3eb3bd47de5e6d69568",
+      "size_bytes": 3260
+    },
+    {
+      "path": "md/work_record_041.md",
+      "sha256": "d51ba9f84e3d17aba860bd17e0f14ece9343e02369f70957aa96c89b9cf2903b",
+      "size_bytes": 6289
+    },
+    {
+      "path": "md/work_record_042.md",
+      "sha256": "4d6184d460c6baab94bbcc3f8365dfa57afb165e829581bb293c560b40476907",
+      "size_bytes": 5738
+    },
+    {
+      "path": "md/work_record_043.md",
+      "sha256": "0323d95b20793ea9dc54c53b18ff999b2f2d63f3c9f1aece9909f373e13f6efc",
+      "size_bytes": 5196
+    },
+    {
+      "path": "md/work_record_044.md",
+      "sha256": "16d3a019571eb2e601a1bba6fc5c1ec16ba35d3830c838fc4b4d83628ed34ba1",
+      "size_bytes": 5282
+    },
+    {
+      "path": "md/work_record_045.md",
+      "sha256": "cf6621090849f176cb78d15142bcfff1c03595485d3fcc86c9cc18cc8c4609d2",
+      "size_bytes": 5307
+    },
+    {
+      "path": "md/work_record_046.md",
+      "sha256": "3cb49ce1e5d169212dc802836f11343c7ecdb52be4060ba126c14df65087e3ce",
+      "size_bytes": 5315
+    },
+    {
+      "path": "md/work_record_047.md",
+      "sha256": "cf4bf597d8e2e3e44070a6c51fe1fc4fedfa75f600bbb62ef18df39b540e2830",
+      "size_bytes": 4038
+    },
+    {
+      "path": "md/work_record_048.md",
+      "sha256": "5c55e1b54866c251337b3b6d1f832708d428b5aaf09b2bd7acb6ba8ee5787563",
+      "size_bytes": 3642
+    },
+    {
+      "path": "md/work_record_049.md",
+      "sha256": "c47e7ed89b6d3387a0b2c4cebe1fb8a88d7bec45e00bd7b950baf8cb765918dd",
+      "size_bytes": 3923
+    },
+    {
+      "path": "md/work_record_050.md",
+      "sha256": "c45d445d60af71cb9e3065705a9753ddf2766b4264b39e71cee0c3ae4bf029f0",
+      "size_bytes": 3956
+    },
+    {
+      "path": "md/work_record_051.md",
+      "sha256": "0deda81ebf268097a2a7d13bd7c1a867fc9c912997c4d8f924e8696b75074a56",
+      "size_bytes": 3712
+    },
+    {
+      "path": "md/work_record_052.md",
+      "sha256": "d2d2ec74169a5503183e0e0190fe54d2cffd26ea39efe81a734c68e987458d84",
+      "size_bytes": 4086
+    },
+    {
+      "path": "md/work_record_053.md",
+      "sha256": "ab83c24ebe824111984d68d2dce1e6e31d6b423df7ad14cfc3fb80155de789d1",
+      "size_bytes": 7022
+    },
+    {
+      "path": "md/work_record_054.md",
+      "sha256": "6dcf173fd483b0dc540ac7c2fcf42b78498ac18c6fed06b6302c01e6994b90f0",
+      "size_bytes": 4738
+    },
+    {
+      "path": "md/work_record_055.md",
+      "sha256": "d2d65b4d8090c899b4cf52fa8e29fc1575392d5f13d91d3b736d7c93f9fd1856",
+      "size_bytes": 5080
+    },
+    {
+      "path": "md/work_record_056.md",
+      "sha256": "372ce2f4595d4a98d760661d57b8e8d7c3853a664c9fc12ab88ccc14486d2881",
+      "size_bytes": 6444
+    },
+    {
+      "path": "md/work_record_057.md",
+      "sha256": "f81cb5a94a1f381f59203b7b50c27ff4f3053e477ba6526641e82522e9457d87",
+      "size_bytes": 6152
+    },
+    {
+      "path": "md/work_record_058.md",
+      "sha256": "bbd600c05f9dd8a66ac50a9963564759f915117b32ef6295d0be0f4ac350e4a9",
+      "size_bytes": 3300
+    },
+    {
+      "path": "md/work_record_059.md",
+      "sha256": "6bd3e670b1799f9f2bf54562c1974db39d7a6b5c05a19b40c5ea45a4cb4ef919",
+      "size_bytes": 6411
+    },
+    {
+      "path": "md/work_record_060.md",
+      "sha256": "b997c550102c6c0f4cb40b29119b99385ea0fa5ba97d56be5a295bb2e1ff498e",
+      "size_bytes": 4703
+    },
+    {
+      "path": "md/work_record_061.md",
+      "sha256": "20b9e36bb50aa64cb4684392688ed3ae30bf5ca01df4947f904377c597cf3add",
+      "size_bytes": 8301
+    },
+    {
+      "path": "md/work_record_062.md",
+      "sha256": "a8c0f30a00f1f4fac9c51e4effc7d0c7baad459d0db6e73a6b4022925d553e1c",
+      "size_bytes": 5359
+    },
+    {
+      "path": "md/work_record_063.md",
+      "sha256": "7ed89534fcd6e492e9b38c0c25752914fd148a3e9c1c0133ca226f774d2d9142",
+      "size_bytes": 4871
+    },
+    {
+      "path": "md/work_record_064.md",
+      "sha256": "da251a15c6e8cd3edd5a1867317dafba9717dae107c20dde5f73f2d870666858",
+      "size_bytes": 7453
+    },
+    {
+      "path": "md/work_record_065.md",
+      "sha256": "0e303f8c611e010ae7832b9cf0e00fc22e0a7017117f43f1a38e654456a686e9",
+      "size_bytes": 8172
+    },
+    {
+      "path": "md/work_record_066.md",
+      "sha256": "2dc2dd4b52a4cb9bd6b77e5868b93b32fca276a159c399b1558159d66dbfb336",
+      "size_bytes": 7713
+    },
+    {
+      "path": "md/work_record_067.md",
+      "sha256": "d8ec0efff2f830b4e208729462cfe75aca35693d2163a13094a64b6d859e59c1",
+      "size_bytes": 11316
+    },
+    {
+      "path": "md/work_record_068.md",
+      "sha256": "ca42454a2728c9a3472ae2119c09c14dfb8a97564efe9984843a1ff0f0de1002",
+      "size_bytes": 12011
+    },
+    {
+      "path": "md/work_record_069.md",
+      "sha256": "17812f92209cbb530c09edf46df5d4d4c828615b634ed974a2f0b7d46b81c550",
+      "size_bytes": 9312
+    },
+    {
+      "path": "md/work_record_070.md",
+      "sha256": "2d7315035fc14a6c1dfd95dd214fbfa047cec7a7c2385cff9f24285848e5c699",
+      "size_bytes": 9487
+    },
+    {
+      "path": "md/work_record_071.md",
+      "sha256": "18925fe8574273b0b54f68593e3ff7a6b37549e90362c3e50a4d77189c772848",
+      "size_bytes": 10114
+    },
+    {
+      "path": "md/work_record_072.md",
+      "sha256": "80d33ee3c4113effb8705669c2aff30952cee3ec70dc60d7fbf5c9353852b1b7",
+      "size_bytes": 10628
+    },
+    {
+      "path": "md/work_record_073.md",
+      "sha256": "8f89afb4165c73eb297fc248cb7809ae5b83eb99ec3820f18a92b88cf31c3146",
+      "size_bytes": 10112
+    },
+    {
+      "path": "md/work_record_074.md",
+      "sha256": "a2d0e934e877a0fde62cd8ea087b89c82bd1d6027905ec9f8b84e990d58db55b",
+      "size_bytes": 9830
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "c0b41d8a6043daa7c76d8b0343e5d74779a15dc29796c9457177d12c760e2657",
+      "size_bytes": 159
+    },
+    {
+      "path": "metadata/work_record_002.yml",
+      "sha256": "78912cbd22be574dc9dd81b598197875d8e27c7871d87b6bb62e9b06a897f97e",
+      "size_bytes": 148
+    },
+    {
+      "path": "metadata/work_record_003.yml",
+      "sha256": "01cb17f9b204aa1088fa3604ef4c5b98b359a9b29901f7c7a09fa83ad50ca66a",
+      "size_bytes": 147
+    },
+    {
+      "path": "metadata/work_record_004.yml",
+      "sha256": "14358c7bb9318fc4a9f3e0e132b1a5e5b75b2b76e1066237feb9bda1ac2ffc39",
+      "size_bytes": 141
+    },
+    {
+      "path": "metadata/work_record_005.yml",
+      "sha256": "8c0870681b0316ab74f73f0d60a03db89d2d336adc393019cb2fd1d553e15aad",
+      "size_bytes": 156
+    },
+    {
+      "path": "metadata/work_record_006.yml",
+      "sha256": "237cd849a81147397da5fcb1cfca81c6889ce71b3c0f45e646b8fb77b634e1ff",
+      "size_bytes": 144
+    },
+    {
+      "path": "metadata/work_record_007.yml",
+      "sha256": "be19fcff4f149e79221ea27d3ccd050822fed7c338622a36b7f30322f476f021",
+      "size_bytes": 142
+    },
+    {
+      "path": "metadata/work_record_008.yml",
+      "sha256": "be39fc9687ce27e99b6ec58444ab639538fb9e16f2ee8d5d80484c715c79fbb8",
+      "size_bytes": 155
+    },
+    {
+      "path": "metadata/work_record_009.yml",
+      "sha256": "0ad1555035b4beabf3b6cc5abf13c1f0e25c0ea5a3fe478a3fba8fee134932f5",
+      "size_bytes": 146
+    },
+    {
+      "path": "metadata/work_record_010.yml",
+      "sha256": "f6016276db2f3b3b93927507d4c58e64adeccb5a0923f306f6b9720ca2ed1709",
+      "size_bytes": 144
+    },
+    {
+      "path": "metadata/work_record_011.yml",
+      "sha256": "1896e0105774f6e602c8601e344cb6459937a7e14e3b38c57befa2fb9f489a43",
+      "size_bytes": 143
+    },
+    {
+      "path": "metadata/work_record_012.yml",
+      "sha256": "0585bdd6133f7005f4bc3066fa3d3bbcd1c7259e79e753eb53f1c837383820b5",
+      "size_bytes": 147
+    },
+    {
+      "path": "metadata/work_record_013.yml",
+      "sha256": "e1f42f386208d4a89fb80e80bad3591eb55602f264c1057cfa682a09d7a10706",
+      "size_bytes": 174
+    },
+    {
+      "path": "metadata/work_record_014.yml",
+      "sha256": "62822ab5b6968a37a114aef19911b35295a96c50ac171c21af89478e446569dd",
+      "size_bytes": 144
+    },
+    {
+      "path": "metadata/work_record_015.yml",
+      "sha256": "177aba1eede7e697b3e4c38f8812f32611e209e2ba9f960b0ce0e80abd19d861",
+      "size_bytes": 155
+    },
+    {
+      "path": "metadata/work_record_016.yml",
+      "sha256": "6a72a8fab9e8c9cfa3cd0e7b6974bccf21f5a512205ca4896c0a27b9366789a0",
+      "size_bytes": 150
+    },
+    {
+      "path": "metadata/work_record_017.yml",
+      "sha256": "dae918c79e99471c567c81dac4c17c1e8cd1ef9d04347401e51102596f619003",
+      "size_bytes": 151
+    },
+    {
+      "path": "metadata/work_record_018.yml",
+      "sha256": "2f281081ad375f51411dd976d75520ee895d9966564c870a0736a311f692ac39",
+      "size_bytes": 171
+    },
+    {
+      "path": "metadata/work_record_019.yml",
+      "sha256": "11794a409a71d6d9c236de3f91baede59de06a83f40ec5dc49844906f40e8151",
+      "size_bytes": 164
+    },
+    {
+      "path": "metadata/work_record_020.yml",
+      "sha256": "152013ba0aa5d00ad9dd6d07158dda53b8ba2c1d708ceb03213388395a05201a",
+      "size_bytes": 129
+    },
+    {
+      "path": "metadata/work_record_021.yml",
+      "sha256": "ceb99b81afcd24b83048896da49f6ebee1334faff3d028df67e73b8929d9ed47",
+      "size_bytes": 145
+    },
+    {
+      "path": "metadata/work_record_022.yml",
+      "sha256": "7a99637af61ff3542bd53b9f13988efcac8f6d3810a590d96557bd6c5c61eb35",
+      "size_bytes": 136
+    },
+    {
+      "path": "metadata/work_record_023.yml",
+      "sha256": "f5124a5ae55853c66d705849fd17d652210b5ce06ca47969763a41a9a6c282dd",
+      "size_bytes": 157
+    },
+    {
+      "path": "metadata/work_record_024.yml",
+      "sha256": "99499e64e74f9cbd5dc3c635c4e8c9c382440cc99d731c7bb82b725ea2f1a02b",
+      "size_bytes": 136
+    },
+    {
+      "path": "metadata/work_record_025.yml",
+      "sha256": "1d7b2e7a396a3be5775356dac1a7c675e9f51c7ed725a62dda452368e05153de",
+      "size_bytes": 139
+    },
+    {
+      "path": "metadata/work_record_026.yml",
+      "sha256": "5048cbc0d42a4142d09158beeabfae718162c44be28d0af258a66aeb6dd769bd",
+      "size_bytes": 146
+    },
+    {
+      "path": "metadata/work_record_027.yml",
+      "sha256": "37e0c526e1c5165dca84231d43e7d3905b231442626b243f54a6189d6c853845",
+      "size_bytes": 134
+    },
+    {
+      "path": "metadata/work_record_028.yml",
+      "sha256": "dac3d8abd4e6e84e37f05a3a1e88e1c31eb57f0aabe6ed11a3cadabea250c7e0",
+      "size_bytes": 140
+    },
+    {
+      "path": "metadata/work_record_029.yml",
+      "sha256": "1d8bc5ea72098cd2039cd1f109864ecbd8d3779535cdecaee5e34f6ded299c5c",
+      "size_bytes": 154
+    },
+    {
+      "path": "metadata/work_record_030.yml",
+      "sha256": "90f164edea194e55a6b8429f8540a9f0b38b080bd28831e6dda2ea44b25ebb01",
+      "size_bytes": 139
+    },
+    {
+      "path": "metadata/work_record_031.yml",
+      "sha256": "f08730bd313fe38da9a8feba4fde208860b8ee644646ac1f679d0c424b3ac568",
+      "size_bytes": 173
+    },
+    {
+      "path": "metadata/work_record_032.yml",
+      "sha256": "ea54834c2027316e80cf202987168ab6233ec0a89feca1e3e6ceb833f57eff79",
+      "size_bytes": 145
+    },
+    {
+      "path": "metadata/work_record_033.yml",
+      "sha256": "f4efa8582c9aa62554f9b07792d54c718756ab9b75f03f1cd19fd255bd2d212b",
+      "size_bytes": 157
+    },
+    {
+      "path": "metadata/work_record_034.yml",
+      "sha256": "72f5e3801d2c6be5e0fbae3f48aea7f6f5998dc89798b59718fa578167d7d4d5",
+      "size_bytes": 134
+    },
+    {
+      "path": "metadata/work_record_035.yml",
+      "sha256": "989b739aee3aad64ff8b3a4d253d1153589a0fea3d91fbab535d7a1d033977e9",
+      "size_bytes": 127
+    },
+    {
+      "path": "metadata/work_record_036.yml",
+      "sha256": "a13544e2be93e81b854c1b4d4ef008189be80ed6e724cee12d313282425b4a69",
+      "size_bytes": 132
+    },
+    {
+      "path": "metadata/work_record_037.yml",
+      "sha256": "cd3055221adb32e15e4dc7571b75d669759d5768bc7623ea83527af248ea7658",
+      "size_bytes": 129
+    },
+    {
+      "path": "metadata/work_record_038.yml",
+      "sha256": "ef7b85cdb74f3c3c83ab9ebb087a6b62f5c8c1c43119c1579b56e570bc1e3f6b",
+      "size_bytes": 155
+    },
+    {
+      "path": "metadata/work_record_039.yml",
+      "sha256": "e2c84e593dc85567295a255872aa14123dca19155a8b1f610b4acc527f1d7899",
+      "size_bytes": 134
+    },
+    {
+      "path": "metadata/work_record_040.yml",
+      "sha256": "5b7006b0445e24a3f18264f6075b11f54d0907c97cf4fe71bb4b768a5e4d6828",
+      "size_bytes": 127
+    },
+    {
+      "path": "metadata/work_record_041.yml",
+      "sha256": "89d8890e056ea6a06426cd676aec3379d771dccc97109b7103b64b8fe2be013f",
+      "size_bytes": 142
+    },
+    {
+      "path": "metadata/work_record_042.yml",
+      "sha256": "0f16ac236e56a85c5bece2d500ab5f9433d020fc2bb049e16dd16e26401c8371",
+      "size_bytes": 132
+    },
+    {
+      "path": "metadata/work_record_043.yml",
+      "sha256": "5de35aca6fcacf420c8af3158826b83ce1003b28cf1403d3e612e70a3582662d",
+      "size_bytes": 143
+    },
+    {
+      "path": "metadata/work_record_044.yml",
+      "sha256": "e74617ed9d4279280d5368ee4c8a41ac343ea2cfb3d09db4c52cf7b6bcb088b2",
+      "size_bytes": 145
+    },
+    {
+      "path": "metadata/work_record_045.yml",
+      "sha256": "d88160689516d50c139766b44744d7c4b457dc06e3c2cbf437a875c4d01b390f",
+      "size_bytes": 140
+    },
+    {
+      "path": "metadata/work_record_046.yml",
+      "sha256": "b6165ca87393ced304088efe88cf9c14abfef6672727d1192164ec38f6c18e8e",
+      "size_bytes": 144
+    },
+    {
+      "path": "metadata/work_record_047.yml",
+      "sha256": "0414550c2294d04b76a36fe2646b8af616d3536364567c06b453fb8e79fe4d10",
+      "size_bytes": 144
+    },
+    {
+      "path": "metadata/work_record_048.yml",
+      "sha256": "ded4c21180f76af46778dcb844f2279902f7430dc83c41ae8d7cbf0f6fa2f633",
+      "size_bytes": 137
+    },
+    {
+      "path": "metadata/work_record_049.yml",
+      "sha256": "062b68e9868e1a04db2ca38a0da9b8c0b64c44919f3fe4b78e56a0f7ddc4cab0",
+      "size_bytes": 128
+    },
+    {
+      "path": "metadata/work_record_050.yml",
+      "sha256": "cef6b93ba4f39bc40c0fbaa26d8afcbaf4671e69e48818bf0c07828d7eff663a",
+      "size_bytes": 142
+    },
+    {
+      "path": "metadata/work_record_051.yml",
+      "sha256": "484ff29c8526becfb940f6b5090806314042da9a1872bc4edf33479e53db68a0",
+      "size_bytes": 137
+    },
+    {
+      "path": "metadata/work_record_052.yml",
+      "sha256": "87a0a5f015f9c2ee5ed04dd6f28081c6eb651b0c558140200dc92fe0efbbcbaa",
+      "size_bytes": 115
+    },
+    {
+      "path": "metadata/work_record_053.yml",
+      "sha256": "ab5abb0862baed26b8265e6672bf1024a93700dcf22fda0dfb1673b5e46f3219",
+      "size_bytes": 156
+    },
+    {
+      "path": "metadata/work_record_054.yml",
+      "sha256": "5221efbfb51e2bf2cd96b3e5a8de2e36a958ba7ee5aff41d2120099315219a1b",
+      "size_bytes": 156
+    },
+    {
+      "path": "metadata/work_record_055.yml",
+      "sha256": "d54cffc6267c08e4cf32cac8f22e8c498d5b4235725fe7450b0af5d8924c3ee7",
+      "size_bytes": 166
+    },
+    {
+      "path": "metadata/work_record_056.yml",
+      "sha256": "97367f73a57c02571e4f774e75f7c02ed80b9da0593f3ebb6f4d5f87097b03a2",
+      "size_bytes": 148
+    },
+    {
+      "path": "metadata/work_record_057.yml",
+      "sha256": "0d931ec4579574d323e3bf0b7b4a1a7ffc4afdb636e69f2c02e42c6077903d50",
+      "size_bytes": 146
+    },
+    {
+      "path": "metadata/work_record_058.yml",
+      "sha256": "5fa86f0ea17aaf90570b6ce05d88d796b3e18f29ebd05012e2683c83af5c8988",
+      "size_bytes": 148
+    },
+    {
+      "path": "metadata/work_record_059.yml",
+      "sha256": "fa0fb17da7dd1235a4c78d17a43ec971868f573985b47b95101f76f9f7ec3602",
+      "size_bytes": 159
+    },
+    {
+      "path": "metadata/work_record_060.yml",
+      "sha256": "34a5096e764bc8f72d2ad730f79c0747ff2701dcee45239f233273ede2915941",
+      "size_bytes": 126
+    },
+    {
+      "path": "metadata/work_record_061.yml",
+      "sha256": "d9d78961ce27fb20258699acef9aa42d3054f9bc86d8ed46931692c635e383fb",
+      "size_bytes": 160
+    },
+    {
+      "path": "metadata/work_record_062.yml",
+      "sha256": "dac7beb0617100951562d20cc04948708bcf75cb29187b473001d1359acc235f",
+      "size_bytes": 137
+    },
+    {
+      "path": "metadata/work_record_063.yml",
+      "sha256": "5addce7d7d1c0bc4ae3db58ebb9068b03782449588127aad20da17f257cf0638",
+      "size_bytes": 137
+    },
+    {
+      "path": "metadata/work_record_064.yml",
+      "sha256": "ddc344eb880c4ca84eee5240d35f47e89c25a3342bc823dca84edf55258b0fa1",
+      "size_bytes": 129
+    },
+    {
+      "path": "metadata/work_record_065.yml",
+      "sha256": "8230e84ca5668891ed838812ca4273442a5bf9c70ba4dd90519a5421b6d02160",
+      "size_bytes": 153
+    },
+    {
+      "path": "metadata/work_record_066.yml",
+      "sha256": "0335a46cb10a6cfed6818626d8093c3a2117ad7fef119c7d84998f79c8092dea",
+      "size_bytes": 161
+    },
+    {
+      "path": "metadata/work_record_067.yml",
+      "sha256": "4d23293c40ed5b66f427d12196847513700e772b07cc255aac2965ac92833e3a",
+      "size_bytes": 153
+    },
+    {
+      "path": "metadata/work_record_068.yml",
+      "sha256": "ac9f9af1df0e9db4b76c766eb8bffbbc62555da75fde9fb3514484b95e20d56e",
+      "size_bytes": 141
+    },
+    {
+      "path": "metadata/work_record_069.yml",
+      "sha256": "c9302f0e2605d47e0f8071b6a2321fc6ea9eb6f136e1ed56e23e2c3b08fb2def",
+      "size_bytes": 145
+    },
+    {
+      "path": "metadata/work_record_070.yml",
+      "sha256": "8333341e3d79532890d321310f2ef914da866dd68153dbd163996d0bd0e3aa07",
+      "size_bytes": 141
+    },
+    {
+      "path": "metadata/work_record_071.yml",
+      "sha256": "41c878393d1efd730957009606443ae37c9da266b838d84bca5c2a043815daab",
+      "size_bytes": 141
+    },
+    {
+      "path": "metadata/work_record_072.yml",
+      "sha256": "3250c0d49a18a3df2bab1c150adbee34d1353a9385de682a34ff9c28e5e5c31e",
+      "size_bytes": 150
+    },
+    {
+      "path": "metadata/work_record_073.yml",
+      "sha256": "569d8477b05eea0c0312527b95fbd0c2055d321967232d410847541da6d249c9",
+      "size_bytes": 137
+    },
+    {
+      "path": "metadata/work_record_074.yml",
+      "sha256": "653390b0eb46eafa8cc1989bfede823b117f020021cea4c4c61dd4b1474625a0",
+      "size_bytes": 140
+    },
+    {
+      "path": "work_record.css",
+      "sha256": "25e5cca3492ab58bd940216f294056eeefaa2319723deb4033c59d51e0143b5f",
+      "size_bytes": 5562
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "fc956dca8e7e4e1c1afa611dca0f85eb53c7a44992880f470515a18f1ec5d01c",
+      "size_bytes": 6084
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "09114cf5befb257da38bd3e847924658a26fa7b502c4963679ca5229c065dcb5",
+      "size_bytes": 6711
+    },
+    {
+      "path": "work_record_003.html",
+      "sha256": "9a2a57218b3976fdbb83c7c83e1529aa9b1142138635bc7bdc9091448bfcfda0",
+      "size_bytes": 7109
+    },
+    {
+      "path": "work_record_004.html",
+      "sha256": "13b75b54ef8533da72b16bd0de5484e4b12cb0bd9865ee975fdf6b1ed8555f88",
+      "size_bytes": 6360
+    },
+    {
+      "path": "work_record_005.html",
+      "sha256": "e5e2b873386b3b0768386239bf11206436485d455f4cf1f38c5cc7fde08c6e40",
+      "size_bytes": 10000
+    },
+    {
+      "path": "work_record_006.html",
+      "sha256": "3b55ce5c3827e36aaa46add65ec268d332f0047d6f514d75fdda825a03a040ea",
+      "size_bytes": 5737
+    },
+    {
+      "path": "work_record_007.html",
+      "sha256": "d39251a91d7f3f2f15074b60b8e116d8a4e1f390a196648b6aba08ad77c26eef",
+      "size_bytes": 5748
+    },
+    {
+      "path": "work_record_008.html",
+      "sha256": "b034d1c5f51acebcd79c00a55ffc4c2a23c8c6b5608cb19139bbad24a782d3fc",
+      "size_bytes": 5800
+    },
+    {
+      "path": "work_record_009.html",
+      "sha256": "6c8f9ff16c852e9421c51fedf2017c768006641876d483b29a8ca15d35b2466d",
+      "size_bytes": 6456
+    },
+    {
+      "path": "work_record_010.html",
+      "sha256": "2726e76b71406f045bf7ef7bc274dfb2f12b872509abb36eccbc763a25e988da",
+      "size_bytes": 7623
+    },
+    {
+      "path": "work_record_011.html",
+      "sha256": "c28393f06646e1577899aa96c8d0320ce1bf34e972c11a2a402bd9063cca6308",
+      "size_bytes": 8229
+    },
+    {
+      "path": "work_record_012.html",
+      "sha256": "bde554dbf4580cbdee2f96c9e226b3e7893027df2870ff3160b7182eaa94daf2",
+      "size_bytes": 6929
+    },
+    {
+      "path": "work_record_013.html",
+      "sha256": "ca3074b48686bb7d9e456859c8031ed64b020235eb09bc3f4fb9cc14bc0e3f2d",
+      "size_bytes": 27622
+    },
+    {
+      "path": "work_record_014.html",
+      "sha256": "126f3f409957a894cd0785a1661e2ef23afac64ef545b976105dd54a69f4ed9e",
+      "size_bytes": 8132
+    },
+    {
+      "path": "work_record_015.html",
+      "sha256": "2d9267581af76b40a4e24d25be3bad81f9b881a7364b98e86fd22cc9f576f1df",
+      "size_bytes": 6030
+    },
+    {
+      "path": "work_record_016.html",
+      "sha256": "66a42b0991f46483b7a17203e769f0f2ae41bdc94fb14fd4f598b62ca5f9d953",
+      "size_bytes": 6598
+    },
+    {
+      "path": "work_record_017.html",
+      "sha256": "1873a05d783b9868419f4969157e75acb23cd8d65819e837704b65db686113db",
+      "size_bytes": 6481
+    },
+    {
+      "path": "work_record_018.html",
+      "sha256": "2959996732594be4b0557425d45c1fa4438dd55e133c395abe9d86be3a8a697b",
+      "size_bytes": 12552
+    },
+    {
+      "path": "work_record_019.html",
+      "sha256": "08282ca0d90e2d45c120643d909d96ee016294fe9d50bba369615302b1d843e6",
+      "size_bytes": 18172
+    },
+    {
+      "path": "work_record_020.html",
+      "sha256": "68294ef09bc08fc756572e75b25d723fccccc234a21c9a97819f36a70faa5e44",
+      "size_bytes": 12265
+    },
+    {
+      "path": "work_record_021.html",
+      "sha256": "f336374f684333eb836ce9871e6c4c5e8e7aafcc369b03f9d0585670ccbe7bd5",
+      "size_bytes": 7519
+    },
+    {
+      "path": "work_record_022.html",
+      "sha256": "a7824f2623706ac279ae0069cc9e4b6eb285055872cda8bf85f4f5b950e6cac4",
+      "size_bytes": 10443
+    },
+    {
+      "path": "work_record_023.html",
+      "sha256": "b47eae2138074e1fa5746ccdc47ddbed695fca537563778652f27164a959592e",
+      "size_bytes": 10112
+    },
+    {
+      "path": "work_record_024.html",
+      "sha256": "335e17e9ebc389d2573c100f08eacacd1d0e0064bb645a5f4acf03ac4eb4f18c",
+      "size_bytes": 10087
+    },
+    {
+      "path": "work_record_025.html",
+      "sha256": "80a7eec59c5e2c09f91a63b77fb5ae5f7ed9058a7e6020c04cb65971b7a41e1a",
+      "size_bytes": 10254
+    },
+    {
+      "path": "work_record_026.html",
+      "sha256": "37aa242034468249a94ef834072930979ed5ce5e0cdef9c46ca9437dbd259bd7",
+      "size_bytes": 7283
+    },
+    {
+      "path": "work_record_027.html",
+      "sha256": "82c1a6c19d87b805ffde8fdd97b1b95789b59ac9de3b3ec2773c618965eb2562",
+      "size_bytes": 8103
+    },
+    {
+      "path": "work_record_028.html",
+      "sha256": "4a4b6babb6f914031803607c95ed036f1f0b46443d7ffc2de9db06d38e1bc127",
+      "size_bytes": 7497
+    },
+    {
+      "path": "work_record_029.html",
+      "sha256": "471f4923620dde17a5b27801d1c3b82c2027c3245faac7314354474d67497853",
+      "size_bytes": 13448
+    },
+    {
+      "path": "work_record_030.html",
+      "sha256": "b7ad97eac312bd9da2f0342b77b52e546e17ffa51971031509d02ae96c2befae",
+      "size_bytes": 11889
+    },
+    {
+      "path": "work_record_031.html",
+      "sha256": "e42d05ec21614828be34bc057771f371ca10ab07082856c21dc5d0721ad12b74",
+      "size_bytes": 9423
+    },
+    {
+      "path": "work_record_032.html",
+      "sha256": "51d0e318915c94c48a6462c1a42425384658831109fc09eea7ee92fdf3f80819",
+      "size_bytes": 11288
+    },
+    {
+      "path": "work_record_033.html",
+      "sha256": "ad1394e5ad1ebe72dc3c047b307c839c75f6b4e5296b763df3524f1bd8b83d4f",
+      "size_bytes": 10866
+    },
+    {
+      "path": "work_record_034.html",
+      "sha256": "8e54ad2796854bb8824e23f46737a8a573c39ca2c200d015d25334a8c037c825",
+      "size_bytes": 13064
+    },
+    {
+      "path": "work_record_035.html",
+      "sha256": "d133e6203978dd1644b66079e7e06c1c89c8e856d028a92bda2776abf9e21353",
+      "size_bytes": 11746
+    },
+    {
+      "path": "work_record_036.html",
+      "sha256": "f2585575bccf902e2fdb4d80c2899b36d56355ec82436c43e4e566249e17b9e2",
+      "size_bytes": 10350
+    },
+    {
+      "path": "work_record_037.html",
+      "sha256": "b0262d84883a9cf4bd9123f8cf5cca3c585b6d4b1adb0a1eb0f5bf075a4d86e6",
+      "size_bytes": 12078
+    },
+    {
+      "path": "work_record_038.html",
+      "sha256": "140cf9a22c788de79e9c8dcd6ca8f453b0d970bb7d62710fc46a7bf1a912c17a",
+      "size_bytes": 8731
+    },
+    {
+      "path": "work_record_039.html",
+      "sha256": "c3e3d2a182d41045f1d007445546de784bbdfc30f9ac48c5fc32a0a816afb2a8",
+      "size_bytes": 10368
+    },
+    {
+      "path": "work_record_040.html",
+      "sha256": "53bf2d48ee65a81c9c655870d3eb47d1eea89f01db7d19121b7a66a06ac0e0dd",
+      "size_bytes": 5524
+    },
+    {
+      "path": "work_record_041.html",
+      "sha256": "3174cb5e1a8732cfdf73edccca336c5fe8021ba3acf0005e2b7684e7b5e61ae7",
+      "size_bytes": 9222
+    },
+    {
+      "path": "work_record_042.html",
+      "sha256": "1a4430c1d18907fc501b84e2f308c8e92a365cf74cf22e4413d6c6530b935b1d",
+      "size_bytes": 8481
+    },
+    {
+      "path": "work_record_043.html",
+      "sha256": "c745ec1dce5e7cca6eb1b11fb66459ab8c3922a75a0f6ca1229da07d506bf0fa",
+      "size_bytes": 7922
+    },
+    {
+      "path": "work_record_044.html",
+      "sha256": "cae44c2a413620dda1d7734cf65162029580f23d8d95d39cfcfc7680fc8370ea",
+      "size_bytes": 8058
+    },
+    {
+      "path": "work_record_045.html",
+      "sha256": "1e41de907dd5747f249c0b46efb8ab2df9fd52a1f3643d53ec07672112c72ed2",
+      "size_bytes": 8089
+    },
+    {
+      "path": "work_record_046.html",
+      "sha256": "17411a581ba4f4ac3c4b6b316e94976f4f7655ddba8802bd3a38bca2152ecb7c",
+      "size_bytes": 8068
+    },
+    {
+      "path": "work_record_047.html",
+      "sha256": "ef4571d8c83ec6f3cb0a831d301dfc81d9035d0d0f888f48190b6de85e14e38e",
+      "size_bytes": 6634
+    },
+    {
+      "path": "work_record_048.html",
+      "sha256": "8606cfa255fd4cfaac768900a8a104b863fc9fab7b2738f13a9c3a42a2143764",
+      "size_bytes": 6154
+    },
+    {
+      "path": "work_record_049.html",
+      "sha256": "50dceb3bcc3041942ce9c09db2879982810e518133a65033add8d3a1975609e6",
+      "size_bytes": 6470
+    },
+    {
+      "path": "work_record_050.html",
+      "sha256": "d823e3122a002960ba33523a6027cbff02cdc6177fdd748a3317339e65527a52",
+      "size_bytes": 6473
+    },
+    {
+      "path": "work_record_051.html",
+      "sha256": "f752b2ab9a5188f7480c10354042b985d8414b55b23759e48cffbb1e6b9cb132",
+      "size_bytes": 6224
+    },
+    {
+      "path": "work_record_052.html",
+      "sha256": "75817cbbe4f3c077854c57615c92b215b56656dea4c2ead5a9d6e71468e13497",
+      "size_bytes": 6661
+    },
+    {
+      "path": "work_record_053.html",
+      "sha256": "d65962375fb0e3c95c8accbd4e09e268573d9c30494eb5febe55f260bdd58cb3",
+      "size_bytes": 9988
+    },
+    {
+      "path": "work_record_054.html",
+      "sha256": "11c863efd84d0d3a37b84ec1b3cb6e64b9c020ad387aac07aed54c4049b1bd4c",
+      "size_bytes": 7422
+    },
+    {
+      "path": "work_record_055.html",
+      "sha256": "2d9613bd21d1004d986d635cc99b0be6ed077483cd4c1f91bb6ccce72ddd4a30",
+      "size_bytes": 7809
+    },
+    {
+      "path": "work_record_056.html",
+      "sha256": "1ce69749018647da2671300b9d5d590c74082e9e0e202dbe1a4434b3e0e6e9fb",
+      "size_bytes": 9216
+    },
+    {
+      "path": "work_record_057.html",
+      "sha256": "9b758306269f9b354e7c77c457c954450ae54906a75a94c52a4a787792d26b27",
+      "size_bytes": 8815
+    },
+    {
+      "path": "work_record_058.html",
+      "sha256": "dbaa81e9120dda7fd30c14d5f0ea075d659c7603ff551f0f4263525802d87ed1",
+      "size_bytes": 5957
+    },
+    {
+      "path": "work_record_059.html",
+      "sha256": "fecbbc808f614e609dd214b79343892e897b8d3cb75bf0004256aebe9e531abd",
+      "size_bytes": 9199
+    },
+    {
+      "path": "work_record_060.html",
+      "sha256": "ea56939fdb0c0a3f86c5b98de2aec31dc115e9f1d167f5f86c45be43cce8b720",
+      "size_bytes": 7337
+    },
+    {
+      "path": "work_record_061.html",
+      "sha256": "0cd1b2e3a165e5f0edfe9c68755680b6ce37148b3ece8c475ede71b389ff3f88",
+      "size_bytes": 11408
+    },
+    {
+      "path": "work_record_062.html",
+      "sha256": "b03d8a713af45f3032b258c9b17142f1d8d4a098c590c260f3550c2cee45fb0d",
+      "size_bytes": 8161
+    },
+    {
+      "path": "work_record_063.html",
+      "sha256": "f30e60fa665cf37ca4ace8a8c3aab3692c8e4ad0ecf94a15e3a1962df0ee9241",
+      "size_bytes": 7684
+    },
+    {
+      "path": "work_record_064.html",
+      "sha256": "175be75f8af3f9457bb3fa8394d5b2a4ee85bb8a7b975556aefca243ad8488ba",
+      "size_bytes": 10994
+    },
+    {
+      "path": "work_record_065.html",
+      "sha256": "e21888b0a78b9e4ba3cd7305549f814e4a8d436fc55dcbfc18957f99a3fd3985",
+      "size_bytes": 11357
+    },
+    {
+      "path": "work_record_066.html",
+      "sha256": "75435bf39b3670f884ba1468993d33725248658fc7a0c1f1bc44b52b794a7edc",
+      "size_bytes": 10601
+    },
+    {
+      "path": "work_record_067.html",
+      "sha256": "05556da3d71ec2813312e9f25c8f63918920a917009b0035c5ee3314d49465a6",
+      "size_bytes": 14630
+    },
+    {
+      "path": "work_record_068.html",
+      "sha256": "bfaba7203830614c4c5e99891d21d2b5cb8c0d00ad23c6cc186d52e04fd0c709",
+      "size_bytes": 15661
+    },
+    {
+      "path": "work_record_069.html",
+      "sha256": "21faee8ce79923d0aa4f5b31fc955c5da4986dd7f1642e7ed069bf2711ebcb7f",
+      "size_bytes": 12460
+    },
+    {
+      "path": "work_record_070.html",
+      "sha256": "cafe0be21c51021371ec2f030caf532878dc1298a5f0830c14c277fe3c941a28",
+      "size_bytes": 12618
+    },
+    {
+      "path": "work_record_071.html",
+      "sha256": "694e98845e762d2e7555e5fc9ceee13b73569c821dff6771f4537e7612725020",
+      "size_bytes": 13423
+    },
+    {
+      "path": "work_record_072.html",
+      "sha256": "a2fe15eb4be774d961b2d855ea5823840cb4a9de8a87b0d584f58204cfa00e8b",
+      "size_bytes": 13898
+    },
+    {
+      "path": "work_record_073.html",
+      "sha256": "de7e438d2c28276b8bcd43238de6049c8560c2796d18b7210f9f0f9f92a17748",
+      "size_bytes": 13385
+    },
+    {
+      "path": "work_record_074.html",
+      "sha256": "3675acb93767b6e55383c83cf036748ee9e87caa8a0a895ce87904a74b67946a",
+      "size_bytes": 12971
+    }
+  ]
+}
