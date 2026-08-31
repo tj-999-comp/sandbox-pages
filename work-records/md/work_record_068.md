@@ -41,9 +41,9 @@
 ## 最終結果
 
 - 解決したこと: `sandbox_pages`を公開pipelineへ登録し、後続Issueが参照する初期公開契約を固定した。
-- 変更ファイル: `config/sources.json`、`projects/README.md`、`docs/PORTFOLIO_STANDARD.md`、`scripts/dev/github_app_token.py`、`tests/test_source_registry.py`、`tests/test_github_app_token.py`、本作業記録のMarkdown/HTML。
-- 検証結果: 全100テスト、JSON構文、Python構文、converter check、filename validator、`git diff --check`に合格した。Keychain診断は秘密情報を表示せず`status: missing`を再現し、生PEM、改行を含むBase64 PEM、login確認後のデフォルト検索リストへのフォールバックの読み込みテストにも合格した。過去に成功した`B_Stats_Site`の`--check-keychain`を同じ環境で再実行した結果は失敗であり、現在のKeychain状態または検索リストが過去と異なることを確認した。作業記録HTMLをChromiumの1280×900、900×900、640×900、320×800で確認し、全viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。
-- 未解決事項: #81〜#87のmetadata整備、初期provenance、dry-run、手動E2E、有効化、運用引き継ぎ。過去に成功したKeychain項目の現在の保存先・検索リストは、秘密値を表示せずにKeychain Access側で確認する必要がある。
+- 変更ファイル: `AGENTS.md`、`config/sources.json`、`projects/README.md`、`docs/PORTFOLIO_STANDARD.md`、`scripts/dev/github_app_token.py`、`tests/test_source_registry.py`、`tests/test_github_app_token.py`、本作業記録のMarkdown/HTML。
+- 検証結果: 全100テスト、JSON構文、Python構文、converter check、filename validator、`git diff --check`に合格した。Keychain診断はサンドボックス外で秘密情報を表示せず`status: valid_pem`を確認し、生PEM、改行を含むBase64 PEM、login確認後のデフォルト検索リストへのフォールバックの読み込みテストにも合格した。過去に成功した`B_Stats_Site`の`--check-keychain`を同じ環境で再実行した結果は失敗であり、サンドボックス内外でKeychainの可視性が異なることを確認した。作業記録HTMLをChromiumの1280×900、900×900、640×900、320×800で確認し、全viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。
+- 未解決事項: #81〜#87のmetadata整備、初期provenance、dry-run、手動E2E、有効化、運用引き継ぎ。今後のKeychain認証は、サンドボックス外で`--diagnose`が`valid_pem`になった場合だけ実行する。
 - 次アクション: `python3 scripts/dev/github_app_token.py --diagnose`で秘密情報を表示せず状態を確認する。その後#80 PRを作成し、#81で`work_record_001`〜`067`のmetadataを追加して全件のtitle・date・project_id・publishを検証する。
 
 ## GitHub Issue状況

@@ -61,6 +61,8 @@ Codexは依頼内容を分類し、必要な専門役割だけをサブエージ
 - Issue、PR、レビュー、CIの取得は、原則として`python3 scripts/dev/github_app_token.py`で発行したInstallation tokenを`GH_TOKEN`へ一時設定して行う。
 - `config/github_app.json`にはApp ID、Client ID、対象repository、Keychain serviceだけを置き、PEM秘密鍵・JWT・Installation tokenは保存しない。
 - 標準形式は`GH_TOKEN="$(python3 scripts/dev/github_app_token.py --print-token)" gh ...`とし、tokenをログ、作業記録、PR本文、Issueコメントへ出力しない。
+- macOS Keychainへアクセスする`security`コマンド、`scripts/dev/github_app_token.py`の`--diagnose`・`--print-token`、およびKeychain由来の`GH_TOKEN`で実行する`gh`コマンドは、必ずサンドボックス外（実行ツールの`require_escalated`）で実行する。通常のサンドボックス内で得たKeychainの`missing`・検索リストエラーは、項目不存在や権限不足の確定結果として扱わない。
+- 認証操作の開始時は、サンドボックス外で`python3 scripts/dev/github_app_token.py --diagnose`を実行し、`status: valid_pem`を確認してからtoken発行・GitHub API操作へ進む。`valid_pem`でない場合は、PEMの再登録やローテーションを推測で行わず、実行環境とKeychainの保存先を再確認する。
 - GitHub API取得前に対象repositoryとIssue番号を明示し、取得日時をJSTで記録する。接続失敗時は状態を推測しない。
 
 ### 適用条件

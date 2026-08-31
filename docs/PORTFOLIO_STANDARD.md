@@ -46,6 +46,18 @@ GH_TOKEN="$(python3 scripts/dev/github_app_token.py --print-token)" \
   gh issue view <番号> --repo <owner/repository> --json number,title,state,url
 ```
 
+#### Keychain認証の実行環境ルール
+
+macOS Keychainへアクセスする`security`コマンド、`scripts/dev/github_app_token.py`の`--diagnose`・`--print-token`、およびKeychain由来の`GH_TOKEN`で実行する`gh`コマンドは、必ずサンドボックス外で実行する。Codexでは実行ツールの`sandbox_permissions: require_escalated`を指定する。通常のサンドボックス内ではKeychain項目が存在していても`missing`や検索リストエラーになる場合があるため、その結果だけでKeychain項目の不存在・形式不正・権限不足を確定しない。
+
+認証操作は、サンドボックス外で次の事前確認を行い、`status: valid_pem`の場合だけtoken発行とGitHub API操作へ進む。
+
+```bash
+python3 scripts/dev/github_app_token.py --diagnose
+```
+
+このルールの実行時の強制点は、リポジトリ文書ではなくCodex実行ツールのサンドボックス権限である。作業記録には、`--diagnose`をサンドボックス外で実行したことと結果を記録し、未確認の認証状態を推測で補わない。
+
 Keychain項目の存在とPEM形式だけを秘密情報なしで確認する場合は、次を使う。
 
 ```bash
