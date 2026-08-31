@@ -52,7 +52,7 @@ class SourceRegistryTests(unittest.TestCase):
         )
         self.assertEqual(sandbox_source["html_mode"], "source_html")
         self.assertEqual(sandbox_source["generator_id"], "b-stats-work-record-v1")
-        self.assertFalse(sandbox_source["enabled"])
+        self.assertTrue(sandbox_source["enabled"])
         self.assertEqual(
             sandbox_source["support_files"],
             ["README.md", "design.md", "work_record.css"],
