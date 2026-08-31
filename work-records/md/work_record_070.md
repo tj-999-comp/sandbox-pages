@@ -42,8 +42,8 @@
 - 変更ファイル: `.github/workflows/accept-source.yml`、`docs/ACTIONS_MAIN_POLICY.md`、`scripts/publish/apply_engine.py`、`tests/test_apply_engine.py`、`tests/test_pages_workflow.py`、本作業記録のMarkdown/HTML。
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（106 tests成功）、workflow YAML parse、`python3 -m scripts.publish.index_generator --check`、作業記録converter check、filename validator、`git diff --check`に合格した。`actionlint`は実行環境に未インストールのため未実施。
 - 作業ブランチ: `codex/070-issue-82-fixed-commit`
-- commit: 実装commit作成後に追記
-- PR: 作成後に追記
+- commit: `033a1c5`
+- PR: [#106 Issue #82: 同一repository source受入を隔離](https://github.com/tj-999-comp/sandbox-pages/pull/106)
 - 未解決事項: #83〜#87の初期provenance、disabled no-op、手動E2E、有効化、公開・通知、運用引き継ぎ。
 - 次アクション: #82のPRをCI確認し、マージ後に#83へ進む。
 
