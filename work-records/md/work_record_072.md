@@ -52,8 +52,8 @@
 - 検証結果: 修正前workflow run [#33398918931](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33398918931)はA-04 URL検証で失敗した。修正後は全108テスト、sandbox_pages content safety 71 HTML、source inventory 216件、published files 143件、repair manifest drift、index generator、converter、filename validator、ブラウザ確認に合格した。
 - 作業ブランチ: `codex/072-issue-84-disabled-e2e`
 - コミット: `63e8124d5017b0de204abdb270072d3efb1c984a`（修正本体）
-- PR: 作成後にURLを追記する。
-- PRレビュー・CI: 作成後に確認する。修正後の実workflow dry-run/no-opはPRマージ後に実施する。
+- PR: [#108 Issue #84: sandbox_pages disabled受入dry-runの修復](https://github.com/tj-999-comp/sandbox-pages/pull/108)（Draft）。
+- PRレビュー・CI: Draft PRの差分レビューとCI確認を進行中。修正後の実workflow dry-run/no-opはPRマージ後に実施する。
 - 未解決事項: 修正後のmainを対象にしたGitHub Actions実workflow成功、apply no-op、deploy/Slack skip、workflow artifact URL。
 - 次アクション: PRをレビュー・マージ後、`source_commit_sha`をマージ済みmainの固定SHAへ更新して#84 workflowを再実行し、成功結果をIssueと本記録へ反映する。
 
