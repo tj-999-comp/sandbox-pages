@@ -41,7 +41,7 @@
 - 変更ファイル: `tests/test_source_registry.py`、`tests/test_read_only_acceptance.py`、`work-records/md/work_record_062.md`、生成HTML。
 - 検証結果: `python3 -m unittest discover -s tests -p 'test_*.py'`（93件成功）。source remote SHAの取得は成功したが、source treeの取得はDNS制限で未実施。
 - 作業ブランチ: `codex/062-tech-article-acceptance-prep`
-- コミット: 未実施
+- コミット: `8d2f7bb`（受入有効化後のテスト期待値と作業記録を追加）
 - PR: 未作成
 - PRレビュー・CI: 未実施。E2E workflowも未実施。
 - 未解決事項: source側の対象basenameと最新commitの内容、GitHub Actions受入・Pages・provenance・通知の実結果。
