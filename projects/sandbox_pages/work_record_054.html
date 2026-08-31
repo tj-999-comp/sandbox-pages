@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>tech_article_nortification の生成元導入契約を追加 — 作業記録 054</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 054 ・ <time datetime="2026-08-27">2026-08-27</time></p>
+          <h1>tech_article_nortification の生成元導入契約を追加</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_054.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 新しい生成元リポジトリ <code>tech_article_nortification</code> を公開リポジトリのsource registryへ追加し、生成元へ渡す公開契約を明確にする。</li><li>目的: 既存の <code>B_Stats_Site</code> と同じ公開境界を保ちながら、新規生成元を <code>a_rendered</code> 方式で安全に導入できる状態にする。</li><li>完了条件: registryが新しい <code>project_id</code> を検証でき、生成元の入力パス・公開先・公開要求入力・導入前の無効状態が文書化され、既存テストに合格する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>projects/README.md</code>、<code>docs/PORTFOLIO_STANDARD.md</code>、現行source registry、ローカルの <code>tech_article_nortification</code> checkout。</li><li>実施内容: <code>tech_article_nortification</code> を <code>main</code> branchの <code>work-records/</code> 入力、<code>projects/tech_article_nortification/</code> 公開先、<code>a_rendered</code>方式として登録した。新規方式でsupport fileを持たないregistryを検証できるよう、A所有rendererのgenerator IDを許可した。生成元checkoutの <code>README.md</code> と <code>AGENTS.md</code> に同じ固定情報と入力契約を追記した。</li><li>成果物: <code>config/sources.json</code>、<code>scripts/publish/source_registry.py</code>、<code>projects/README.md</code>、source registryテスト、生成元側の公開連携案内。</li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（76件合格）、source registryの構文確認、<code>git diff --check</code>、作業記録54件の生成・filename検証に合格した。</li><li>未解決事項: 生成元は現在 <code>Issues/Issue_###.md</code> 構成であり、公開契約の <code>work-records/md/</code> と <code>work-records/metadata/</code> への移行は未実施。A側の <code>a_rendered</code> rendererも未実装。</li><li>次工程への引き継ぎ: 生成元側で公開対象の作業記録を共通命名へ移行し、A側のrenderer実装後にdisabled dry-runと手動E2Eを行う。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: registry差分、公開契約の追記、source registryテスト結果。</li><li>実施内容: 新規sourceを有効化せず、公開先をregistryの固定値に限定し、既存のIssue資料を自動受入対象に含めない境界を確認した。</li><li>成果物: 導入準備中であることと、生成元へ渡す固定情報を <code>projects/README.md</code> に記録したレビュー結果。</li><li>検証結果: 既存Bの登録値を維持し、新規sourceの未移行状態を公開済みと扱わないことを確認した。</li><li>未解決事項: なし（今回の登録・契約文書の範囲）。</li><li>次工程への引き継ぎ: 生成元移行とrenderer実装が完了するまで <code>enabled: false</code> を維持する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>tech_article_nortification</code> は <code>project_id</code> としてリポジトリ名をそのまま使用し、<code>a_rendered</code>方式・<code>enabled: false</code>で登録する。</li><li>理由: 新規生成元はA側rendererを使う標準方式とし、現行checkoutに公開契約の入力構成がまだないため、準備完了前の実公開を防ぐ必要がある。</li><li>判断: 現在の <code>Issues/Issue_###.md</code> を公開対象へ自動変換しない。</li><li>理由: 課題資料と番号付き作業記録は役割が異なり、内容確認とmetadata付与なしに公開履歴へ混入させないため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: <code>tech_article_nortification</code> のsource registry登録と、生成元へ渡す公開契約を追加した。</li><li>変更ファイル: <code>config/sources.json</code>、<code>scripts/publish/source_registry.py</code>、<code>projects/README.md</code>、<code>tests/test_source_registry.py</code>、<code>work-records/work_record.css</code>、<code>tech_article_nortification</code>側の<code>README.md</code>・<code>AGENTS.md</code>、本作業記録と対応HTML。</li><li>検証結果: 全76ユニットテスト、<code>convert_work_records_to_html.py --check</code>、<code>validate_work_record_filenames.py</code>、一時キャッシュ先を指定した<code>py_compile</code>、<code>git diff --check</code>に合格。ブラウザでは全4 viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。証跡: <code>/private/tmp/playwright-browser-verify/2026-08-27T09-12-44-156Z/report.json</code>。</li><li>未解決事項: 生成元の <code>work-records/</code> 移行、A側 <code>a_rendered</code> renderer、disabled dry-run、手動E2E、公開有効化。</li><li>次アクション: 生成元側へ本記録の契約情報を反映し、最初の <code>work_record_001</code> とmetadataを用意してから受入検証へ進む。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>本作業は新規生成元の導入契約を整備する作業であり、対応するGitHub Issueは未登録である。既存Issueの状態変更は行っていない。</p></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 054</span>
+        <span><a href="md/work_record_054.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

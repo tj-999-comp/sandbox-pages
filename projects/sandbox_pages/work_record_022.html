@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>作業記録HTML上部リンクの撤去 — 作業記録 022</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 022 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>作業記録HTML上部リンクの撤去</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_022.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 既存の作業記録HTML上部リンクを撤去し、B_Stats_Site Issue #28と<code>design.md</code>の方針を確認する。</li><li>目的: 作業記録本文の上部にあるナビゲーションリンクをなくし、記録本文への集中を維持する。</li><li>完了条件: converterから上部リンクを削除し、既存HTMLを再生成し、PC・320px表示とエラーのないことを確認する。作業記録Markdown/HTMLとPRを作成する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio UI Designer</h3>
+<ul><li>入力: <code>tj-999-comp/B_Stats_Site</code> Issue #28、<code>projects/B_Stats_Site/design.md</code>、既存converterと生成HTML。</li><li>実施内容: Issue #28が求める親ディレクトリREADMEリンクの解消状況を確認したうえで、今回の明示要件である上部リンク全撤去を適用した。上部のトップページ、運用ルール、デザインガイド、Markdown原本リンクを対象とし、フッターのMarkdown原本リンクは対象外として残した。</li><li>成果物: 上部<code>topbar</code>を生成しないconverterテンプレート。</li><li>検証結果: 21件の生成HTMLから<code>topbar</code>、<code>wordmark</code>、<code>toplinks</code>を検索し、該当0件を確認した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: Frontend Engineerへconverter変更と全HTML再生成を引き継ぐ。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>scripts/dev/convert_work_records_to_html.py</code>、21件の作業記録Markdown/HTML、既存のIssue #7実装。</li><li>実施内容: converterの上部<code>topbar</code>ブロックを削除し、<code>work_record_001</code>〜<code>021</code>を決定的に再生成した。上部リンク撤去を固定するconverterテストを追加した。</li><li>成果物: converter、19件のユニットテスト、21件の再生成HTML、本作業記録。</li><li>検証結果: converter再生成check、既存work-record validator、Python構文、<code>git diff --check</code>に合格した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: ReviewerとブラウザTesterへ引き継ぐ。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: <code>work_record_001.html</code>と<code>work_record_021.html</code>、PC・スマートフォン表示条件。</li><li>実施内容: Playwrightで1280×900、900×900、640×900、320×800を表示し、横overflow、console error、page error、failed requestを確認した。</li><li>成果物: <code>/private/tmp/playwright-browser-verify/2026-08-19T16-29-28-947Z/report.json</code>、<code>/private/tmp/playwright-browser-verify/2026-08-19T16-29-43-883Z/report.json</code>。</li><li>検証結果: 両ページの全4viewportで横overflow、console error、page error、failed requestは0件。上部リンクは表示されず、本文下部のMarkdown原本リンクは維持された。</li><li>未解決事項: スクリーンリーダーによる読み上げ確認は未実施。</li><li>次工程への引き継ぎ: Reviewerへブラウザ証跡と静的確認を引き継ぐ。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #28、<code>design.md</code>、converter差分、全21件の生成HTML、テスト結果。</li><li>実施内容: 上部リンク撤去の要件適合、本文・basename・既存URLを変更していないこと、作業記録のMarkdown/HTML対応、無関係なファイル混入を確認した。</li><li>成果物: PR作成前レビュー。</li><li>検証結果: 重大0件、中0件、軽微0件。差し戻し不要と判定した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: 対象ファイルをcommitし、Macのキーチェーン資格情報でPush後にPRを作成する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: Issue #28の最小要件は親READMEリンクの修正だが、今回の明示要件に従い上部リンクをまとめて撤去した。</li><li>理由: ユーザー指定がIssue本文より具体的であり、<code>design.md</code>の「ナビゲーションリンクも原則として通常のテキストリンク」という方針と競合しないため。</li><li>判断: フッターのMarkdown原本リンクは残した。</li><li>理由: 上部導線の撤去範囲に含めず、記録原本へ戻る既存の下部導線を維持するため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 既存21件の作業記録HTMLから上部リンクを撤去し、今後のconverter生成でも上部リンクが復活しない状態にした。</li><li>変更ファイル: <code>scripts/dev/convert_work_records_to_html.py</code>、<code>tests/test_work_record_converter.py</code>、<code>work-records/work_record_001.html</code>〜<code>work_record_021.html</code>、本作業記録のMarkdownとHTML。Issue #7実装の未コミット変更も同じPR対象に含める。</li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（19件合格）、<code>py_compile</code>、converter <code>--check</code>、work-record filename validator、上部リンク検索、<code>git diff --check</code>、PlaywrightのPC/320px確認に合格した。</li><li>未解決事項: なし。</li><li>次アクション: PR #28の外部レビューとマージ判断を待つ。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-20 01:30 取得範囲: <code>tj-999-comp/sandbox-pages</code>の親Issue #5とPhase 1のIssue #6〜#8、および<code>tj-999-comp/B_Stats_Site</code> Issue #28</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#5 [Epic] プロジェクト進捗ページの自動公開を段階導入する
+├── #6 [Publish] 公開元source登録を設定ファイル化する
+├── #7 [Publish] 共通命名・metadata schema validatorを実装する
+└── #8 [Publish] 受入ファイルのpath・種別・容量validatorを実装する</code></pre>
+<p>関連Issue: <code>B_Stats_Site #28</code>（親Issueは<code>sandbox-pages #5</code>）</p>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/7">sandbox-pages #7 共通命名・metadata schema validatorを実装する</a></td><td>未完了</td><td>本ブランチに実装済み。PRレビューと反映が残る</td></tr><tr><td>2</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/8">sandbox-pages #8 受入ファイルのpath・種別・容量validatorを実装する</a></td><td>未完了</td><td>#6と#7の完了後に着手</td></tr></tbody></table>
+<h3>関連Issueの状態</h3>
+<table><thead><tr><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係</th></tr></thead><tbody><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/5">sandbox-pages #5 プロジェクト進捗ページの自動公開を段階導入する</a></td><td>未完了</td><td>親Epic</td></tr><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/6">sandbox-pages #6 公開元source登録を設定ファイル化する</a></td><td>完了（completed）</td><td>#7の依存Issue</td></tr><tr><td><a href="https://github.com/tj-999-comp/B_Stats_Site/issues/28">B_Stats_Site #28 親ディレクトリREADMEリンクをproject内リンクへ修正する</a></td><td>完了（completed）</td><td>今回の参照元。上部リンク撤去を追加適用</td></tr></tbody></table>
+<h3>PR・CI状況</h3>
+<ul><li>PR: <a href="https://github.com/tj-999-comp/sandbox-pages/pull/28">sandbox-pages #28 共通metadata validator実装と作業記録上部リンク撤去</a></li><li>base: <code>main</code></li><li>head: <code>codex/023-issue-7-metadata-validator</code></li><li>commit: <code>6399953</code> および作業記録更新commit</li><li>Push: Macの<code>osxkeychain</code>をGit credential helperとして使用して完了</li><li>CI: GitHub status checkは設定されておらず、statusは空。ローカル検証は全件合格</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 022</span>
+        <span><a href="md/work_record_022.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

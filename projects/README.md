@@ -98,6 +98,8 @@ limits:
 
 同一リポジトリ内の `work-records/` と `projects/sandbox_pages/` は別境界として扱う。生成元の任意scriptやActionは公開側の権限付きjobで実行せず、A側のvalidator、provenance、Pages処理を通過した成果物だけを公開する。
 
+Issue #83の初期bootstrapでは、#82完了直後の固定source SHA `d6c6b29f10844e2a2e52a9b0660b71aba6e5cf2e`に存在する `work_record_001`〜`work_record_070` を対象とする。`provenance/sandbox_pages/initial.json` の `operation` は `create`、`notify` は `false` とし、公開先にはsupport file、Markdown、同名HTMLだけを配置し、metadataはsource側の検証入力として公開先へコピーしない。初期bootstrap後に追加される作業記録は、固定SHAを更新した後続の受入で扱い、生成元からの消失や`publish: false`を理由に初期公開物を自動削除しない。
+
 ### `tech_article_nortification` の導入契約
 
 `tech_article_nortification` は、新規生成元向けの `a_rendered` 方式で登録する。source registryへの登録とA側rendererの実装は済んでいるが、生成元の移行、受入確認、手動E2Eが完了するまでは `enabled: false` とする。

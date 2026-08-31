@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>共通ナビゲーションとフッターの整理 — 作業記録 003</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 003 ・ <time datetime="2026-05-04">2026-05-04</time></p>
+          <h1>共通ナビゲーションとフッターの整理</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_003.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: ヘッダとフッタの情報重複を解消し、カテゴリ別アコーディオンナビを実装する</li><li>目的: 主要導線をヘッダに集約し、ページ遷移先を直感的に把握できる構成にする</li><li>完了条件: Homeリンク削除、フッタ簡素化、Games / Keyboards / Experiments / Contact のアコーディオン表示実装</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　実行</p><h2 id="section-02">進行ログ（バトンタッチ順）</h2></div><div class="section-content"><ol><li>Planner<ul><li>入力: ユーザー要望（ヘッダ/フッタ整理、カテゴリ別アコーディオン）</li><li>実施内容: ヘッダに遷移導線を集約、フッタは補助情報へ縮小する方針を定義</li><li>成果物: 変更対象（共通ヘッダを持つ7HTML + 共通CSS / JS）の確定</li><li>次役割への引き継ぎ: カテゴリ別の具体的なナビ項目設計</li></ul></li><li>UI Designer<ul><li>入力: 変更対象ファイル一覧と既存ナビ構造</li><li>実施内容: ホバー時にパネルが展開するアコーディオン風デザイン、モバイルはタップ展開に設計</li><li>成果物: 4カテゴリ（Games / Keyboards / Experiments / Contact）それぞれのパネル表示仕様</li><li>次役割への引き継ぎ: HTML / CSS / JS実装仕様</li></ul></li><li>Frontend Engineer<ul><li>入力: 新ナビ設計とフッタ簡素化方針</li><li>実施内容: 全対象HTMLに新ナビ構造を反映、フッタを1セクション+メタに縮小、共通JS / CSSを更新</li><li>成果物: 7HTML、<code>site-layout.css</code>、<code>site-layout.js</code>、<code>trackball-controll-practice.js</code>の更新</li><li>次役割への引き継ぎ: 文言最終調整</li></ul></li><li>Copywriter<ul><li>入力: 新フッタ構成</li><li>実施内容: フッタ文言を簡潔化し、導線重複を避ける文に調整</li><li>成果物: 「UI検証用の実験ページ群です。詳細なページ移動はヘッダメニューから行えます。」</li><li>次役割への引き継ぎ: 品質レビュー</li></ul></li><li>Reviewer<ul><li>入力: 実装後HTML / CSS / JS</li><li>実施内容: Homeリンク除去、フッタ重複解消、カテゴリ別表示、trackballページの重複ナビ挙動を確認</li><li>指摘（重大/中/軽微）:<ul><li>重大: trackball-controll-practice.js に旧ナビ複製処理が残り重複表示（修正済み）</li><li>中: なし</li><li>軽微: なし</li></ul></li><li>次役割への引き継ぎ: SEO / 計測影響確認</li></ul></li><li>SEO &amp; Analytics Specialist<ul><li>入力: 更新後マークアップ</li><li>実施内容: 内部導線がヘッダ集約で明確化、Keychronページtitleを KeychronK2 に更新</li><li>成果物: title最適化（<code>keyboards/keychronk2.html</code>）</li><li>次役割への引き継ぎ: パフォーマンス / A11y確認</li></ul></li><li>Performance &amp; Accessibility Tester<ul><li>入力: 実装済みページとブラウザ実動確認</li><li>実施内容: aria-expanded 更新、focus / hover での展開、全対象ページで<code>site-layout.js</code>読み込みを確認</li><li>テスト結果: 問題なし</li><li>最終判定: 合格</li></ul></li></ol></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　確認</p><h2 id="section-03">最終結果</h2></div><div class="section-content"><ul><li>解決したこと:<ul><li>ヘッダの Home 導線を削除</li><li>Games / Keyboards / Experiments / Contact をアコーディオン表示に変更</li><li>Keyboards の遷移項目を KeychronK2 表記に統一</li><li>フッタの重複導線を削減し簡素化</li></ul></li><li>変更ファイル:<ul><li><code>index.html</code></li><li><code>games/trackball-controll-practice.html</code></li><li><code>games/trackball-typing-practice.html</code></li><li><code>games/typing-practice-origin.html</code></li><li><code>keyboards/keychronk2.html</code></li><li><code>test/test1.html</code></li><li><code>test/test2.html</code></li><li><code>css/site-layout.css</code></li><li><code>scripts/site-layout.js</code></li><li><code>scripts/trackball-controll-practice.js</code></li></ul></li><li>未解決事項:<ul><li>なし</li></ul></li><li>次アクション:<ul><li>実機モバイルでタップ開閉の操作性を最終確認</li></ul></li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　経過</p><h2 id="section-04">追記</h2></div><div class="section-content"><ul><li>比較検討フェーズ:<ul><li>Games / Keyboards / Experiments / Contact にそれぞれ異なるアコーディオン演出を一時的に実装し、見た目比較を実施</li><li>演出案:<ul><li>Games: スライド + スケール</li><li>Keyboards: クリップ展開</li><li>Experiments: 立体回転 + 段差表示</li><li>Contact: 横スライド + ワイプ</li></ul></li><li>併せて、フッタ補助文言を全ページから削除して、タイトルとメタ情報のみの構成へ整理</li></ul></li><li>追加要望: Contact に使っていた横ワイプのアコーディオン演出を、Games / Keyboards / Experiments / Contact の全項目へ統一</li><li>実施内容: <code>css/site-layout.css</code>のカテゴリ別演出を整理し、全ヘッダ項目で同一の横ワイプアニメーションに統一</li><li>ドキュメント運用: 当時はユーザーの明示指示がある場合のみ旧<code>Issues/</code>配下に新規ファイルを作成する方針だった</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 003</span>
+        <span><a href="md/work_record_003.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

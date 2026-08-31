@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>共通命名・metadata schema validatorの実装 — 作業記録 021</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 021 ・ <time datetime="2026-08-20">2026-08-20</time></p>
+          <h1>共通命名・metadata schema validatorの実装</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_021.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: Issue #7「共通命名・metadata schema validatorを実装する」</li><li>目的: 両HTML modeで共通利用する作業記録の命名、metadata検証、正規化、公開対象判定を実装する。</li><li>完了条件: Issue #7の命名・schema・登録project・決定的正規化・<code>publish</code>判定をテストで固定する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: Issue #7、<code>projects/README.md</code>、Issue #6で追加された<code>config/sources.json</code>とsource registry。</li><li>実施内容: YAML metadata loader、schema validator、basename一致検証、決定的正規化、公開対象判定を標準ライブラリだけで実装した。登録済みsourceの<code>project_id</code>を参照するloaderと、異常系・除外系fixtureを追加した。</li><li>成果物: <code>scripts/publish/metadata_schema.py</code>、<code>tests/test_metadata_schema.py</code>、metadata fixture。</li><li>検証結果: 命名範囲、case一致、schema version、title、実在日付、project_id、tags、publish、必須field、未知field、未登録project、<code>publish: false</code>、metadataなしの判定をテストした。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: Reviewerへ全テスト結果と差分確認を引き継ぐ。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #7の完了条件、実装差分、18件のユニットテスト結果。</li><li>実施内容: #6のsource registryとの接続、両HTML modeで再利用可能なAPI、公開対象外の安全条件、無関係な公開ファイルやPages設定への変更がないことを確認した。</li><li>成果物: Issue #7の差し戻し判定。</li><li>検証結果: 重大0件、中0件、軽微0件。差し戻し不要と判定した。</li><li>未解決事項: ブラウザ確認はUI変更がないため対象外。</li><li>次工程への引き継ぎ: Issue #8のpath・種別・容量validatorへ進める。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 外部YAMLライブラリを追加せず、metadata契約で必要なmapping・scalar・文字列listだけを安全に読む小さなparserを実装した。</li><li>理由: 既存の標準ライブラリ中心の構成を維持し、受入validatorの実行環境に新しい依存を持ち込まないため。</li><li>判断: <code>publish: false</code>とmetadataなしはエラーではなく、公開候補から除外する結果にした。</li><li>理由: 共通公開契約が定める「自動削除を行わない」安全条件と整合させるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: <code>work_record_001</code>〜<code>work_record_999</code>の命名、同一basenameとcase一致、metadata schema、登録project照合、決定的なtags・title・date正規化、公開候補判定を実装した。</li><li>変更ファイル: <code>scripts/publish/metadata_schema.py</code>、<code>tests/test_metadata_schema.py</code>、<code>tests/fixtures/metadata/invalid_unknown_field.yml</code>、<code>tests/fixtures/metadata/work_record_003.yml</code>、本記録のMarkdownとHTML。</li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（18件合格）、<code>py_compile</code>、<code>git diff --check</code>に合格した。</li><li>未解決事項: なし。</li><li>次アクション: Issue #8の受入path・種別・容量validatorを実装する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-20 01:27 取得範囲: <code>tj-999-comp/sandbox-pages</code>の親Issue #5とPhase 1のIssue #6〜#8</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#5 [Epic] プロジェクト進捗ページの自動公開を段階導入する
+├── #6 [Publish] 公開元source登録を設定ファイル化する
+├── #7 [Publish] 共通命名・metadata schema validatorを実装する
+└── #8 [Publish] 受入ファイルのpath・種別・容量validatorを実装する</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/7">#7 共通命名・metadata schema validatorを実装する</a></td><td>オープン</td><td>本作業の対象。#6完了を受けて実装したvalidatorのレビュー・反映が着手条件</td></tr><tr><td>2</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/8">#8 受入ファイルのpath・種別・容量validatorを実装する</a></td><td>オープン</td><td>#6と#7の完了後に着手</td></tr></tbody></table>
+<h3>関連Issueの状態</h3>
+<table><thead><tr><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係</th></tr></thead><tbody><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/5">#5 プロジェクト進捗ページの自動公開を段階導入する</a></td><td>オープン</td><td>親Epic</td></tr><tr><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/6">#6 公開元source登録を設定ファイル化する</a></td><td>クローズ（completed）</td><td>#7の依存Issue</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 021</span>
+        <span><a href="md/work_record_021.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

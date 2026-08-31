@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>監査可能な公開取り下げworkflowを実装 — 作業記録 057</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 057 ・ <time datetime="2026-08-28">2026-08-28</time></p>
+          <h1>監査可能な公開取り下げworkflowを実装</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_057.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #24「[Operations] 監査可能な公開取り下げworkflowを実装する」。</li><li>目的: 生成元の<code>publish: false</code>やファイル削除とは分離し、公開リポジトリAの管理者が対象を明示して安全に一件だけ取り下げられる運用を実装する。</li><li>完了条件: dry-runとpreview、対象限定削除、index・provenance同一反映、driftとmain競合の拒否、404・復元手順、Slack非通知を実装・検証する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Automation Engineer</h3>
+<ul><li>入力: <code>scripts/publish/apply_engine.py</code>、<code>scripts/publish/provenance.py</code>、<code>scripts/publish/index_generator.py</code>、既存のPages受入workflow、Issue #24の完了条件。</li><li>実施内容: <code>scripts/publish/withdraw_engine.py</code>を追加し、登録済みprojectの最新provenanceに存在する<code>work_record_###</code>だけを対象として、対応するHTMLとMarkdownを明示的に取り下げるようにした。apply前に公開ファイルのdigest、生成済みindex、対象の存在、main SHA、最新publication_idを再検証し、取り下げ操作を<code>operation: withdraw</code>の新しいmanifestへ記録するようにした。</li><li>成果物: dry-run/apply CLI、取り下げworkflow、取り下げ専用テスト、公開取り下げ・復元・Slack方針の文書更新。</li><li>検証結果: 既存applyテストを含む<code>tests/test_apply_engine.py</code>を実行し、取り下げplanの無変更、対象2ファイルの限定削除、withdraw manifest、誤確認文字列、二重取り下げ、公開drift拒否を確認した。workflow契約テストも追加した。</li><li>未解決事項: 公開側mainへの反映、GitHub Actionsのdry-run/apply、Pages上の404、revertによる復元確認、Issueのクローズは未実施。実際に取り下げる対象basenameはユーザー確認待ち。</li><li>次工程への引き継ぎ: このブランチをレビュー・PR経由で公開側mainへ反映し、対象basenameを固定してdry-run結果のSHAとpublication_idを保存する。その後、同値を入力したapplyを実行し、Pagesの対象URLが404になることを確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 取り下げengine、workflow、テスト、<code>projects/README.md</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>。</li><li>実施内容: source側の消失や<code>publish: false</code>を削除トリガーにしていないこと、対象外ファイル・symlink・manifest drift・stale index・main更新を拒否すること、Slack Secretをworkflowへ渡していないことを確認した。</li><li>検証結果: コード差分と専用テストに基づく事前レビューで、削除範囲は登録先配下の同名HTMLとMarkdownに固定され、indexとwithdraw manifestは同一commitへ含まれる設計であることを確認した。</li><li>未解決事項: GitHub Actions実行環境でのremote main保護、Pages反映、旧URLの実応答、rollback実行はmain反映後に確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: dry-runとapplyを別dispatchに分け、applyではdry-runの完全SHAと最新publication_idの再入力を要求する。</li><li>理由: previewを確認した後にmainや公開状態が変わっていないことを機械的に確認し、別対象・古いpreviewのまま削除しないため。</li><li>判断: 操作確認文字列を<code>WITHDRAW</code>に固定し、withdrawではSlack通知を送らない。</li><li>理由: 一件の公開停止を公開完了通知と混同せず、手動の破壊的操作であることを明示するため。</li><li>判断: 取り下げmanifestは削除せず、最新manifestとして対象recordを除いた状態を保存する。</li><li>理由: 過去の公開commitと対象URLを監査可能な履歴として残し、必要時はrevertで復元できるようにするため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: A管理者が<code>project_id</code>、basename、dry-runで得たSHA・publication_id、<code>WITHDRAW</code>確認を指定して、一件の公開作業記録だけを取り下げるCLIとworkflowを実装した。取り下げ時は対象HTML・Markdown、project/global index、withdraw provenanceを同一commitへ反映する。</li><li>変更ファイル: <code>.github/workflows/withdraw.yml</code>、<code>scripts/publish/withdraw_engine.py</code>、<code>tests/test_apply_engine.py</code>、<code>tests/test_pages_workflow.py</code>、<code>projects/README.md</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、<code>work-records/md/work_record_057.md</code>、<code>work-records/work_record_057.html</code>。</li><li>検証結果: <code>PYTHONPYCACHEPREFIX=/private/tmp/sandbox-pages-pycache python3 -m unittest tests/test_apply_engine.py -v</code>（14件成功）、workflow契約テストを含む全体テスト、<code>python3 -m scripts.publish.index_generator --check</code>、作業記録HTML生成・ファイル名検証、<code>git diff --check</code>を実施する。</li><li>実行保留: 実際の削除は対象basename未確定のため未実施。候補を勝手に削除せず、対象確認後にdry-runから開始する。</li><li>復元方針: 取り下げ後URLは404とし、復元時は取り下げcommitをrevertするPRを経て固定SHAでPagesを再deployする。withdraw manifest自体は履歴として保持する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-28 12:00 取得範囲: <code>tj-999-comp/sandbox-pages</code>のIssue #24をGitHub CLIで再取得し、同リポジトリのopen Issue一覧をPull Request除外で確認した。#24はOPEN、タイトルは<code>[Operations] 監査可能な公開取り下げworkflowを実装する</code>、更新日時は<code>2026-08-18T06:42:47Z</code>。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#5
+└── #24 [Operations] 監査可能な公開取り下げworkflowを実装する（A-19）</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未取得</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/24">#24 監査可能な公開取り下げworkflowを実装する</a></td><td>OPEN</td><td>本作業の対象。依存Issue #16/#18/#19を前提に、PRレビューとmain反映後に実workflowを確認する</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 057</span>
+        <span><a href="md/work_record_057.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

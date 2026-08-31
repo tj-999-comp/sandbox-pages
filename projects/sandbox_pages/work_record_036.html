@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #22 B source手動E2E有効化 — 作業記録 036</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 036 ・ <time datetime="2026-08-24">2026-08-24</time></p>
+          <h1>Issue #22 B source手動E2E有効化</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_036.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #22「[Activation] B sourceを手動E2E可能な状態へ有効化する」。</li><li>目的: 自動triggerを追加せず、管理下の手動publishだけを通せる状態へB sourceを移行する。</li><li>完了条件: sourceを<code>enabled: true</code>へ変更し、A受入workflowが手動起動だけであること、Bの<code>main</code> pushからA受入を自動起動する連携がないこと、停止・復旧・rollback手順を証跡化する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>origin/main</code>の最新commit <code>a062571</code>、Issue #22、既存の受入workflow・source registry・運用文書。</li><li>実施内容: B sourceの<code>enabled</code>を有効化し、enabled sourceを検証するテストfixtureを明示的opt-inへ更新した。A受入workflowが<code>workflow_dispatch</code>以外のtriggerを持たないことをテストで固定し、現行の手動運用と停止・復旧手順を文書へ追記した。</li><li>成果物: <code>config/sources.json</code>、<code>projects/README.md</code>、受入関連テスト、作業記録Markdown/HTML。</li><li>検証結果: Python unittest 67件が全件成功。JSON構文、<code>git diff --check</code>も成功した。</li><li>未解決事項: 実公開E2EはIssue #23の対象として実施していない。</li><li>次工程への引き継ぎ: 手動workflowから固定SHAを指定して代表レコードを受入し、commit・Pages・公開URL・Slack通知を確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #22の完了条件、A側<code>.github/workflows/accept-source.yml</code>、<code>docs/ACTIONS_MAIN_POLICY.md</code>、B側<code>main</code>のworkflow定義。</li><li>実施内容: A受入workflowに<code>push</code>、<code>pull_request</code>、<code>repository_dispatch</code>、<code>schedule</code>のtriggerがないことを確認した。B側workflowを<code>main</code>の現行SHAで確認し、Aの受入を起動する<code>sandbox-pages</code>連携がないことを確認した。B側にはPages・検証用の既存push workflowがあるため、「Bの全push workflowがない」とは記録せず、A受入の自動起動がないという範囲で整理した。</li><li>成果物: Issue #22対応差分のレビュー結果、B workflow確認記録。</li><li>検証結果: 重大な未解決事項なし。</li><li>未解決事項: GitHub AppのKeychain認証が利用できず、Issue/PRの操作は未実施。公開GitHub APIによる読み取り確認は実施した。</li><li>次工程への引き継ぎ: push後にGitHub Actionsのrequired checksとPR差分を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>enabled: true</code>への変更は<code>config/sources.json</code>と現行登録例だけに限定し、B側workflowやAのpublish workflowの自動triggerは追加しない。</li><li>理由: Issue #22は限定的な手動E2Eのための有効化であり、自動公開の有効化ではない。A受入workflowは既存の<code>workflow_dispatch</code>を唯一の入口として維持する。</li><li>判断: 緊急停止・復旧は既存の<code>docs/ACTIONS_MAIN_POLICY.md</code>に合わせ、停止、<code>enabled: false</code>復帰、provenance照合、レビュー付きrevert、正常SHAのPages再確認を記録する。</li><li>理由: 公開済み成果物を自動削除せず、監査可能な手順で停止・rollbackする必要があるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: <code>B_Stats_Site</code>を<code>enabled: true</code>へ変更し、明示的<code>--allow-enabled</code>を使う検証経路と、手動受入のみのtrigger契約をテストで固定した。Bの<code>main</code> pushからAの受入を自動起動する連携は設定されていない。</li><li>変更ファイル:<ul><li><code>config/sources.json</code></li><li><code>projects/README.md</code></li><li><code>tests/test_apply_engine.py</code></li><li><code>tests/test_pages_workflow.py</code></li><li><code>tests/test_read_only_acceptance.py</code></li><li><code>tests/test_source_registry.py</code></li><li><code>work-records/md/work_record_036.md</code></li><li><code>work-records/work_record_036.html</code></li></ul></li><li>検証結果: <code>python3 -m unittest discover -s tests -p 'test_*.py'</code>（67件、成功）、JSON構文確認（成功）、<code>git diff --check</code>（成功）。</li><li>ブラウザ確認: <code>work-records/work_record_036.html</code>をChromiumで1280px、900px、640px、320px幅で確認。全幅でHTTP 200、横overflowなし、console/page errorなし、failed requestなし。</li><li>作業ブランチ: <code>codex/035-issue-22-activation</code></li><li>コミット: <code>84e01a7 feat: enable B source for manual E2E</code>、<code>838640e docs: record Issue #22 commit</code></li><li>PR: <a href="https://github.com/tj-999-comp/sandbox-pages/pull/39">#39 Issue #22: B sourceを手動E2E向けに有効化</a>（Draft / OPEN）</li><li>PRレビュー・CI: 事前レビューで重大な未解決事項なし。GitHub Actions <code>validate</code> は2026-08-24 16:00 JST時点でSUCCESS。</li><li>未解決事項: Issue #23の実公開E2E、Pages公開URL、Slack通知の確認は未実施。</li><li>次アクション: commit・push後、PRを作成してGitHub上の差分とCIを確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-24 15:49 取得範囲: <code>tj-999-comp/sandbox-pages</code>の全Open Issueおよび親Issue #5、対象Issue #22をGitHub APIで取得した時点のsnapshot。B側workflowは<code>tj-999-comp/B_Stats_Site</code>の<code>main</code>（<code>c4ac9a53058b388f6d85b7f8cc52718a3796601d</code>）を確認した。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">sandbox-pages #5（親Epic）
+└── sandbox-pages #22（Issue本文のParent指定・今回の対象）</code></pre>
+<p>GitHub APIの<code>#5/sub_issues</code>は空だったため、上記はIssue本文の<code>Parent: #5</code>に基づく関係として記録する。</p>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#24 [Operations] 監査可能な公開取り下げworkflowを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/24)</td><td>Open</td><td>運用拡張。優先度はIssue label未設定。</td></tr><tr><td>2</td><td>未設定</td><td>[#23 [E2E] 受入・Pages・公開URL・Slackの一連を検証する](https://github.com/tj-999-comp/sandbox-pages/issues/23)</td><td>Open</td><td>本Issueで有効化した手動受入の後工程。</td></tr><tr><td>3</td><td>未設定</td><td>[#22 [Activation] B sourceを手動E2E可能な状態へ有効化する](https://github.com/tj-999-comp/sandbox-pages/issues/22)</td><td>Open</td><td>本作業の対象。PRと手動E2E確認が着手条件。</td></tr><tr><td>4</td><td>未設定</td><td>[#20 [Notification] deploy成功後のSlack通知jobを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/20)</td><td>Open</td><td>#23の前提となる通知工程。</td></tr><tr><td>5</td><td>未設定</td><td>[#13 [Renderer] a_rendered用の決定的rendererを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/13)</td><td>Open</td><td>B sourceの今回の手動E2Eとは別のrenderer工程。</td></tr></tbody></table>
+<h3>完了済みの関連Issue</h3>
+<table><thead><tr><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">本作業との関係</th></tr></thead><tbody><tr><td>[#5 [Epic] プロジェクト進捗ページの自動公開を段階導入する](https://github.com/tj-999-comp/sandbox-pages/issues/5)</td><td>Closed / completed</td><td>親Epic。</td></tr><tr><td>[#21 [E2E] disabled sourceでBの受入dry-runを実行する](https://github.com/tj-999-comp/sandbox-pages/issues/21)</td><td>Closed / completed</td><td>enabled化の前提となるdisabled source実E2E。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 036</span>
+        <span><a href="md/work_record_036.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

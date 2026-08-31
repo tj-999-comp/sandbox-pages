@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Trackball Controll Practiceの配色・UX調整 — 作業記録 011</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 011 ・ <time datetime="2026-07-30">2026-07-30</time></p>
+          <h1>Trackball Controll Practiceの配色・UX調整</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_011.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: Trackball Controll Practiceの一斤染配色を再調整し、UXレビューの指摘を反映する。</li><li>目的: 一斤染 <code>#f5b199</code> を全面背景から選択状態のアクセントへ移し、静かな画面構成と状態の判別しやすさを両立する。</li><li>完了条件: 指定パレットとUXレビュー4件を反映し、レイアウトおよびゲーム進行を変更しない。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio UI Designer</h3>
+<ul><li>入力: 現行ページCSS、一斤染 <code>#f5b199</code>、全面背景を避ける方針、UXレビュー結果。</li><li>実施内容: ページを薄いグレー、プレイ面とカードを白に戻し、一斤染を選択中の難易度だけに限定した。焦茶と赤褐色を操作・ナビへ割り当てた。</li><li>成果物: ページ <code>#f7f4f2</code>、キャンバス <code>#ffffff</code>、本文 <code>#2b1b18</code>、補助文字 <code>#6b504a</code>、操作色 <code>#7c352b</code>、選択状態 <code>#f5b199</code>、ナビ <code>#3b2b27</code>、罫線 <code>#a9786b</code>、グリッド <code>#d8c7c1</code>。</li><li>検証結果: 一斤染の占有面積を抑えつつ、選択状態を本文色と操作色の境界で判別できる構成にした。</li><li>未解決事項: 実ブラウザでの色味の最終確認はユーザーがローカルで行う。</li><li>次工程への引き継ぎ: UXレビュー4件を同じ配色体系の中で実装する。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: UI Designerの再調整パレットとReview Agentの指摘4件。</li><li>実施内容: 明色面とナビのフォーカス色を分離し、進捗へ通常・警告・危険の状態差と危険時のストライプを追加した。無効ボタンを専用の淡い背景と補助色の枠・文字で区別した。非表示のHard背景疑似要素と、そのためだけのJavaScript更新処理を削除した。</li><li>成果物: 一斤染を難易度選択のアクセントとして使う画面と、キーボードフォーカス・終盤進捗・無効操作が判別しやすいUI。</li><li>検証結果: <code>node --check</code>、<code>git diff --check</code>、CSS波括弧整合、削除対象の旧参照がないことを確認した。Hardモードの罫線同期を行う <code>updateGridLines</code> は維持した。</li><li>未解決事項: 実ブラウザでの表示確認は未実施。</li><li>次工程への引き継ぎ: ユーザーがローカルブラウザで色味と各状態を確認する。</li></ul>
+<h3>Review Agent</h3>
+<ul><li>入力: <code>origin/main</code>から現在の作業ツリーまでのゲーム関連差分と、ゲームのHTML/CSS/JavaScript。</li><li>実施内容: ゲーム性の細かなUXに関係する変更を欠陥優先でレビューした。</li><li>成果物: ナビのフォーカス視認性、終盤進捗の状態差、無効ボタンの判別性、未使用のHard背景更新処理に関する4件の指摘。</li><li>検証結果: 4件すべてをFrontend Engineerの実装へ反映した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: 修正後の静的検証とローカル実ブラウザ確認を行う。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: UXレビュー反映後のCSS/JavaScript差分。</li><li>実施内容: フォーカス、選択状態、進捗状態、無効操作、Hardグリッドの経路とコントラストを静的検証した。</li><li>成果物: 重大・中・軽微0件の静的検証結果。</li><li>検証結果: ナビフォーカス10.20:1、選択状態9.14:1、警告進捗4.42:1を確認し、Hardグリッドのスクロール同期も維持されていると判定した。</li><li>未解決事項: 実ブラウザでの色味とスクロール挙動。</li><li>次工程への引き継ぎ: ユーザーがローカルブラウザで確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: UXレビュー反映後の全未コミット差分と作業記録。</li><li>実施内容: 要件適合、ゲーム進行の非回帰、無関係な変更の混入をレビューした。</li><li>成果物: 重大・中・軽微0件、差し戻し不要の判定。</li><li>検証結果: 一斤染の局所利用、UX4件の反映、Hardグリッド同期、ゲーム進行ロジックの維持を確認した。</li><li>未解決事項: 実ブラウザでの視認確認。</li><li>次工程への引き継ぎ: ユーザーのローカル確認結果に応じて必要な場合だけ微調整する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 一斤染は全面背景ではなく、選択中の難易度だけに使用する。</li><li>理由: 画面全体の色圧を抑えながら、テーマ色を意味のある状態表示として残せるため。</li><li>判断: 明色面のフォーカスは濃青緑、暗色ナビのフォーカスは淡い一斤染系とする。</li><li>理由: 背景の明度に応じてフォーカスリングを分け、キーボード操作時の視認性を保つため。</li><li>判断: 危険進捗には色差に加えてストライプを使う。</li><li>理由: 色だけに依存せず、残り1個の状態を区別できるようにするため。</li><li>判断: 表示されないHard背景演出とJavaScript更新処理を削除する。</li><li>理由: 実際の表示へ寄与しないスクロール時処理をなくし、グリッド同期の責務を明確にするため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 一斤染を全面背景から外し、選択状態のアクセントへ再配置した。UXレビュー4件をすべて反映した。</li><li>変更ファイル: <code>css/trackball-controll-practice.css</code>、<code>scripts/trackball-controll-practice.js</code>、<code>work-records/md/work_record_011.md</code>。</li><li>検証結果: JavaScript構文、差分の空白エラー、CSS波括弧、削除対象の旧参照を確認した。TesterとReviewerはいずれも重大・中・軽微0件で合格した。</li><li>未解決事項: ローカル実ブラウザでの色味・操作確認。</li><li>次アクション: ユーザーがローカルで表示と操作を確認する。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 011</span>
+        <span><a href="md/work_record_011.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
