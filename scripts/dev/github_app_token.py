@@ -14,7 +14,10 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-import jwt
+try:
+    import jwt
+except ImportError:  # pragma: no cover - token issuance only
+    jwt = None
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -38,6 +41,8 @@ def issue_installation_token(
 
     account = keychain_account or getpass.getuser()
     private_key = _read_keychain_secret(account, keychain_service)
+    if jwt is None:
+        raise GitHubAppError("PyJWT is required for GitHub App token issuance")
     now = int(time.time())
     claims = {
         "iat": now - 60,
