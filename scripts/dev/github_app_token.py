@@ -116,11 +116,11 @@ def _read_keychain_secret(account: str, service: str) -> str:
 
 
 def _keychain_candidates() -> tuple[Path | None, ...]:
-    """Return the configured login keychain, or the system search list."""
+    """Return the login keychain followed by the system search list."""
 
     login_keychain = Path.home() / "Library" / "Keychains" / "login.keychain-db"
     if login_keychain.is_file():
-        return (login_keychain,)
+        return (login_keychain, None)
     return (None,)
 
 

@@ -29,6 +29,20 @@ class GitHubAppTokenTests(unittest.TestCase):
         run.return_value = subprocess.CompletedProcess(args=[], returncode=0, stdout=wrapped, stderr="")
         self.assertEqual(_read_keychain_secret("account", "service"), pem)
 
+    @patch("scripts.dev.github_app_token._keychain_candidates", return_value=(Path("/tmp/login.keychain-db"), None))
+    @patch("scripts.dev.github_app_token.subprocess.run")
+    def test_default_search_list_is_used_after_login_keychain(self, run, _candidates):
+        pem = "-----BEGIN PRIVATE KEY-----\nabc\n-----END PRIVATE KEY-----"
+        run.side_effect = [
+            subprocess.CompletedProcess(args=[], returncode=44, stdout="", stderr="The specified item could not be found"),
+            subprocess.CompletedProcess(args=[], returncode=0, stdout=pem, stderr=""),
+        ]
+        self.assertEqual(_read_keychain_secret("account", "service"), pem)
+        self.assertEqual(
+            run.call_args_list[1].args[0],
+            ["security", "find-generic-password", "-a", "account", "-s", "service", "-w"],
+        )
+
     def test_keychain_failure_classification_is_safe(self):
         self.assertEqual(_classify_keychain_failure("The specified item could not be found"), "not_found")
         self.assertEqual(_classify_keychain_failure("User interaction is not allowed"), "access_denied")
