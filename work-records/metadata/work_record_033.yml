@@ -1,0 +1,6 @@
+schema_version: 1
+title: 'Issue #19 受入workflowへのcommit・固定SHA deploy接続'
+date: "2026-08-20"
+project_id: sandbox_pages
+tags: []
+publish: true
