@@ -14,7 +14,10 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-import jwt
+try:
+    import jwt
+except ImportError:  # pragma: no cover - token issuance only
+    jwt = None
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -38,6 +41,8 @@ def issue_installation_token(
 
     account = keychain_account or getpass.getuser()
     private_key = _read_keychain_secret(account, keychain_service)
+    if jwt is None:
+        raise GitHubAppError("PyJWT is required for GitHub App token issuance")
     now = int(time.time())
     claims = {
         "iat": now - 60,
@@ -75,27 +80,78 @@ def issue_installation_token(
 
 
 def _read_keychain_secret(account: str, service: str) -> str:
-    try:
-        completed = subprocess.run(
-            ["security", "find-generic-password", "-a", account, "-s", service, "-w"],
-            check=True,
-            capture_output=True,
-            text=True,
-        )
-    except (OSError, subprocess.CalledProcessError) as exc:
+    attempts = []
+    for keychain in _keychain_candidates():
+        command = ["security", "find-generic-password", "-a", account, "-s", service, "-w"]
+        if keychain is not None:
+            command.append(str(keychain))
+        try:
+            completed = subprocess.run(
+                command,
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+        except OSError as exc:
+            raise GitHubAppError(f"macOS security command is unavailable: {exc.__class__.__name__}") from exc
+        if completed.returncode == 0:
+            secret = completed.stdout.strip()
+            break
+        attempts.append(_classify_keychain_failure(completed.stderr or completed.stdout))
+    else:
+        if all(attempt == "not_found" for attempt in attempts):
+            raise GitHubAppError(
+                f"Keychain item not found: service={service!r} account={account!r}; "
+                "add the existing GitHub App PEM to the macOS login keychain"
+            )
+        details = ", ".join(dict.fromkeys(attempts))
         raise GitHubAppError(
-            f"cannot read Keychain item service={service!r} account={account!r}"
-        ) from exc
-    secret = completed.stdout.strip()
+            f"cannot read Keychain item service={service!r} account={account!r}: {details}"
+        )
+
     if not secret.startswith("-----BEGIN"):
         try:
-            decoded = base64.b64decode(secret, validate=True).decode("utf-8")
+            decoded = base64.b64decode("".join(secret.split()), validate=True).decode("utf-8")
         except (binascii.Error, UnicodeDecodeError) as exc:
             raise GitHubAppError("Keychain item does not contain a PEM private key") from exc
         secret = decoded.strip()
     if not secret.startswith("-----BEGIN") or "PRIVATE KEY-----" not in secret:
         raise GitHubAppError("Keychain item does not contain a PEM private key")
     return secret
+
+
+def _keychain_candidates() -> tuple[Path | None, ...]:
+    """Return the login keychain followed by the system search list."""
+
+    login_keychain = Path.home() / "Library" / "Keychains" / "login.keychain-db"
+    if login_keychain.is_file():
+        return (login_keychain, None)
+    return (None,)
+
+
+def _classify_keychain_failure(detail: str) -> str:
+    """Classify security(1) failures without exposing command output."""
+
+    normalized = detail.casefold()
+    if "could not be found" in normalized or "not found" in normalized:
+        return "not_found"
+    if any(token in normalized for token in ("denied", "not allowed", "authorization", "passphrase")):
+        return "access_denied"
+    if "not valid" in normalized or "invalid" in normalized:
+        return "keychain_search_invalid"
+    return "security_command_failed"
+
+
+def diagnose_keychain_item(*, account: str, service: str) -> dict[str, str]:
+    """Diagnose Keychain availability without returning the secret."""
+
+    try:
+        _read_keychain_secret(account, service)
+    except GitHubAppError as exc:
+        message = str(exc)
+        status = "missing" if message.startswith("Keychain item not found:") else "error"
+        return {"account": account, "service": service, "status": status, "message": message}
+    return {"account": account, "service": service, "status": "valid_pem"}
 
 
 def _github_json(path: str, *, method: str, authorization: str) -> dict[str, Any]:
@@ -125,16 +181,32 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--account", default=None, help="Keychain account; defaults to the macOS user")
+    parser.add_argument(
+        "--diagnose",
+        action="store_true",
+        help="diagnose the configured Keychain item without issuing a token",
+    )
     parser.add_argument("--print-token", action="store_true", help="print the short-lived token")
     args = parser.parse_args()
     try:
         config = json.loads(args.config.read_text(encoding="utf-8"))
+        account = args.account or getpass.getuser()
+        if args.diagnose:
+            print(json.dumps(
+                diagnose_keychain_item(
+                    account=account,
+                    service=config["keychain_service"],
+                ),
+                ensure_ascii=False,
+                sort_keys=True,
+            ))
+            return 0
         result = issue_installation_token(
             app_id=int(config["app_id"]),
             client_id=config["client_id"],
             repository=config["repository"],
             keychain_service=config["keychain_service"],
-            keychain_account=args.account,
+            keychain_account=account,
         )
     except (OSError, KeyError, TypeError, ValueError, GitHubAppError) as exc:
         parser.exit(1, f"GitHub App token issuance failed: {exc}\n")

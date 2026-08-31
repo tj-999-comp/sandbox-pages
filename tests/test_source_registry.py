@@ -20,7 +20,7 @@ class SourceRegistryTests(unittest.TestCase):
         self.assertEqual(registry["schema_version"], 1)
         self.assertEqual(
             [source["project_id"] for source in registry["sources"]],
-            ["B_Stats_Site", "NBA_Draft_DB", "tech_article_nortification"],
+            ["B_Stats_Site", "NBA_Draft_DB", "sandbox_pages", "tech_article_nortification"],
         )
         source = registry["sources"][0]
         self.assertTrue(source["enabled"])
@@ -40,6 +40,25 @@ class SourceRegistryTests(unittest.TestCase):
         self.assertTrue(nba_source["enabled"])
         self.assertEqual(nba_source["support_files"], [])
         self.assertEqual(nba_source["ignored_files"], [])
+        sandbox_source = registry["sources"][2]
+        self.assertEqual(sandbox_source["source_repository"], "tj-999-comp/sandbox-pages")
+        self.assertEqual(sandbox_source["source_ref"], "refs/heads/main")
+        self.assertEqual(sandbox_source["source_directory"], "work-records")
+        self.assertEqual(sandbox_source["metadata_directory"], "work-records/metadata")
+        self.assertEqual(sandbox_source["destination_directory"], "projects/sandbox_pages")
+        self.assertEqual(
+            sandbox_source["public_base_path"],
+            "/sandbox-pages/projects/sandbox_pages/",
+        )
+        self.assertEqual(sandbox_source["html_mode"], "source_html")
+        self.assertEqual(sandbox_source["generator_id"], "b-stats-work-record-v1")
+        self.assertFalse(sandbox_source["enabled"])
+        self.assertEqual(
+            sandbox_source["support_files"],
+            ["README.md", "design.md", "work_record.css"],
+        )
+        self.assertEqual(sandbox_source["ignored_files"], [])
+        self.assertEqual(sandbox_source["limits"]["max_files"], 256)
 
     def test_tech_article_source_has_the_fixed_issue_contract(self):
         registry = load_registry(ROOT / "config" / "sources.json")
