@@ -1,0 +1,17 @@
+{
+  "accepted_at": "2026-08-31T06:36:26Z",
+  "notify": false,
+  "operation": "create",
+  "project_id": "NBA_Draft_DB",
+  "public_base_path": "/sandbox-pages/projects/NBA_Draft_DB/",
+  "publication_id": "bootstrap-20260831-nba-draft-db",
+  "published_files": [],
+  "records": [],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "344d4a84efcbd757e1da51d7cf9f8b8c61ab9e10",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/NBA_Draft_DB"
+  },
+  "source_files": []
+}

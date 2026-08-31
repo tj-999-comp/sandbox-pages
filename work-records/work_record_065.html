@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>NBA_Draft_DBのsource登録と初期公開状態の準備 — 作業記録 065</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 065 ・ <time datetime="2026-08-31">2026-08-31</time></p>
+          <h1>NBA_Draft_DBのsource登録と初期公開状態の準備</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_065.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: <a href="https://github.com/tj-999-comp/sandbox-pages/issues/70">sandbox-pages #70</a>の実施順に従い、NBA_Draft_DBを公開受入の対象へ追加する。</li><li>目的: NBA_Draft_DBの固定commit・単一basenameによる<code>a_rendered</code>受入を可能にし、実公開前の安全な初期状態を作る。</li><li>完了条件: source registry登録、<code>enabled: false</code>の初期状態、初期provenance、project/global index、契約テストを整備し、既存projectへ意図しない公開差分を発生させない。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: #70〜#76のIssue本文、<code>config/sources.json</code>、受入workflow、source registry・provenance・index generatorの既存実装。</li><li>実施内容: <code>NBA_Draft_DB</code>を<code>a_rendered</code>、<code>a-rendered-work-record-v1</code>、support fileなし、容量上限付き、<code>enabled: false</code>でsource registryへ追加した。生成元mainの取得済みcommitを参照する空のbootstrap provenanceを追加し、公開中レコード0件のproject indexとglobal indexを生成した。契約説明を<code>projects/README.md</code>へ追加し、registry解決とsource設定のテストを追加した。</li><li>成果物: source registry、初期provenance、生成index、公開契約文書、registry/受入解決テスト。</li><li>検証結果: 全94テスト、registry/provenance検証、index再生成チェック、作業記録ファイル名検証、ブラウザ確認に合格した。</li><li>未解決事項: 生成元側の承認済み<code>publish: true</code>固定commitを使ったfull E2E、<code>enabled: true</code>への切替、Slack通知の実確認は未実施。</li><li>次工程への引き継ぎ: #72の受入異常系、#73のNBA_Draft_DB実sourceによるdisabled dry-run、#74以降の人間承認付き手動E2Eへ進む。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 本ブランチのbase（<code>origin/main</code>）との差分、テスト結果、生成物、ブラウザ検証結果。</li><li>実施内容: 既存sourceの公開物を変更していないこと、NBA_Draft_DBだけがindexへ0件のprojectとして追加されていること、<code>enabled: false</code>と初期provenanceの整合、3入力受入契約との整合を確認した。</li><li>成果物: 重大な差分混入なしのレビュー結果。</li><li>検証結果: <code>git diff --check</code>、全テスト、生成物check、1280px/320pxブラウザ確認が合格。</li><li>未解決事項: GitHub Actions上の実E2EとGitHub Pages/Slackの外部確認。</li><li>次工程への引き継ぎ: PR作成後にCIとGitHub上の差分を再確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: NBA_Draft_DBは登録直後に<code>enabled: true</code>へ変更せず、空の初期provenanceを保存する。</li><li>理由: 生成元Issue #11の進捗時点で、承認済み<code>publish: true</code>固定commitと実公開は未実施であり、#74の明示承認前に公開を開始しないため。</li><li>判断: 既存の受入workflow・renderer・通知実装は変更せず、既存のsource registry契約へNBA_Draft_DBを追加する。</li><li>理由: 受入入力、固定SHA検証、<code>a_rendered</code>生成、disabled no-op、Pages/Slack境界は既存実装で共通化されているため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: NBA_Draft_DBを公開受入対象へ登録し、公開済みレコードなしの初期状態とproject導線を準備した。</li><li>変更ファイル: <code>config/sources.json</code>、<code>projects/README.md</code>、<code>provenance/NBA_Draft_DB/initial.json</code>、<code>projects/NBA_Draft_DB/index.html</code>、<code>projects/index.html</code>、<code>tests/test_source_registry.py</code>、<code>tests/test_read_only_acceptance.py</code>、本作業記録のMarkdown/HTML。</li><li>検証結果: <code>python3 -m unittest discover -s tests -v</code>（94件合格）、registry/provenance検証（合格）、<code>python3 -m scripts.publish.index_generator --check</code>（合格）、<code>python3 scripts/dev/validate_work_record_filenames.py</code>（合格）、<code>git diff --check</code>（合格）。ブラウザは全project indexとNBA_Draft_DB project indexを1280x900/320x800で確認し、HTTP 200、横overflowなし、console/page errorなし。</li><li>作業ブランチ: <code>codex/071-nba-draft-db-public-integration</code></li><li>コミット: 本作業記録を含む課題commit</li><li>PR: 未作成（外部公開されるPR作成は明示許可後に実施）</li><li>PRレビュー・CI: ローカルレビュー済み。GitHub上のCIは未実施。</li><li>未解決事項: #72〜#76の残作業、生成元側の承認、Actions実行、Pages公開URL、Slack通知、運用引き継ぎ。</li><li>次アクション: #72の受入契約確認後、生成元の固定commitを用意して#73のdisabled dry-runを実施する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-31 15:57 取得範囲: <code>tj-999-comp/sandbox-pages</code>のNBA_Draft_DB関連Issue全件、および対応する<code>tj-999-comp/NBA_Draft_DB</code>のPortfolio関連Issue全件。GitHub CLIで取得した時点のsnapshot。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#70 NBA_Draft_DBの作業記録をPages公開・Slack通知まで接続する
+├── #71 source registry登録・初期状態固定
+├── #72 固定commit・basename限定公開要求の受入
+├── #73 disabled受入dry-run・no-op検証
+├── #74 手動E2E可能状態への有効化
+├── #75 Pages公開・Slack通知のfull E2E
+└── #76 公開運用・停止手順の引き継ぎ</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/70">sandbox-pages #70 NBA_Draft_DBの作業記録をPages公開・Slack通知まで接続する</a></td><td>Open</td><td>親Epic。#71〜#76の完了を追跡する。</td></tr><tr><td>2</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/71">sandbox-pages #71 NBA_Draft_DBをsource registryへ登録し初期状態を固定する</a></td><td>Open</td><td>本作業の対象。PRマージ後に完了確認する。</td></tr><tr><td>3</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/72">sandbox-pages #72 NBA_Draft_DBの固定commit・basename限定公開要求を受け入れる</a></td><td>Open</td><td>#71完了後。3入力、固定SHA、basename、metadata、許可pathを検証する。</td></tr><tr><td>4</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/73">sandbox-pages #73 NBA_Draft_DBのdisabled受入dry-runとno-opを検証する</a></td><td>Open</td><td>#71/#72と生成元#12/#13完了後。disabled状態でwrite・deploy・通知がないことを確認する。</td></tr><tr><td>5</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/74">sandbox-pages #74 NBA_Draft_DBを手動E2E可能な状態へ有効化する</a></td><td>Open</td><td>#73の結果レビューと明示承認後に<code>enabled: true</code>へ変更する。</td></tr><tr><td>6</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/75">sandbox-pages #75 NBA_Draft_DBの作業記録を公開しSlack通知まで確認する</a></td><td>Open</td><td>#74完了後。承認済み固定commitでPages/URL/Slack/冪等性をE2E確認する。</td></tr><tr><td>7</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/76">sandbox-pages #76 NBA_Draft_DBの公開運用・停止手順を引き継ぐ</a></td><td>Open</td><td>#75完了後。停止・復旧・通知再送・rollback手順を確定する。</td></tr><tr><td>8</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/NBA_Draft_DB/issues/11">NBA_Draft_DB #11 sandbox-pagesへの作業記録公開・Slack通知連携</a></td><td>Open</td><td>生成元側の親Issue。公開候補とSecret/承認状態を整える。</td></tr><tr><td>9</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/NBA_Draft_DB/issues/15">NBA_Draft_DB #15 公開候補1件を承認付きで作成し受入E2Eへ引き渡す</a></td><td>Open</td><td>#72〜#74完了後のfull E2E入力を用意する。</td></tr><tr><td>10</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/NBA_Draft_DB/issues/16">NBA_Draft_DB #16 E2E後の公開運用・停止手順を文書化する</a></td><td>Open</td><td>#75完了後。生成元側の運用文書を確定する。</td></tr></tbody></table>
+<p>生成元側の#12（共通命名・metadata）、#13（validator・CI）、#14（固定commit workflow）は2026-08-31 15:57 JST時点でClosedであり、上表の未完了一覧から除外した。</p></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 065</span>
+        <span><a href="md/work_record_065.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
