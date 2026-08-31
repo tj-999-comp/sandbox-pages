@@ -15,7 +15,7 @@
 - 実施内容: PR headへ`origin/main`をマージし、`git add`周辺の競合では、`apply_engine`が返す全`changed_paths`を`--force`付きでstageする`main`側実装を採用した。
 - 成果物: PR headを最新`main`の子孫にするmerge commit。
 - 検証結果: 未解決競合なし。Ruby YAML parserでworkflowを解析し、成功した。
-- 未解決事項: push後のGitHub上のmergeable状態は、push後に再確認する。
+- 未解決事項: なし。push後のGitHub上のmergeable状態とCIを確認済み。
 - 次工程への引き継ぎ: 関連テストと全テストの結果をReviewerへ引き継ぐ。
 
 ### Portfolio Reviewer
@@ -24,7 +24,7 @@
 - 実施内容: 競合箇所が1ブロックのみであること、PRの変更目的が`main`側実装に含まれていること、無関係な手作業変更がないことを確認した。
 - 成果物: 差分レビュー結果。
 - 検証結果: `python3 -m unittest discover -s tests`は93件すべて成功。workflow対象5件とapply engine対象15件も成功。`git diff --check`成功。
-- 未解決事項: GitHub上のCI結果はpush後に確認する。
+- 未解決事項: なし。GitHub上のCI結果をpush後に確認済み。
 - 次工程への引き継ぎ: 作業記録HTMLを生成・検証後、対象ファイルをcommitしてPR #65へpushする。
 
 ## 主要な判断
@@ -42,9 +42,9 @@
 - 作業ブランチ: `codex/issue-009-force-stage-published-files`
 - コミット: `4fa247a`（PR #65と最新`main`の競合解消）
 - PR: [#65 fix: force stage bounded generated publish files](https://github.com/tj-999-comp/sandbox-pages/pull/65)
-- PRレビュー・CI: 作業記録作成時点ではGitHub上のPRは`open`、`mergeable_state=dirty`。push後にGitHub上のmergeable状態とCIを再確認する。
-- 未解決事項: push後のGitHub側確認。
-- 次アクション: 作業記録HTMLを生成・検証し、作業記録をcommitしてPR #65のheadへpushする。
+- PRレビュー・CI: push後、PR #65は`mergeable=true`、`mergeable_state=clean`。`validate` CIはsuccess。
+- 未解決事項: PRは未merge。マージはユーザー判断とする。
+- 次アクション: PR #65の内容を確認後、必要であればユーザーがマージする。
 
 ## GitHub Issue状況
 
