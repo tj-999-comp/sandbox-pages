@@ -40,7 +40,7 @@ B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用�
 | --- | --- | --- | --- | --- |
 | `B_Stats_Site` | `tj-999-comp/B_Stats_Site` | `main` | `work-records/` | `projects/B_Stats_Site/` |
 | `tech_article_nortification` | `tj-999-comp/tech_article_nortification` | `main` | `work-records/`（導入準備中） | `projects/tech_article_nortification/` |
-| `NBA_Draft_DB` | `tj-999-comp/NBA_Draft_DB` | `main` | `work-records/`（導入準備中） | `projects/NBA_Draft_DB/` |
+| `NBA_Draft_DB` | `tj-999-comp/NBA_Draft_DB` | `main` | `work-records/`（手動E2E準備中） | `projects/NBA_Draft_DB/` |
 
 新しい生成元は、公開リポジトリ側で `project_id`、リポジトリ、branch、生成元ディレクトリ、公開先ディレクトリ、support file、generator ID、サイズ上限を登録し、受入テストを通過するまで無効とする。metadataの値から任意の公開先パスを組み立てず、公開リポジトリに登録された対応だけを使う。
 
@@ -102,7 +102,7 @@ limits:
 
 ### `NBA_Draft_DB` の導入契約
 
-`NBA_Draft_DB` は、新規生成元向けの `a_rendered` 方式で登録する。source registryには登録済みだが、生成元側の承認済み固定commit、受入dry-run、手動E2E、運用引き継ぎが完了するまでは `enabled: false` とする。
+`NBA_Draft_DB` は、新規生成元向けの `a_rendered` 方式で登録する。source registryへの登録とdisabled受入dry-runは完了し、現在は承認済み固定commitを使った手動E2Eのために `enabled: true` としている。恒久自動公開への切替と運用引き継ぎが完了するまでは、受入workflowを手動dispatchだけで運用する。
 
 生成元へ渡す固定情報は次のとおりである。
 
@@ -117,7 +117,7 @@ limits:
 | 公開先 | `projects/NBA_Draft_DB/` |
 | 公開要求 | `project_id`、固定 `source_commit_sha`、`target_basename` の3入力 |
 
-初期provenanceは公開済みレコードなしのbootstrap状態として保存する。生成元の `publish: true` は公開要求であり、`enabled: true` への変更や実公開は、固定commitを人間が確認した後に別途実施する。
+初期provenanceは公開済みレコードなしのbootstrap状態として保存する。生成元の `publish: true` は公開要求であり、実公開は承認済み固定commitを人間が確認した後に別途実施する。恒久自動公開triggerは設定しない。
 
 生成元は公開リポジトリをcheckout・編集・commit・pushせず、検証済みcommitの固定SHAと公開対象basenameだけを公開要求として送る。A側の受入validator、`a_rendered` renderer、Pages deploy、Slack通知の成功を確認するまで、公開要求を実公開へ進めない。
 

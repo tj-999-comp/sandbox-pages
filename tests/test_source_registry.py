@@ -35,7 +35,7 @@ class SourceRegistryTests(unittest.TestCase):
         self.assertEqual(nba_source["public_base_path"], "/sandbox-pages/projects/NBA_Draft_DB/")
         self.assertEqual(nba_source["html_mode"], "a_rendered")
         self.assertEqual(nba_source["generator_id"], "a-rendered-work-record-v1")
-        self.assertFalse(nba_source["enabled"])
+        self.assertTrue(nba_source["enabled"])
         self.assertEqual(nba_source["support_files"], [])
         self.assertEqual(nba_source["ignored_files"], [])
 
