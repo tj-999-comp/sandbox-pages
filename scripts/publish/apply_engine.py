@@ -109,6 +109,7 @@ def apply_verified_payload(
     root = Path(repository_root).resolve()
     source_checkout_path = Path(source_checkout).resolve()
     provenance_path = Path(provenance_root).resolve()
+    _assert_isolated_source_checkout(root, source_checkout_path)
     if provenance_path != root / "provenance":
         raise ApplyEngineError("provenance_root must be Repository A's provenance directory")
     registry = load_registry(registry_path)
@@ -556,6 +557,29 @@ def _assert_clean_worktree(root: Path) -> None:
     paths = _git_status_paths(root)
     if paths:
         raise ApplyEngineError("Repository A worktree must be clean before apply: " + ", ".join(sorted(paths)))
+
+
+def _assert_isolated_source_checkout(root: Path, source_checkout: Path) -> None:
+    """Reject source inputs that overlap Repository A's worktree.
+
+    A same-repository source is valid only when it is a separate checkout. An
+    overlapping path could make source files look like publish outputs and
+    would defeat the apply engine's bounded-write contract.
+    """
+
+    try:
+        source_checkout.relative_to(root)
+        overlaps = True
+    except ValueError:
+        overlaps = False
+    if not overlaps:
+        try:
+            root.relative_to(source_checkout)
+            overlaps = True
+        except ValueError:
+            pass
+    if overlaps:
+        raise ApplyEngineError("source checkout must be isolated from Repository A worktree")
 
 
 def _assert_expected_head(root: Path, expected_main_sha: str | None) -> None:

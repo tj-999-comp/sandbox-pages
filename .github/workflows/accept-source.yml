@@ -36,6 +36,8 @@ jobs:
     steps:
       - name: Checkout Repository A
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
       - name: Require A main branch
         run: |
@@ -85,6 +87,15 @@ jobs:
           set -euo pipefail
           test "$(git -C _source rev-parse HEAD)" = "$SOURCE_COMMIT_SHA"
           test -n "$(git -C _source rev-parse --verify "refs/remotes/origin/$SOURCE_BRANCH^{commit}")"
+
+      - name: Verify isolated source checkout
+        run: |
+          set -euo pipefail
+          test "$(git -C _source rev-parse --show-toplevel)" != "$GITHUB_WORKSPACE"
+          if git -C _source config --local --get-regexp 'credential|http\..*extraheader'; then
+            echo "source checkout contains persisted credentials" >&2
+            exit 1
+          fi
 
       - name: Run A-owned validators
         env:
@@ -190,6 +201,15 @@ jobs:
           set -euo pipefail
           test "$(git -C _source rev-parse HEAD)" = "$SOURCE_COMMIT_SHA"
           test -n "$(git -C _source rev-parse --verify "refs/remotes/origin/$SOURCE_BRANCH^{commit}")"
+
+      - name: Verify isolated source checkout
+        run: |
+          set -euo pipefail
+          test "$(git -C _source rev-parse --show-toplevel)" != "$GITHUB_WORKSPACE"
+          if git -C _source config --local --get-regexp 'credential|http\..*extraheader'; then
+            echo "source checkout contains persisted credentials" >&2
+            exit 1
+          fi
 
       - name: Move external inputs outside Repository A worktree
         run: |
