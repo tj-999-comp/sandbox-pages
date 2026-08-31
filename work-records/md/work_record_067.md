@@ -42,7 +42,7 @@
 - 変更ファイル: `projects/README.md`、本作業記録のMarkdown/HTML。関連する公開側変更は`config/sources.json`、`tests/test_source_registry.py`、`tests/test_read_only_acceptance.py`、生成元`work-records/metadata/work_record_001.yml`、`docs/Issue/Issue011.md`、`docs/portfolio-publication.md`。
 - 検証結果: source request run `33369387551`、full E2E run `33369404796`、再送no-op run `33369607800`が成功。公開URLは`https://tj-999-comp.github.io/sandbox-pages/projects/NBA_Draft_DB/work_record_001.html`。
 - 作業ブランチ: `codex/076-nba-publication-handoff`
-- コミット: `0423d3d`
+- コミット: `0423d3d`、`095e3ad`
 - PR: [#100 NBA_Draft_DB公開E2Eと運用引き継ぎを記録](https://github.com/tj-999-comp/sandbox-pages/pull/100)
 - PRレビュー・CI: 公開側PR #98/#99、生成元PR #22/#23はCI成功後にマージ済み。
 - 未解決事項: 恒久自動公開への切替は別途明示承認が必要。ActionsのNode.js deprecation warningは非ブロッキング。
