@@ -49,9 +49,9 @@
 - 変更ファイル: `config/sources.json`、`projects/README.md`、`tests/test_source_registry.py`、本作業記録のMarkdown/metadata/HTML。
 - 検証結果: #84の事前条件としてworkflow run [#33400093728](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33400093728)を確認済み。全108テスト、index generator、converter、filename validator、`git diff --check`、ブラウザ確認に合格した。PRマージ後にenabled sourceの既存record no-op runを実施する。
 - 作業ブランチ: `codex/073-issue-85-activation`
-- コミット: 作成後に追記する。
-- PR: 作成後に追記する。
-- PRレビュー・CI: 作成後に確認する。
+- コミット: `51bbd50c4e6bb375894c60760381ed400f84f952`（設定・文書・テスト・作業記録の初回コミット）。
+- PR: [#109 Issue #85: sandbox_pagesを手動E2E可能化](https://github.com/tj-999-comp/sandbox-pages/pull/109)
+- PRレビュー・CI: Draft PRとして作成済み。CI確認後、マージ後にenabled sourceのno-op runを実施する。
 - 未解決事項: 有効化後の実workflow no-op run、artifact、Deploy/Slack skipの確認。
 - 次アクション: PRマージ後、最新mainの固定SHAと`work_record_070`で手動workflowを実行し、no-op成功を確認して#85をクローズする。その後#86へ進む。
 
