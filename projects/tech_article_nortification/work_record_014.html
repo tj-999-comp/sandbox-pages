@@ -7,29 +7,29 @@
     <title>Issue #9の手動公開E2E候補 — 作業記録 014</title>
     <link rel="stylesheet" href="../progress-index.css">
   </head>
-  <body>
-    <a class="skip-link" href="#content">本文へ移動</a>
-    <header class="page-header">
-      <div class="page-header__inner">
-        <p class="eyebrow">tech_article_nortification / 作業記録 014</p>
-        <h1 id="record-title">Issue #9の手動公開E2E候補</h1>
-        <p class="summary"><time datetime="2026-08-28">2026-08-28</time></p>
-      </div>
-    </header>
-    <main id="content">
-      <section class="record-content" aria-labelledby="record-title">
-        <p>作成日: 2026-08-28</p>
-<h2>概要</h2>
-<p><code>tech_article_nortification</code> の作業記録公開契約を、実データ1件で手動確認するための公開候補。source側で固定commitと対象basenameを検証し、<code>sandbox-pages</code> の受入、<code>a_rendered</code>生成、GitHub Pages公開、公開URL、provenance、通知までを確認する。</p>
-<h2>確認対象</h2>
-<ul><li><code>project_id</code>: <code>tech_article_nortification</code></li><li><code>html_mode</code>: <code>a_rendered</code></li><li>対象basename: <code>work_record_014</code></li><li>受入入力: 検証済みsource commitのSHAと対象basename</li></ul>
-<h2>安全境界</h2>
-<p>この記録にはtoken、Webhook URL、個人情報、記事本文を含めない。公開先のファイルとprovenanceは<code>sandbox-pages</code>側の受入workflowだけが生成・管理し、source側から公開リポジトリを編集しない。</p>
-<h2>目的</h2>
-<p>公開要求が固定入力だけを受け取り、sourceのMarkdownとmetadataを受入側で再検証したうえで、想定URLと来歴情報を生成できることを人間確認する。</p>
-        <ul class="tag-list"><li>github-pages</li><li>manual-e2e</li><li>portfolio</li><li>provenance</li></ul>
-      </section>
-    </main>
-    <footer><p><a href="md/work_record_014.md">Markdown原本</a></p></footer>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">tech_article_nortification</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 014 ・ 2026-08-28</p>
+          <h1>Issue #9の手動公開E2E候補</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_014.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p><code>tech_article_nortification</code> の作業記録公開契約を、実データ1件で手動確認するための公開候補。source側で固定commitと対象basenameを検証し、<code>sandbox-pages</code> の受入、<code>a_rendered</code>生成、GitHub Pages公開、公開URL、provenance、通知までを確認する。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　確認対象</p><h2>確認対象</h2></div><div class="section-content"><ul><li><code>project_id</code>: <code>tech_article_nortification</code></li><li><code>html_mode</code>: <code>a_rendered</code></li><li>対象basename: <code>work_record_014</code></li><li>受入入力: 検証済みsource commitのSHAと対象basename</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　安全境界</p><h2>安全境界</h2></div><div class="section-content"><p>この記録にはtoken、Webhook URL、個人情報、記事本文を含めない。公開先のファイルとprovenanceは<code>sandbox-pages</code>側の受入workflowだけが生成・管理し、source側から公開リポジトリを編集しない。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　目的</p><h2>目的</h2></div><div class="section-content"><p>公開要求が固定入力だけを受け取り、sourceのMarkdownとmetadataを受入側で再検証したうえで、想定URLと来歴情報を生成できることを人間確認する。</p></div></section>
+      </main>
+      <footer>
+        <span>tech_article_nortification · 作業記録 014</span>
+        <span><a href="md/work_record_014.md">Markdown原本</a></span>
+      </footer>
+    </div>
   </body>
 </html>
