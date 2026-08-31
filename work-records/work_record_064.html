@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>PR #65のコンフリクト解消 — 作業記録 064</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 064 ・ <time datetime="2026-08-31">2026-08-31</time></p>
+          <h1>PR #65のコンフリクト解消</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_064.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: PR #65が最新の<code>main</code>とコンフリクトしていた。</li><li>目的: <code>main</code>側の現行実装を取り込み、PR #65の「生成ファイルを漏れなくforce stageする」目的を維持したまま、マージ可能な状態へ戻す。</li><li>完了条件: コンフリクトマーカーがなく、workflow構文と関連テストに合格し、PR #65のheadへ解消commitをpushする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: PR #65、最新<code>origin/main</code>、<code>.github/workflows/accept-source.yml</code>の競合ブロック。</li><li>実施内容: PR headへ<code>origin/main</code>をマージし、<code>git add</code>周辺の競合では、<code>apply_engine</code>が返す全<code>changed_paths</code>を<code>--force</code>付きでstageする<code>main</code>側実装を採用した。</li><li>成果物: PR headを最新<code>main</code>の子孫にするmerge commit。</li><li>検証結果: 未解決競合なし。Ruby YAML parserでworkflowを解析し、成功した。</li><li>未解決事項: push後のGitHub上のmergeable状態は、push後に再確認する。</li><li>次工程への引き継ぎ: 関連テストと全テストの結果をReviewerへ引き継ぐ。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 解消後の<code>.github/workflows/accept-source.yml</code>、staged差分、テスト結果。</li><li>実施内容: 競合箇所が1ブロックのみであること、PRの変更目的が<code>main</code>側実装に含まれていること、無関係な手作業変更がないことを確認した。</li><li>成果物: 差分レビュー結果。</li><li>検証結果: <code>python3 -m unittest discover -s tests</code>は93件すべて成功。workflow対象5件とapply engine対象15件も成功。<code>git diff --check</code>成功。</li><li>未解決事項: GitHub上のCI結果はpush後に確認する。</li><li>次工程への引き継ぎ: 作業記録HTMLを生成・検証後、対象ファイルをcommitしてPR #65へpushする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: PR側の<code>destination_directory</code>抽出方式ではなく、最新<code>main</code>の<code>changed_paths</code>全件方式を採用した。</li><li>理由: 生成されたMarkdown/HTMLなど、<code>apply_engine</code>が承認した全パスを直接stageでき、PR #65の目的を満たしながら現在の実装と整合するため。</li><li>判断: PR #65の既存headブランチを維持して更新する。</li><li>理由: 新規PRを作らず、ユーザーが確認中のPRへ競合解消結果を反映するため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: PR #65と最新<code>main</code>の競合を<code>.github/workflows/accept-source.yml</code>の1ブロックで解消し、最新<code>main</code>側のforce stage実装を採用した。</li><li>変更ファイル: <code>.github/workflows/accept-source.yml</code>、<code>work-records/md/work_record_064.md</code>、<code>work-records/work_record_064.html</code>。</li><li>検証結果: YAML parse成功、<code>python3 -m unittest discover -s tests</code> 93件成功、<code>git diff --check</code>成功。</li><li>作業ブランチ: <code>codex/issue-009-force-stage-published-files</code></li><li>コミット: <code>4fa247a</code>（PR #65と最新<code>main</code>の競合解消）</li><li>PR: <a href="https://github.com/tj-999-comp/sandbox-pages/pull/65">#65 fix: force stage bounded generated publish files</a></li><li>PRレビュー・CI: 作業記録作成時点ではGitHub上のPRは<code>open</code>、<code>mergeable_state=dirty</code>。push後にGitHub上のmergeable状態とCIを再確認する。</li><li>未解決事項: push後のGitHub側確認。</li><li>次アクション: 作業記録HTMLを生成・検証し、作業記録をcommitしてPR #65のheadへpushする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-08-31 15:48 取得範囲: <code>tj-999-comp/sandbox-pages</code>のPR #65、Issue endpoint、Open Issue全件。PR #65のIssue endpointは独立IssueではなくPull Requestを返した。</p>
+<h3>対象PR</h3>
+<ul><li><a href="https://github.com/tj-999-comp/sandbox-pages/pull/65">GitHub PR #65 fix: force stage bounded generated publish files</a>: <code>open</code>、base=<code>main</code>、head=<code>codex/issue-009-force-stage-published-files</code>、取得時点の<code>mergeable_state=dirty</code>。</li></ul>
+<h3>親子関係</h3>
+<pre><code class="language-text">PR #65に対応する独立GitHub Issueはなし。Issue #79/#70のsub_issues endpointから取得できる親子関係はなし。</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/87">#87 sandbox_pagesの公開・停止・再通知手順を引き継ぐ</a></td><td>Open</td><td>PR #65とは別の運用課題。</td></tr><tr><td>2</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/86">#86 sandbox_pagesの新規作業記録をPages公開しSlack通知まで確認する</a></td><td>Open</td><td>PR #65とは別のE2E課題。</td></tr><tr><td>3</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/85">#85 sandbox_pagesを手動E2E可能な状態へ有効化する</a></td><td>Open</td><td>PR #65とは別の有効化課題。</td></tr><tr><td>4</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/84">#84 sandbox_pagesのdisabled受入dry-runとno-opを検証する</a></td><td>Open</td><td>PR #65とは別の受入課題。</td></tr><tr><td>5</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/83">#83 sandbox_pages既存作業記録を初期公開状態としてprovenanceへ登録する</a></td><td>Open</td><td>PR #65とは別の初期登録課題。</td></tr><tr><td>6</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/82">#82 sandbox_pagesの同一リポジトリsourceの固定commit・basename限定受入を実装・検証する</a></td><td>Open</td><td>受入workflow領域は関連するが、PR #65は既存workflowの競合解消。</td></tr><tr><td>7</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/81">#81 sandbox_pages既存作業記録63件のmetadataを整備する</a></td><td>Open</td><td>PR #65とは別の移行課題。</td></tr><tr><td>8</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/80">#80 sandbox_pagesをsource registryへ登録し初期公開契約を固定する</a></td><td>Open</td><td>PR #65とは別の公開契約課題。</td></tr><tr><td>9</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/79">#79 sandbox-pages自身の作業記録をPages公開・Slack通知対象へ接続する</a></td><td>Open</td><td>PR #65とは別のEpic。</td></tr><tr><td>10</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/76">#76 NBA_Draft_DBの公開運用・停止・再通知手順を引き継ぐ</a></td><td>Open</td><td>PR #65とは別の運用課題。</td></tr><tr><td>11</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/75">#75 NBA_Draft_DBの作業記録を公開しSlack通知まで確認する</a></td><td>Open</td><td>PR #65とは別のE2E課題。</td></tr><tr><td>12</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/74">#74 NBA_Draft_DBを手動E2E可能な状態へ有効化する</a></td><td>Open</td><td>PR #65とは別の有効化課題。</td></tr><tr><td>13</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/73">#73 NBA_Draft_DBのdisabled受入dry-runとno-opを検証する</a></td><td>Open</td><td>PR #65とは別の受入課題。</td></tr><tr><td>14</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/72">#72 NBA_Draft_DBの固定commit・basename限定公開要求を受け入れる</a></td><td>Open</td><td>PR #65とは別の受入課題。</td></tr><tr><td>15</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/71">#71 NBA_Draft_DBをsource registryへ登録し初期状態を固定する</a></td><td>Open</td><td>PR #65とは別の公開契約課題。</td></tr><tr><td>16</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/70">#70 NBA_Draft_DBの作業記録をPages公開・Slack通知まで接続する</a></td><td>Open</td><td>PR #65とは別のEpic。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 064</span>
+        <span><a href="md/work_record_064.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
