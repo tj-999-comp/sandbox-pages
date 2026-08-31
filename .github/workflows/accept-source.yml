@@ -250,9 +250,12 @@ jobs:
               exit 0
             fi
 
-            destination_directory="$(jq -r '.changed_paths[]' <<<"$result" | sed -n 's#^\(projects/[^/]\+\).*#\1#p' | head -n 1)"
-            test -n "$destination_directory"
-            git add --force --all -- "$destination_directory" projects/index.html "provenance/$PROJECT_ID"
+            mapfile -t changed_paths < <(jq -r '.changed_paths[]' <<<"$result")
+            test "${#changed_paths[@]}" -gt 0
+            # Stage exactly the paths approved by apply_engine.  Explicit
+            # per-file staging keeps newly generated Markdown/HTML files in
+            # the publish commit even when a runner has unusual ignore state.
+            git add --force -- "${changed_paths[@]}"
             git diff --cached --check
             git commit -m "chore(publish): apply $PROJECT_ID $TARGET_BASENAME"
 

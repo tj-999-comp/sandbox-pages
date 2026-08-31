@@ -21,6 +21,7 @@ class RenderedRendererTests(unittest.TestCase):
             markdown = Path(directory) / "work_record_001.md"
             markdown.write_text(
                 "# Markdown title\n"
+                "\n"
                 "作成日: 2000-01-01\n\n"
                 "## 概要\n\n"
                 "本文 **強調** と [参照](https://example.com/a?b=1)。\n\n"
@@ -41,12 +42,16 @@ class RenderedRendererTests(unittest.TestCase):
 
         self.assertEqual(first, second)
         self.assertIn("Metadata &lt;title&gt; — 作業記録 001", first)
-        self.assertIn('datetime="2026-08-28">2026-08-28</time>', first)
+        self.assertIn("作業記録 001 ・ 2026-08-28", first)
+        self.assertIn('<section class="record-section">', first)
+        self.assertIn('<p class="section-label">01　概要</p>', first)
         self.assertIn("<h2>概要</h2>", first)
+        self.assertIn('<div class="section-content">', first)
         self.assertIn("<strong>強調</strong>", first)
         self.assertIn('<a href="https://example.com/a?b=1">参照</a>', first)
-        self.assertIn("<li>a</li><li>z</li>", first)
+        self.assertNotIn('<ul class="tag-list">', first)
         self.assertNotIn("2000-01-01", first)
+        self.assertNotIn("作成日:", first)
 
     def test_raw_html_is_escaped_and_unsafe_links_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:

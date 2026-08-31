@@ -50,14 +50,11 @@ def render_work_record(
     except (OSError, UnicodeDecodeError) as exc:
         raise RenderedRendererError(f"Markdown cannot be read: {source}") from exc
 
-    body = _render_markdown(_body_lines(lines), source)
+    body = _render_record_sections(_body_lines(lines), source)
     number = match.group("number")
     title = html.escape(normalized["title"])
     project_id = html.escape(normalized["project_id"])
     record_date = html.escape(normalized["date"], quote=True)
-    tags = normalized["tags"]
-    tag_markup = "".join(f"<li>{html.escape(tag)}</li>" for tag in tags)
-    tags_section = f'<ul class="tag-list">{tag_markup}</ul>' if tag_markup else ""
     stylesheet = _normalize_stylesheet(stylesheet)
 
     return f'''<!doctype html>
@@ -69,22 +66,27 @@ def render_work_record(
     <title>{title} — 作業記録 {number}</title>
     <link rel="stylesheet" href="{html.escape(stylesheet, quote=True)}">
   </head>
-  <body>
-    <a class="skip-link" href="#content">本文へ移動</a>
-    <header class="page-header">
-      <div class="page-header__inner">
-        <p class="eyebrow">{project_id} / 作業記録 {number}</p>
-        <h1 id="record-title">{title}</h1>
-        <p class="summary"><time datetime="{record_date}">{record_date}</time></p>
-      </div>
-    </header>
-    <main id="content">
-      <section class="record-content" aria-labelledby="record-title">
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">{project_id}</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 {number} ・ {record_date}</p>
+          <h1>{title}</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/{html.escape(basename)}.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
         {body}
-        {tags_section}
-      </section>
-    </main>
-    <footer><p><a href="md/{basename}.md">Markdown原本</a></p></footer>
+      </main>
+      <footer>
+        <span>{project_id} · 作業記録 {number}</span>
+        <span><a href="md/{html.escape(basename)}.md">Markdown原本</a></span>
+      </footer>
+    </div>
   </body>
 </html>
 '''
@@ -97,9 +99,45 @@ def _body_lines(lines: list[str]) -> list[str]:
     if first is None or len(first.group(1)) != 1:
         raise RenderedRendererError("first Markdown line must be an H1")
     body = lines[1:]
+    while body and not body[0].strip():
+        body.pop(0)
     if body and DATE_RE.fullmatch(body[0].strip()):
         body = body[1:]
     return body
+
+
+def _render_record_sections(lines: list[str], source: Path) -> str:
+    """Wrap H2-led Markdown sections in the shared record-page structure."""
+
+    groups: list[tuple[str, list[str]]] = []
+    preamble: list[str] = []
+    current: tuple[str, list[str]] | None = None
+    for line in lines:
+        heading = HEADING_RE.fullmatch(line)
+        if heading and len(heading.group(1)) == 2:
+            current = (heading.group(2), [])
+            groups.append(current)
+        elif current is None:
+            preamble.append(line)
+        else:
+            current[1].append(line)
+
+    if not groups:
+        groups = [("本文", preamble)]
+    elif any(line.strip() for line in preamble):
+        groups[0][1][:0] = preamble
+
+    sections: list[str] = []
+    for index, (heading, section_lines) in enumerate(groups, start=1):
+        rendered_heading = _inline(heading, source)
+        section_body = _render_markdown(section_lines, source)
+        sections.append(
+            f'<section class="record-section"><div class="section-intro">'
+            f'<p class="section-label">{index:02d}　{rendered_heading}</p>'
+            f'<h2>{rendered_heading}</h2></div>'
+            f'<div class="section-content">{section_body}</div></section>'
+        )
+    return "\n".join(sections)
 
 
 def _render_markdown(lines: list[str], source: Path) -> str:
