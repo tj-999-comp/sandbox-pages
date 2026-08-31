@@ -43,6 +43,16 @@ Slack通知jobの実装契約:
 
 workflow全体のdefault permissionsは空またはread-onlyとし、必要なjobだけへ明示的に付与する。
 
+## 同一repository sourceの隔離
+
+`source_repository`がRepository A（`tj-999-comp/sandbox-pages`）自身である場合も、受入対象は必ず固定`source_commit_sha`の別checkoutから読み取る。Repository Aのworktreeをsource checkoutとして再利用してはならず、apply開始前にsource checkoutがAのworktreeと重ならないことを検証する。
+
+- dispatch入力は`project_id`、`source_commit_sha`、`target_basename`の3値だけに限定する。
+- source checkoutは`persist-credentials: false`で取得し、local git configにcredentialまたはHTTP extraheaderが残っていないことを確認する。
+- fixed SHAが登録branchの祖先であること、source inventoryのdigest、metadata・Markdown・HTMLのbasename対応をA側で再検証する。
+- applyが変更できるのは検証済みの`projects/<project_id>/`、project/global index、`provenance/<project_id>/`だけとし、`work-records/`を直接編集・削除しない。
+- source checkout後のファイル変更、SHA・basename・許可pathの不一致は、書き込み前に失敗させる。
+
 ## apply可能な差分
 
 - `projects/<project_id>/`の検証済み公開ファイル

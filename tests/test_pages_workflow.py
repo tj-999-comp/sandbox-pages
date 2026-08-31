@@ -1,11 +1,29 @@
 import unittest
 from pathlib import Path
 
+from scripts.publish.source_registry import load_registry
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class PagesWorkflowTests(unittest.TestCase):
+    def test_same_repository_source_uses_an_isolated_fixed_checkout(self):
+        source = next(
+            item
+            for item in load_registry(ROOT / "config/sources.json")["sources"]
+            if item["project_id"] == "sandbox_pages"
+        )
+        workflow = (ROOT / ".github/workflows/accept-source.yml").read_text(encoding="utf-8")
+        self.assertEqual(source["source_repository"], "tj-999-comp/sandbox-pages")
+        self.assertEqual(source["source_ref"], "refs/heads/main")
+        self.assertIn("path: _source", workflow)
+        self.assertIn('mv _source "$RUNNER_TEMP/source"', workflow)
+        self.assertIn(
+            "source checkout must be isolated from Repository A worktree",
+            (ROOT / "scripts/publish/apply_engine.py").read_text(encoding="utf-8"),
+        )
+
     def test_pages_workflow_pins_actions_and_fixed_sha_guards(self):
         workflow = (ROOT / ".github/workflows/deploy-pages.yml").read_text(encoding="utf-8")
         for reference in (
@@ -46,6 +64,10 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertNotIn("secrets.", before_notification)
         self.assertIn('"$GITHUB_REF" != "refs/heads/main"', workflow)
         self.assertIn("token: ${{ github.token }}", workflow)
+        self.assertIn("name: Verify isolated source checkout", workflow)
+        self.assertEqual(workflow.count("name: Verify isolated source checkout"), 2)
+        self.assertIn("persist-credentials: false", workflow)
+        self.assertIn("source checkout contains persisted credentials", workflow)
         self.assertIn("actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093", workflow)
         self.assertIn("name: Bind acceptance payload to dispatch inputs", workflow)
         self.assertIn(".project_id == $project_id", workflow)

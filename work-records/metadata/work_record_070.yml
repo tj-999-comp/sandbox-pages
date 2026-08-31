@@ -1,0 +1,6 @@
+schema_version: 1
+title: 'Issue #82 同一repository source受入隔離'
+date: "2026-08-31"
+project_id: sandbox_pages
+tags: []
+publish: true

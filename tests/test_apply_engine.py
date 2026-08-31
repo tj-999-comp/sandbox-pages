@@ -94,6 +94,51 @@ class ApplyEngineTests(unittest.TestCase):
                 (fixture.repo / "projects/B_Stats_Site/md/work_record_011.md").exists()
             )
 
+    def test_same_repository_source_checkout_must_be_isolated(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            acceptance = fixture.create_acceptance("work_record_011")
+            with self.assertRaisesRegex(ApplyEngineError, "source checkout must be isolated"):
+                apply_verified_payload(
+                    acceptance_path=acceptance,
+                    source_checkout=fixture.repo,
+                    repository_root=fixture.repo,
+                    registry_path=fixture.repo / "config/sources.json",
+                    provenance_root=fixture.repo / "provenance",
+                    publication_id="pub-isolated",
+                    accepted_at="2026-08-20T02:00:00Z",
+                    operation="create",
+                    expected_main_sha=_git(fixture.repo, "rev-parse", "HEAD"),
+                    source_branch_ref="refs/heads/main",
+                )
+
+    def test_source_change_after_acceptance_is_rejected_without_writes(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            acceptance = fixture.create_acceptance("work_record_011")
+            source_file = fixture.checkout / "work-records/md/work_record_011.md"
+            source_file.write_text("# Changed after acceptance\n", encoding="utf-8")
+            with self.assertRaisesRegex(ApplyEngineError, "inventory digest"):
+                fixture.apply(acceptance, "pub-source-changed", "create")
+            self.assertFalse(
+                (fixture.repo / "provenance/B_Stats_Site/pub-source-changed.json").exists()
+            )
+
+    def test_target_inventory_cannot_add_an_unauthorized_path(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            acceptance = fixture.create_acceptance("work_record_011")
+            data = json.loads(acceptance.read_text(encoding="utf-8"))
+            unauthorized = dict(data["target_inventory"][0])
+            unauthorized["path"] = "not-allowed.txt"
+            data["target_inventory"].append(unauthorized)
+            acceptance.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ApplyEngineError, "outside the registered target set"):
+                fixture.apply(acceptance, "pub-unauthorized", "create")
+            self.assertFalse(
+                (fixture.repo / "provenance/B_Stats_Site/pub-unauthorized.json").exists()
+            )
+
     def test_manifest_drift_is_rejected_before_apply(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             fixture = _Fixture(Path(temp_dir))
@@ -147,6 +192,19 @@ class ApplyEngineTests(unittest.TestCase):
             acceptance.write_text(json.dumps(data), encoding="utf-8")
             with self.assertRaisesRegex(ApplyEngineError, "target_basename"):
                 fixture.apply(acceptance, "pub-012", "create")
+
+    def test_source_commit_mismatch_is_rejected_before_apply(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            acceptance = fixture.create_acceptance("work_record_011")
+            data = json.loads(acceptance.read_text(encoding="utf-8"))
+            data["source"]["commit_sha"] = "a" * 40
+            acceptance.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ApplyEngineError, "source checkout does not match"):
+                fixture.apply(acceptance, "pub-mismatched-source", "create")
+            self.assertFalse(
+                (fixture.repo / "provenance/B_Stats_Site/pub-mismatched-source.json").exists()
+            )
 
     def test_second_application_with_same_content_is_a_noop(self):
         with tempfile.TemporaryDirectory() as temp_dir:
