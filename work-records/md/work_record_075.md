@@ -16,7 +16,7 @@
 - 成果物: `docs/SANDBOX_PAGES_OPERATIONS.md`、`.github/workflows/notify-publication.yml`、既存運用文書へのリンク・再通知契約の更新、workflow契約テスト。
 - 検証結果: 全109テスト、workflow YAML構文、`git diff --check`に合格した。再通知workflowがPages write・OIDC・contents writeを持たず、create manifest以外を拒否することを静的確認した。
 - 未解決事項: GitHub Actions上での再通知workflowの実送信は、Slackの外部副作用を伴うため今回実行していない。
-- 次工程への引き継ぎ: PR反映後にCIでworkflow契約と作業記録生成物を確認し、Issue #87のmerge・closeは明示承認後に行う。
+- 次工程への引き継ぎ: PR #111のCI成功を確認済み。Issue #87のmerge・closeは明示承認後に行う。
 
 ### Portfolio Reviewer
 
@@ -51,11 +51,11 @@
 - 変更ファイル: `.github/workflows/notify-publication.yml`、`docs/SANDBOX_PAGES_OPERATIONS.md`、`docs/ACTIONS_MAIN_POLICY.md`、`projects/README.md`、`tests/test_pages_workflow.py`、本作業記録とmetadata・生成HTML。
 - 検証結果: 全109テスト、workflow YAML構文、`git diff --check`、作業記録converter、filename validator、index generator、1280px/320pxブラウザ確認に合格した。#86の実E2E証跡は運用文書へ転記し、今回のPages公開・Slack実送信は非対象として実行していない。
 - 作業ブランチ: `codex/075-issue-87-operations-handoff`
-- コミット: 作業中（PR作成前）。
-- PR: 作業中（Issue #87と1対1で作成予定）。
-- PRレビュー・CI: 作業中。
+- コミット: `9f29df917f4a5d008b50c6f721be4749cf15fc12`（実装・文書・作業記録初版）、追補commit（本記録更新）。
+- PR: [#111 Issue #87: sandbox_pages公開運用を引き継ぐ](https://github.com/tj-999-comp/sandbox-pages/pull/111)（Draft、未マージ）。
+- PRレビュー・CI: Portfolio Reviewer相当の差分レビューで重大な未解決事項なし。Validate run [#33408419356](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33408419356)成功。base=`main`、head=`codex/075-issue-87-operations-handoff`、対象8ファイルをGitHub上で再確認した。
 - 未解決事項: 再通知workflowの実送信は外部Slack副作用を伴うため未実行。通常運用では送信step失敗を確認したケースに限定して実行する。
-- 次アクション: PRのCIとGitHub上の差分を確認し、明示承認後にmerge・Issue closeする。
+- 次アクション: PR #111の内容を確認後、明示承認があればmergeし、その後Issue #87をcloseする。
 
 ## GitHub Issue状況
 
