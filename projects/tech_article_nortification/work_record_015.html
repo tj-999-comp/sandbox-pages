@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>GAS定期実行とSlack未更新の調査 — 作業記録 015</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#content">本文へ移動</a>
+    <header class="page-header">
+      <div class="page-header__inner">
+        <p class="eyebrow">tech_article_nortification / 作業記録 015</p>
+        <h1 id="record-title">GAS定期実行とSlack未更新の調査</h1>
+        <p class="summary"><time datetime="2026-08-30">2026-08-30</time></p>
+      </div>
+    </header>
+    <main id="content">
+      <section class="record-content" aria-labelledby="record-title">
+        <p>作成日: 2026-08-30</p>
+<h2>概要</h2>
+<p>Qiita記事通知アプリの実装・GAS運用に合わせてドキュメントを整理し、Slack通知が更新されていない原因を調査した。今回の作業ではSlack通知の復旧までは行わず、次回セッションでApps Script側を確認・復旧するための調査結果を引き継ぐ。</p>
+<h2>ドキュメント整理</h2>
+<ul><li>READMEの目的を、Qiita APIから過去7日間の記事を最大20件取得し、最大10件をSlack通知・Notion同期する構成に統一した。</li><li>実行順を <code>Step1 → Step2 → Step3 Slack → Step4 Notion</code> と明記した。</li><li>定期起動をGASの水曜・土曜08:00（Asia/Tokyo）トリガー、GitHub Actionsを <code>workflow_dispatch</code> 専用として整理した。</li><li>LLM要約失敗時の <code>REQUIRE_LLM_SUCCESS</code> による挙動と、Notionの <code>Read Date</code> が現状未使用であることを追記した。</li><li>AGENTS.mdとIssue 009の記載を、現在のGAS・Python実装・workflowに合わせた。</li></ul>
+<h2>Slack未更新の調査結果</h2>
+<ul><li>現在の <code>.github/workflows/daily-qiita-notify.yml</code> に <code>schedule</code> はなく、定期起動はGASからのGitHub API dispatchに依存している。</li><li>GitHub Actionsの通知workflowの最後の実行は、2026-05-29の成功した <code>schedule</code> 実行だった。</li><li>2026-08-29の確認時点で、現在のworkflowを対象とした新しい実行は確認できなかった。</li><li>そのため、第一候補はGASの時間主導トリガーが停止・未登録であること、またはGASからのdispatch失敗である。</li><li>GASのdispatch先workflowがmainに戻る前は存在しなかったため、2026-08-29朝のdispatchが実行されていた場合は404になった可能性がある。現行workflowは同日後にmainへ反映された。</li><li>Apps Scriptの実行履歴、トリガー、Script Propertiesの <code>GITHUB_TOKEN</code> はリポジトリから確認できないため、次回はApps Script側で確認する。</li></ul>
+<h2>検証</h2>
+<ul><li><code>PYTHONPATH=. python3 -m unittest discover -s tests -p 'test_*.py' -v</code>: 27件成功</li><li><code>python3 scripts/validate_work_records.py</code>: 14件成功</li><li><code>git diff --check</code>: 成功</li></ul>
+<h2>次回対応</h2>
+<ol><li>Apps Scriptの実行履歴で <code>runScheduledWorkflow</code> の最終実行結果を確認する。</li><li>時間主導トリガーが水曜・土曜08:00（Asia/Tokyo）で登録されているか確認する。</li><li>Script Propertiesの <code>GITHUB_TOKEN</code>、<code>GITHUB_REPOSITORY</code>、<code>GITHUB_WORKFLOW</code>、<code>GITHUB_REF</code> を確認する。token値は記録しない。</li><li><code>triggerGitHubWorkflow</code> を手動実行し、HTTP 204が返るか確認する。</li><li>Actionsの <code>Run pipeline</code> が起動した後、必要に応じてQiita・GitHub Models・Slack・Notionの失敗箇所を確認する。</li></ol>
+<h2>安全境界</h2>
+<p>この記録にはtoken、Webhook URL、個人情報、記事本文を含めない。Slack復旧のための手動workflow実行は、実際のSlack投稿とNotion更新を伴うため、確認内容を決めてから実施する。</p>
+        <ul class="tag-list"><li>documentation</li><li>gas</li><li>handoff</li><li>operations</li><li>slack</li></ul>
+      </section>
+    </main>
+    <footer><p><a href="md/work_record_015.md">Markdown原本</a></p></footer>
+  </body>
+</html>
