@@ -51,7 +51,7 @@
 - 変更ファイル: `work-records/md/work_record_074.md`、`work-records/metadata/work_record_074.yml`、`work-records/work_record_074.html`、`tests/test_sandbox_pages_bootstrap.py`。
 - 検証結果: 作業記録・metadata・filename validator、全108テスト、index generator、ブラウザ確認に合格した。E2E直後に判明したbootstrap検証テストの後続公開対応も修正後に全108テストで合格した。初回受入run [#33405631634](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33405631634)でValidate、Apply、Pages Deploy、Slack通知が成功し、再実行run [#33405868613](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33405868613)で`no_op=true`、Deploy/Slack skipを確認した。公開URLは[work_record_074](https://tj-999-comp.github.io/sandbox-pages/projects/sandbox_pages/work_record_074.html)で、1280px/320pxともHTTP 200、横overflowなし、console/page errorなし、failed requestなしだった。Slack通知にはタイトル、project、basename、publication_id、対象record URLが渡された。
 - 作業ブランチ: `codex/074-issue-86-new-record-e2e`
-- コミット: `f0607dee9727cf515179dd166bed7c61a52924dc`（source record一式）、merge commit `a407281afb01e54281fa26a7eda89b5b681380b1`、Apply commit `6c3c9a7c25f0bc4809329fee92c2dd9d01a21158`（初回公開）、完了記録・bootstrap検証テスト修正commitは作成後に追記する。
+- コミット: `f0607dee9727cf515179dd166bed7c61a52924dc`（source record一式）、merge commit `a407281afb01e54281fa26a7eda89b5b681380b1`、Apply commit `6c3c9a7c25f0bc4809329fee92c2dd9d01a21158`（初回公開）、`f02c2b2`（完了記録・bootstrap検証テスト修正）。
 - PR: [#110 Issue #86: sandbox_pages新規作業記録E2E](https://github.com/tj-999-comp/sandbox-pages/pull/110)（マージ済み）。
 - PRレビュー・CI: 差分レビューで重大な未解決事項なし。Validate run [#33402997158](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33402997158)成功。受入run [#33405631634](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33405631634)は`operation=create`、`no_op=false`、`notify=true`で成功し、Slack通知jobも成功した。
 - 未解決事項: なし。
