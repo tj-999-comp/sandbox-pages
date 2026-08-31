@@ -18,6 +18,10 @@ ROOT = Path(__file__).resolve().parents[1]
 class ContentSafetyTests(unittest.TestCase):
     def setUp(self):
         self.source = copy.deepcopy(load_registry(ROOT / "config" / "sources.json")["sources"][0])
+        self.source["support_files"] = ["README.md", "design.md", "work_record.css"]
+        self.source["ignored_files"] = []
+        self.source["generator_id"] = "b-stats-work-record-v1"
+        self.source["html_mode"] = "source_html"
 
     def test_current_work_record_html_and_css_are_accepted(self):
         document = validate_html_file(ROOT / "work-records", "work_record_023.html")

@@ -16,6 +16,13 @@ ROOT = Path(__file__).resolve().parents[1]
 class AcceptanceFileTests(unittest.TestCase):
     def setUp(self):
         self.source = copy.deepcopy(load_registry(ROOT / "config" / "sources.json")["sources"][0])
+        self.source["support_files"] = ["README.md", "design.md", "work_record.css"]
+        self.source["ignored_files"] = [
+            "md/phase_1_tasks.md",
+            "work_record_extra_01.html",
+        ]
+        self.source["generator_id"] = "b-stats-work-record-v1"
+        self.source["html_mode"] = "source_html"
 
     def test_valid_source_returns_deterministic_inventory(self):
         with tempfile.TemporaryDirectory() as directory:

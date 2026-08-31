@@ -181,28 +181,14 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
                 result["destination"]["public_base_path"],
                 "/sandbox-pages/projects/B_Stats_Site/",
             )
-            self.assertEqual(result["validators"]["content_safety"], "passed")
+            self.assertEqual(result["validators"]["renderer"], "passed")
             self.assertEqual(
                 {item["path"] for item in result["inventory"]},
-                {
-                    "README.md",
-                    "design.md",
-                    "work_record.css",
-                    "md/work_record_001.md",
-                    "metadata/work_record_001.yml",
-                    "work_record_001.html",
-                },
+                {"md/work_record_001.md", "metadata/work_record_001.yml"},
             )
             self.assertEqual(
                 {item["path"] for item in result["target_inventory"]},
-                {
-                    "README.md",
-                    "design.md",
-                    "work_record.css",
-                    "md/work_record_001.md",
-                    "metadata/work_record_001.yml",
-                    "work_record_001.html",
-                },
+                {"md/work_record_001.md", "metadata/work_record_001.yml"},
             )
             saved = json.loads((output_dir / "acceptance.json").read_text(encoding="utf-8"))
             self.assertEqual(saved, result)

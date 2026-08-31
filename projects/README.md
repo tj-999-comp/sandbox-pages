@@ -22,7 +22,7 @@ B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用�
 | 用語 | 意味 |
 | --- | --- |
 | 公開リポジトリ（Repository A） | 公開可否、配置、index、デプロイ、通知を管理するリポジトリ |
-| 生成元リポジトリ（Repository B） | Markdownとmetadataを生成するリポジトリ。`source_html`では同名HTMLも生成する。複数登録できる |
+| 生成元リポジトリ（Repository B） | Markdownとmetadataを生成するリポジトリ。HTMLはA側の`a_rendered` rendererが生成する。複数登録できる |
 | `project_id` | 公開リポジトリが割り当てる生成元の不変な識別子 |
 | 公開要求 | 生成元の `publish: true` とworkflow dispatch。公開承認そのものではない |
 | 公開成果物 | 公開リポジトリが受入済みの生成物と、その表示に必要な関連ファイル |
@@ -57,17 +57,14 @@ source_directory: work-records
 metadata_directory: work-records/metadata
 destination_directory: projects/B_Stats_Site
 public_base_path: /sandbox-pages/projects/B_Stats_Site/
-support_files:
-  - README.md
-  - design.md
-  - work_record.css
+support_files: []
 ignored_files:
   - md/phase_1_tasks.md
   - md/scraping_db_automation.md
   - work_record_extra_01.html
   - work_record_extra_02.html
-generator_id: b-stats-work-record-v1
-html_mode: source_html
+generator_id: a-rendered-work-record-v1
+html_mode: a_rendered
 enabled: true
 limits:
   max_files: 100
@@ -77,7 +74,7 @@ limits:
 
 `generator_id` はAが所有する検証実装へ対応させる識別子であり、生成元から受け取った任意のshell commandとして実行しない。
 
-`html_mode` は `source_html` または `a_rendered` とする。`source_html` は生成元で同名HTMLを管理する互換方式、`a_rendered` は生成元のMarkdownとmetadataからA所有のrendererがHTMLを生成する方式である。新しい生成元は原則として `a_rendered` を使用する。
+`html_mode` は `source_html` または `a_rendered` とする。`source_html` は生成元で同名HTMLを管理する互換方式、`a_rendered` は生成元のMarkdownとmetadataからA所有のrendererがHTMLを生成する方式である。新しい生成元は原則として `a_rendered` を使用する。B_Stats_Siteも2026-08-31に`a_rendered`へ移行した。
 
 ### `tech_article_nortification` の導入契約
 
@@ -127,11 +124,11 @@ limits:
 
 公開フローでは、作業リポジトリ（B）と公開リポジトリ（A）が同じ検証を重複して担当するのではなく、次の二段階に分ける。
 
-- 作業リポジトリ（B）は公開要求前の自己検証を担当する。命名、metadata、Markdown・HTMLの対応、HTML再生成、安全性、support file依存を確認し、公開候補commitを作る。
+- 作業リポジトリ（B）は公開要求前の自己検証を担当する。命名、metadata、Markdownとmetadataの対応を確認し、公開候補commitを作る。HTML生成・HTML安全性・共通CSSはA側が担当する。
 - 公開リポジトリ（A）は受入時の独立した最終検証を担当する。Aのsource registryから許可path・ファイル種別・容量上限・通常ファイル条件・digestを再導出し、A所有の安全validator、provenance、公開先差分を確認する。
 - B側validatorの成功は公開許可を意味しない。A側validatorの成功と、Aの受入workflow・provenance・Pages処理の完了をもって公開とする。
 - BへAのContents write権限や公開先の編集権限を渡さない。Bは固定commitと公開対象basenameを公開要求として送り、Aがsource登録に基づいて取得・再検証する。
-- `source_html`のHTML安全validatorは、Aが許可した要素・属性・URL schemeだけを通し、ローカル依存をA側で解決する。現在の`../README.md`のように生成元と公開先で意味が変わる親ディレクトリ参照は、公開前に拒否する。
+- `source_html`のHTML安全validatorは、Aが許可した要素・属性・URL schemeだけを通し、ローカル依存をA側で解決する。現在の`../README.md`のように生成元と公開先で意味が変わる親ディレクトリ参照は、公開前に拒否する。B_Stats_Siteでは移行後この経路を使用しない。
 - CSS安全validatorは、Aが許可したpropertyと`@media`だけを通し、`@import`、外部・protocol-relative・危険な`url()`、実行につながる構文を拒否する。B側の同等チェックは公開要求前の早期検出、A側のチェックは受入可否の最終判定である。
 
 この分担により、生成元が誤設定・侵害・想定外ファイルを含むcommitを送った場合でも、公開側で受入範囲を再計算して拒否できる。
@@ -139,7 +136,7 @@ limits:
 | 対象 | 所有者・正本 |
 | --- | --- |
 | Markdownとmetadataの内容 | 生成元リポジトリの受入対象commit |
-| `source_html`における同名HTML | 生成元リポジトリの受入対象commit |
+| `source_html`における同名HTML | 生成元リポジトリの受入対象commit（B_Stats_Siteは移行済み） |
 | 共通命名、公開先、URL、受入条件、metadata schema | 公開リポジトリ |
 | `a_rendered`におけるHTML templateとrenderer | 公開リポジトリ |
 | source登録、validator、workflow、provenance manifest | 公開リポジトリ |
@@ -156,8 +153,7 @@ limits:
 生成元が管理するもの:
 
 - 共通命名に従うMarkdownとmetadata
-- `source_html`の場合は対応する同名HTML
-- 登録済みのproject support file
+- `source_html`互換projectでのみ対応する同名HTMLとsupport file
 
 公開リポジトリが管理するもの:
 
@@ -224,7 +220,7 @@ work-records/
 
 ### `source_html`
 
-既にMarkdownと同名HTMLを管理している生成元の互換方式とする。現在の `B_Stats_Site` はこの方式に該当する。
+既にMarkdownと同名HTMLを管理している生成元の互換方式とする。B_Stats_Siteは2026-08-31にこの方式から`a_rendered`へ移行した。
 
 `B_Stats_Site` の現在の構成は次のとおりである。
 
@@ -256,7 +252,7 @@ python -m scripts.dev.convert_work_records_to_html
 - `md/<同じベース名>.md`
 - `../README.md`
 
-`source_html`の公開先では、生成元の `work-records/README.md`、`design.md`、`work_record.css`、対象HTML、対応Markdown、metadataをproject単位で扱う。
+`source_html`の公開先では、生成元の `work-records/README.md`、`design.md`、`work_record.css`、対象HTML、対応Markdown、metadataをproject単位で扱う。B_Stats_Siteの移行後は、A側の共通rendererが生成したHTMLと既存URLを維持する。
 
 現行の `../README.md` は、生成元ではリポジトリルートREADME、公開先では `projects/README.md` を指し、環境によって意味が変わる。この親ディレクトリ参照を新規・更新成果物では許可しない。自動publishを有効化する前に、generatorをproject内の `README.md` または生成元リポジトリへの明示的なHTTPS URLへ変更する。公開リポジトリの親READMEを生成元ファイルで上書きしてはならない。
 
@@ -335,14 +331,14 @@ AI生成HTMLを同じGitHub Pages originで公開するため、HTML安全検証
 
 ### AIエージェント
 
-- 生成元リポジトリで共通命名に従うMarkdownとmetadataを生成する。`source_html`では同名HTMLも生成する。
+- 生成元リポジトリで共通命名に従うMarkdownとmetadataを生成する。`a_rendered`では同名HTMLを生成元へ追加しない。
 - 対応する検証を実行し、生成元リポジトリへcommit/pushするところまでを担当する。
 - 公開リポジトリへの反映、GitHub Pages deploy、Slack通知を担当しない。
 
 ### 生成元リポジトリのGitHub Actions
 
 1. 実行対象のcommit SHAを固定してcheckoutする。
-2. 生成元側の共通命名とmetadataを検証する。`source_html`ではHTML再生成、安全性、依存ファイルも検証する。
+2. 生成元側の共通命名とmetadataを検証する。`a_rendered`のHTML生成、安全性、依存ファイルはA側で検証する。
 3. 公開対象がある場合、公開リポジトリの受入workflowへ `project_id`、commit SHA、対象ベース名だけを `workflow_dispatch` で送る。生成元リポジトリ、branch、各ディレクトリはAのsource登録から決定する。
 4. 公開リポジトリのファイルをcheckout、編集、commit、pushしない。
 
