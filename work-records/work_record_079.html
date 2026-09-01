@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>query_learning_BBの受入baselineを登録 — 作業記録 079</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 079 ・ <time datetime="2026-09-01">2026-09-01</time></p>
+          <h1>query_learning_BBの受入baselineを登録</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_079.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 新規sourceの受入workflowが参照する初期provenanceが未登録だった。</li><li>目的: <code>query_learning_BB</code> の公開履歴がまだ空であることを明示するbootstrap manifestを公開側へ登録し、disabled dry-runを実行できる状態にする。</li><li>対象範囲: この <code>sandbox-pages</code> リポジトリ内のprovenanceと作業記録の変更のみ。生成元リポジトリの変更やSecret設定は対象外とする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　作業</p><h2 id="section-02">実施内容</h2></div><div class="section-content"><ul><li><code>provenance/query_learning_BB/initial.json</code> を追加した。</li><li>初期manifestは <code>operation: create</code>、<code>notify: false</code>、公開ファイル0件、record 0件とした。</li><li>初期baselineが参照する生成元を <code>tj-999-comp/query_learning_BB</code> の <code>refs/heads/main</code>、固定SHA <code>a0662fc768181a736188c8fd35c7aefd2727ded0</code> とした。</li><li>初期manifestは公開済みrecordを表すものではなく、受入前の空の履歴を表す。</li><li>この変更自体を公開側作業記録として追加した。</li><li>source registryに紐づく空のproject indexを生成し、全体indexへprojectを追加した。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>新規sourceの初期provenanceは、公開ファイルとrecordを空にして、通知を抑制する。</li><li>registryは <code>enabled: false</code> のまま維持し、初期manifest登録後にdisabled dry-runでsourceを検証する。</li><li>作業記録には公開側リポジトリ内の変更だけを記載し、生成元の認証設定や外部操作は記載しない。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　記録</p><h2 id="section-04">検証結果</h2></div><div class="section-content"><ul><li><code>provenance/query_learning_BB/initial.json</code> のschema、project_id、public base path、source repository、固定SHAを確認した。</li><li>公開側unit test 109件、project index、作業記録HTML 79件、filename検証が成功した。</li><li>disabled dry-runの実GitHub実行結果は、manifest反映後に追記する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　記録</p><h2 id="section-05">未完了</h2></div><div class="section-content"><ul><li>disabled dry-runを実行し、apply・deploy・notifyが行われないことを確認する。</li><li>その後、承認済みの手動E2Eに向けてregistryの有効化を別途判断する。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 079</span>
+        <span><a href="md/work_record_079.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
