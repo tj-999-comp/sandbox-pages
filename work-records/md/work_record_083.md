@@ -40,7 +40,7 @@
 - 変更ファイル: `work-records/md/work_record_083.md`、`work-records/metadata/work_record_083.yml`、`work-records/work_record_083.html`。
 - 検証結果: 4公開URLのブラウザreportはB `/private/tmp/playwright-browser-verify/2026-09-01T09-02-35-828Z/report.json`、tech `/private/tmp/playwright-browser-verify/2026-09-01T09-02-35-829Z/report.json`、NBA `/private/tmp/playwright-browser-verify/2026-09-01T09-02-35-819Z/report.json`、query `/private/tmp/playwright-browser-verify/2026-09-01T09-02-35-821Z/report.json`。共通構造比較は `/private/tmp/playwright-browser-verify/scenario-2026-09-01T09-03-24-452Z`。いずれも合格。
 - 作業ブランチ: `main`（docs-onlyの完了snapshotとしてremote mainへ直接push）
-- コミット: 作成予定
+- コミット: remote mainへのdocs-only直接commit（本記録を含む）
 - PR: 対応PRはmerge済み。完了snapshot自体のPRは作成しない。
 - PRレビュー・CI: 対応PR 5件のValidate系CI、中央mainのValidate、Pages build/deployがsuccess。
 - 未解決事項: なし。
