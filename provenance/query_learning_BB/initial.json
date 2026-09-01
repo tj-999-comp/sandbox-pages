@@ -1,0 +1,17 @@
+{
+  "accepted_at": "2026-09-01T06:30:20Z",
+  "notify": false,
+  "operation": "create",
+  "project_id": "query_learning_BB",
+  "public_base_path": "/sandbox-pages/projects/query_learning_BB/",
+  "publication_id": "bootstrap-20260901-query-learning-bb",
+  "published_files": [],
+  "records": [],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "a0662fc768181a736188c8fd35c7aefd2727ded0",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/query_learning_BB"
+  },
+  "source_files": []
+}
