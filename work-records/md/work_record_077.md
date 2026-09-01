@@ -60,9 +60,9 @@
 - 変更ファイル: `work-records/md/work_record_077.md`、`work-records/metadata/work_record_077.yml`、`work-records/work_record_077.html`。別リポジトリに`README.md`、`work-records/README.md`、`scripts/dev/validate_work_records.py`、`.github/workflows/validate.yml`、`.github/workflows/request-publish.yml`を作成した。
 - 検証結果: テンプレート側validator、Python構文確認、GitHub Template設定確認、workflow認識確認、作業記録HTML生成・check、filename validator、既存テスト、`git diff --check`、1280px/320pxブラウザ確認に合格した。
 - 作業ブランチ: `main`（作業記録のみの変更のため、運用ルールに従い最新mainへ直接反映）
-- コミット: 作成後に記載
+- コミット: `c3fc89f7bbf3544808cf992e176b62ca4ab1741d`（作業記録初版）
 - PR: なし（作業記録のみの変更）
-- PRレビュー・CI: PRなし。ローカル検証とブラウザ確認を実施。push後にmainのCIを確認する。
+- PRレビュー・CI: PRなし。ローカル検証とブラウザ確認を実施。push後のValidate run [#33475197099](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33475197099)とDeploy GitHub Pages run [#33475197084](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33475197084)はsuccess。既存ActionにNode.js 20 deprecation warningが表示されたが、今回の変更による失敗はない。
 - 未解決事項: 個別生成元の作成、固有`project_id`への置換、GitHub Appのvariable・secret設定、`sandbox-pages`側source registry登録、実公開E2Eは未実施。
 - 次アクション: 必要なプロジェクトでTemplateを利用し、公開リポジトリ側の導入チェックリストに沿ってsource登録と固定SHAの手動E2Eを行う。
 
