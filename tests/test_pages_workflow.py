@@ -144,6 +144,24 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertNotIn("SLACK", workflow)
         self.assertNotIn("rsync --delete", workflow)
 
+    def test_notification_retry_is_fixed_commit_create_only_and_has_no_pages_write(self):
+        workflow = (ROOT / ".github/workflows/notify-publication.yml").read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", workflow)
+        for input_name in ("project_id", "target_basename", "publication_id", "commit_sha"):
+            self.assertIn(f"      {input_name}:", workflow)
+        self.assertIn("permissions: {}", workflow)
+        self.assertIn("contents: read", workflow)
+        self.assertNotIn("pages: write", workflow)
+        self.assertNotIn("id-token: write", workflow)
+        self.assertNotIn("contents: write", workflow)
+        self.assertIn("ref: ${{ inputs.commit_sha }}", workflow)
+        self.assertIn("test \"$(git rev-parse HEAD)\" = \"$COMMIT_SHA\"", workflow)
+        self.assertIn('.operation == "create"', workflow)
+        self.assertIn('.notify == true', workflow)
+        self.assertIn("slack_notification verify-url", workflow)
+        self.assertIn("slack_notification send", workflow)
+        self.assertNotIn("accept-source.yml", workflow)
+
 
 if __name__ == "__main__":
     unittest.main()
