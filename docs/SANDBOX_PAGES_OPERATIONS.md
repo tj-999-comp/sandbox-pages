@@ -4,7 +4,7 @@
 
 対象: `tj-999-comp/sandbox-pages` の `sandbox_pages` project
 
-この文書は、手動で承認した作業記録1件を、固定commit・単一basenameでPagesへ公開し、必要な場合だけSlackへ通知するための運用手順である。公開リポジトリの受入・配信契約は [`projects/README.md`](../projects/README.md)、Actionsの権限境界は [`docs/ACTIONS_MAIN_POLICY.md`](ACTIONS_MAIN_POLICY.md)を正本とする。
+この文書は、本番運用として手動で承認した作業記録1件を、固定commit・単一basenameでPagesへ公開し、必要な場合だけSlackへ通知するための運用手順である。公開リポジトリの受入・配信契約は [`projects/README.md`](../projects/README.md)、Actionsの権限境界は [`docs/ACTIONS_MAIN_POLICY.md`](ACTIONS_MAIN_POLICY.md)を正本とする。
 
 ## 責任境界
 
@@ -16,7 +16,7 @@
 | 運用担当 | dispatchの入力を記録し、各job、公開URL、provenance、Slack結果を確認する。停止・rollback・再通知を実行する。 |
 | Slack管理者 | `SLACK_WEBHOOK_URL`をSecretとして管理する。Webhook URLやtokenをIssue、PR、作業記録、ログへ記録しない。 |
 
-現在の通常公開入口は `.github/workflows/accept-source.yml` の手動 `workflow_dispatch` だけである。push、schedule、repository_dispatchによる恒久自動公開は設定しない。
+現在の本番公開入口は `.github/workflows/accept-source.yml` の手動承認 `workflow_dispatch` だけである。push、schedule、repository_dispatchによる恒久自動公開は設定しない。
 
 ## 1. 公開前の承認チェック
 

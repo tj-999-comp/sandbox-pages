@@ -43,7 +43,7 @@ B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用�
 | `B_Stats_Site` | `tj-999-comp/B_Stats_Site` | `main` | `work-records/` | `projects/B_Stats_Site/` |
 | `tech_article_nortification` | `tj-999-comp/tech_article_nortification` | `main` | `work-records/`（導入準備中） | `projects/tech_article_nortification/` |
 | `NBA_Draft_DB` | `tj-999-comp/NBA_Draft_DB` | `main` | `work-records/`（手動E2E運用中） | `projects/NBA_Draft_DB/` |
-| `sandbox_pages` | `tj-999-comp/sandbox-pages` | `main` | `work-records/`（手動E2E運用中） | `projects/sandbox_pages/` |
+| `sandbox_pages` | `tj-999-comp/sandbox-pages` | `main` | `work-records/`（手動本番運用中） | `projects/sandbox_pages/` |
 
 新しい生成元は、公開リポジトリ側で `project_id`、リポジトリ、branch、生成元ディレクトリ、公開先ディレクトリ、support file、generator ID、サイズ上限を登録し、受入テストを通過するまで無効とする。metadataの値から任意の公開先パスを組み立てず、公開リポジトリに登録された対応だけを使う。
 
@@ -81,7 +81,7 @@ limits:
 
 ### `sandbox_pages` の導入契約
 
-`sandbox_pages` は本リポジトリ自身の作業記録を、既存のB互換 `source_html` 方式で受け入れる。Issue #80の実装開始時点に存在する `work_record_001`〜`work_record_067` の全67件を初期公開候補とし、metadata整備後に人間確認済みの公開対象として登録する。この導入作業で追加される作業記録も、各Issueの固定commitに含まれるものを後続のmetadata整備・初期公開対象へ引き継ぐ。#84のdisabled dry-run、初期provenance、既存projectの非回帰確認を完了したため、現在は手動`workflow_dispatch`だけを受け付ける`enabled: true`へ移行する。
+`sandbox_pages` は本リポジトリ自身の作業記録を、既存のB互換 `source_html` 方式で受け入れる。Issue #80の実装開始時点に存在する `work_record_001`〜`work_record_067` の全67件を初期公開候補とし、metadata整備後に人間確認済みの公開対象として登録する。この導入作業で追加される作業記録も、各Issueの固定commitに含まれるものを後続のmetadata整備・初期公開対象へ引き継ぐ。#84のdisabled dry-run、初期provenance、既存projectの非回帰確認、#86の新規record E2E、#87の運用引き継ぎを完了したため、現在は手動承認の本番`workflow_dispatch`だけを受け付ける`enabled: true`へ移行済みである。
 
 | 項目 | 値 |
 | --- | --- |
@@ -94,7 +94,7 @@ limits:
 | support files | `README.md`、`design.md`、`work_record.css` |
 | 公開先 | `projects/sandbox_pages/` |
 | 公開base path | `/sandbox-pages/projects/sandbox_pages/` |
-| 状態 | `enabled: true`（手動`workflow_dispatch`のみ） |
+| 状態 | `enabled: true`（手動承認の本番`workflow_dispatch`のみ） |
 | 上限 | 256ファイル、単体1 MiB、合計10 MiB |
 | 公開要求 | `project_id`、固定 `source_commit_sha`、`target_basename` の3入力 |
 
