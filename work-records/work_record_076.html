@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #79 sandbox_pages本番運用開始確認 — 作業記録 076</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 076 ・ <time datetime="2026-09-01">2026-09-01</time></p>
+          <h1>Issue #79 sandbox_pages本番運用開始確認</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_076.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #79「sandbox-pages自身の作業記録をPages公開・Slack通知対象へ接続する」の残作業確認と完了処理。</li><li>目的: #80〜#87の完了、公開設定、metadata、E2E、運用手順を親Issueの完了条件と照合し、sandbox_pagesを手動承認付き本番運用として扱える状態へ明記する。</li><li>完了条件: 子Issueと親Issueの完了条件を確認し、<code>enabled: true</code>、全metadataの<code>publish: true</code>、固定SHA・単一basename・Pages・Slackの実運用経路を確認する。恒久自動公開は設定しない。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Planner</h3>
+<ul><li>入力: Issue #79の完了条件、#80〜#87のGitHub状態、<code>config/sources.json</code>、<code>projects/README.md</code>、#87の運用引き継ぎ。</li><li>実施内容: 親Issueの残作業を確認し、#80〜#87がすべて<code>CLOSED / COMPLETED</code>、source registryが<code>sandbox_pages.enabled=true</code>、75件のmetadataがすべて<code>publish: true</code>であることを照合した。本番運用は手動承認の<code>workflow_dispatch</code>として継続し、push連動の恒久自動公開は別Issue・明示承認が必要な範囲として分離した。</li><li>成果物: 本番運用状態を反映した公開契約文書と作業記録。</li><li>検証結果: 親Issueの完了条件に未達項目はなく、既存の公開・停止・再通知契約とも矛盾しない。</li><li>未解決事項: 恒久自動公開を導入する場合は別Issueが必要。</li><li>次工程への引き継ぎ: PR #112のCI成功を確認済み。マージ後に親Issue #79を完了扱いでクローズする。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>projects/README.md</code>、<code>docs/SANDBOX_PAGES_OPERATIONS.md</code>、<code>config/sources.json</code>。</li><li>実施内容: <code>sandbox_pages</code>の表示を「手動E2E運用中」から「手動本番運用中」へ更新し、導入契約へ#86・#87完了後の本番運用移行済みであることを追記した。実設定の<code>enabled: true</code>と公開経路は変更せず、既存の安全な手動承認運用を本番状態として明確化した。</li><li>成果物: <code>projects/README.md</code>、<code>docs/SANDBOX_PAGES_OPERATIONS.md</code>、本作業記録とmetadata・生成HTML。</li><li>検証結果: registry値、metadata件数、workflow triggerを確認した。新しい自動trigger、source registryの不要な変更、Pagesの実行は行っていない。</li><li>未解決事項: なし（現行の手動本番運用について）。</li><li>次工程への引き継ぎ: PRで文書差分と生成物を確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #79の完了条件、#80〜#87のGitHub状態、#86のE2E、#87の運用手順、変更差分。</li><li>実施内容: 子Issueの完了状況、<code>enabled: true</code>、<code>publish: true</code>、固定SHA公開、Pages URL、Slack通知、no-op、停止・rollback・再通知の証跡を照合した。</li><li>成果物: 親Issue完了判定と本番運用移行の差分レビュー。</li><li>検証結果: 親Issueの完了条件はすべて満たされている。現行の本番運用は手動承認付きであり、恒久自動公開を勝手に有効化していない。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: PR merge後にIssue #79を<code>COMPLETED</code>でクローズする。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 更新した公開契約文書と作業記録HTML。</li><li>実施内容: <code>work_record_076.html</code>を生成し、1280px・900px・640px・320pxで横overflow、console/page error、failed requestを確認する。</li><li>成果物: <code>work_record_076.html</code>の表示確認結果。</li><li>検証結果: 全viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: MarkdownとHTMLを同一PRへ含める。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>config/sources.json</code>の<code>enabled</code>値やworkflow triggerは変更せず、手動承認付き本番運用への移行を公開契約文書へ反映する。</li><li>理由: <code>sandbox_pages</code>はすでに<code>enabled: true</code>で、#86のPages・Slack E2Eと#87の停止・再通知手順が完了している。push連動の恒久自動公開は、#87で別Issueと明示承認が必要な範囲として定義済みである。</li><li>判断: 全75件のmetadataは<code>publish: true</code>のまま維持する。</li><li>理由: ユーザー承認済みの公開扱いを維持し、各recordの公開要求と公開側の固定SHA受入を分離するため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 親Issue #79の残作業がないことを確認し、sandbox_pagesを手動承認付き本番運用として文書上も明確化した。実効設定は<code>enabled: true</code>、全75件<code>publish: true</code>、公開入口は固定SHA・単一basenameの手動<code>workflow_dispatch</code>である。</li><li>変更ファイル: <code>projects/README.md</code>、<code>docs/SANDBOX_PAGES_OPERATIONS.md</code>、<code>work-records/md/work_record_076.md</code>、<code>work-records/metadata/work_record_076.yml</code>、<code>work-records/work_record_076.html</code>。</li><li>検証結果: 全109テスト、作業記録HTML check、filename validator、index generator check、<code>git diff --check</code>、1280px/320pxを含むブラウザ確認に合格した。source registryの値と全metadataの公開フラグも確認した。</li><li>作業ブランチ: <code>codex/076-issue-79-production-operation</code></li><li>コミット: <code>9ec3c20376cdce36b382807ed4c708b497f0a04d</code>（本番運用表記、作業記録初版）。</li><li>PR: <a href="https://github.com/tj-999-comp/sandbox-pages/pull/112">#112 Issue #79: sandbox_pages本番運用を明記</a>（Draft、未マージ）。</li><li>PRレビュー・CI: Portfolio Reviewer相当の差分レビューで重大な未解決事項なし。Validate run <a href="https://github.com/tj-999-comp/sandbox-pages/actions/runs/33463304767">#33463304767</a>成功。base=<code>main</code>、head=<code>codex/076-issue-79-production-operation</code>、対象5ファイルをGitHub上で確認した。</li><li>未解決事項: 恒久自動公開は未導入。必要になった場合は別Issue、trigger・権限・停止・再通知・rollback条件の明示承認が必要。</li><li>次アクション: PR #112をマージ後、Issue #79をクローズする。恒久自動公開は別Issueで扱う。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-09-01 11:36 取得範囲: <code>tj-999-comp/sandbox-pages</code>の全Open Issue（Pull Requestを除外）8件。GitHub App tokenで取得し、#89のsub-issues APIも確認した。state reasonはOpen Issue全件でnull。#79の子Issueである#80〜#87は全件<code>CLOSED / COMPLETED</code>として別途確認した。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#79 [Epic] sandbox-pages自身の作業記録をPages公開・Slack通知対象へ接続する [Open]
+（GitHub sub-issues API上の子Issue登録はなし。本文上の#80〜#87は全件完了）
+
+#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する [Open]
+├── #90 各生成元の過去作業記録を棚卸しし公開対応表を確定する [Open]
+├── #91 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する [Open]
+├── #92 作業記録ページの構成とrecord間リンクを実装する [Open]
+├── #93 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する [Open]
+└── #94 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う [Open]</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する](https://github.com/tj-999-comp/sandbox-pages/issues/89)</td><td>Open（state_reason: null）</td><td>独立Epic。#90〜#94を追跡する。</td></tr><tr><td>2</td><td>未設定</td><td>[#90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する](https://github.com/tj-999-comp/sandbox-pages/issues/90)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>3</td><td>未設定</td><td>[#91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する](https://github.com/tj-999-comp/sandbox-pages/issues/91)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>4</td><td>未設定</td><td>[#92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/92)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>5</td><td>未設定</td><td>[#93 [Publish] 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する](https://github.com/tj-999-comp/sandbox-pages/issues/93)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>6</td><td>未設定</td><td>[#94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う](https://github.com/tj-999-comp/sandbox-pages/issues/94)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>7</td><td>未設定</td><td>[#102 [Operations] 作業記録のIssue状況を該当リポジトリ単位で全生成元へ統一する](https://github.com/tj-999-comp/sandbox-pages/issues/102)</td><td>Open（state_reason: null）</td><td>独立。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 076</span>
+        <span><a href="md/work_record_076.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
