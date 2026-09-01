@@ -40,7 +40,7 @@
 - 変更ファイル: `AGENTS.md`、`docs/PORTFOLIO_STANDARD.md`、`projects/README.md`、`projects/progress-index.css`、`work-records/README.md`、および4生成元の運用文書。queryのregistryは先行commitで登録済みのため変更なし。
 - 検証結果: `git diff --check`合格。Issue APIの取得件数は中央7件、B 8件、tech 1件、NBA 8件、query 0件で、中央作業記録の一覧は7行と一致する。中央文書のMarkdown構造と生成元文書のコード例を確認した。CSS修正後の中央保持HTML（B `work_record_026`、tech `work_record_015`、NBA `work_record_001`、query `work_record_001`）を実ブラウザで1280x900、900x900、640x900、320x800で確認し、全ページでHTTP 200、横方向overflowなし、console/page errorなし、failed requestなしだった（各report: `/private/tmp/playwright-browser-verify/2026-09-01T08-41-26-403Z/report.json`、`/private/tmp/playwright-browser-verify/2026-09-01T08-41-26-405Z/report.json`、`/private/tmp/playwright-browser-verify/2026-09-01T08-41-26-399Z/report.json`、`/private/tmp/playwright-browser-verify/2026-09-01T08-41-26-404Z/report.json`）。中央の追加HTML単体の確認結果は `/private/tmp/playwright-browser-verify/2026-09-01T08-34-25-177Z/report.json` に保存した。
 - 作業ブランチ: `codex/078-issue-102-issue-snapshots`
-- コミット: `223e552`、`648c722`（中央。後者がPR更新後の最新commit）
+- コミット: `223e552`、`648c722`（中央の主対応・PR更新commit。PR・CI追記は後続commitで反映）
 - PR: [中央#117](https://github.com/tj-999-comp/sandbox-pages/pull/117)、[B#74](https://github.com/tj-999-comp/B_Stats_Site/pull/74)、[tech#24](https://github.com/tj-999-comp/tech_article_nortification/pull/24)、[NBA#24](https://github.com/tj-999-comp/NBA_Draft_DB/pull/24)、[query#7](https://github.com/tj-999-comp/query_learning_BB/pull/7)（すべてDraft、base `main`）
 - PRレビュー・CI: 中央#117、B#74、tech#24、NBA#24、query#7のValidate系CIはすべてsuccess。外部レビュー・mergeは未実施。
 - 未解決事項: PRの外部レビュー・merge、CSS修正後の中央branchのPages反映と公開URL再確認、公開HTML間の最終構造・デザイン比較。
