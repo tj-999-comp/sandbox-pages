@@ -70,7 +70,7 @@ class SourceRegistryTests(unittest.TestCase):
             query_learning_source["generator_id"],
             "a-rendered-work-record-v1",
         )
-        self.assertFalse(query_learning_source["enabled"])
+        self.assertTrue(query_learning_source["enabled"])
         self.assertEqual(query_learning_source["support_files"], [])
         self.assertEqual(query_learning_source["ignored_files"], ["README.md"])
         sandbox_source = registry["sources"][3]
