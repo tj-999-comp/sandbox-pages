@@ -98,6 +98,27 @@
       }
     },
     {
+      "project_id": "query_learning_BB",
+      "source_repository": "tj-999-comp/query_learning_BB",
+      "source_ref": "refs/heads/main",
+      "source_directory": "work-records",
+      "metadata_directory": "work-records/metadata",
+      "destination_directory": "projects/query_learning_BB",
+      "public_base_path": "/sandbox-pages/projects/query_learning_BB/",
+      "support_files": [],
+      "ignored_files": [
+        "README.md"
+      ],
+      "generator_id": "a-rendered-work-record-v1",
+      "html_mode": "a_rendered",
+      "enabled": false,
+      "limits": {
+        "max_files": 100,
+        "max_file_size_bytes": 1048576,
+        "max_total_size_bytes": 10485760
+      }
+    },
+    {
       "project_id": "sandbox_pages",
       "source_repository": "tj-999-comp/sandbox-pages",
       "source_ref": "refs/heads/main",
