@@ -16,7 +16,7 @@
 - 成果物: 本番運用状態を反映した公開契約文書と作業記録。
 - 検証結果: 親Issueの完了条件に未達項目はなく、既存の公開・停止・再通知契約とも矛盾しない。
 - 未解決事項: 恒久自動公開を導入する場合は別Issueが必要。
-- 次工程への引き継ぎ: 親Issue #79を完了扱いでクローズする。
+- 次工程への引き継ぎ: PR #112のCI成功を確認済み。マージ後に親Issue #79を完了扱いでクローズする。
 
 ### Portfolio Frontend Engineer
 
@@ -58,11 +58,11 @@
 - 変更ファイル: `projects/README.md`、`docs/SANDBOX_PAGES_OPERATIONS.md`、`work-records/md/work_record_076.md`、`work-records/metadata/work_record_076.yml`、`work-records/work_record_076.html`。
 - 検証結果: 全109テスト、作業記録HTML check、filename validator、index generator check、`git diff --check`、1280px/320pxを含むブラウザ確認に合格した。source registryの値と全metadataの公開フラグも確認した。
 - 作業ブランチ: `codex/076-issue-79-production-operation`
-- コミット: 作業中（PR作成前）。
-- PR: 作業中（Issue #79と1対1で作成予定）。
-- PRレビュー・CI: 作業中。
+- コミット: `9ec3c20376cdce36b382807ed4c708b497f0a04d`（本番運用表記、作業記録初版）。
+- PR: [#112 Issue #79: sandbox_pages本番運用を明記](https://github.com/tj-999-comp/sandbox-pages/pull/112)（Draft、未マージ）。
+- PRレビュー・CI: Portfolio Reviewer相当の差分レビューで重大な未解決事項なし。Validate run [#33463304767](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33463304767)成功。base=`main`、head=`codex/076-issue-79-production-operation`、対象5ファイルをGitHub上で確認した。
 - 未解決事項: 恒久自動公開は未導入。必要になった場合は別Issue、trigger・権限・停止・再通知・rollback条件の明示承認が必要。
-- 次アクション: PR #112を作成し、CI確認後にmerge、Issue #79をクローズする。
+- 次アクション: PR #112をマージ後、Issue #79をクローズする。恒久自動公開は別Issueで扱う。
 
 ## GitHub Issue状況
 
