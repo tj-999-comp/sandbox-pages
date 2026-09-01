@@ -1,0 +1,57 @@
+{
+  "accepted_at": "2026-09-01T06:37:04Z",
+  "notify": true,
+  "operation": "create",
+  "project_id": "query_learning_BB",
+  "public_base_path": "/sandbox-pages/projects/query_learning_BB/",
+  "publication_id": "accept-33478348608-1-query_learning_BB-work_record_001",
+  "published_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "7cd6d8ea856b73095cc6030edb418f6e506798f179a951948f86a0eac3e44f70",
+      "size_bytes": 2174
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "08912743e65534ce5d17e43c8442ae650acd1ef85b54ef9547caa72b8ea3e48c",
+      "size_bytes": 4312
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-09-01",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "github-actions",
+          "work-records"
+        ],
+        "title": "公開側リポジトリへの作業記録連携導入準備"
+      },
+      "metadata_sha256": "b530fdf2d78bff9e68f815b2116074cc0f1e3e7800a22caca1fcd3893b7dcbf8",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_001.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "a0662fc768181a736188c8fd35c7aefd2727ded0",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/query_learning_BB"
+  },
+  "source_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "7cd6d8ea856b73095cc6030edb418f6e506798f179a951948f86a0eac3e44f70",
+      "size_bytes": 2174
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "40226df26731e294eb9015d7f0f1231f6dd7b052bf1014b5abd6a5adfea79bd9",
+      "size_bytes": 195
+    }
+  ]
+}

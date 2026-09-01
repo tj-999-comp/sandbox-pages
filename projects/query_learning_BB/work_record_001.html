@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>公開側リポジトリへの作業記録連携導入準備 — 作業記録 001</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 001 ・ 2026-09-01</p>
+          <h1>公開側リポジトリへの作業記録連携導入準備</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_001.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>このリポジトリでCodexが行った変更履歴などを作業記録として残し、公開リポジトリ <code>tj-999-comp/sandbox-pages</code> の受入Actionから共有できるようにする。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　実施内容</p><h2>実施内容</h2></div><div class="section-content"><ul><li>導入全体を管理する親Issueと、source registry・生成元Workflow・作業記録・手動E2Eに分けた子Issueを作成した。</li><li>生成元の <code>project_id</code> を <code>query_learning_BB</code> として扱う契約を整理した。</li><li><code>Request publish</code> Workflowのproject ID placeholderを実値へ置き換えた。</li><li>Markdownとmetadataを対にした最初の作業記録を追加した。</li><li>公開側A-03受入で不要となる空ディレクトリplaceholderを削除した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　確認結果</p><h2>確認結果</h2></div><div class="section-content"><ul><li><code>python3 scripts/dev/validate_work_records.py</code> は <code>Validated 1 work record(s).</code> となった。</li><li>生成元mainの <code>Validate source</code> runは成功した。</li><li>公開側のA所有受入ロジックを一時fixtureで再現し、<code>acceptance_files</code>、<code>metadata</code>、<code>renderer</code> の各validatorが成功した。<code>enabled: false</code> のためapplyは行っていない。</li><li>公開側source registryのPRとテスト修正を作成し、公開側CIの全109テスト、index、既存77件の作業記録検証が成功した。</li><li>GitHub AppのKeychain診断は <code>valid_pem</code>。生成元Actions Variable <code>PUBLISH_APP_ID</code> とSecret <code>PUBLISH_APP_PRIVATE_KEY</code> は値を表示せず登録済み。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　未完了</p><h2>未完了</h2></div><div class="section-content"><ul><li>公開側registry PRのmerge、実GitHub上でのdisabled dry-run、初期provenance生成、固定SHAによる手動E2E、registryの <code>enabled: true</code> 化は未実施。</li><li>PEM秘密鍵・tokenはリポジトリ、作業記録、Issue、ログへ保存していない。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　関連Issue</p><h2>関連Issue</h2></div><div class="section-content"><ul><li>親: https://github.com/tj-999-comp/query_learning_BB/issues/1</li><li>registry: https://github.com/tj-999-comp/query_learning_BB/issues/2</li><li>Workflow/App: https://github.com/tj-999-comp/query_learning_BB/issues/3</li><li>作業記録: https://github.com/tj-999-comp/query_learning_BB/issues/4</li><li>dry-run/E2E: https://github.com/tj-999-comp/query_learning_BB/issues/5</li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 001</span>
+        <span><a href="md/work_record_001.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
