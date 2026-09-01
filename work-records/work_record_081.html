@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>query_learning_BBの手動公開E2E完了 — 作業記録 081</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 081 ・ <time datetime="2026-09-01">2026-09-01</time></p>
+          <h1>query_learning_BBの手動公開E2E完了</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_081.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: <code>query_learning_BB</code> の公開側source registry有効化後、固定SHA受入からPages公開までの経路を確認する。</li><li>目的: 生成元の作業記録が公開側リポジトリへ反映され、公開URLとprovenanceが作成されることを確認する。</li><li>対象範囲: この <code>sandbox-pages</code> リポジトリに反映されたファイル、provenance、公開インデックスの変更のみを記録する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　作業</p><h2 id="section-02">実施内容</h2></div><div class="section-content"><ul><li><code>query_learning_BB</code> の <code>work_record_001</code> を固定元SHA <code>a0662fc768181a736188c8fd35c7aefd2727ded0</code> から受け入れた。</li><li><code>projects/query_learning_BB/md/work_record_001.md</code> と <code>projects/query_learning_BB/work_record_001.html</code> を公開側へ追加した。</li><li><code>provenance/query_learning_BB/accept-33478348608-1-query_learning_BB-work_record_001.json</code> を追加した。</li><li>公開インデックスを受入結果に合わせて更新した。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　記録</p><h2 id="section-03">検証結果</h2></div><div class="section-content"><ul><li>公開側受入run <code>33478348608</code> は、固定元SHA検証、A-03受入、apply、Pages artifact生成、Pages deploy、公開URL確認、Slack通知まで成功した。</li><li>provenanceの <code>publication_id</code> は <code>accept-33478348608-1-query_learning_BB-work_record_001</code> で、公開URLは <code>/sandbox-pages/projects/query_learning_BB/work_record_001.html</code> となった。</li><li>同一対象の再実行run <code>33478494579</code> は検証とapplyが成功し、追加の公開コミットを作らず、Pages deployとSlack通知はスキップされた。</li><li>公開HTMLを実URLから取得し、作業記録本文が表示されることを確認した。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　記録</p><h2 id="section-04">対象外</h2></div><div class="section-content"><ul><li>認証情報、Secret、token、生成元リポジトリ内の変更はこの記録に保存しない。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　記録</p><h2 id="section-05">関連リンク</h2></div><div class="section-content"><ul><li>受入・公開run: https://github.com/tj-999-comp/sandbox-pages/actions/runs/33478348608</li><li>冪等性確認run: https://github.com/tj-999-comp/sandbox-pages/actions/runs/33478494579</li><li>公開ページ: https://tj-999-comp.github.io/sandbox-pages/projects/query_learning_BB/work_record_001.html</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 081</span>
+        <span><a href="md/work_record_081.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
