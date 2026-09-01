@@ -252,10 +252,11 @@ UIの判断基準は、次の優先順位とする。
 
 ### GitHub Issue状況
 
-- GitHub Issueを作成、更新、クローズ、コメント、親子付けした課題、またはIssueの進捗が次セッションの判断材料になる課題では、作業記録末尾に`## GitHub Issue状況`を必ず追加する。
+- 作業記録の一覧はPull Requestを除く該当リポジトリの全Open Issueを作成直前に取得し、取得件数と一覧行数を一致させる。親子関係はGitHubのsub-issues APIで確認できたものだけを記載し、Issue本文から推測しない。外部リポジトリのIssueは中央側一覧と分離して補足する。
+- すべての作業記録の末尾に`## GitHub Issue状況`を必ず追加する。Issueに直接関係しない作業でも、該当リポジトリの全Open Issue（Pull Request除外）の取得件数と一覧行数を一致させる。
 - GitHubから取得した日時をJSTで明記し、その時点のスナップショットとして扱う。対象Issueごとに該当リポジトリ、`GitHub Issue #<番号>`、タイトル、作業記録との関係、状態、state reasonを記載する。該当リポジトリ以外のIssueは一覧に掲載しない。件数だけの要約、番号範囲、親Epicだけの記載は代用にしない。
 - 表示は`projects/B_Stats_Site/work_record_010.html`と同じ構成にする。確認日時と取得範囲を先に記載し、実在する親子関係は`text`コードブロックで示し、その後に`順位`、`優先度`、`GitHub Issue`、`状態`、`関係・着手条件`の5列のMarkdown表へ対象Issueを1件ずつ記載する。親子関係がない場合は、推測でツリーを作らず「親子関係なし」と記載する。
-- GitHubへ接続できない場合は状態を推測せず、取得不可の理由と未確認のIssueを記載する。GitHubに関係しない課題では、この節は不要とする。
+- GitHubへ接続できない場合は状態を推測せず、取得不可の理由と未確認のIssueを記載する。GitHubに関係しない課題でも、Issue状況の取得範囲または取得不可の理由を記録する。
 - 状態は作業記録作成時点の記録であり、通常は過去の作業記録を最新状態へ書き換えない。記録漏れの是正や状態更新が必要な場合は、理由を明記して新しいスナップショットを残す。
 - ReviewerはGitHub上の実状態と、記載した番号・関係・状態・取得日時を照合する。節の欠落、状態未取得、件数だけの記載、不一致はcommit前に修正する中程度の指摘とする。
 
@@ -300,7 +301,7 @@ UIの判断基準は、次の優先順位とする。
 ### 優先順位順の未完了一覧
 | 順位 | 優先度 | GitHub Issue | 状態 | 関係・着手条件 |
 | ---: | --- | --- | --- | --- |
-| 1 | P0 | [#<番号> <タイトル>](https://github.com/owner/repository/issues/<番号>) | 未完了 | <関係・着手条件> |
+| 1 | P0 | [#<番号> <タイトル>](https://github.com/owner/repository/issues/<番号>) | 未完了（state reason: null） | <関係・着手条件> |
 ```
 
 ### HTML生成と検証
@@ -308,7 +309,7 @@ UIの判断基準は、次の優先順位とする。
 - Markdownを変更したら、`python3 scripts/dev/convert_work_records_to_html.py`で全作業記録HTMLを再生成する。
 - `python3 scripts/dev/convert_work_records_to_html.py --check`と`python3 scripts/dev/validate_work_record_filenames.py`に合格させる。
 - HTMLの表示は`work-records/design.md`と`work-records/work_record.css`に従う。
-- 新規または表示変更のあるHTMLは、PCと320px幅を含むスマートフォンで実ブラウザ確認する。
+- 新規または表示変更のあるHTMLは、1280px、900px、640px、320pxのviewportで実ブラウザ確認する。
 
 ## 8. 専門役割
 
@@ -346,6 +347,7 @@ UIの判断基準は、次の優先順位とする。
 - 起動条件: 実装後の品質確認、公開前レビュー、影響範囲が広い変更。
 - 成果物: 総評、重大・中・軽微の問題、今すぐ直すべき項目、差し戻し判定。
 - 制約: 実動未確認の項目を合格にせず、指摘には再現方法と改善方向を付ける。GitHub Issueを扱う作業記録では、個別の番号・関係・最新状態・取得日時をGitHub上の実状態と照合し、件数だけの記載を合格にしない。
+- 追加確認: 取得件数と一覧行数の一致、親子関係のAPI根拠、外部Issueの一覧混在がないこと、公開HTMLの全生成元が共通詳細ページデザインに適合することを確認する。
 
 ### Portfolio SEO & Analytics Specialist
 
