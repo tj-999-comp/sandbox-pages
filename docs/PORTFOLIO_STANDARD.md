@@ -1,6 +1,6 @@
 # Portfolio作業標準
 
-更新日: 2026-08-30
+更新日: 2026-09-01
 
 この文書は、B、C、Dなど複数の生成元リポジトリで作業記録を作成し、GitHub IssueとPull Requestを使って公開可能な状態まで届けるための共通標準である。リポジトリ固有の細部は`AGENTS.md`、公開受入の契約は[`projects/README.md`](../projects/README.md)、作業記録HTMLの見た目は[`work-records/design.md`](../work-records/design.md)を正本とする。
 
@@ -96,12 +96,15 @@ security find-generic-password \
 すべての作業記録にIssue状況を記載する。Issueに直接関係しない作業であっても省略せず、作業記録の作成直前に次を取得する。
 
 - 対象Issueの番号、タイトル、URL、state、state reason
-- 関連する親Issue・子Issue・依存Issue
+- 関連する親Issue・子Issue・依存Issue。親子関係はGitHubのsub-issues APIで確認できたものだけを記載し、本文の言及から推測したツリーを作らない
 - 取得日時（JST）
 - 作業記録との関係と着手条件
-- 未完了一覧に含める該当リポジトリの全Open Issue一覧。該当リポジトリ以外のIssueは一覧に掲載しない。過去の作業記録やIssue本文の一覧を引き継がず、作業記録ごとに再取得する
+- 未完了一覧に含める該当リポジトリの全Open Issue一覧（Pull Requestは除外）。該当リポジトリ以外のIssueは一覧に掲載しない。過去の作業記録やIssue本文の一覧を引き継がず、作業記録ごとに再取得する
+- 状態欄は`state`と`state reason`を併記し、例として`Open（state reason: null）`のように記録する
 
-未完了一覧は、作業記録の作成直前に取得したOpen Issueのスナップショットから作成する。複数リポジトリ、親Issue、関連Issueを対象にする場合は、各リポジトリ・条件を明記し、取得した範囲のOpen Issueを漏れなく個別に記載する。対象範囲を限定する場合は、その理由と除外した範囲を記録し、一覧の件数と行数を一致させる。
+未完了一覧は、作業記録の作成直前に取得したOpen Issueのスナップショットから作成する。複数リポジトリ、親Issue、関連Issueを対象にする場合は、各リポジトリ・条件を明記し、取得した範囲のOpen Issueを漏れなく個別に記載する。対象範囲を限定する場合は、その理由と除外した範囲を記録し、取得件数と一覧表のIssue行数を一致させる。親子関係の確認件数や関連Issueは一覧件数へ重複計上しない。
+
+生成元リポジトリのIssueを確認する必要がある場合も、中央側作業記録の基本一覧へ混在させない。生成元ごとの作業記録では、その生成元自身の全Open Issueを同じ形式で取得し、必要な外部Issueは補足として対象と理由を分けて記録する。
 
 GitHub APIが失敗した場合は、状態を推測せず「取得不可」と記載する。取得不可のまま完了扱いにする場合は、原因、未確認Issue、再取得すべき次アクションを記録する。
 
@@ -142,6 +145,8 @@ work-records/work_record_###.html
 ## GitHub Issue状況
 ```
 
+Issue状況には`取得件数`と`一覧行数`を明記し、両者が一致することを確認する。
+
 `概要`には課題、目的、完了条件、`最終結果`には解決内容、変更ファイル、検証結果、ブランチ、commit、PR、未解決事項、次アクションを記録する。未使用の役割欄は作らない。
 
 ### HTML
@@ -162,9 +167,18 @@ python3 scripts/dev/convert_work_records_to_html.py --check
 python3 scripts/dev/validate_work_record_filenames.py
 ```
 
-表示変更がある場合は、少なくとも1280pxと320pxでChromium確認を行う。
+表示変更がある場合は、1280px、900px、640px、320pxのChromium確認を行う。
 
-## 5. B、C、Dを追加する手順
+### 作業記録HTMLデザインの共通確認
+
+作業記録HTMLの見た目は、生成元ごとのREADMEや過去HTMLではなく、[`work-records/design.md`](../work-records/design.md)とA側のrenderer/CSSを正本とする。新規生成元の導入、既存生成元の移行、公開中HTMLの再生成では、次を完了条件に含める。
+
+- `a_rendered` の全生成元が同じA所有rendererから、`record-page`、`shell`、`topbar`、`record-header`、`record-meta`、番号付き`record-section`、共通footerを出力する。
+- `source_html` の既存互換projectを残す場合も、公開対象HTMLが同じ詳細ページ構造・共通CSSの契約に適合することを確認する。生成元ごとの独自CSS、旧一覧ページ用の構造、詳細ページ内のtag badge依存を新規追加しない。
+- 全対象生成元について、1280px、900px、640px、320pxのviewportで横overflow、console/page error、failed requestがないことを実ブラウザで確認し、生成元間で構造・主要スタイルが一致することを記録する。
+- HTMLデザイン不一致が残る場合は、Issueを完了扱いにせず、rendererまたは公開対象の担当工程へ差し戻す。
+
+## 5. 生成元を追加する手順
 
 新しい生成元は、個別の都合で公開先や命名を増やさず、公開リポジトリAの`config/sources.json`へ登録してから受入する。
 
@@ -202,7 +216,7 @@ Bは既存の`source_html`互換方式を維持し、既存URLと番号を変更
 | `config/sources.json` | projectごとの許可範囲と有効化状態 |
 | `scripts/dev/` | 再現可能な生成、検証、GitHub App接続 |
 
-ルールを変更した場合は、この文書と該当する正本を同じ変更で更新し、作業記録に影響範囲と移行手順を記録する。生成元B/C/Dへは共通ルールの要約と参照URLを配置し、公開受入の正本を複製しない。
+ルールを変更した場合は、この文書と該当する正本を同じ変更で更新し、作業記録に影響範囲と移行手順を記録する。生成元B/C/D/query_learning_BBへは共通ルールの要約と参照URLを配置し、公開受入の正本を複製しない。
 
 ## 7. 例外
 

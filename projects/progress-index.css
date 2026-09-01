@@ -356,6 +356,14 @@ body.record-page {
   margin-left: 260px;
 }
 
+.record-page .section-content li,
+.record-page .section-content td,
+.record-page .section-content th,
+.record-page .section-content code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .record-page .section-content > p:first-child {
   margin-top: 0;
 }

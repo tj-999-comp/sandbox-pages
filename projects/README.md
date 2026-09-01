@@ -43,6 +43,7 @@ B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用�
 | `B_Stats_Site` | `tj-999-comp/B_Stats_Site` | `main` | `work-records/` | `projects/B_Stats_Site/` |
 | `tech_article_nortification` | `tj-999-comp/tech_article_nortification` | `main` | `work-records/`（導入準備中） | `projects/tech_article_nortification/` |
 | `NBA_Draft_DB` | `tj-999-comp/NBA_Draft_DB` | `main` | `work-records/`（手動E2E運用中） | `projects/NBA_Draft_DB/` |
+| `query_learning_BB` | `tj-999-comp/query_learning_BB` | `main` | `work-records/`（手動E2E運用中） | `projects/query_learning_BB/` |
 | `sandbox_pages` | `tj-999-comp/sandbox-pages` | `main` | `work-records/`（手動本番運用中） | `projects/sandbox_pages/` |
 
 新しい生成元は、公開リポジトリ側で `project_id`、リポジトリ、branch、生成元ディレクトリ、公開先ディレクトリ、support file、generator ID、サイズ上限を登録し、受入テストを通過するまで無効とする。metadataの値から任意の公開先パスを組み立てず、公開リポジトリに登録された対応だけを使う。
@@ -145,6 +146,33 @@ Issue #84の受入前修復では、既存 `work_record_005` に残っていたs
 初期provenanceは公開済みレコードなしのbootstrap状態として保存する。生成元の `publish: true` は公開要求であり、実公開は承認済み固定commitを人間が確認した後に別途実施する。恒久自動公開triggerは設定しない。
 
 生成元は公開リポジトリをcheckout・編集・commit・pushせず、検証済みcommitの固定SHAと公開対象basenameだけを公開要求として送る。A側の受入validator、`a_rendered` renderer、Pages deploy、Slack通知の成功を確認するまで、公開要求を実公開へ進めない。
+
+### `query_learning_BB` の導入契約
+
+`query_learning_BB` は、新規生成元向けの `a_rendered` 方式で登録する。source registry登録、disabled受入dry-run、承認済み固定commitによる手動E2E、Pages公開、Slack通知、同一要求のno-op確認は完了している。現在は個別の公開要求を手動dispatchだけで受け入れるために `enabled: true` としており、恒久自動公開triggerは設定しない。
+
+生成元へ渡す固定情報は次のとおりである。
+
+| 項目 | 値 |
+| --- | --- |
+| `project_id` | `query_learning_BB` |
+| 生成元リポジトリ | `tj-999-comp/query_learning_BB` |
+| 生成元branch | `main` |
+| `generator_id` | `a-rendered-work-record-v1` |
+| 生成元入力 | `work-records/md/work_record_###.md` と `work-records/metadata/work_record_###.yml` |
+| `html_mode` | `a_rendered`（HTML・CSS・designは生成元へ追加しない） |
+| 公開先 | `projects/query_learning_BB/` |
+| 公開要求 | `project_id`、固定 `source_commit_sha`、`target_basename` の3入力 |
+
+初期provenanceは公開済みレコードなしのbootstrap状態から開始し、承認済み固定commitの `work_record_001` を手動E2Eで公開済みである。生成元の `publish: true` は公開要求であり、恒久自動公開triggerは設定しない。
+
+生成元は公開リポジトリをcheckout・編集・commit・pushせず、検証済みcommitの固定SHAと公開対象basenameだけを公開要求として送る。A側の受入validator、`a_rendered` renderer、Pages deploy、Slack通知の成功を確認するまで、公開要求を実公開完了とはみなさない。
+
+### 作業記録HTMLデザインの共通契約
+
+全生成元の公開HTMLは、[`work-records/design.md`](../work-records/design.md)とA所有のrenderer/CSSを正本とする。`a_rendered` では生成元ごとにHTML・CSS・designを複製せず、同じ詳細ページ構造（`record-page`、`shell`、`topbar`、`record-header`、`record-meta`、番号付き`record-section`、共通footer）を生成する。既存互換の `source_html` を維持する場合も、公開対象がこの構造・共通CSS・320pxを含む表示条件に適合することを確認する。
+
+新規登録、移行、公開中HTMLの再生成は、1280px、900px、640px、320pxのviewportで横overflow、console/page error、failed requestがないこと、および全生成元の主要構造・スタイルが一致することを完了条件に含める。デザイン不一致が残る場合は、source登録やIssueを完了扱いにせず、A側renderer/CSSまたは対象projectの担当工程へ差し戻す。
 
 ## 正本と所有境界
 
