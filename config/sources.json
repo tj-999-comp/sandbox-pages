@@ -111,7 +111,7 @@
       ],
       "generator_id": "a-rendered-work-record-v1",
       "html_mode": "a_rendered",
-      "enabled": false,
+      "enabled": true,
       "limits": {
         "max_files": 100,
         "max_file_size_bytes": 1048576,

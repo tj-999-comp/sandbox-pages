@@ -30,5 +30,7 @@
 
 ## 未完了
 
-- disabled dry-runを実行し、apply・deploy・notifyが行われないことを確認する。
-- その後、承認済みの手動E2Eに向けてregistryの有効化を別途判断する。
+- disabled dry-runを実行し、apply・deploy・notifyが行われないことを確認した。
+- 実行結果: [accept-source.yml run](https://github.com/tj-999-comp/sandbox-pages/actions/runs/33478093777) はdry-runとapplyが成功し、`enabled: false` によりno-opとなった。deployとnotifyは未実行で、公開側mainも変更されていない。
+- PR #114はmerge済み（merge commit: `747b77d8089c00408dfeec9c7c3c6cb7e9ca9d65`）。
+- 次のregistry有効化と手動E2Eは、別の作業記録とPRで管理する。

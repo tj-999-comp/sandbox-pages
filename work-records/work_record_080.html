@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>query_learning_BBを手動E2E向けに有効化 — 作業記録 080</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 080 ・ <time datetime="2026-09-01">2026-09-01</time></p>
+          <h1>query_learning_BBを手動E2E向けに有効化</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_080.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: <code>query_learning_BB</code> のdisabled dry-runが成功し、公開側の本番手動受入へ進める条件が整った。</li><li>目的: source registryを手動E2E可能な状態へ変更し、生成元からの公開要求を固定SHAで検証する。</li><li>対象範囲: この <code>sandbox-pages</code> リポジトリ内のregistryと作業記録の変更のみ。生成元のSecretや外部リポジトリの変更は対象外とする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　作業</p><h2 id="section-02">実施内容</h2></div><div class="section-content"><ul><li><code>config/sources.json</code> の <code>query_learning_BB</code> を <code>enabled: true</code> に変更する。</li><li>公開経路を恒久自動triggerではなく、承認済み固定SHAによる手動dispatchに限定する。</li><li>このregistry変更と手動E2Eの実行条件を、公開側作業記録として保存する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>enabled化は、registry登録、初期provenance、A-03/A-04受入、disabled no-op確認が完了した後に行う。</li><li>受け入れるsourceはregistryで許可した <code>work-records/</code> 配下のMarkdownとmetadataだけとし、公開側rendererを使用する。</li><li>この記録には公開側リポジトリの変更だけを残し、認証情報や生成元側の運用情報は記載しない。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　記録</p><h2 id="section-04">検証結果</h2></div><div class="section-content"><ul><li>PR CIでunit test、project index、作業記録HTML、filename検証を実行する。</li><li>merge後、生成元の <code>Request publish</code> workflowから <code>work_record_001</code> を手動dispatchする。</li><li>受入、apply、Pages deploy、provenance、公開URLを確認し、結果をこの記録または後続記録へ反映する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　記録</p><h2 id="section-05">未完了</h2></div><div class="section-content"><ul><li>registry有効化PRのmerge。</li><li>生成元の固定SHA <code>a0662fc768181a736188c8fd35c7aefd2727ded0</code> に対する手動publish要求とPages公開確認。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 080</span>
+        <span><a href="md/work_record_080.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
