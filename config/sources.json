@@ -106,7 +106,9 @@
       "destination_directory": "projects/query_learning_BB",
       "public_base_path": "/sandbox-pages/projects/query_learning_BB/",
       "support_files": [],
-      "ignored_files": [],
+      "ignored_files": [
+        "README.md"
+      ],
       "generator_id": "a-rendered-work-record-v1",
       "html_mode": "a_rendered",
       "enabled": false,

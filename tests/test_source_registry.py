@@ -72,7 +72,7 @@ class SourceRegistryTests(unittest.TestCase):
         )
         self.assertFalse(query_learning_source["enabled"])
         self.assertEqual(query_learning_source["support_files"], [])
-        self.assertEqual(query_learning_source["ignored_files"], [])
+        self.assertEqual(query_learning_source["ignored_files"], ["README.md"])
         sandbox_source = registry["sources"][3]
         self.assertEqual(sandbox_source["source_repository"], "tj-999-comp/sandbox-pages")
         self.assertEqual(sandbox_source["source_ref"], "refs/heads/main")
