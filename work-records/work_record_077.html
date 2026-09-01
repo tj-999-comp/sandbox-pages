@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>生成元リポジトリ用GitHub Templateを登録 — 作業記録 077</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 077 ・ <time datetime="2026-09-01">2026-09-01</time></p>
+          <h1>生成元リポジトリ用GitHub Templateを登録</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_077.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 新しい生成元リポジトリを毎回手作業で構成する負担を減らす。</li><li>目的: 作業記録の入力、自己検証、公開要求workflowを含む専用テンプレートを作成し、GitHub Template Repositoryとして利用できる状態にする。</li><li>完了条件: <code>work-record-source-template</code>を公開リポジトリとして作成し、<code>main</code>へ初期構成をpushし、Template Repository設定とworkflow登録を確認する。既存の<code>sandbox-pages</code>へ無関係な変更を加えない。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Planner</h3>
+<ul><li>入力: <code>sandbox-pages</code>の公開契約、<code>projects/README.md</code>、<code>docs/PORTFOLIO_STANDARD.md</code>、ユーザーとの三層構成の合意。</li><li>実施内容: 公開集約側の<code>sandbox-pages</code>と生成元を分離し、生成元専用リポジトリをGitHub Templateとして作成する構成を決定した。新規生成元は<code>a_rendered</code>方式とし、Markdownとmetadataを正本入力として扱う方針を採用した。</li><li>成果物: <code>tj-999-comp/work-record-source-template</code>の構成方針。</li><li>検証結果: 既存の公開リポジトリ、provenance、publish script、既存作業記録をテンプレートへ含めない境界を確認した。</li><li>未解決事項: 個別生成元を追加するときのsource registry登録と実Secret設定は、各生成元の導入時に行う。</li><li>次工程への引き継ぎ: 新規生成元はGitHubの「Use this template」から作成し、固有の<code>project_id</code>を設定する。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: 既存の作業記録命名・metadata契約、GitHub App連携方針、GitHub Template Repository機能。</li><li>実施内容: 専用リポジトリに<code>work-records/md/</code>、<code>work-records/metadata/</code>、source-side validator、<code>Validate source</code> workflow、<code>Request publish</code> workflow、運用READMEを作成した。公開要求workflowはPEMをtokenとして直接利用せず、<code>PUBLISH_APP_ID</code>と<code>PUBLISH_APP_PRIVATE_KEY</code>から短期Installation tokenを発行して、固定SHA・対象basename・project_idだけを<code>sandbox-pages</code>へdispatchする構成にした。</li><li>成果物: <code>tj-999-comp/work-record-source-template</code>、初期commit <code>f4ce2e7d2a67c807f511b490a50ab6c8080e6a9b</code>。</li><li>検証結果: source validatorは空の初期状態を<code>Validated 0 work record(s).</code>として検証し、GitHub上で2つのworkflowがactiveとして認識された。</li><li>未解決事項: <code>request-publish.yml</code>の<code>PROJECT_ID</code>はテンプレート利用時に各生成元の値へ置換する必要がある。GitHub Appの<code>PUBLISH_APP_ID</code> variableと<code>PUBLISH_APP_PRIVATE_KEY</code> secretも各生成元で設定する。</li><li>次工程への引き継ぎ: <code>sandbox-pages</code>側で生成元ごとのsource registry登録、disabled dry-run、固定commitによる手動E2Eを実施する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: GitHub上のテンプレートリポジトリ、初期commit、workflow一覧、Template Repository設定。</li><li>実施内容: リポジトリが公開、default branchが<code>main</code>、Template Repositoryが有効であることを確認した。既存の<code>sandbox-pages</code>に変更がないこと、テンプレートに秘密情報・既存公開成果物・公開側の権限付き処理が含まれていないことを確認した。</li><li>成果物: <a href="https://github.com/tj-999-comp/work-record-source-template">work-record-source-template</a>の登録確認。</li><li>検証結果: GitHub APIとCLIで<code>isTemplate: true</code>、<code>isPrivate: false</code>、<code>defaultBranch: main</code>、<code>Validate source</code>・<code>Request publish</code>のactive状態を確認した。重大な未解決事項はない。</li><li>未解決事項: 実際の生成元を作成した後のGitHub App secretを使った公開要求E2Eは未実施。</li><li>次工程への引き継ぎ: 「Use this template」で生成元を作成後、<code>project_id</code>置換とsource registryの導入確認を行う。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 生成した<code>work_record_077.html</code>、<code>work-records/design.md</code>、<code>work-records/work_record.css</code>。</li><li>実施内容: 生成HTMLをPC幅と320px幅の実ブラウザで表示し、ページエラー、console error、横overflow、主要リンクの表示を確認する。</li><li>成果物: <code>work-records/work_record_077.html</code>とブラウザ確認結果。</li><li>検証結果: 1280pxと320pxでHTTP 200、横overflowなし、console/page errorなし、主要リンク表示を確認した。</li><li>未解決事項: スクリーンリーダーによる実機検証は未実施。</li><li>次工程への引き継ぎ: Markdown原本と生成HTMLを同じcommitでmainへ反映する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 現在の<code>sandbox-pages</code>をそのままTemplate Repositoryにはせず、専用の<code>work-record-source-template</code>を新規作成する。</li><li>理由: <code>sandbox-pages</code>には公開成果物、provenance、受入処理、既存作業記録が含まれ、新規生成元へ複製すると責務と履歴が混ざるため。</li><li>判断: 新規生成元は<code>a_rendered</code>方式を標準にする。</li><li>理由: HTML・CSS・indexの重複管理を避け、公開リポジトリ側のrendererとvalidatorを正本にできるため。</li><li>判断: GitHub Template Repositoryを使い、Forkは使わない。</li><li>理由: 各生成元を独立したリポジトリとして扱い、生成元commitとprovenanceの境界を明確にできるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 新規生成元の初期構成を再利用できる公開GitHub Template Repositoryを作成・登録した。作業記録入力、metadata、自己検証、固定commitによる公開要求の入口をテンプレートへまとめた。</li><li>変更ファイル: <code>work-records/md/work_record_077.md</code>、<code>work-records/metadata/work_record_077.yml</code>、<code>work-records/work_record_077.html</code>。別リポジトリに<code>README.md</code>、<code>work-records/README.md</code>、<code>scripts/dev/validate_work_records.py</code>、<code>.github/workflows/validate.yml</code>、<code>.github/workflows/request-publish.yml</code>を作成した。</li><li>検証結果: テンプレート側validator、Python構文確認、GitHub Template設定確認、workflow認識確認、作業記録HTML生成・check、filename validator、既存テスト、<code>git diff --check</code>、1280px/320pxブラウザ確認に合格した。</li><li>作業ブランチ: <code>main</code>（作業記録のみの変更のため、運用ルールに従い最新mainへ直接反映）</li><li>コミット: 作成後に記載</li><li>PR: なし（作業記録のみの変更）</li><li>PRレビュー・CI: PRなし。ローカル検証とブラウザ確認を実施。push後にmainのCIを確認する。</li><li>未解決事項: 個別生成元の作成、固有<code>project_id</code>への置換、GitHub Appのvariable・secret設定、<code>sandbox-pages</code>側source registry登録、実公開E2Eは未実施。</li><li>次アクション: 必要なプロジェクトでTemplateを利用し、公開リポジトリ側の導入チェックリストに沿ってsource登録と固定SHAの手動E2Eを行う。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-09-01 14:49 取得範囲: <code>tj-999-comp/sandbox-pages</code>の全Open Issue（Pull Requestを除外）。7件をGitHub Appで取得し、#89のsub-issues APIで親子関係を確認した。state reasonは全件null。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する [Open]
+├── #90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する [Open]
+├── #91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する [Open]
+├── #92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する [Open]
+├── #93 [Publish] 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する [Open]
+└── #94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う [Open]
+
+#102 [Operations] 作業記録のIssue状況を該当リポジトリ単位で全生成元へ統一する [Open]
+（親子関係なし）</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する](https://github.com/tj-999-comp/sandbox-pages/issues/89)</td><td>Open（state_reason: null）</td><td>全体Epic。#90〜#94の完了を追跡する。</td></tr><tr><td>2</td><td>未設定</td><td>[#90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する](https://github.com/tj-999-comp/sandbox-pages/issues/90)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>3</td><td>未設定</td><td>[#91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する](https://github.com/tj-999-comp/sandbox-pages/issues/91)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>4</td><td>未設定</td><td>[#92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/92)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>5</td><td>未設定</td><td>[#93 [Publish] 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する](https://github.com/tj-999-comp/sandbox-pages/issues/93)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>6</td><td>未設定</td><td>[#94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う](https://github.com/tj-999-comp/sandbox-pages/issues/94)</td><td>Open（state_reason: null）</td><td>#89の子Issue。</td></tr><tr><td>7</td><td>未設定</td><td>[#102 [Operations] 作業記録のIssue状況を該当リポジトリ単位で全生成元へ統一する](https://github.com/tj-999-comp/sandbox-pages/issues/102)</td><td>Open（state_reason: null）</td><td>#89とは別の独立Issue。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 077</span>
+        <span><a href="md/work_record_077.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
