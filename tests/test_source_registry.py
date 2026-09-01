@@ -20,7 +20,13 @@ class SourceRegistryTests(unittest.TestCase):
         self.assertEqual(registry["schema_version"], 1)
         self.assertEqual(
             [source["project_id"] for source in registry["sources"]],
-            ["B_Stats_Site", "NBA_Draft_DB", "sandbox_pages", "tech_article_nortification"],
+            [
+                "B_Stats_Site",
+                "NBA_Draft_DB",
+                "query_learning_BB",
+                "sandbox_pages",
+                "tech_article_nortification",
+            ],
         )
         source = registry["sources"][0]
         self.assertTrue(source["enabled"])
@@ -40,7 +46,34 @@ class SourceRegistryTests(unittest.TestCase):
         self.assertTrue(nba_source["enabled"])
         self.assertEqual(nba_source["support_files"], [])
         self.assertEqual(nba_source["ignored_files"], [])
-        sandbox_source = registry["sources"][2]
+        query_learning_source = registry["sources"][2]
+        self.assertEqual(
+            query_learning_source["source_repository"],
+            "tj-999-comp/query_learning_BB",
+        )
+        self.assertEqual(query_learning_source["source_ref"], "refs/heads/main")
+        self.assertEqual(query_learning_source["source_directory"], "work-records")
+        self.assertEqual(
+            query_learning_source["metadata_directory"],
+            "work-records/metadata",
+        )
+        self.assertEqual(
+            query_learning_source["destination_directory"],
+            "projects/query_learning_BB",
+        )
+        self.assertEqual(
+            query_learning_source["public_base_path"],
+            "/sandbox-pages/projects/query_learning_BB/",
+        )
+        self.assertEqual(query_learning_source["html_mode"], "a_rendered")
+        self.assertEqual(
+            query_learning_source["generator_id"],
+            "a-rendered-work-record-v1",
+        )
+        self.assertFalse(query_learning_source["enabled"])
+        self.assertEqual(query_learning_source["support_files"], [])
+        self.assertEqual(query_learning_source["ignored_files"], [])
+        sandbox_source = registry["sources"][3]
         self.assertEqual(sandbox_source["source_repository"], "tj-999-comp/sandbox-pages")
         self.assertEqual(sandbox_source["source_ref"], "refs/heads/main")
         self.assertEqual(sandbox_source["source_directory"], "work-records")
