@@ -222,6 +222,8 @@ jobs:
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
           set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           for retry in 0 1; do
             git fetch --no-tags origin main
             git checkout --detach origin/main

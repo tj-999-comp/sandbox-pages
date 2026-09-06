@@ -127,6 +127,8 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("name: Bind plan to dispatch inputs", workflow)
         self.assertIn("notify == $notify", workflow)
         self.assertIn("python3 -m scripts.publish.bootstrap_engine", workflow)
+        self.assertIn('git config user.name "github-actions[bot]"', workflow)
+        self.assertIn('git config user.email "41898282+github-actions[bot]@users.noreply.github.com"', workflow)
         self.assertIn('mv _source "$RUNNER_TEMP/source"', workflow)
         self.assertIn('--source-checkout "$RUNNER_TEMP/source"', workflow)
         self.assertIn('PYTHONDONTWRITEBYTECODE: "1"', workflow)
