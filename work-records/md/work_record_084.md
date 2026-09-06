@@ -13,7 +13,7 @@
 
 - 入力: Issue #90の完了条件、`config/sources.json`、公開側の`projects/`と`provenance/`、5生成元の`main`。
 - 実施内容: 5生成元の固定SHAを取得し、source側のrecord Markdown・metadata・HTMLをbasename単位で照合した。metadataの`title`・`date`・`publish`、Markdownの見出し・作成日、公開側のMarkdown/HTML、最新provenanceを対応表へ整理した。補助文書とB側のignored HTMLもrecordから分離した。
-- 成果物: [`docs/work_record_inventory.md`](../../docs/work_record_inventory.md) に166件の確定版対応表を追加した。
+- 成果物: [`docs/work_record_inventory.md`](https://github.com/tj-999-comp/sandbox-pages/blob/main/docs/work_record_inventory.md) に166件の確定版対応表を追加した。
 - 検証結果: source record 166件、公開済み126件、未公開候補40件、`publish: false`の非公開15件。全recordでMarkdownとmetadataのbasename対応、metadataとMarkdownのtitle/date一致を確認した。5生成元の固定SHAは対応表に記録した。
 - 未解決事項: 未公開候補の実公開判断とPages反映は後続Issueの対象であり、本Issueでは実施していない。
 - 次工程への引き継ぎ: #91は対応表の未公開候補とmetadataを入力にする。#92は公開済み126件のURLとrecord順を入力にする。#93は対応表に記録した固定SHAと公開可否を使用する。
@@ -39,7 +39,7 @@
 ## 最終結果
 
 - 解決したこと: 5生成元・166件のrecordについて、固定SHA、basename、日付、title、source側ファイル、metadataの公開可否、公開側MD/HTML、provenanceを一覧化した。補助文書・除外対象と、後続工程へ渡す未公開候補を分離した。
-- 変更ファイル: [`docs/work_record_inventory.md`](../../docs/work_record_inventory.md)、本作業記録のMarkdown・metadata・生成HTML。
+- 変更ファイル: [`docs/work_record_inventory.md`](https://github.com/tj-999-comp/sandbox-pages/blob/main/docs/work_record_inventory.md)、本作業記録のMarkdown・metadata・生成HTML。
 - 検証結果: `git diff --check`、対応表の機械生成時のbasename/title/date整合チェック、公開側ファイルとprovenanceの照合に合格。HTML生成後に1280px、900px、640px、320pxでブラウザ確認する。
 - 作業ブランチ: `codex/090-inventory-work-records`
 - コミット: 本作業記録とIssue #90対応表を含むdocs-only commit

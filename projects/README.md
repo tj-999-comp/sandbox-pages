@@ -96,7 +96,7 @@ limits:
 | 公開先 | `projects/sandbox_pages/` |
 | 公開base path | `/sandbox-pages/projects/sandbox_pages/` |
 | 状態 | `enabled: true`（手動承認の本番`workflow_dispatch`のみ） |
-| 上限 | 256ファイル、単体1 MiB、合計10 MiB |
+| 上限 | 300ファイル、単体1 MiB、合計10 MiB |
 | 公開要求 | `project_id`、固定 `source_commit_sha`、`target_basename` の3入力 |
 
 同一リポジトリ内の `work-records/` と `projects/sandbox_pages/` は別境界として扱う。生成元の任意scriptやActionは公開側の権限付きjobで実行せず、A側のvalidator、provenance、Pages処理を通過した成果物だけを公開する。

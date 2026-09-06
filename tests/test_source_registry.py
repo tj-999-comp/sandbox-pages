@@ -91,7 +91,7 @@ class SourceRegistryTests(unittest.TestCase):
             ["README.md", "design.md", "work_record.css"],
         )
         self.assertEqual(sandbox_source["ignored_files"], [])
-        self.assertEqual(sandbox_source["limits"]["max_files"], 256)
+        self.assertEqual(sandbox_source["limits"]["max_files"], 300)
 
     def test_tech_article_source_has_the_fixed_issue_contract(self):
         registry = load_registry(ROOT / "config" / "sources.json")

@@ -40,7 +40,7 @@
 | 公開先 | `projects/sandbox_pages/` |
 | HTML方式 | `source_html` / `b-stats-work-record-v1` |
 | 公開要求 | `project_id`、完全な`source_commit_sha`、単一`target_basename` |
-| 上限 | 256ファイル、単体1 MiB、合計10 MiB |
+| 上限 | 300ファイル、単体1 MiB、合計10 MiB |
 
 ## 2. 通常公開と確認
 
