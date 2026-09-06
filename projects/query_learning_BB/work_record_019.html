@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #41 問題画面の情報配置と操作性改善 — 作業記録 019</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 019 ・ 2026-09-04</p>
+          <h1>Issue #41 問題画面の情報配置と操作性改善</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_019.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Issue #41「問題画面の情報配置と操作性を改善」に対応し、v0.2.1向けの学習画面を整えた。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　変更内容</p><h2>変更内容</h2></div><div class="section-content"><ul><li>問題配列の表示順から<code>Q01</code>〜<code>Q1000</code>形式の問題番号を生成し、問題ヘッダーと問題一覧へ表示した。</li><li>問題名の右側へジャンル・難易度・使用テーブルを移動し、右端に星だけのお気に入りボタンを配置した。</li><li>お気に入り状態をメイン画面と問題一覧の達成マーク直下へ星で表示した。ボタンと星には状態を示すARIAラベルとtitleを付与した。</li><li>前後の問題ボタンをコンパクト化し、問題カウント表示を削除した。</li><li>詳細モーダルのz-indexをドロワーより上位へ変更した。</li><li>footerへ<code>version v0.2.1</code>を表示した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>node --check Apps/app/app.js</code></li><li><code>git diff --check</code></li><li><code>bash Apps/scripts/build-pages.sh</code></li><li><code>Apps/app</code>と<code>Apps/public</code>の<code>index.html</code>、<code>app.js</code>、<code>styles.css</code>の一致を確認</li><li>Playwrightで<code>Apps/public</code>を1280x900、900x900、640x900、320x800でスモーク確認。横方向のはみ出し、console error、page error、failed requestはなかった。</li><li>PlaywrightでQ01を選択し、問題番号、右寄せヘッダー情報、星だけのお気に入りボタン、一覧へのお気に入り反映、詳細モーダルの前面表示、SQL実行・正誤判定、footer version表示を確認した。</li><li>Playwrightで問題選択後の640px / 320px表示を確認し、横方向のはみ出しと主要ヘッダー要素の欠落がないことを確認した。</li></ul>
+<p>検証証跡:</p>
+<ul><li><code>/private/tmp/playwright-browser-verify/2026-09-04T05-57-35-408Z/report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-57-35-409Z/scenario-report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-58-00-864Z/scenario-report.json</code></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　関連ファイル</p><h2>関連ファイル</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/index.html"><code>Apps/app/index.html</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/app.js"><code>Apps/app/app.js</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/styles.css"><code>Apps/app/styles.css</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/41">#41</a></li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 019</span>
+        <span><a href="md/work_record_019.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
