@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>#13 仮問題10問のMVPコンテンツ検証 — 作業記録 008</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 008 ・ 2026-09-04</p>
+          <h1>#13 仮問題10問のMVPコンテンツ検証</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_008.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Issue #13「仮問題10問をMVP確定コンテンツとして検証する」に対応し、#10で確定したSQLiteデータと、#14で凍結したMVP要件を前提に、問題定義・参考SQL・出力件数・表示方針を確認した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　検証対象</p><h2>検証対象</h2></div><div class="section-content"><p><code>Apps/data/problems.json</code> の次の10問を対象とした。</p>
+<table><thead><tr><th scope="col">ID</th><th scope="col">内容</th><th scope="col">難易度</th><th scope="col">カテゴリ</th><th scope="col">参考SQLの結果</th></tr></thead><tbody><tr><td>mvp-001</td><td>チーム一覧を表示する</td><td>1</td><td>基本検索</td><td>45行</td></tr><tr><td>mvp-002</td><td>シーズンごとの試合数を数える</td><td>1</td><td>集計</td><td>10行</td></tr><tr><td>mvp-003</td><td>観客数の多い試合を探す</td><td>1</td><td>基本検索</td><td>10行</td></tr><tr><td>mvp-004</td><td>100得点以上のチームスタッツ</td><td>1</td><td>基本検索</td><td>516行</td></tr><tr><td>mvp-005</td><td>ホームゲームの得点を見る</td><td>2</td><td>テーブル結合</td><td>10行</td></tr><tr><td>mvp-006</td><td>チームごとの平均得点</td><td>2</td><td>集計</td><td>41行</td></tr><tr><td>mvp-007</td><td>選手ごとの通算得点</td><td>2</td><td>集計</td><td>10行</td></tr><tr><td>mvp-008</td><td>出場試合数の多い選手</td><td>2</td><td>集計</td><td>10行</td></tr><tr><td>mvp-009</td><td>ホームとアウェーの平均得点を比べる</td><td>2</td><td>条件分岐・サブクエリ</td><td>2行</td></tr><tr><td>mvp-010</td><td>20得点以上を記録した先発選手</td><td>2</td><td>テーブル結合</td><td>8,063行</td></tr></tbody></table></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　実施内容</p><h2>実施内容</h2></div><div class="section-content"><ul><li>問題数が10問で、IDが重複していないことを確認した。</li><li>全問に問い、難易度、カテゴリ、利用テーブル、参考SQL、比較条件、解説が設定されていることを確認した。</li><li>問いで指定された対象テーブル、抽出条件、集計、結合、表示列、上位件数が参考SQLと対応していることを確認した。</li><li>10問の参考SQLを確定SQLite上で実行し、すべてエラーなく、空でない結果が返ることを確認した。</li><li>参考SQLがすべて単一の<code>SELECT</code>文であり、データ変更・DDL・管理用SQLを含まないことを確認した。</li><li>Q06・Q09の数値許容差、各問題の行順比較条件が、#9で確定した判定方針に従って設定されていることを確認した。</li><li>Q10は8,063行の結果になるため、要件どおりアプリ画面では先頭1,000行までを表示し、行数表示と上限メッセージを出すことを確認した。正誤判定は表示前の全結果を対象とする。</li><li>#10で記録したスタッツ未取得試合5件と、<code>game_team_stats</code>の全行NULL列28列を確認し、問題定義がこれらの例外を暗黙に0件・0点として扱っていないことを確認した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　確認結果</p><h2>確認結果</h2></div><div class="section-content"><ul><li>確定SQLiteの主要行数は<code>games</code> 6,264行、<code>game_team_stats</code> 12,518行、<code>player_game_stats</code> 150,270行で、#10の確定値と一致した。</li><li>10問すべてで参考SQLの結果列数・行数を取得できた。</li><li>問題の出力は空ではなく、Q10を除く9問は516行以下だった。</li><li>Q10の大量結果は、表示上限と全件判定の方針で受入条件を満たす。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　判定</p><h2>判定</h2></div><div class="section-content"><p>問題文、参考SQL、メタデータ、確定SQLiteの対応を確認し、Issue #13の受入条件を満たした。MVPでは問題体系の本格設計は行わず、現行10問を仮問題の確定コンテンツとして採用する。</p>
+<p>Q10の結果件数が多い点、スタッツ未取得試合5件、全行NULL列28列は既知のデータ・表示上の注意点として記録した。問題の出力や正誤判定を妨げる未解決事項はない。</p>
+<p>Issue #13へ受入確認結果をコメントし、2026-09-04にクローズした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　検証コマンド</p><h2>検証コマンド</h2></div><div class="section-content"><ul><li>問題定義とSQLiteを使った10問の参考SQL実行・結果件数確認</li><li><code>git diff --check</code></li><li><code>node --check Apps/app/app.js</code></li><li><code>python3 -m json.tool Apps/data/problems.json</code></li><li><code>python3 scripts/dev/validate_work_records.py</code></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">07　関連ファイル</p><h2>関連ファイル</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/data/problems.json"><code>Apps/data/problems.json</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/data/DATA_AUDIT.md"><code>Apps/data/DATA_AUDIT.md</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/app.js"><code>Apps/app/app.js</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/docs/MVP_REQUIREMENTS.md"><code>Apps/docs/MVP_REQUIREMENTS.md</code></a></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">08　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-04 12:33:07 JST に <code>tj-999-comp/query_learning_BB</code> のOpen IssueをPull Requestを除いて取得した（取得件数: 4件）。Issue #8のsub-issues APIを確認したが、返却は0件だった。取得時点では全Issueのstate reasonが未設定だった。#13は本作業でクローズ済みである。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/12">#12</a></td><td>OPEN（state reason未設定）</td><td>確定した問題・データ・主要機能を前提にPC・iPad・ブラウザ保存を受入確認する。</td></tr><tr><td>2</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/11">#11</a></td><td>OPEN（state reason未設定）</td><td>#6のホスティング方針と確定データを前提に公開・スモークテストする。</td></tr><tr><td>3</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/8">#8</a></td><td>OPEN（state reason未設定）</td><td>#11、#12、#13、#14の完了後にMVP全体を完了判定する。</td></tr><tr><td>4</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/13">#13</a></td><td>CLOSED</td><td>本作業。仮問題10問の最終検証が完了した。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 008</span>
+        <span><a href="md/work_record_008.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
