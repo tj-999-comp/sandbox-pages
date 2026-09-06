@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>#11 Basic認証付き公開環境の最終スモークテスト — 作業記録 010</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 010 ・ 2026-09-04</p>
+          <h1>#11 Basic認証付き公開環境の最終スモークテスト</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_010.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Issue #11「MVPをBasic認証付きで公開し最終スモークテストする」に対応し、#6で決定したCloudflare Pages構成へ、#10・#13・#12までの確定内容を反映して公開環境を確認した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　公開構成</p><h2>公開構成</h2></div><div class="section-content"><ul><li>公開URL: https://query-learning-bb.pages.dev/</li><li>ホスティング: Cloudflare Pages Free</li><li>Root directory: <code>Apps</code></li><li>Build output: <code>public</code></li><li>認証: Pages Functionsの全体middlewareによるHTTP Basic認証</li><li>認証情報: Production Secretで管理し、リポジトリ・公開ファイル・作業記録には保存しない</li></ul>
+<p>検証済みの<code>main</code>をGitHubへpushし、PagesのGit連携による更新を反映した。公開URLで最新のlocalStorage保存不可時の処理も読み込まれることを確認した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　受入確認</p><h2>受入確認</h2></div><div class="section-content"><ul><li>認証なしのトップページは<code>401 Unauthorized</code>となり、<code>WWW-Authenticate: Basic</code>が返ることを確認した。</li><li>認証なしでトップ、問題JSON、SQLite経路、CSV経路、スクリプト経路、ドキュメント経路を確認し、すべて認証で保護されていることを確認した。</li><li>認証後は<code>200</code>となり、<code>Cache-Control: private, no-store</code>、Content-Security-Policy、<code>X-Content-Type-Options</code>などのセキュリティヘッダーを確認した。</li><li>認証後のページでSQLiteの準備完了、問題10問の表示、SQLiteチャンクの読み込みを確認した。</li><li>Q01で誤答が不正解になること、正解SQLで正解・参考SQL・解説が表示されることを確認した。</li><li>正解後の達成状況とお気に入りがページ再読み込み後も復元されることを確認した。</li><li>768x1024のiPad相当幅で横方向のはみ出しがないことを確認した。</li><li><code>/data/csv/Supabase_games.csv</code>、<code>/scripts/build-pages.sh</code>、<code>/docs/MVP_REQUIREMENTS.md</code>は、認証後も実ファイルではなくアプリHTMLのフォールバックまたは未配置として扱われ、CSV・スクリプト・要件書本文が公開されていないことを確認した。</li><li>Playwrightの認証後スモークテストでconsole error、page error、failed requestはすべて0件だった。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　判定</p><h2>判定</h2></div><div class="section-content"><p>Basic認証なしのアクセス拒否、認証後のHTTPSアクセス、SQLite・問題データの配信、主要なSQL学習フロー、進捗保存、iPad相当幅の表示、内部ファイル非公開を確認し、Issue #11の受入条件を満たした。</p>
+<p>Issue #11へ受入確認結果をコメントし、2026-09-04にクローズした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　検証証跡</p><h2>検証証跡</h2></div><div class="section-content"><ul><li>認証なしHTTP確認: <code>https://query-learning-bb.pages.dev/</code>および内部パスへの401応答</li><li>認証後Playwrightシナリオ: <code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T03-51-31-252Z/scenario-report.json</code></li><li>認証後iPad相当幅スクリーンショット: <code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T03-51-31-252Z/issue11-public-ipad.png</code></li><li><code>python3 scripts/dev/validate_work_records.py</code></li><li><code>git diff --check</code></li></ul>
+<p>認証情報およびCloudflare API tokenは、ファイルやログへ保存していない。Wranglerによるデプロイ履歴照会はAPI token未設定のため実施せず、公開URLの認証後レスポンスとブラウザ動作を最終確認とした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　関連ファイル・Issue</p><h2>関連ファイル・Issue</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/docs/HOSTING_CLOUDFLARE.md"><code>Apps/docs/HOSTING_CLOUDFLARE.md</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/functions/_middleware.js"><code>Apps/functions/_middleware.js</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/scripts/build-pages.sh"><code>Apps/scripts/build-pages.sh</code></a></li><li><a href="work_record_004.md">#6 ホスティング先とBasic認証方式の決定・受入確認</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/8">#8 MVP完了に向けた残作業の整理・完了管理</a></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">07　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-04 12:51:55 JST に <code>tj-999-comp/query_learning_BB</code> のOpen IssueをPull Requestを除いて取得した（取得件数: 2件）。Issue #8のsub-issues APIを確認したが、返却は0件だった。取得時点では全Issueのstate reasonが未設定だった。#11は本作業でクローズ済みである。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/8">#8</a></td><td>OPEN（state reason未設定）</td><td>#11、#12、#13、#14、#10、#9の完了結果を確認し、MVP全体を完了判定する。GitHub上のsub-issuesは未登録。</td></tr><tr><td>2</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/11">#11</a></td><td>CLOSED</td><td>本作業。Basic認証付き公開環境の最終スモークテストが完了した。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 010</span>
+        <span><a href="md/work_record_010.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
