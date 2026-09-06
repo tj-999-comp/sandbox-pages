@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #90 過去作業記録の棚卸しと公開対応表 — 作業記録 084</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 084 ・ <time datetime="2026-09-06">2026-09-06</time></p>
+          <h1>Issue #90 過去作業記録の棚卸しと公開対応表</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_084.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: 登録済み5生成元に存在する過去作業記録について、公開対象・除外対象・公開先の対応が一つの確定版一覧になっていなかった。</li><li>目的: 各生成元の固定<code>main</code> commitを基準に、Markdown・metadata・HTMLの対応、title/date、公開可否、公開側ファイル、provenanceを照合する。</li><li>完了条件: 全recordの対応表、補助文書・除外対象の区分、未公開候補、後続Issueへ引き継ぐ固定SHAを記録する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer相当</h3>
+<ul><li>入力: Issue #90の完了条件、<code>config/sources.json</code>、公開側の<code>projects/</code>と<code>provenance/</code>、5生成元の<code>main</code>。</li><li>実施内容: 5生成元の固定SHAを取得し、source側のrecord Markdown・metadata・HTMLをbasename単位で照合した。metadataの<code>title</code>・<code>date</code>・<code>publish</code>、Markdownの見出し・作成日、公開側のMarkdown/HTML、最新provenanceを対応表へ整理した。補助文書とB側のignored HTMLもrecordから分離した。</li><li>成果物: <a href="../docs/work_record_inventory.md"><code>docs/work_record_inventory.md</code></a> に166件の確定版対応表を追加した。</li><li>検証結果: source record 166件、公開済み126件、未公開候補40件、<code>publish: false</code>の非公開15件。全recordでMarkdownとmetadataのbasename対応、metadataとMarkdownのtitle/date一致を確認した。5生成元の固定SHAは対応表に記録した。</li><li>未解決事項: 未公開候補の実公開判断とPages反映は後続Issueの対象であり、本Issueでは実施していない。</li><li>次工程への引き継ぎ: #91は対応表の未公開候補とmetadataを入力にする。#92は公開済み126件のURLとrecord順を入力にする。#93は対応表に記録した固定SHAと公開可否を使用する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 対応表、source registry、公開側ファイル、provenance manifest、Issue #90の完了条件。</li><li>実施内容: 生成元と公開側のproject境界、補助文書の除外、<code>a_rendered</code>でのsource HTMLの扱い、公開済みrecordとprovenanceの対応、未公開候補の分類を確認した。</li><li>成果物: 対応表の整合性レビュー結果。</li><li>検証結果: 5生成元すべてでMarkdown/metadataの対応は合格。<code>B_Stats_Site</code>は31件中18件、<code>tech_article_nortification</code>は17件中2件、<code>NBA_Draft_DB</code>は1件中1件、<code>query_learning_BB</code>は34件中34件、<code>sandbox_pages</code>は83件中71件が公開側のMarkdown/HTMLと一致した。未公開候補は推測で公開せず、対応表へ明記した。</li><li>未解決事項: なし（Issue #90の棚卸し範囲）。</li><li>次工程への引き継ぎ: 後続工程は対応表を変更せず、必要なrecordだけを固定SHA・公開可否と照合して扱う。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 生成元の現在<code>main</code> SHAをproject単位の棚卸し基準として記録し、recordごとのlast modified commitを対応表の基準にはしない。</li><li>理由: 同一時点のrecord・metadata・公開状態を再現可能にし、後続の固定SHA受入へ直接引き継ぐため。</li><li>判断: <code>a_rendered</code>生成元にsource HTMLが存在しても、A側で使用しないファイルとして明示する。</li><li>理由: Bの既存HTMLはsource registryのignored filesであり、tech/NBA/queryはA側rendererがHTMLを生成する契約だから。</li><li>判断: <code>publish: true</code>で公開側にないrecordは未公開候補として残し、<code>publish: false</code>は非公開として分離する。</li><li>理由: 公開可否を履歴やタイトルから推測せず、metadataと現行公開物の事実を後続判断へ渡すため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 5生成元・166件のrecordについて、固定SHA、basename、日付、title、source側ファイル、metadataの公開可否、公開側MD/HTML、provenanceを一覧化した。補助文書・除外対象と、後続工程へ渡す未公開候補を分離した。</li><li>変更ファイル: <a href="../docs/work_record_inventory.md"><code>docs/work_record_inventory.md</code></a>、本作業記録のMarkdown・metadata・生成HTML。</li><li>検証結果: <code>git diff --check</code>、対応表の機械生成時のbasename/title/date整合チェック、公開側ファイルとprovenanceの照合に合格。HTML生成後に1280px、900px、640px、320pxでブラウザ確認する。</li><li>作業ブランチ: <code>codex/090-inventory-work-records</code></li><li>コミット: 未実施</li><li>PR: docs-onlyのため作成しない。最新<code>main</code>へ対象ファイルのみ直接pushする。</li><li>PRレビュー・CI: commit前レビューとローカル検証を実施する。PR/CIは作成しない。</li><li>未解決事項: 未公開候補40件の公開判断・遡及反映、record間リンクの実装、Pages上の全体受入は#91〜#94の対象。</li><li>次アクション: 対応表を入力として#91のmetadata・HTML整備へ進む。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-09-06 20:43 取得範囲: <code>tj-999-comp/sandbox-pages</code>の全Open Issue（Pull Requestを除外）。GitHub APIで6件を取得し、#89のsub-issues APIで親子関係を確認した。全件の<code>state_reason</code>は<code>null</code>。 取得件数: 6（一覧行数: 6）</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する [Open / state reason: null]
+├── #90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する [Open / state reason: null]
+├── #91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する [Open / state reason: null]
+├── #92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する [Open / state reason: null]
+├── #93 [Publish] 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する [Open / state reason: null]
+└── #94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う [Open / state reason: null]</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する](https://github.com/tj-999-comp/sandbox-pages/issues/89)</td><td>Open（state reason: null）</td><td>全体Epic。#90〜#94の完了を追跡する。</td></tr><tr><td>2</td><td>未設定</td><td>[#90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する](https://github.com/tj-999-comp/sandbox-pages/issues/90)</td><td>Open（state reason: null）</td><td>#89の子Issue。今回の対象。</td></tr><tr><td>3</td><td>未設定</td><td>[#91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する](https://github.com/tj-999-comp/sandbox-pages/issues/91)</td><td>Open（state reason: null）</td><td>#89の子Issue。対応表確定後。</td></tr><tr><td>4</td><td>未設定</td><td>[#92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/92)</td><td>Open（state reason: null）</td><td>#89の子Issue。公開対象metadata確定後。</td></tr><tr><td>5</td><td>未設定</td><td>[#93 [Publish] 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する](https://github.com/tj-999-comp/sandbox-pages/issues/93)</td><td>Open（state reason: null）</td><td>#89の子Issue。#91/#92の受入後。</td></tr><tr><td>6</td><td>未設定</td><td>[#94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う](https://github.com/tj-999-comp/sandbox-pages/issues/94)</td><td>Open（state reason: null）</td><td>#89の子Issue。#90〜#93の完了後。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 084</span>
+        <span><a href="md/work_record_084.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

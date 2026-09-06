@@ -1,0 +1,6 @@
+schema_version: 1
+title: 'Issue #90 過去作業記録の棚卸しと公開対応表'
+date: "2026-09-06"
+project_id: sandbox_pages
+tags: [inventory, provenance, work-records]
+publish: true
