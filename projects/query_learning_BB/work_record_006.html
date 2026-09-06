@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>#10 データセット確定と利用条件確認 — 作業記録 006</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 006 ・ 2026-09-04</p>
+          <h1>#10 データセット確定と利用条件確認</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_006.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Issue #10「確定CSVを配置しSQLiteデータセットを確定する」について、先行作業で完了していたCSV監査・SQLite生成に加え、データの出典・利用条件を確認済みとして記録し、MVPで利用するデータセットを確定した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　実施内容</p><h2>実施内容</h2></div><div class="section-content"><ul><li><code>Apps/data/csv/</code> に配置された完全版CSV 8ファイルを正式入力として確認した。</li><li><code>Apps/scripts/import_csv_to_sqlite.py</code> を再実行し、<code>Apps/data/bleague.sqlite</code> を再生成できることを確認した。</li><li>8通常テーブルのみをSQLiteへ取り込み、3ビューを取り込んでいないことを確認した。</li><li>CSVとSQLiteの行数、主キー・外部キー整合性、UTF-8・ヘッダー付き形式を確認した。</li><li><code>game_team_stats</code> の既知の全行NULL列28列と、スタッツ未取得試合5件を例外として記録した。</li><li><code>db-manifest.json</code> の <code>available: true</code> と、公開成果物へのSQLite同梱を確認した。</li><li>SQLiteのサイズが約34MBであることを確認した。</li><li>データの出典および利用条件を確認した。作成者本人のSQL学習目的に限定して利用し、データの再配布および商用利用は行わない。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　確認結果</p><h2>確認結果</h2></div><div class="section-content"><ul><li>CSV 8ファイルの行数とSQLiteの各テーブル行数が一致した。</li><li>SQLite内のテーブルは <code>game_team_stats</code>、<code>games</code>、<code>player_affiliations</code>、<code>player_game_stats</code>、<code>player_name_history</code>、<code>players</code>、<code>team_name_history</code>、<code>teams</code> の8テーブルで、ビューは存在しなかった。</li><li>再生成前後のSQLiteハッシュが一致し、同じ入力から再現可能であることを確認した。</li><li><code>Apps/data/problems.json</code> の参考SQL 10問を生成済みSQLite上で実行できることを確認した。</li><li><code>Apps/scripts/build-pages.sh</code> がSQLiteを公開成果物へ配置できることを確認した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　判定</p><h2>判定</h2></div><div class="section-content"><p>CSV配置、SQLite生成、データ整合性確認、例外データの記録、公開成果物への同梱、およびデータ利用条件の確認が完了した。Issue #10へ受入確認結果をコメントし、2026-09-04にクローズした。</p>
+<p>関連コミット: <code>9026b24 docs: confirm dataset usage conditions for issue 10</code></p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　検証コマンド</p><h2>検証コマンド</h2></div><div class="section-content"><ul><li><code>python3 Apps/scripts/import_csv_to_sqlite.py</code></li><li>CSVとSQLiteの行数比較、およびSQLite内のビュー有無確認</li><li><code>bash Apps/scripts/build-pages.sh</code></li><li><code>git diff --check</code></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-04 12:25:23 JST に <code>tj-999-comp/query_learning_BB</code> のOpen IssueをPull Requestを除いてGitHub APIから取得した（取得件数: 5件）。Issue #8のsub-issues APIを確認したが、返却は0件だった。#10は本作業でクローズ済みであり、以下の一覧には含めていない。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/14">#14</a></td><td>OPEN（state reason未設定）</td><td>MVP要件定義書の凍結。</td></tr><tr><td>2</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/13">#13</a></td><td>OPEN（state reason未設定）</td><td>確定SQLiteを前提に仮問題10問を検証する。</td></tr><tr><td>3</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/12">#12</a></td><td>OPEN（state reason未設定）</td><td>確定データと主要機能を前提にPC・iPad・ブラウザ保存を受入確認する。</td></tr><tr><td>4</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/11">#11</a></td><td>OPEN（state reason未設定）</td><td>#6のホスティング方針と確定データを前提に公開・スモークテストする。</td></tr><tr><td>5</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/8">#8</a></td><td>OPEN（state reason未設定）</td><td>#14、#13、#12、#11の完了後にMVP全体を完了判定する。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 006</span>
+        <span><a href="md/work_record_006.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
