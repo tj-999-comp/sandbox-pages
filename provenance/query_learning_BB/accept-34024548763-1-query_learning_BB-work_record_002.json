@@ -1,0 +1,406 @@
+{
+  "accepted_at": "2026-09-06T09:24:30Z",
+  "notify": false,
+  "operation": "create",
+  "project_id": "query_learning_BB",
+  "public_base_path": "/sandbox-pages/projects/query_learning_BB/",
+  "publication_id": "accept-34024548763-1-query_learning_BB-work_record_002",
+  "published_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "7cd6d8ea856b73095cc6030edb418f6e506798f179a951948f86a0eac3e44f70",
+      "size_bytes": 2174
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "5c87eb20f8203226a6406a8e95c4a400300dfbfc14d8fee05e4c736706c3a11e",
+      "size_bytes": 3568
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "08912743e65534ce5d17e43c8442ae650acd1ef85b54ef9547caa72b8ea3e48c",
+      "size_bytes": 4312
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "35dc373daeb7b3267be9d337225308898c4ab77e86b7f6b74ec51de8f527ddd1",
+      "size_bytes": 5662
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-09-01",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "github-actions",
+          "work-records"
+        ],
+        "title": "公開側リポジトリへの作業記録連携導入準備"
+      },
+      "metadata_sha256": "b530fdf2d78bff9e68f815b2116074cc0f1e3e7800a22caca1fcd3893b7dcbf8",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_001.html"
+    },
+    {
+      "basename": "work_record_002",
+      "metadata": {
+        "date": "2026-09-02",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "data-audit",
+          "github-issues",
+          "mvp",
+          "requirements"
+        ],
+        "title": "SQL学習WebサイトMVPの要件整理と残作業Issue作成"
+      },
+      "metadata_sha256": "c4d79b1d5c241c0e5ec376cc12bafbfe8938fd9d71d00a17cacbf17ac023a5b7",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_002.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "3eee74e7367791f5735ddf04b089abb3196928e2",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/query_learning_BB"
+  },
+  "source_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "7cd6d8ea856b73095cc6030edb418f6e506798f179a951948f86a0eac3e44f70",
+      "size_bytes": 2174
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "5c87eb20f8203226a6406a8e95c4a400300dfbfc14d8fee05e4c736706c3a11e",
+      "size_bytes": 3568
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "72a773924cc63b529feaf8288c4c13bdc9b2636b14d8ca075b7520acdfb9246a",
+      "size_bytes": 3584
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "60dc81d3bd8660d1585651be0c7198cf7f947bd2ed7a941cdaa1c57280527f5b",
+      "size_bytes": 2856
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "cc3dce852b1ef6424b4397a7c5bfab286ced74715c3f01f7d5d291558e33acb8",
+      "size_bytes": 4997
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "af70ab1537824be3a7bb63dd7ad241376761387274a2d8a10ae1cb0de0837380",
+      "size_bytes": 3920
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "adc0d614602dbc49962dc911d8ef519875f8b709bd535390a385e3a3bd5a1aa3",
+      "size_bytes": 3773
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "af912ee7e6595866d5bcb32efdf56e0a65766d0eff2682a631738ec9751456dc",
+      "size_bytes": 5312
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "c6cbbba676e21c1932b7ca065f1b827f96ddd49ec05cd6309fc19d7533fdf5fd",
+      "size_bytes": 5677
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "467c4ba1c8ebe17157671050d9688ac3e95b6709cb23aaba2b10834ab3854e43",
+      "size_bytes": 4728
+    },
+    {
+      "path": "md/work_record_011.md",
+      "sha256": "796d69e7db94643091d090df8db201a55abe4022e8efd6fc117cbdff3aac4f6b",
+      "size_bytes": 4149
+    },
+    {
+      "path": "md/work_record_012.md",
+      "sha256": "5b583863885f2d19c4067384cf9ce372dbda0161d3a64073841a8265abe01427",
+      "size_bytes": 6946
+    },
+    {
+      "path": "md/work_record_013.md",
+      "sha256": "517f91bf318b25b05673744299b298cf231537dab010e8dac077c62c582ba105",
+      "size_bytes": 4018
+    },
+    {
+      "path": "md/work_record_014.md",
+      "sha256": "36815b9a2c8e685f740d984628a22cf0642100bc2c9df57ebc69d32101949f62",
+      "size_bytes": 4215
+    },
+    {
+      "path": "md/work_record_015.md",
+      "sha256": "ae9c12a2939453172c370b9abeb803281309f44ac6190dd21597299b306cb560",
+      "size_bytes": 4517
+    },
+    {
+      "path": "md/work_record_016.md",
+      "sha256": "11440b2abd806fd442127a03e4db521b1a2f0e3a11e6cd323ea93f1165573546",
+      "size_bytes": 4015
+    },
+    {
+      "path": "md/work_record_017.md",
+      "sha256": "e17ba4d08229f70c2dd18347f8b2bac2310d46d4d7f10471b84ec3b1adb7d4fd",
+      "size_bytes": 4220
+    },
+    {
+      "path": "md/work_record_018.md",
+      "sha256": "729b073e10f15dd742abe578fac8c52011b568f8d8c2b6b43c6dcbf1837b1fb1",
+      "size_bytes": 6005
+    },
+    {
+      "path": "md/work_record_019.md",
+      "sha256": "2e4c9b74556fea423befa849a2717fadefe49a702ad0e580d5917c37ea6e7de3",
+      "size_bytes": 2253
+    },
+    {
+      "path": "md/work_record_020.md",
+      "sha256": "81f2be8068159f67cac2512f55584e60dc3486a0426ddb7f186904e046572056",
+      "size_bytes": 1635
+    },
+    {
+      "path": "md/work_record_021.md",
+      "sha256": "d5355dd2ea392bf8dd45a3cc0207996fc492555ee147d16e13dee12dec817637",
+      "size_bytes": 2156
+    },
+    {
+      "path": "md/work_record_022.md",
+      "sha256": "d234187e640d86e7fc39564d09328585658182bb3194bd41edc5b71e1ea80831",
+      "size_bytes": 2011
+    },
+    {
+      "path": "md/work_record_023.md",
+      "sha256": "cd57c14ade6a49af65d8ed91324142c401f541841c20844019e27765141066b7",
+      "size_bytes": 4837
+    },
+    {
+      "path": "md/work_record_024.md",
+      "sha256": "9978cff3a7a4a941a43130dce0b3460621a749b6c911e76618eaa26cf88ffb61",
+      "size_bytes": 4519
+    },
+    {
+      "path": "md/work_record_025.md",
+      "sha256": "e0284bb7f9275e2a88de5e952f0ed513a0950e4d891f91898952f370e88ecb23",
+      "size_bytes": 4310
+    },
+    {
+      "path": "md/work_record_026.md",
+      "sha256": "847e3a7ecb5abb8dfe78cee41207e079d2568627164b73af7a07ee452b725868",
+      "size_bytes": 2898
+    },
+    {
+      "path": "md/work_record_027.md",
+      "sha256": "c13e3970a17918ad5f66d0091bbb8455cc12f3f0c87a9d1180dd7c917ff98e18",
+      "size_bytes": 3897
+    },
+    {
+      "path": "md/work_record_028.md",
+      "sha256": "80aea398d762c04009aeeaa9588e09fe712b5972e3c366bce33d01704203bb02",
+      "size_bytes": 1703
+    },
+    {
+      "path": "md/work_record_029.md",
+      "sha256": "4e850a7470583948d57eadee913b15b3271549e6fa58cb2cac984ab07e5db2d7",
+      "size_bytes": 2503
+    },
+    {
+      "path": "md/work_record_030.md",
+      "sha256": "8130491a96c3390a595e32a8a7a9147b0880fb9f885c092f73f6fb747f21c438",
+      "size_bytes": 4498
+    },
+    {
+      "path": "md/work_record_031.md",
+      "sha256": "d16007922c41882e6bed878dceaf4405788af117ea0088a8fce2a9e68129e923",
+      "size_bytes": 3253
+    },
+    {
+      "path": "md/work_record_032.md",
+      "sha256": "96fef0365fb48138b411c44f436c79ec131e05e2f83ff703fe7487380f47f4c2",
+      "size_bytes": 4712
+    },
+    {
+      "path": "md/work_record_033.md",
+      "sha256": "0c45249cdebada9e5fd038dda24226e8737c46798afecbdc2520f689c6a0fd50",
+      "size_bytes": 3505
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "40226df26731e294eb9015d7f0f1231f6dd7b052bf1014b5abd6a5adfea79bd9",
+      "size_bytes": 195
+    },
+    {
+      "path": "metadata/work_record_002.yml",
+      "sha256": "624df7fb4b33da9d8382dc6e1893353ef70f15cb408ccbacacec2908e3e998af",
+      "size_bytes": 213
+    },
+    {
+      "path": "metadata/work_record_003.yml",
+      "sha256": "255c284dca1d7b84f103f1075090ca0c9f75617b35a86a1a4c30ffa0d91bc5a4",
+      "size_bytes": 185
+    },
+    {
+      "path": "metadata/work_record_004.yml",
+      "sha256": "6e56f8d35a74f7d6c1aee05187616ef795a0b1da660823198ae81a532b466924",
+      "size_bytes": 220
+    },
+    {
+      "path": "metadata/work_record_005.yml",
+      "sha256": "4340bfda2c257769b8a960c4ae13c7256c23e44d8bf46befbd7dc3cebbc3547b",
+      "size_bytes": 217
+    },
+    {
+      "path": "metadata/work_record_006.yml",
+      "sha256": "53a20acff904875f5d0770dbdb3e659c637be8120ded10b65016650f350bffea",
+      "size_bytes": 179
+    },
+    {
+      "path": "metadata/work_record_007.yml",
+      "sha256": "be9ccb748e455ab72eff9dc9212be4a57d0d02e584fa78210a99380fa6ff572b",
+      "size_bytes": 176
+    },
+    {
+      "path": "metadata/work_record_008.yml",
+      "sha256": "793174bb42319f721847b9225716aa0dfa4d63c2f61e9ffdc385b9e14e635d62",
+      "size_bytes": 181
+    },
+    {
+      "path": "metadata/work_record_009.yml",
+      "sha256": "3ef973abe14d751d18daea7dd39b291d4f46c09d7b856fa1ea143d89dc45c7d8",
+      "size_bytes": 197
+    },
+    {
+      "path": "metadata/work_record_010.yml",
+      "sha256": "5151372f52bd07805ab442e2b80559695e64b1e7aed5bae7d2a8f75dc5b4c91f",
+      "size_bytes": 224
+    },
+    {
+      "path": "metadata/work_record_011.yml",
+      "sha256": "f1c58553c356b31284822bff85f97c607430c890c4f54584d0e736bc10db4140",
+      "size_bytes": 187
+    },
+    {
+      "path": "metadata/work_record_012.yml",
+      "sha256": "861601aeb27c11979e8b1e8966b0cac65e7340d54dcf7358499c7f3024b6a9cc",
+      "size_bytes": 221
+    },
+    {
+      "path": "metadata/work_record_013.yml",
+      "sha256": "0f637913fbc09aaae42e81a24ef9684b3dab03e648606d36891be2c13f81d2c2",
+      "size_bytes": 191
+    },
+    {
+      "path": "metadata/work_record_014.yml",
+      "sha256": "c0853877f39b703b493040c5a8a88ba33bf24ca28fef519f3505607c646ec037",
+      "size_bytes": 181
+    },
+    {
+      "path": "metadata/work_record_015.yml",
+      "sha256": "ab94606d9c7ab5ac1a92339a50983ac7ac237299a453950d3f575c568bcafa90",
+      "size_bytes": 177
+    },
+    {
+      "path": "metadata/work_record_016.yml",
+      "sha256": "1c4eeb78e70c6472fdb1cfe4548bc87a1314165811987309e4c9113ff6454a84",
+      "size_bytes": 190
+    },
+    {
+      "path": "metadata/work_record_017.yml",
+      "sha256": "9d9ef870e9aef853aa73b38723f093b599b91288af219a4b1b1ffd2a681c9dd4",
+      "size_bytes": 192
+    },
+    {
+      "path": "metadata/work_record_018.yml",
+      "sha256": "ced634d545851450f676b8fdd7dfebe375c22fb371de3e4af4132fd8f45bf9dc",
+      "size_bytes": 178
+    },
+    {
+      "path": "metadata/work_record_019.yml",
+      "sha256": "cf014bae0867660bd4290b860ff5c6fabb8ed6b18eb01c451d8ef11020da6e65",
+      "size_bytes": 207
+    },
+    {
+      "path": "metadata/work_record_020.yml",
+      "sha256": "b64fe0ba2bbfb5ac6d9d862cd494d68d4b1939cf740e2ce00a14f3c498bd62e4",
+      "size_bytes": 200
+    },
+    {
+      "path": "metadata/work_record_021.yml",
+      "sha256": "aa8a4b8041e3a841ca082976ba99c3a2b4b048e42e172ce9c8503f41f181ce47",
+      "size_bytes": 210
+    },
+    {
+      "path": "metadata/work_record_022.yml",
+      "sha256": "d2dabf2933cbcaeac865ddbc148018d80f0ac83890c103f5bc3b9e8fdebaec1d",
+      "size_bytes": 205
+    },
+    {
+      "path": "metadata/work_record_023.yml",
+      "sha256": "218a2929df3b3d1157865e9ca12cf2d785eef4f58f1dbd515cf5fc22bec16fc8",
+      "size_bytes": 220
+    },
+    {
+      "path": "metadata/work_record_024.yml",
+      "sha256": "26b4da3aea5dafa4c7eeee815d8cbe9598ab1ec3d42b88f977bcafffc69f4712",
+      "size_bytes": 222
+    },
+    {
+      "path": "metadata/work_record_025.yml",
+      "sha256": "286a6d05df7ffc7c761987b4b24af56b70c87cf8199d32ed2fdbe3f400c53923",
+      "size_bytes": 210
+    },
+    {
+      "path": "metadata/work_record_026.yml",
+      "sha256": "9bbf7c3d80679db1c7de62f796deb5024817bf65c83f89156219a20d9df1c02d",
+      "size_bytes": 218
+    },
+    {
+      "path": "metadata/work_record_027.yml",
+      "sha256": "d43512eeaa8274bbced29b4e956c83fb6d2981b24881999b2509c3de2b1e3459",
+      "size_bytes": 227
+    },
+    {
+      "path": "metadata/work_record_028.yml",
+      "sha256": "e96611e3efdc55e9de7f5e89af2a95596d655c450d5610794815cf65bbc97298",
+      "size_bytes": 206
+    },
+    {
+      "path": "metadata/work_record_029.yml",
+      "sha256": "02fd2d3620ed8877cc0a1aac96481e6f90556b16954a1993b966bbea5c83f4ae",
+      "size_bytes": 247
+    },
+    {
+      "path": "metadata/work_record_030.yml",
+      "sha256": "9cc1ac0bfff55bbc4d12e80eee5dc164c033cd5b49c3ca8271d122e29a24febb",
+      "size_bytes": 225
+    },
+    {
+      "path": "metadata/work_record_031.yml",
+      "sha256": "a10bc24e58c981518521f4831ba4d404c7592ef18a5c012df48de6ccb61b2414",
+      "size_bytes": 217
+    },
+    {
+      "path": "metadata/work_record_032.yml",
+      "sha256": "79c3f57b8ad0abbe1136b94191399bd0116b0e3ce6fb9c04f36d72a1e51e7403",
+      "size_bytes": 259
+    },
+    {
+      "path": "metadata/work_record_033.yml",
+      "sha256": "ec17d6e926b8f66da8b65da8ce76be0ee6646bbee55a0d7b3333b665c081c037",
+      "size_bytes": 250
+    }
+  ]
+}

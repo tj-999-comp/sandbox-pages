@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>SQL学習WebサイトMVPの要件整理と残作業Issue作成 — 作業記録 002</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 002 ・ 2026-09-02</p>
+          <h1>SQL学習WebサイトMVPの要件整理と残作業Issue作成</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_002.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>SQL学習WebサイトのMVPについて、作成者本人がブラウザでSQLを書き、実行結果を確認し、正誤と学習状況を確認できる範囲を定義した。既存のMVP実装を前提に、要件定義後に残る作業を明確化し、GitHub Issueで管理できる状態にする。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　実施内容</p><h2>実施内容</h2></div><div class="section-content"><ul><li><code>Apps/docs/MVP_REQUIREMENTS.md</code> に、個人利用、PC/iPad対応、ブラウザ内SQLite、localStorageによる学習情報保存、読み取り専用SQL、10問の仮問題、星1〜5の難易度、暫定カテゴリ、お気に入り登録、結果ベースの正誤判定などのMVP要件を整理した。</li><li>SQLite取り込み対象を8つの通常テーブルに限定し、3つのビューを対象外とした。</li><li>正誤判定について、SQL文字列ではなく結果を比較し、別解を許容する方針を定義した。行順、列名、NULL、数値誤差、読み取り専用SQLの扱いも記録した。</li><li>Google Drive上の新しいCSV 8ファイルを監査した。合計は <code>games</code> 6,264行、<code>game_team_stats</code> 12,518行、<code>player_game_stats</code> 150,270行などで、10シーズン（2016-17〜2025-26）を含むことを確認した。</li><li>CSVの文字コード、列数不一致、壊れた行、主キー重複、外部キー欠損を確認し、問題がないことを確認した。監査対象CSVから一時SQLiteを生成し、仮問題10問の参考SQLがすべて実行できることも確認した。</li><li>例外として、スタッツが存在しない試合が5件、<code>game_team_stats</code> に全行NULLの列が28列あることを確認し、データ確定・問題検証Issueで扱うことにした。</li><li>残作業を束ねる親Issue #8 と、要件凍結、データ確定、問題検証、判定テスト、端末受入、公開を扱う子Issue #9〜#14を作成した。既存のホスティング検討Issue #6も親Issueに関連付けた。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　確認結果</p><h2>確認結果</h2></div><div class="section-content"><ul><li><code>python3 scripts/dev/validate_work_records.py</code> は、作業記録追加後に成功することを確認する。</li><li>既存のMVP実装を含むブランチ上で、作業記録とIssueの対応を追跡できる状態にした。</li><li>ユーザー提供のCSVおよび <code>Apps/table_definition.md</code> は、今回の作業記録変更とは分離して未追跡のまま保持した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　未完了</p><h2>未完了</h2></div><div class="section-content"><ul><li>MVP要件定義書に残る未決事項の確定と文書の凍結（#14）。</li><li>確定CSVの正式配置とSQLite成果物の確定（#10）。</li><li>仮問題10問の確定データ上での最終確認（#13）。</li><li>SQL正誤判定・読み取り専用制限の受入テスト整備（#9）。</li><li>PC/iPad、ブラウザ保存、アクセシビリティの受入確認（#12）。</li><li>ホスティング先・Basic認証方式の決定（#6）と公開・最終スモークテスト（#11）。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　関連Issue</p><h2>関連Issue</h2></div><div class="section-content"><ul><li>親: https://github.com/tj-999-comp/query_learning_BB/issues/8</li><li>判定テスト: https://github.com/tj-999-comp/query_learning_BB/issues/9</li><li>データ確定: https://github.com/tj-999-comp/query_learning_BB/issues/10</li><li>公開: https://github.com/tj-999-comp/query_learning_BB/issues/11</li><li>端末・保存受入: https://github.com/tj-999-comp/query_learning_BB/issues/12</li><li>問題検証: https://github.com/tj-999-comp/query_learning_BB/issues/13</li><li>要件凍結: https://github.com/tj-999-comp/query_learning_BB/issues/14</li><li>ホスティング検討: https://github.com/tj-999-comp/query_learning_BB/issues/6</li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 002</span>
+        <span><a href="md/work_record_002.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
