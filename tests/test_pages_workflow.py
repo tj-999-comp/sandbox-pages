@@ -134,6 +134,8 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("group: pages-production-main", workflow)
         self.assertIn("SLACK_WEBHOOK_URL", workflow)
         self.assertIn("--notify", workflow)
+        self.assertEqual(workflow.count("actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"), 2)
+        self.assertEqual(workflow.count("actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093"), 1)
 
     def test_apply_cli_can_infer_create_or_update_from_provenance(self):
         apply_engine = (ROOT / "scripts/publish/apply_engine.py").read_text(encoding="utf-8")
