@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #31 実行結果のペイン内スクロール — 作業記録 017</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 017 ・ 2026-09-04</p>
+          <h1>Issue #31 実行結果のペイン内スクロール</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_017.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Issue #31「実行結果を結果ペイン内でスクロール可能にする」に対応し、大量のSQL結果でページ全体が伸び続けないよう、結果表を結果コンテナ内でスクロールできるようにした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　変更内容</p><h2>変更内容</h2></div><div class="section-content"><ul><li>実行結果コンテナに最大高さを設定し、縦方向のスクロールをコンテナ内へ閉じ込めた。</li><li><code>overflow: auto</code>により、列が多い結果では横方向も結果コンテナ内でスクロールできるようにした。</li><li>MVPの最大1000行表示仕様は維持した。</li><li>SQL入力欄の最小高さを280pxへ拡大した。</li><li>通常の「実行する」操作時に表示していた「実行結果を確認してください。…」という案内文を削除した。</li><li>SQLエラー、結果件数、正誤結果は従来どおり表示できるようにした。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　受入条件の確認</p><h2>受入条件の確認</h2></div><div class="section-content"><ul><li>実行結果ペインに最大高さを設定: 成功</li><li>行数が多い場合に結果ペイン内で縦スクロール: 1000行で確認</li><li>列数が多い場合に結果ペイン内で横スクロール: 41列で確認</li><li>デスクトップでページ全体の不要なスクロールを抑制: 成功</li><li>結果件数、エラー、正誤結果を確認: 成功</li><li>最大1000行表示仕様を維持: 成功</li><li>実行時の不要な案内文を削除: 成功</li><li>SQL入力欄を縦長化: 最小高さ280pxで確認</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>node --check Apps/app/app.js</code></li><li><code>node --check Apps/public/app.js</code></li><li><code>python3 -m json.tool Apps/data/problems.json</code></li><li><code>git diff --check</code></li><li><code>python3 scripts/dev/validate_work_records.py</code></li><li>Playwrightで1280x900、900x900、640x900、320x800を確認。横方向のはみ出し、console error、page error、failed requestはなかった。</li><li>Playwrightで<code>SELECT * FROM player_game_stats LIMIT 1000;</code>を実行し、結果1000行・41列、結果コンテナ内の縦横スクロール、ページ全体の高さ制御を確認した。</li><li>Playwrightで実行時の案内文が空であること、SQLエラーが結果ペイン内に表示されること、狭い画面でも結果スクロールと横幅制御が維持されることを確認した。</li></ul>
+<p>検証証跡:</p>
+<ul><li><code>/private/tmp/playwright-browser-verify/2026-09-04T05-36-21-911Z/report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-37-16-392Z/scenario-report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-37-16-392Z/issue31-result-scroll-desktop.png</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-37-16-392Z/issue31-result-scroll-mobile.png</code></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　関連ファイル</p><h2>関連ファイル</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/app.js"><code>Apps/app/app.js</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/styles.css"><code>Apps/app/styles.css</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/31">#31</a></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-04 14:37:37 JSTに、<code>tj-999-comp/query_learning_BB</code>のOpen IssueをPull Requestを除いて取得した（取得件数: 5件）。#26のsub-issues APIを確認し、#27〜#34の8件が返却された。#27〜#30はclosed/completed、#31〜#34はopenだった。Open Issue取得時点では全Issueのstate reasonが未設定だった。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/31">#31</a></td><td>OPEN（state reason未設定）</td><td>本作業。実行結果を結果ペイン内でスクロール可能にした。</td></tr><tr><td>2</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/32">#32</a></td><td>OPEN（state reason未設定）</td><td>v0.2.0完了後に着手する。</td></tr><tr><td>3</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/33">#33</a></td><td>OPEN（state reason未設定）</td><td>#32を前提とする。</td></tr><tr><td>4</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/34">#34</a></td><td>OPEN（state reason未設定）</td><td>主題一覧ドキュメントの所在確定後に着手する。</td></tr><tr><td>5</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/26">#26</a></td><td>OPEN（state reason未設定）</td><td>次期フェーズ全体の管理Issue。#31はsub-issues APIで確認済み。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 017</span>
+        <span><a href="md/work_record_017.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
