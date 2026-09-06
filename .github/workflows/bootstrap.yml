@@ -19,11 +19,6 @@ on:
         description: Auditable bootstrap publication identifier
         required: true
         type: string
-      notify:
-        description: Send one Slack notification per published record
-        required: false
-        default: true
-        type: boolean
 
 permissions: {}
 
@@ -107,15 +102,10 @@ jobs:
           SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
           TARGET_BASENAMES: ${{ inputs.target_basenames }}
           PUBLICATION_ID: ${{ inputs.publication_id }}
-          NOTIFY: ${{ inputs.notify }}
           MAIN_SHA: ${{ steps.main.outputs.main_sha }}
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
           set -euo pipefail
-          notify_args=()
-          if [[ "$NOTIFY" == "true" ]]; then
-            notify_args+=(--notify)
-          fi
           python3 -m scripts.publish.bootstrap_engine \
             --repository-root . \
             --registry config/sources.json \
@@ -128,14 +118,12 @@ jobs:
             --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             --source-branch-ref "refs/remotes/origin/${{ steps.source.outputs.source_branch }}" \
             --expected-main-sha "$MAIN_SHA" \
-            "${notify_args[@]}" \
             --dry-run > "$RUNNER_TEMP/bootstrap-plan.json"
           jq -e \
             --arg project_id "$PROJECT_ID" \
             --arg source_commit_sha "$SOURCE_COMMIT_SHA" \
             --arg publication_id "$PUBLICATION_ID" \
-            --argjson notify "$NOTIFY" \
-            '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == $notify)' \
+            '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == false)' \
             "$RUNNER_TEMP/bootstrap-plan.json" >/dev/null
 
       - name: Upload bootstrap plan
@@ -154,9 +142,6 @@ jobs:
     outputs:
       commit_sha: ${{ steps.apply.outputs.commit_sha }}
       no_op: ${{ steps.apply.outputs.no_op }}
-      operation: ${{ steps.apply.outputs.operation }}
-      publication_id: ${{ steps.apply.outputs.publication_id }}
-      notify: ${{ steps.apply.outputs.notify }}
     permissions:
       contents: write
     steps:
@@ -185,15 +170,13 @@ jobs:
           PROJECT_ID: ${{ inputs.project_id }}
           SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
           PUBLICATION_ID: ${{ inputs.publication_id }}
-          NOTIFY: ${{ inputs.notify }}
         run: |
           set -euo pipefail
           jq -e \
             --arg project_id "$PROJECT_ID" \
             --arg source_commit_sha "$SOURCE_COMMIT_SHA" \
             --arg publication_id "$PUBLICATION_ID" \
-            --argjson notify "$NOTIFY" \
-            '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == $notify)' \
+            '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == false)' \
             "$RUNNER_TEMP/bootstrap-plan.json" >/dev/null
 
       - name: Checkout registered source at fixed SHA
@@ -218,7 +201,6 @@ jobs:
           SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
           TARGET_BASENAMES: ${{ inputs.target_basenames }}
           PUBLICATION_ID: ${{ inputs.publication_id }}
-          NOTIFY: ${{ inputs.notify }}
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
           set -euo pipefail
@@ -229,10 +211,6 @@ jobs:
             git checkout --detach origin/main
             git clean -ffdx
             expected_main_sha="$(git rev-parse HEAD)"
-            notify_args=()
-            if [[ "$NOTIFY" == "true" ]]; then
-              notify_args+=(--notify)
-            fi
             result="$(python3 -m scripts.publish.bootstrap_engine \
               --repository-root . \
               --registry config/sources.json \
@@ -244,15 +222,11 @@ jobs:
               --publication-id "$PUBLICATION_ID" \
               --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
               --source-branch-ref "refs/remotes/origin/${{ needs.dry-run.outputs.source_branch }}" \
-              --expected-main-sha "$expected_main_sha" \
-              "${notify_args[@]}")"
+              --expected-main-sha "$expected_main_sha")"
             echo "$result" > bootstrap-result.json
             if [[ "$(jq -r '.no_op' <<<"$result")" == "true" ]]; then
               echo "no_op=true" >> "$GITHUB_OUTPUT"
               echo "commit_sha=" >> "$GITHUB_OUTPUT"
-              echo "operation=$(jq -r '.operation' <<<"$result")" >> "$GITHUB_OUTPUT"
-              echo "publication_id=$(jq -r '.publication_id' <<<"$result")" >> "$GITHUB_OUTPUT"
-              echo "notify=false" >> "$GITHUB_OUTPUT"
               exit 0
             fi
             mapfile -t changed_paths < <(jq -r '.changed_paths[]' <<<"$result")
@@ -263,9 +237,6 @@ jobs:
             if git push origin HEAD:refs/heads/main; then
               echo "no_op=false" >> "$GITHUB_OUTPUT"
               echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-              echo "operation=$(jq -r '.operation' <<<"$result")" >> "$GITHUB_OUTPUT"
-              echo "publication_id=$(jq -r '.publication_id' <<<"$result")" >> "$GITHUB_OUTPUT"
-              echo "notify=$(jq -r '.notify' <<<"$result")" >> "$GITHUB_OUTPUT"
               exit 0
             fi
             if [[ "$retry" == "1" ]]; then
@@ -294,79 +265,3 @@ jobs:
       contents: read
       pages: write
       id-token: write
-
-  notify:
-    name: Notify Slack after successful bootstrap
-    needs: [apply, deploy]
-    if: >-
-      needs.apply.result == 'success' &&
-      needs.deploy.result == 'success' &&
-      needs.apply.outputs.no_op != 'true' &&
-      needs.apply.outputs.notify == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout committed bootstrap
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-        with:
-          ref: ${{ needs.apply.outputs.commit_sha }}
-          fetch-depth: 1
-          persist-credentials: false
-
-      - name: Resolve bootstrap records and public URLs
-        env:
-          PROJECT_ID: ${{ inputs.project_id }}
-          TARGET_BASENAMES: ${{ inputs.target_basenames }}
-          PUBLICATION_ID: ${{ needs.apply.outputs.publication_id }}
-          SITE_URL: ${{ needs.deploy.outputs.page_url }}
-        run: |
-          set -euo pipefail
-          manifest="provenance/$PROJECT_ID/$PUBLICATION_ID.json"
-          test -f "$manifest"
-          jq -e '.notify == true and (.operation == "create" or .operation == "update")' "$manifest" >/dev/null
-          IFS=',' read -r -a basenames <<< "$TARGET_BASENAMES"
-          test "${#basenames[@]}" -gt 0
-          : > "$RUNNER_TEMP/notification-records.tsv"
-          for raw_basename in "${basenames[@]}"; do
-            basename="$(printf '%s' "$raw_basename" | sed -e 's/^ *//' -e 's/ *$//')"
-            test -n "$basename"
-            record="$(jq -cer --arg basename "$basename" '
-              [.records[] | select(.basename == $basename)]
-              | if length == 1 then .[0] else error("target record must be unique") end
-            ' "$manifest")"
-            title="$(jq -er '.metadata.title | select(type == "string" and length > 0)' <<<"$record")"
-            record_path="$(jq -er '.public_url | select(type == "string" and length > 0)' <<<"$record")"
-            public_url="$(python3 -m scripts.publish.slack_notification resolve-url \
-              --site-url "$SITE_URL" \
-              --record-path "$record_path")"
-            printf '%s\t%s\t%s\n' "$basename" "$title" "$public_url" >> "$RUNNER_TEMP/notification-records.tsv"
-          done
-
-      - name: Verify bootstrap public URLs
-        run: |
-          set -euo pipefail
-          while IFS=$'\t' read -r _basename _title public_url; do
-            python3 -m scripts.publish.slack_notification verify-url \
-              --url "$public_url" \
-              --attempts 5 \
-              --delay-seconds 10
-          done < "$RUNNER_TEMP/notification-records.tsv"
-
-      - name: Send bootstrap Slack notifications
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          PROJECT_ID: ${{ inputs.project_id }}
-          PUBLICATION_ID: ${{ needs.apply.outputs.publication_id }}
-        run: |
-          set -euo pipefail
-          while IFS=$'\t' read -r basename title public_url; do
-            python3 -m scripts.publish.slack_notification send \
-              --webhook-env SLACK_WEBHOOK_URL \
-              --project-id "$PROJECT_ID" \
-              --target-basename "$basename" \
-              --title "$title" \
-              --publication-id "$PUBLICATION_ID" \
-              --public-url "$public_url"
-          done < "$RUNNER_TEMP/notification-records.tsv"

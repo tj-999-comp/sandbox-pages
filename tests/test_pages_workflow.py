@@ -117,15 +117,16 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("dry_run", acceptance)
         self.assertIn("allow_enabled: bool = False", acceptance)
 
-    def test_historical_bootstrap_is_fixed_batch_and_notifies_when_requested(self):
+    def test_historical_bootstrap_is_fixed_batch_and_notification_free(self):
         workflow = (ROOT / ".github/workflows/bootstrap.yml").read_text(encoding="utf-8")
         self.assertIn("workflow_dispatch:", workflow)
-        for input_name in ("project_id", "source_commit_sha", "target_basenames", "publication_id", "notify"):
+        for input_name in ("project_id", "source_commit_sha", "target_basenames", "publication_id"):
             self.assertIn(f"      {input_name}:", workflow)
+        self.assertNotIn("      notify:", workflow)
         self.assertIn("name: Run bootstrap dry-run", workflow)
         self.assertIn("--dry-run", workflow)
         self.assertIn("name: Bind plan to dispatch inputs", workflow)
-        self.assertIn("notify == $notify", workflow)
+        self.assertIn(".notify == false", workflow)
         self.assertIn("python3 -m scripts.publish.bootstrap_engine", workflow)
         self.assertIn('git config user.name "github-actions[bot]"', workflow)
         self.assertIn('git config user.email "41898282+github-actions[bot]@users.noreply.github.com"', workflow)
@@ -138,8 +139,9 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("retrying once", workflow)
         self.assertIn("uses: ./.github/workflows/deploy-pages.yml", workflow)
         self.assertIn("group: pages-production-main", workflow)
-        self.assertIn("SLACK_WEBHOOK_URL", workflow)
-        self.assertIn("--notify", workflow)
+        self.assertNotIn("SLACK_WEBHOOK_URL", workflow)
+        self.assertNotIn("--notify", workflow)
+        self.assertNotIn("inputs.notify", workflow)
         self.assertEqual(workflow.count("actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"), 2)
         self.assertEqual(workflow.count("actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093"), 1)
 

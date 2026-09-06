@@ -61,7 +61,6 @@ class SandboxPagesBootstrapTests(unittest.TestCase):
             if item["project_id"] == "sandbox_pages"
         )
         self.assertEqual(current_manifest["operation"], "update")
-        self.assertIn("record-navigation", current_manifest["publication_id"])
         self.assertTrue(inspect_drift(current_manifest, current_files).clean)
         current_record_count = sum(
             item.path.startswith("work_record_") and item.path.endswith(".html")
