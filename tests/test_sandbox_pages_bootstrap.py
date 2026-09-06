@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from scripts.publish.acceptance_files import AcceptedFile
+from scripts.publish.index_generator import load_current_manifests
 from scripts.publish.provenance import inspect_drift, load_manifest
 from scripts.publish.source_registry import load_registry
 
@@ -55,9 +56,13 @@ class SandboxPagesBootstrapTests(unittest.TestCase):
         self.assertEqual(len(repair_manifest["published_files"]), 143)
         self.assertEqual(len(repair_manifest["records"]), 70)
         self.assertFalse(repair_manifest["notify"])
-        baseline_paths = {item["path"] for item in repair_manifest["published_files"]}
-        baseline_files = [item for item in current_files if item.path in baseline_paths]
-        self.assertTrue(inspect_drift(repair_manifest, baseline_files).clean)
+        current_manifest = next(
+            item for item in load_current_manifests(ROOT / "provenance")
+            if item["project_id"] == "sandbox_pages"
+        )
+        self.assertEqual(current_manifest["operation"], "update")
+        self.assertIn("record-navigation", current_manifest["publication_id"])
+        self.assertTrue(inspect_drift(current_manifest, current_files).clean)
         current_record_count = sum(
             item.path.startswith("work_record_") and item.path.endswith(".html")
             for item in current_files

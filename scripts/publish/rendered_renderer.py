@@ -9,6 +9,7 @@ from typing import Any, Mapping
 from urllib.parse import quote, unquote, urlsplit, urlunsplit
 
 from .metadata_schema import MetadataSchemaError, validate_metadata
+from .record_navigation import RecordNavigation, render_record_navigation
 
 
 GENERATOR_ID = "a-rendered-work-record-v1"
@@ -29,6 +30,7 @@ def render_work_record(
     *,
     stylesheet: str = "../progress-index.css",
     expected_project_id: str | None = None,
+    navigation: RecordNavigation | None = None,
 ) -> str:
     """Render one validated Markdown record using only deterministic inputs."""
 
@@ -56,6 +58,11 @@ def render_work_record(
     project_id = html.escape(normalized["project_id"])
     record_date = html.escape(normalized["date"], quote=True)
     stylesheet = _normalize_stylesheet(stylesheet)
+    navigation_markup = (
+        f'      {render_record_navigation(navigation)}\n'
+        if navigation is not None
+        else ""
+    )
 
     return f'''<!doctype html>
 <html lang="ja">
@@ -71,7 +78,7 @@ def render_work_record(
       <header class="topbar">
         <span class="wordmark">{project_id}</span>
       </header>
-      <main>
+{navigation_markup}      <main>
         <header class="record-header">
           <p class="kicker">作業記録 {number} ・ {record_date}</p>
           <h1>{title}</h1>

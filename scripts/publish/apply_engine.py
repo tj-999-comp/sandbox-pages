@@ -17,6 +17,7 @@ from .acceptance_files import AcceptedFile, AcceptanceFileError, validate_source
 from .index_generator import load_current_manifests, render_global_index, render_project_index
 from .metadata_schema import MetadataSchemaError, load_metadata, validate_metadata
 from .rendered_renderer import RenderedRendererError, render_work_record
+from .record_navigation import build_record_navigation, decorate_record_html, update_record_navigation
 from .provenance import (
     ProvenanceDriftError,
     ProvenanceError,
@@ -174,6 +175,23 @@ def apply_verified_payload(
 
     metadata_by_basename = dict(previous_records)
     metadata_by_basename[target_basename] = metadata
+    navigation_manifests = [
+        item for item in load_current_manifests(Path(provenance_root)) if item["project_id"] != project_id
+    ]
+    navigation_manifests.append(
+        {
+            "project_id": project_id,
+            "records": [
+                {"basename": record_basename, "metadata": record_metadata}
+                for record_basename, record_metadata in metadata_by_basename.items()
+            ],
+        }
+    )
+    navigation = build_record_navigation(
+        navigation_manifests,
+        project_id=project_id,
+        basename=target_basename,
+    )
 
     with tempfile.TemporaryDirectory(prefix="sandbox-pages-apply-") as temp_dir:
         staged_destination = Path(temp_dir) / "destination"
@@ -190,11 +208,34 @@ def apply_verified_payload(
                     source_root / "md" / f"{target_basename}.md",
                     metadata,
                     expected_project_id=project_id,
+                    navigation=navigation,
                 )
             except RenderedRendererError as exc:
                 raise ApplyEngineError(f"a_rendered renderer failed: {exc}") from exc
             (staged_destination / f"{target_basename}.html").write_text(
                 rendered_html, encoding="utf-8"
+            )
+        elif source["html_mode"] == "source_html":
+            target_html = staged_destination / f"{target_basename}.html"
+            decorated_html = decorate_record_html(
+                target_html.read_text(encoding="utf-8"), navigation
+            )
+            target_html.write_text(decorated_html, encoding="utf-8")
+
+        for record_basename in metadata_by_basename:
+            record_html = staged_destination / f"{record_basename}.html"
+            if not record_html.is_file():
+                continue
+            record_navigation = build_record_navigation(
+                navigation_manifests,
+                project_id=project_id,
+                basename=record_basename,
+            )
+            record_html.write_text(
+                update_record_navigation(
+                    record_html.read_text(encoding="utf-8"), record_navigation
+                ),
+                encoding="utf-8",
             )
 
         final_published = _inventory_directory(staged_destination, ignored_paths={"index.html"})

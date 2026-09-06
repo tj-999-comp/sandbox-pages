@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from scripts.publish.rendered_renderer import RenderedRendererError, render_work_record
+from scripts.publish.record_navigation import build_record_navigation
 
 
 class RenderedRendererTests(unittest.TestCase):
@@ -52,6 +53,33 @@ class RenderedRendererTests(unittest.TestCase):
         self.assertNotIn('<ul class="tag-list">', first)
         self.assertNotIn("2000-01-01", first)
         self.assertNotIn("作成日:", first)
+
+    def test_render_can_include_record_navigation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            markdown = Path(directory) / "work_record_001.md"
+            markdown.write_text("# Record\n\n## 概要\n\n本文。\n", encoding="utf-8")
+            metadata = _metadata()
+            navigation = build_record_navigation(
+                [
+                    {
+                        "project_id": "tech_article_nortification",
+                        "records": [
+                            {"basename": "work_record_001", "metadata": metadata},
+                            {"basename": "work_record_002", "metadata": {**metadata, "title": "Older", "date": "2026-08-27"}},
+                        ],
+                    }
+                ],
+                project_id="tech_article_nortification",
+                basename="work_record_001",
+            )
+
+            rendered = render_work_record(markdown, metadata, navigation=navigation)
+
+        self.assertIn('class="record-navigation"', rendered)
+        self.assertIn('href="index.html">このproject', rendered)
+        self.assertIn('href="../index.html">全project', rendered)
+        self.assertIn('href="work_record_002.html"', rendered)
+        self.assertNotIn('href="work_record_001.html"', rendered)
 
     def test_raw_html_is_escaped_and_unsafe_links_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:

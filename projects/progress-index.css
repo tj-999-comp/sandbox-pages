@@ -253,6 +253,52 @@ body.record-page {
   border-bottom: 1px solid #ebe8e4;
 }
 
+.record-navigation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 24px;
+  margin: 24px 0 0;
+  padding: 16px 0;
+  border-top: 1px solid #ebe8e4;
+  border-bottom: 1px solid #ebe8e4;
+}
+
+.record-navigation__context,
+.record-navigation__pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+
+.record-navigation__context a,
+.record-navigation__pager-link {
+  color: #0066cc;
+}
+
+.record-navigation__pager {
+  justify-content: flex-end;
+}
+
+.record-navigation__pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.record-navigation__pager-link span {
+  color: #777169;
+  font-size: 12px;
+}
+
+.record-navigation__pager-link--disabled,
+.record-navigation__position {
+  color: #777169;
+  font-size: 13px;
+}
+
 .record-page .wordmark {
   color: #000000;
   font-size: 14px;
@@ -506,5 +552,14 @@ body.record-page {
 
   .record-page footer {
     flex-direction: column;
+  }
+
+  .record-navigation {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .record-navigation__pager {
+    justify-content: space-between;
   }
 }

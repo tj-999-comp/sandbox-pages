@@ -16,12 +16,12 @@ ALLOWED_TAGS = frozenset(
     {
         "a", "aside", "body", "code", "dd", "div", "dl", "dt", "footer", "h1", "h2", "h3",
         "h4", "head", "header", "html", "hr", "li", "link", "main", "meta", "ol", "p", "pre",
-        "section", "span", "strong", "table", "tbody", "td", "th", "thead", "time", "title",
+        "section", "span", "strong", "table", "tbody", "td", "th", "thead", "time", "title", "nav",
         "tr", "ul", "blockquote",
     }
 )
 VOID_TAGS = frozenset({"link", "meta"})
-GLOBAL_ATTRS = frozenset({"aria-labelledby", "class", "id", "lang"})
+GLOBAL_ATTRS = frozenset({"aria-disabled", "aria-label", "aria-labelledby", "class", "id", "lang"})
 TAG_ATTRS = {
     "a": frozenset({"href"}),
     "link": frozenset({"href", "rel"}),
