@@ -1,4 +1,4 @@
-"""Plan and apply a fixed, notification-free historical record backfill."""
+"""Plan and apply a fixed historical record backfill."""
 
 from __future__ import annotations
 
@@ -86,6 +86,7 @@ def run_bootstrap(
     source_branch_ref: str | None = None,
     expected_main_sha: str | None = None,
     dry_run: bool = False,
+    notify: bool = False,
 ) -> BootstrapResult:
     """Validate, plan, or apply all fixed targets in one audited operation."""
 
@@ -213,7 +214,7 @@ def run_bootstrap(
             metadata_by_basename=desired_records,
             source_files=accepted.files,
             published_files=final_published,
-            notify=False,
+            notify=notify,
         )
         if _is_content_noop(previous, manifest):
             return BootstrapResult(project_id, source_commit_sha, publication_id, operation, True, False, targets, (), None)
@@ -242,7 +243,7 @@ def run_bootstrap(
         changed_paths = tuple(sorted(changed_paths_set))
         expected_paths = set(changed_paths)
         if dry_run:
-            return BootstrapResult(project_id, source_commit_sha, publication_id, operation, False, False, targets, changed_paths, manifest_relative.as_posix())
+            return BootstrapResult(project_id, source_commit_sha, publication_id, operation, False, notify, targets, changed_paths, manifest_relative.as_posix())
 
         _copy_regular_tree(staged_destination, destination)
         manifest_path = root / manifest_relative
@@ -256,7 +257,7 @@ def run_bootstrap(
     _assert_allowed_worktree_changes(root, expected_paths)
     _verify_applied_state(root, destination, manifest, source["destination_directory"])
     return BootstrapResult(
-        project_id, source_commit_sha, publication_id, operation, False, False, targets,
+        project_id, source_commit_sha, publication_id, operation, False, notify, targets,
         tuple(sorted(_git_status_paths(root))), manifest_relative.as_posix(),
     )
 
@@ -456,6 +457,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--source-branch-ref")
     parser.add_argument("--expected-main-sha")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--notify", action="store_true")
     args = parser.parse_args(argv)
     try:
         result = run_bootstrap(
@@ -471,6 +473,7 @@ def main(argv: list[str] | None = None) -> int:
             source_branch_ref=args.source_branch_ref,
             expected_main_sha=args.expected_main_sha,
             dry_run=args.dry_run,
+            notify=args.notify,
         )
     except (BootstrapError, OSError, SourceRegistryError, ProvenanceError) as exc:
         parser.exit(1, f"bootstrap failed: {exc}\n")

@@ -27,10 +27,10 @@ class NotificationInput:
 
 
 def should_notify(*, operation: str, no_op: bool, notify: bool, publication_id: str, public_url: str) -> bool:
-    """Return whether a completed apply is eligible for the initial notification policy."""
+    """Return whether a completed create/update is eligible for notification."""
 
     return (
-        operation == "create"
+        operation in {"create", "update"}
         and not no_op
         and notify
         and bool(publication_id)

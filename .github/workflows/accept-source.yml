@@ -335,7 +335,7 @@ jobs:
       needs.apply.result == 'success' &&
       needs.deploy.result == 'success' &&
       needs.apply.outputs.no_op != 'true' &&
-      needs.apply.outputs.operation == 'create' &&
+      (needs.apply.outputs.operation == 'create' || needs.apply.outputs.operation == 'update') &&
       needs.apply.outputs.notify == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5

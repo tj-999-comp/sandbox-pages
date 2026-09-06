@@ -36,11 +36,12 @@ class SlackNotificationTests(unittest.TestCase):
             public_url="https://tj-999-comp.github.io/sandbox-pages/projects/B_Stats_Site/work_record_037.html",
         )
 
-    def test_only_non_noop_create_with_notify_flag_is_eligible(self):
+    def test_non_noop_create_or_update_with_notify_flag_is_eligible(self):
         self.assertTrue(should_notify(operation="create", no_op=False, notify=True, publication_id="pub", public_url="https://example.com"))
-        self.assertFalse(should_notify(operation="update", no_op=False, notify=True, publication_id="pub", public_url="https://example.com"))
+        self.assertTrue(should_notify(operation="update", no_op=False, notify=True, publication_id="pub", public_url="https://example.com"))
         self.assertFalse(should_notify(operation="create", no_op=True, notify=True, publication_id="pub", public_url="https://example.com"))
         self.assertFalse(should_notify(operation="create", no_op=False, notify=False, publication_id="pub", public_url="https://example.com"))
+        self.assertFalse(should_notify(operation="withdraw", no_op=False, notify=True, publication_id="pub", public_url="https://example.com"))
 
     def test_payload_contains_record_content_identity_and_url(self):
         payload = build_payload(self.notification)
