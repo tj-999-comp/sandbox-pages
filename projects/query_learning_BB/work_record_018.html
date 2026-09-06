@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>v0.2.0 学習画面UX改善の完了 — 作業記録 018</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 018 ・ 2026-09-04</p>
+          <h1>v0.2.0 学習画面UX改善の完了</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_018.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>v0.2.0の学習画面UX改善として進めてきたIssue #27〜#31が完了したため、実装内容・検証結果・GitHub Issueの状態をまとめた。あわせて、次期UI改善をひとつの新規Issue #41として起票した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　v0.2.0の完了項目</p><h2>v0.2.0の完了項目</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/27">#27</a>: 問題一覧の達成済み表示をコンパクトなチェックアイコンへ変更。</li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/28">#28</a>: 前の問題・次の問題への移動を追加。フィルター状態、キーボード操作、問題切り替え時の入力・結果リセットにも対応。</li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/29">#29</a>: 問題一覧をハンバーガーメニュー内のドロワーへ移動。オーバーレイ、Escキー、フォーカス復元、ARIA状態を整備。</li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/30">#30</a>: SQLエディタと実行結果をデスクトップでは左右2ペイン、狭い画面では上下配置に変更。</li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/31">#31</a>: 実行結果を結果ペイン内で縦横スクロール可能に変更。ページ全体のスクロールを抑え、SQL入力欄を最小高さ280pxへ拡大し、不要な案内文を削除。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　v0.2.0受入結果</p><h2>v0.2.0受入結果</h2></div><div class="section-content"><ul><li>学習画面の問題一覧、問題遷移、達成状態、SQL実行、正誤判定を確認できる: 成功</li><li>デスクトップと狭い画面で2ペイン／上下配置が崩れない: 成功</li><li>大量行・多数列の実行結果が結果ペイン内でスクロールする: 成功</li><li>実行結果の確認を妨げるページ全体の不要なスクロールを抑制する: 成功</li><li>実行時の不要な案内文を表示しない: 成功</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>node --check Apps/app/app.js</code></li><li><code>node --check Apps/public/app.js</code></li><li><code>python3 -m json.tool Apps/data/problems.json</code></li><li><code>git diff --check</code></li><li><code>python3 scripts/dev/validate_work_records.py</code></li><li>Playwrightで1280x900、900x900、640x900、320x800を確認。横方向のはみ出し、console error、page error、failed requestはなかった。</li><li>Playwrightで問題遷移、ハンバーガーメニュー、詳細表示、SQL実行、正誤判定、結果ペイン内スクロールを確認した。</li><li>1000行・41列の結果で、結果コンテナ内の縦横スクロールとページ全体の高さ制御を確認した。</li><li><code>Apps/app</code>から<code>Apps/public</code>を生成し、公開用ファイルとの一致を確認した。</li></ul>
+<p>検証証跡:</p>
+<ul><li><code>/private/tmp/playwright-browser-verify/2026-09-04T04-39-24-846Z/report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T04-40-46-373Z/scenario-report.json</code></li><li><code>/private/tmp/playwright-browser-verify/2026-09-04T05-01-18-226Z/report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-02-02-830Z/scenario-report.json</code></li><li><code>/private/tmp/playwright-browser-verify/2026-09-04T05-14-00-274Z/report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-12-22-855Z/scenario-report.json</code></li><li><code>/private/tmp/playwright-browser-verify/2026-09-04T05-28-42-040Z/report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-30-00-956Z/scenario-report.json</code></li><li><code>/private/tmp/playwright-browser-verify/2026-09-04T05-36-21-911Z/report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-37-16-392Z/scenario-report.json</code></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　次期作業</p><h2>次期作業</h2></div><div class="section-content"><p>次のUI改善を <a href="https://github.com/tj-999-comp/query_learning_BB/issues/41">#41</a> にまとめて起票した。</p>
+<ul><li>問題名の前に最大4桁の問題番号を表示する。</li><li>問題名とジャンル・難易度・仕様テーブルを同じ高さに配置し、右端を星だけのお気に入りボタンにする。</li><li>前後の問題ボタンを小さくし、問題カウント表示を削除する。</li><li>ハンバーガーメニュー内にも達成済みマークの下へお気に入りの星を表示する。</li><li>ハンバーガーメニューから開く詳細画面のレイヤー順を修正する。</li><li>footerにversionを表示する。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-04 14:48:00 JSTに、<code>tj-999-comp/query_learning_BB</code>のOpen IssueをPull Requestを除いて取得した（取得件数: 5件）。#26のsub-issues APIを確認し、#27〜#34の8件が返却された。#27〜#31はclosed/completed、#32〜#34はopenだった。Open Issue取得時点では全Issueのstate reasonが未設定だった。#41は今回起票した次期作業Issueで、#26のsub-issue登録は行っていない。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/41">#41</a></td><td>OPEN（state reason未設定）</td><td>v0.2.0後のUI改善。次の着手候補。</td></tr><tr><td>2</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/32">#32</a></td><td>OPEN（state reason未設定）</td><td>v0.3.0。高機能SQLエディタへの置き換え。</td></tr><tr><td>3</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/33">#33</a></td><td>OPEN（state reason未設定）</td><td>v0.4.0。SQL構文・テーブル名・カラム名の補完。</td></tr><tr><td>4</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/34">#34</a></td><td>OPEN（state reason未設定）</td><td>v0.5.0。主題一覧をもとにした問題追加の仕組み。</td></tr><tr><td>5</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/26">#26</a></td><td>OPEN（state reason未設定）</td><td>次期フェーズ全体の管理Issue。#27〜#31はsub-issues APIで完了を確認済み。</td></tr></tbody></table></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">07　関連ファイル</p><h2>関連ファイル</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/app.js"><code>Apps/app/app.js</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/styles.css"><code>Apps/app/styles.css</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/index.html"><code>Apps/app/index.html</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/26">#26</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/41">#41</a></li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 018</span>
+        <span><a href="md/work_record_018.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
