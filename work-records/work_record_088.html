@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #94 過去分公開とrecord間リンクの全体受入・運用引き継ぎ — 作業記録 088</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 088 ・ <time datetime="2026-09-07">2026-09-07</time></p>
+          <h1>Issue #94 過去分公開とrecord間リンクの全体受入・運用引き継ぎ</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_088.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: Issue #94の完了条件に基づき、5生成元の公開件数、Pagesのindex・record間リンク、ブラウザ表示、bootstrap再実行、運用手順を受入確認する。</li><li>目的: 過去作業記録の公開状態とリンク整合性を固定SHA・provenance・実ブラウザで照合し、再実行時のno-opと通知重複防止を確認する。</li><li>完了条件: 重大な未解決事項を残さず、検証結果と運用引き継ぎ手順を記録する。mainのPagesへ反映する変更はPR merge後に再確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: 現行の<code>a_rendered</code> renderer、公開HTML、source registry、provenance、Issue #94のリンク整合性要件。</li><li>実施内容: 同一project内の<code>work_record_###.md</code>参照を公開HTMLへ正規化し、<code>a_rendered</code>の非公開Markdown footerリンクをテキスト表示へ変更した。既存4 projectの公開HTML 55件を更新し、対応するupdate provenanceを生成してindexの整合性を確認した。</li><li>成果物: <code>scripts/publish/rendered_renderer.py</code>、<code>projects/</code>配下の既存a_rendered HTML、4 projectの<code>update-20260907-record-links-*</code> provenance。</li><li>検証結果: renderer、navigation、provenance、apply、bootstrapを含む全120テストが成功。index generator checkも成功。</li><li>未解決事項: GitHub Pagesのmain公開物はPR merge前のため、修正後の公開URLは未再deploy。</li><li>次工程への引き継ぎ: PR merge後にPages deploy完了を確認し、公開URLの同じ巡回を再実行する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 5生成元のmain tree、公開側の最新provenance、GitHub Actions run、公開Pages、作業ブランチの修正成果物。</li><li>実施内容: source SHA・record件数・公開件数・未公開候補・非公開件数を照合し、global index、5 project index、公開recordを巡回した。bootstrapの古いSHA指定失敗と、最新provenance SHAでのno-op成功を区別して記録した。</li><li>成果物: <code>docs/work_record_inventory.md</code>の最新集計、<code>docs/SANDBOX_PAGES_OPERATIONS.md</code>の受入・運用スナップショット、ブラウザ検証結果。</li><li>検証結果: source record 170件、公開142件、未公開候補13件、非公開15件で対応。作業ブランチのローカルPagesは156 HTMLページを1280pxで巡回し、404、誤project、孤立record、console/page error、横overflowなし。global/project indexと代表recordは1280px・320px、Tab移動とfocus-visibleを確認した。</li><li>未解決事項: main Pages上では修正前に<code>a_rendered</code>本文の一部<code>work_record_###.md</code>リンク404を検出している。修正はブランチへ反映済みで、merge後の公開確認が必要。</li><li>次工程への引き継ぎ: PR review、CI、merge後のPages実動確認を行う。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>a_rendered</code>のrecord Markdownリンクは、公開側に存在する同名HTMLへ変換する。生成元Markdownを公開側へ追加する設計にはしない。</li><li>理由: <code>a_rendered</code>の公開契約はMarkdownを公開対象にせず、record間リンクの意味だけを保持する必要があるため。footerのMarkdown原本表示もリンクではなく参照名として扱う。</li><li>判断: bootstrap no-opは、最新受入provenanceと同じsource SHA <code>1147b36c980e192af90cac93d7854905103f9978</code>で再実行する。</li><li>理由: bootstrap engineは前回受入より古いsource SHAを拒否するため。古い<code>ec46...</code>を指定したrun <code>34040802753</code>は入力不備として失敗し、修正後のrun <code>34040858354</code>でno-opを確認した。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと:<ul><li>5生成元の最新mainを固定SHAで確認し、source 170件、公開142件、未公開候補13件、非公開15件に整合させた。</li><li><code>a_rendered</code>のrecord間Markdownリンク404を修正し、既存公開HTMLとprovenanceを更新した。</li><li>global/project indexと公開recordの到達性、project境界、record数、レスポンシブ表示、キーボードfocusを検証した。</li><li>bootstrap run <code>34040858354</code>でdry-run/apply成功、<code>no_op=true</code>、deploy skip、通知jobなし、main SHA非変更を確認した。</li></ul></li><li>変更ファイル: renderer、renderer test/fixture、既存a_rendered公開HTML、4 projectのprovenance、<code>docs/work_record_inventory.md</code>、<code>docs/SANDBOX_PAGES_OPERATIONS.md</code>、本作業記録のMarkdown/HTML。project/global indexは変更せず、整合性を確認した。</li><li>検証結果:<ul><li><code>python3 -m unittest discover -s tests -p 'test_*.py'</code>: 120 tests passed。</li><li><code>python3 -m scripts.publish.index_generator --root . --check</code>: passed。</li><li>公開Pages smoke: global index、sandbox_pages index、B_Stats_Site indexを1280px/320pxでHTTP 200、横overflowなし、console/page errorなし。</li><li>修正後ローカルPages: 156ページ巡回、project record counts <code>18/2/1/34/87</code>、HTMLリンク到達性・誤project・孤立record・横overflow passed。</li><li>キーボード: record pageでTab移動とfocus-visible passed。</li><li>GitHub Actions: #93 latest publish run <code>34039818274</code> success、bootstrap no-op run <code>34040858354</code> success。Node.js 20 deprecation annotationは既存Action依存で、今回の検証失敗ではない。</li></ul></li><li>作業ブランチ: <code>codex/094-acceptance-operations</code></li><li>コミット: 作成前</li><li>PR: 作成前</li><li>PRレビュー・CI: ローカルレビュー・テスト済み。PR作成後にGitHub上の差分、CI、merge後Pages deployを確認する。</li><li>未解決事項: 修正後HTMLのmain Pagesへの反映と、反映後の公開URL全体巡回。</li><li>次アクション: PRのreviewとCIを通し、merge後にPages deploy、公開URL巡回、Issue #94への完了コメントを行う。Issue closeはmergeまたは明示承認後とする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-09-07 00:13 取得範囲: <code>tj-999-comp/sandbox-pages</code> のopen Issue全件、および#89のsub-issues。#89配下の状態は同時刻のAPI取得結果。</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する
+├─ #90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する
+├─ #91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する
+├─ #92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する
+├─ #93 [Publish] 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する（closed/completed）
+└─ #94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#89 [Epic] 過去作業記録の遡及公開と作業記録間リンクを整備する](https://github.com/tj-999-comp/sandbox-pages/issues/89)</td><td>open（state reason未設定）</td><td>#94の親。#90〜#94の完了結果を集約する。</td></tr><tr><td>2</td><td>未設定</td><td>[#90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する](https://github.com/tj-999-comp/sandbox-pages/issues/90)</td><td>open（state reason未設定）</td><td>本記録の件数・対応表の入力。</td></tr><tr><td>3</td><td>未設定</td><td>[#91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する](https://github.com/tj-999-comp/sandbox-pages/issues/91)</td><td>open（state reason未設定）</td><td>本記録の公開契約・renderer検証の前提。</td></tr><tr><td>4</td><td>未設定</td><td>[#92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/92)</td><td>open（state reason未設定）</td><td>本記録のindex・recordリンク受入対象。</td></tr><tr><td>5</td><td>未設定</td><td>[#94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う](https://github.com/tj-999-comp/sandbox-pages/issues/94)</td><td>open（state reason未設定）</td><td>本作業記録の対象。PR merge後に公開Pages再確認が必要。</td></tr><tr><td>6</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/118">#118 自分専用のスポーツ内容確認サイト用リポジトリを作成する</a></td><td>open（state reason未設定）</td><td>#94とは独立した後続課題。</td></tr><tr><td>7</td><td>未設定</td><td>[#120 [受入] スポーツサイト生成元リポジトリを公開側へ登録する](https://github.com/tj-999-comp/sandbox-pages/issues/120)</td><td>open（state reason未設定）</td><td>#118完了後に着手する後続課題。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 088</span>
+        <span><a href="md/work_record_088.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -91,7 +91,7 @@ def render_work_record(
       </main>
       <footer>
         <span>{project_id} · 作業記録 {number}</span>
-        <span><a href="md/{html.escape(basename)}.md">Markdown原本</a></span>
+        <span>Markdown原本: <code>md/{html.escape(basename)}.md</code></span>
       </footer>
     </div>
   </body>
@@ -305,6 +305,9 @@ def _normalize_href(value: str, source: Path) -> str:
     path = PurePosixPath(unquote(parsed.path))
     if any(part in {"", ".", ".."} for part in path.parts):
         raise RenderedRendererError(f"Markdown link escapes its project in {source}: {value}")
+    if path.name.endswith(".md") and re.fullmatch(r"work_record_[0-9]{3}\.md", path.name):
+        if path.parent in {PurePosixPath("."), PurePosixPath("md")}:
+            path = PurePosixPath(path.stem + ".html")
     encoded = quote(path.as_posix(), safe="/@-._~")
     fragment = quote(unquote(parsed.fragment), safe="-._~") if parsed.fragment else ""
     return urlunsplit(("", "", encoded, parsed.query, fragment))
