@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>#9 SQL正誤判定・読み取り専用制限の受入確認と基準確定 — 作業記録 005</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 005 ・ 2026-09-04</p>
+          <h1>#9 SQL正誤判定・読み取り専用制限の受入確認と基準確定</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_005.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Issue #9「SQL正誤判定・読み取り専用制限の受入テストを整備する」に対応し、SQLの書き方ではなく実行結果を基準に正誤判定するMVP方針を確認した。問題文に指定のない数値丸めや同数時の細かな並び順で、正しい別解が不正解にならないよう、問題ごとの比較条件も確定した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　確定した判定基準</p><h2>確定した判定基準</h2></div><div class="section-content"><ul><li>SQL文の文字列ではなく、実行結果の列数・行数・列位置ごとの値を比較する。</li><li>列名や別名は比較対象にせず、複数の正しいSQLによる同一結果を許容する。</li><li><code>rowOrder: "insensitive"</code> の問題は行順を比較しない。<code>sensitive</code> の問題は問題文で順序が条件になるため行順を比較する。</li><li>問題文に指定のない丸めや表示形式は必須にしない。</li><li><code>numericTolerance</code> が設定された問題は、指定値以内の数値差を同値として扱う。Q06・Q09は <code>0.01</code> を設定した。</li><li>SQLは<code>SELECT</code>または<code>WITH</code>から始まる単一の読み取り文に限定し、データ変更・DDL・管理用SQLは拒否する。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　問題ごとの比較条件</p><h2>問題ごとの比較条件</h2></div><div class="section-content"><ul><li>行順を無視: Q01、Q04、Q06、Q07、Q08、Q09、Q10</li><li>数値差0.01を許容: Q06、Q09</li><li>行順を比較: Q02、Q03、Q05</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　受入確認</p><h2>受入確認</h2></div><div class="section-content"><ul><li>10問の参考SQLを生成済みSQLite上で実行し、すべて正解判定になることを確認した。</li><li>Q06で<code>ROUND</code>を使わない平均値のSQLを入力し、数値許容差により正解判定になることを確認した。</li><li>Q07・Q08・Q10で同数時の補助順を参考SQLと変えたSQLを入力し、行順を問わず正解判定になることを確認した。</li><li>Q09で<code>ROUND</code>を使わず、ホーム／アウェーの表示順も変えたSQLを入力し、正解判定になることを確認した。</li><li>問題一覧、SQL実行、正誤判定、参考SQL・解説表示、進捗更新の主要フローを確認した。</li><li><code>SELECT</code>／<code>WITH</code>の単一文制限、禁止SQLの拒否、SQLエラー、空結果、不正解時の進捗未更新と再挑戦を実装上確認した。</li><li>1280px、900px、640px、320px幅で、コンソールエラー、ページエラー、失敗リクエスト、横方向のはみ出しがないことを確認した。</li><li><code>bash Apps/scripts/build-pages.sh</code>、<code>git diff --check</code>、<code>node --check Apps/app/app.js</code>、<code>python3 -m json.tool Apps/data/problems.json</code> が成功した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　判定</p><h2>判定</h2></div><div class="section-content"><p>問題文の意図に沿った別解を許容しつつ、問題ごとに必要な抽出・集計・件数条件を比較できる状態になった。Q06・Q09の数値丸め、Q07・Q08・Q10の同数時順序については、問題文にない条件を正解必須としない方針で確定した。</p>
+<p>Issue #9へ受入確認結果をコメントし、2026-09-04にクローズした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　関連Issue</p><h2>関連Issue</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/9">#9 SQL正誤判定・読み取り専用制限の受入テストを整備する</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/8">#8 MVP完了に向けた残作業の整理・完了管理</a></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">07　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-04 12:07:52 JST に <code>tj-999-comp/query_learning_BB</code> のOpen IssueをPull Requestを除いて取得した（取得件数: 6件）。Issue #8のsub-issues APIを確認したが、返却は0件だった。そのため、以下ではAPIで確認できた親子関係は記載せず、Issue本文に基づく関係・着手条件のみを補足する。state reasonは全件未設定だった。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/14">#14</a></td><td>OPEN（state reason未設定）</td><td>MVP要件の未決事項を確定し、要件定義書を凍結する。</td></tr><tr><td>2</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/13">#13</a></td><td>OPEN（state reason未設定）</td><td>仮問題10問の最終検証。確定SQLiteと問題定義の確認が前提。</td></tr><tr><td>3</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/12">#12</a></td><td>OPEN（state reason未設定）</td><td>PC・iPad・ブラウザ保存の受入確認。主要機能が揃った状態で実施する。</td></tr><tr><td>4</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/11">#11</a></td><td>OPEN（state reason未設定）</td><td>Basic認証付き公開と最終スモークテスト。#6の決定内容を前提とする。</td></tr><tr><td>5</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/10">#10</a></td><td>OPEN（state reason未設定）</td><td>確定CSVとSQLiteデータセットの確定。データ監査と利用条件の確認が必要。</td></tr><tr><td>6</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/8">#8</a></td><td>OPEN（state reason未設定）</td><td>MVP残作業の完了管理。sub-issues APIでは子Issue未登録。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 005</span>
+        <span><a href="md/work_record_005.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
