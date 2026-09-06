@@ -15,8 +15,8 @@
 - 実施内容: 単一recordの通常publishと過去分一括反映を分離し、projectごとに固定SHAと対象basenameをdispatch入力として保持する構成へ分解した。bootstrap対象はsource側のpublish:trueかつ既存provenanceにないrecord集合に限定し、履歴の一括反映は通知しない契約にした。#93の完了通知は作業記録`work_record_087`だけを通常の単一record公開で送る。
 - 成果物: `bootstrap_engine` と専用workflowの実装方針。#90時点の候補に加え、#91・#92で追加された`sandbox_pages`の`work_record_084`〜`086`も固定SHAの対象範囲へ含める。
 - 検証結果: B_Stats_Siteはsource SHA `14468e72a58a00be29e18d132eda05ba0c1f01d7`で13件、sandbox_pagesは#92 merge SHA `0133974ecbeeada9ef0e8f0a52f9f397fe841fed`で15件の未公開対象を算出した。
-- 未解決事項: B_Stats_Siteの一括反映は実施せず、sandbox_pagesの過去記録反映後に#93記録だけを単体更新・通知する。
-- 次工程への引き継ぎ: `bootstrap.yml`は通知なしで実行し、完了後に`accept-source.yml`を`work_record_087`だけ指定して通知する。
+- 未解決事項: sandbox_pagesの過去記録反映後に、#93記録だけを単体更新・通知する。
+- 次工程への引き継ぎ: `bootstrap.yml`の通知なし反映と、`accept-source.yml`による`work_record_087`単体通知を完了し、#94へ引き継ぐ。
 
 ### Portfolio Frontend Engineer
 
@@ -24,8 +24,8 @@
 - 実施内容: `scripts/publish/bootstrap_engine.py`を追加し、source registry、固定SHA、全source inventory、metadata、HTML安全性またはA所有renderer、既存provenance drift、index staleをapply前に検証するようにした。対象recordを同一一時ツリーへ反映し、既存recordのnavigationも更新して、一つのmanifestとindex更新を生成する。既存ファイルの削除・改名は行わず、bootstrapの通知入力とSlack通知jobを廃止した。通常の`update`は通知対象に維持し、失敗時の再通知は単一・複数対象に対応させた。
 - 成果物: `.github/workflows/bootstrap.yml`、bootstrap engine、engine/workflowのテスト。
 - 検証結果: `source_html`と`a_rendered`の共通処理をfixtureで確認し、create/update通知対象と、create後の同一入力再実行が`no_op: true`、変更pathなしになることを確認した。
-- 未解決事項: B_Stats_Siteのbootstrapと、過去15件への通知取り消しは実施できない。既送信通知はSlack側での削除・訂正が必要な場合だけ別途判断する。
-- 次工程への引き継ぎ: 通常の単一record公開で`work_record_087`だけを更新し、Pages成功後に1件だけSlack通知する。
+- 未解決事項: 過去15件への通知取り消しは実施できない。既送信通知はSlack側での削除・訂正が必要な場合だけ別途判断する。
+- 次工程への引き継ぎ: #94でPages全体とrecord間リンクの受入を確認する。
 
 ### Portfolio Reviewer
 
@@ -33,8 +33,8 @@
 - 実施内容: 対象集合がpublish:trueかつ未公開recordに限定されること、source SHA・main SHA・既存provenanceを照合すること、通常の単一recordだけを通知対象にし、bootstrapを通知対象外にすること、dry-run artifactをapply入力へbindすることをレビューした。
 - 成果物: 通常publishのcreate/update通知経路を維持しつつ、bootstrapの通知入力・通知job・engine引数を削除する更新。
 - 検証結果: 実Workflow run `34038486385`はsandbox_pagesの16件反映、Pages deploy、通知jobまで成功したが、当時の`notify=true`入力により16件を通知した。このうち#93で意図した通知は`work_record_087`だけだったため、今回の修正で今後のbootstrap通知を禁止する。
-- 未解決事項: 既に送信された15件の通知は取り消せない。修正PRのマージ後、`work_record_087`だけを通常公開として更新し、単一通知経路を確認する。
-- 次工程への引き継ぎ: bootstrapの実反映済み状態を維持したまま、`accept-source.yml`を`work_record_087`だけで実行する。
+- 未解決事項: 既に送信された15件の通知は取り消せない。追加の履歴bootstrap通知は発生しない。
+- 次工程への引き継ぎ: #93の通知方針修正と`work_record_087`単体公開を完了し、#94の全体受入へ引き継ぐ。
 
 ## 主要な判断
 
@@ -49,16 +49,16 @@
 
 - 解決したこと: 固定source SHA・対象record集合・既存provenanceを検証し、複数recordを同一commitで反映するbootstrap engineとdry-run/apply/deploy workflowを追加した。通常publishのcreate/updateは通知できる一方、bootstrap/backfillは通知しない契約へ修正した。drift時は停止し、既存公開物を削除せず、同一入力はno-opとして扱う。
 - 変更ファイル: `.github/workflows/accept-source.yml`、`.github/workflows/bootstrap.yml`、`.github/workflows/notify-publication.yml`、`docs/SANDBOX_PAGES_OPERATIONS.md`、`scripts/publish/apply_engine.py`、`scripts/publish/bootstrap_engine.py`、`scripts/publish/slack_notification.py`、テスト、本作業記録一式。
-- 検証結果: 実Workflow run `34038486385`でsandbox_pagesの16件をPagesへ反映し、Pages deployと16件通知が成功した。通知方針修正後はbootstrap無通知のworkflow・engine・テストを検証し、`work_record_087`だけを通常公開で更新して単一通知を確認する。
+- 検証結果: 実Workflow run `34038486385`でsandbox_pagesの16件をPagesへ反映し、Pages deployと16件通知が成功した。通知方針を修正したPR #125（merge commit `7bd516728838b409095fefea3f3d90f92353806a`）をCI合格後にマージし、run `34039530498`で`work_record_087`だけを通常公開した。apply commit `2c08427301df2e77bcce5cf75ea190ea7406ce1b`、provenanceの`notify=true`、Pages HTTP 200、単体Slack通知job成功を確認した。
 - ブランチ: `codex/093-single-record-notify`
-- commit: 修正内容をPRへ提出予定
-- PR: 作成予定
-- 未解決事項: 既送信された15件の通知は撤回できない。B_Stats_Siteのbootstrapは実施しない。
-- 次アクション: 修正PRをマージ後、`work_record_087`だけを`notify=true`で再公開し、PagesとSlackの単一通知を確認する。
+- commit: `5c67061`（PR #125でmainへマージ済み）
+- PR: [#125](https://github.com/tj-999-comp/sandbox-pages/pull/125)（マージ済み）
+- 未解決事項: 既送信された15件の通知は撤回できない。今後のbootstrap/backfillでは通知しない。
+- 次アクション: #94の全体受入へ進む。
 
 ## GitHub Issue状況
 
-確認日時（JST）: 2026-09-06 23:26:24
+確認日時（JST）: 2026-09-06 23:35:35
 取得範囲: `tj-999-comp/sandbox-pages` のOpen Issue全件（Pull Request除外、取得件数7・一覧行数7）
 
 ### 親子関係
