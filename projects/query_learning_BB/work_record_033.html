@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #58 v1.1.2 達成済みマークの枠調整と本番反映 — 作業記録 033</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 033 ・ 2026-09-06</p>
+          <h1>Issue #58 v1.1.2 達成済みマークの枠調整と本番反映</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_033.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Issue #58「[v1.1.2] 達成済みマークのドロップシャドウとチェック枠を調整する」について、達成済みマークの見やすさを見直した。レビュー画面で枠色と囲い方を確認し、最終的にシアンの外枠を採用してSTGと本番へ反映した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了内容</p><h2>完了内容</h2></div><div class="section-content"><ul><li>達成済みマークからイエローのドロップシャドウを削除した。</li><li>黄色のチェックを二重レイヤーで描画し、黄色のチェック線を太くした。</li><li>黄色のチェックの外側にシアンの枠を重ね、レビュー表示では12px、本体の通常表示でも12pxの太さに揃えた。</li><li>問題一覧内のコンパクトな達成済みマークは、表示領域に合わせてシアン6px・黄色1.5pxへ調整した。</li><li>レビューページの提案No.07としてシアン枠の採用案を先頭に掲載した。</li><li>過去の提案No.01〜06を閉じたトグル内へまとめ、タイトルと説明文を簡潔化した。</li><li>Issue #58へ受入結果をコメントし、2026-09-06にcompletedとしてクローズした。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>bash Apps/scripts/build-pages.sh</code></li><li><code>node --check Apps/app/app.js</code></li><li><code>git diff --check</code></li><li>Playwrightでレビューページを1280px、900px、640px、320pxで確認した。</li><li>各表示幅で横overflow、console error、page error、failed requestがないことを確認した。</li><li>STGデプロイがActiveであることを確認した：<code>21a50338-c833-4c1b-825d-f1312ab4de9c</code>（<code>https://stg.query-learning-bb.pages.dev/</code>）。</li><li>本番デプロイがActiveであることを確認した：<code>85941d41-7898-489c-85bd-74ecb394d42d</code>（<code>https://query-learning-bb.pages.dev/</code>）。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　関連ファイル</p><h2>関連ファイル</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/styles.css"><code>Apps/app/styles.css</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/index.html"><code>Apps/app/index.html</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/design-review.html"><code>Apps/app/design-review.html</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/design-review.css"><code>Apps/app/design-review.css</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/scripts/build-pages.sh"><code>Apps/scripts/build-pages.sh</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/58">Issue #58</a></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>作業記録作成直前の2026-09-06 16:05:01 JSTに、Pull Requestを除く <code>tj-999-comp/query_learning_BB</code> のOpen IssueをGitHub APIから取得した。取得範囲は<code>--state open --limit 1000</code>、取得件数は1件である。Issue #58はこの取得前に本作業でクローズしたため一覧には含めていない。優先度ラベルがないIssueは「未設定」と記載した。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#60 [v1.2.0] ホーム画面の問題導線と表示フィルターを改善する](https://github.com/tj-999-comp/query_learning_BB/issues/60)</td><td><code>OPEN</code>（state reason: 未設定）</td><td>Issue #58とは独立した次期改善Issue。v1.2.0のホーム画面改善を着手する際の対象とする。</td></tr></tbody></table></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　GitHub</p><h2>GitHub</h2></div><div class="section-content"><ul><li>STG反映コミット：<code>ab5a5f9</code></li><li>本番反映コミット：<code>ec6a57e</code></li><li>本番URL：https://query-learning-bb.pages.dev/</li><li>本番レビューページ：https://query-learning-bb.pages.dev/design-review</li><li>Issue #58：クローズ済み（<a href="https://github.com/tj-999-comp/query_learning_BB/issues/58#issuecomment-5557628271">受入結果コメント</a>）</li><li>本記録のPRで作業記録を<code>main</code>へマージする。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 033</span>
+        <span><a href="md/work_record_033.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
