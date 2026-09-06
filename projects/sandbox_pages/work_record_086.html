@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #92 作業記録ページの構成とrecord間リンクを実装 — 作業記録 086</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><a class="record-navigation__pager-link" href="work_record_087.html" aria-label="前の記録：Issue #93 固定対象の一括bootstrap経路を実装">← 前の記録<span>work_record_087</span></a><span class="record-navigation__position">2 / 87</span><a class="record-navigation__pager-link" href="work_record_085.html" aria-label="次の記録：Issue #91 過去作業記録のmetadata・命名・HTMLを公開契約へ整備">→ 次の記録<span>work_record_085</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 086 ・ <time datetime="2026-09-06">2026-09-06</time></p>
+          <h1>Issue #92 作業記録ページの構成とrecord間リンクを実装</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_086.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: GitHub Issue #92「作業記録ページの構成とrecord間リンクを実装する」。</li><li>目的: 既存URLを維持したまま、global index、project index、個別recordを相互に辿れる共通navigationを実装する。</li><li>完了条件: 日付降順・同日番号降順の前後順、project/global導線、source_htmlとa_renderedの相対URL、キーボードフォーカス、リンク切れ・自己リンク・孤立recordの検証を確定する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Planner</h3>
+<ul><li>入力: Issue #92の完了条件、親Issue #89、#90・#91の成果、既存のindex generator、provenance、公開HTML。</li><li>実施内容: 既存indexの一覧導線は維持し、個別recordへ共通navigationを追加する範囲へ分解した。前後順は既存indexと同じ日付降順、同日なら番号降順と定義した。metadataに明示的な関連性がないproject間リンクは生成しない。</li><li>成果物: project/global indexの既存URLと公開件数を基準にしたrecord navigation仕様。</li><li>検証結果: 現行provenanceの5project、公開record126件、source_html/a_renderedの両方式を対象範囲として確定した。</li><li>未解決事項: 未公開過去recordのPages反映は#93、全体運用受入は#94の対象。</li><li>次工程への引き継ぎ: #93へnavigation付き公開HTMLと更新provenance、#94へリンク到達性・ブラウザ確認結果を渡す。</li></ul>
+<h3>Portfolio UI Designer</h3>
+<ul><li>入力: <code>DESIGN.md</code>、<code>projects/progress-index.css</code>、<code>projects/sandbox_pages/work_record.css</code>、既存recordページの構造。</li><li>実施内容: 上部にproject/globalのcontext link、同一project内の前後link、現在位置を置くnavigationを設計した。前後端は無効表示とし、自己リンクや非公開recordへのリンクを作らない。320pxでは1列に切り替え、リンクのフォーカスリングを既存CSSの方針に合わせた。</li><li>成果物: <code>record-navigation</code>のHTML/CSS構造。</li><li>検証結果: B_Stats_Siteのa_renderedページとsandbox_pagesのsource_htmlページで、PC・モバイルとも横overflowなしを確認した。</li><li>未解決事項: project間の関連recordは対応表またはmetadataが追加されるまで表示しない。</li><li>次工程への引き継ぎ: Frontend Engineerが同一markupをrendererとsource_html受入へ接続する。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>scripts/publish/index_generator.py</code>、<code>scripts/publish/rendered_renderer.py</code>、<code>scripts/publish/apply_engine.py</code>、<code>scripts/publish/content_safety.py</code>、5projectの最新provenance。</li><li>実施内容: <code>scripts/publish/record_navigation.py</code>を追加し、provenanceのpublish:true recordだけから安全な相対URLを決定的に生成するようにした。a_rendered rendererにはnavigation引数を追加し、apply時に生成する。source_htmlはapply時に同じnavigationを装飾する。既存公開HTMLは本文を再rendererせず、HEAD版へnavigationだけを注入した。</li><li>成果物: 共通navigation module、renderer/apply engine連携、source HTML allowlist、progress-index/work_record CSS、5projectの更新provenance、公開済み126件のnavigation付きHTML。</li><li>検証結果: 各projectの最新provenanceと公開ツリーのdigest driftがなく、project/global indexの生成checkに合格した。B_Stats_Siteのrecord 026で本文差分が発生しないことも確認した。</li><li>未解決事項: #93で未公開recordを追加する際は、同じrenderer/apply経路で前後リンクとmanifestを更新する。</li><li>次工程への引き継ぎ: ReviewerとTesterへ、両HTML方式・既存URL・公開件数・リンク検証の結果を引き継ぐ。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: Issue #92、実装差分、5projectのprovenance、公開HTML、index generator、navigation tests。</li><li>実施内容: scope外の本文改変、番号変更、自己リンク、非公開recordへのリンク、project間の推測リンク、未manifest公開を確認した。既存HTMLはnavigation追加だけであることを差分確認した。</li><li>成果物: 重大な未解決事項なしの事前レビュー結果。</li><li>検証結果: 115 unittest、index生成check、全公開recordのnavigation・リンク解決テスト、5projectのprovenance drift確認に合格した。</li><li>未解決事項: なし。#93で増えるrecordはbackfillの対象として別途検証する。</li><li>次工程への引き継ぎ: Testerの実ブラウザ結果を確認後、課題ブランチへscoped commit・pushし、PR作成へ進める。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: global index、B_Stats_Siteのa_rendered record、sandbox_pagesのsource_html record、共通CSS。</li><li>実施内容: 1280px、900px、640px、320pxで表示し、横overflow、console/page error、failed requestを確認した。navigation linkへTabでフォーカスを移し、project indexからrecordへclick遷移するシナリオを実行した。</li><li>成果物: Playwright reportとシナリオ結果。</li><li>検証結果: 3ページ×4 viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。Bとsandbox_pagesの両recordでキーボードfocusとproject indexへのclick遷移に合格した。</li><li>未解決事項: assistive technologyそのものの実機検証は本作業範囲外だが、navigationの<code>aria-label</code>とdisabled状態をDOMで確認した。</li><li>次工程への引き継ぎ: #94でPages公開後の同一URLと全体リンク到達性を再確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 前後リンクは同一projectのpublish:true recordだけを対象にし、並びは日付降順、同日なら番号降順とする。</li><li>理由: global/project indexの既存順序と一致させ、欠番・非公開record・別projectへの誤遷移を防ぐため。</li><li>判断: project/global indexへの導線は全recordに表示し、関連recordのproject横断リンクは生成しない。</li><li>理由: 全recordに共通の戻り先を提供しつつ、明示的なmetadataまたは対応表なしの関連付けを避けるため。</li><li>判断: 既存公開HTMLはMarkdownから再生成せず、navigationのみを注入する。</li><li>理由: 過去の受入時点と現在のMarkdownが異なるrecordの本文を、Issue #92で意図せず変更しないため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: global/project indexの既存導線を非回帰で維持し、公開済み126件の個別recordへproject/global・同一project前後・現在位置navigationを追加した。a_renderedとsource_htmlの両方式を同じ仕様で受入できるようにした。</li><li>変更ファイル: <code>scripts/publish/record_navigation.py</code>、<code>scripts/publish/rendered_renderer.py</code>、<code>scripts/publish/apply_engine.py</code>、<code>scripts/publish/content_safety.py</code>、共通CSS 3ファイル、navigation tests、公開済みrecord HTML 126件、5projectの更新provenance、本作業記録一式。</li><li>検証結果: 115 unittest、<code>python3 -m scripts.publish.index_generator --check</code>、<code>python3 scripts/dev/convert_work_records_to_html.py --check</code>、<code>python3 scripts/dev/validate_work_record_filenames.py</code>、<code>git diff --check</code>、5projectのprovenance drift確認に合格。ブラウザはglobal index、B_Stats_Site、sandbox_pagesを1280/900/640/320pxで確認し、HTTP 200・横overflowなし・console/page errorなし・failed requestなし。キーボードfocusとclick遷移も合格した。</li><li>未解決事項: #92の範囲に重大な未解決事項はない。未公開過去recordのmanifest付きPages反映は#93、全体公開後の受入は#94で実施する。</li><li>次アクション: #93で固定SHA・対象basename・navigation付きHTML・provenance・indexを同一backfill単位として反映する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-09-06 21:35:10 取得範囲: <code>tj-999-comp/sandbox-pages</code> のOpen Issue全件（Pull Request除外）</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">#89
+├── #90
+├── #91
+├── #92
+├── #93
+└── #94</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>P0</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/94">#94 Verify/Operations 過去分公開とrecord間リンクの全体受入・運用引き継ぎ</a></td><td>未完了（state reason: null）</td><td>#89の子。#92・#93完了後に全体受入を行う。</td></tr><tr><td>2</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/93">#93 Publish 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する</a></td><td>未完了（state reason: null）</td><td>#89の子。#90の対応表と#91・#92の整備結果を入力にする。</td></tr><tr><td>3</td><td>P1</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/92">#92 UI/Index 作業記録ページの構成とrecord間リンクを実装する</a></td><td>未完了（state reason: null）</td><td>#89の子。本作業でnavigation実装を完了し、完了コメント後に状態確認する。</td></tr><tr><td>4</td><td>P2</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/91">#91 Migration 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する</a></td><td>未完了（state reason: null）</td><td>#89の子。source契約の整備済み成果を#92・#93へ引き継ぐ。</td></tr><tr><td>5</td><td>P2</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/90">#90 Inventory 各生成元の過去作業記録を棚卸しし公開対応表を確定する</a></td><td>未完了（state reason: null）</td><td>#89の子。対応表を#91〜#94へ引き継ぐ。</td></tr><tr><td>6</td><td>P2</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/89">#89 Epic 過去作業記録の遡及公開と作業記録間リンクを整備する</a></td><td>未完了（state reason: null）</td><td>親Issue。#90〜#94の完了後に全体完了を判定する。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 086</span>
+        <span><a href="md/work_record_086.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 # 作業記録の運用ルール
 
-更新日: 2026-08-18
+更新日: 2026-09-01
 
 共通のGitHub・Issue・PR・B/C/D適用標準は[`docs/PORTFOLIO_STANDARD.md`](../docs/PORTFOLIO_STANDARD.md)を参照する。この文書は作業記録のMarkdown/HTML作成と表示検証を定める。
 
@@ -67,12 +67,19 @@ HTMLは生成物であり、通常は直接編集しない。表示変更はMark
 - 320px幅でもページ全体の横スクロールを発生させない。
 - GitHub Issue状況は関連する作業記録の末尾へ入れ、一覧専用の別HTMLを作らない。
 
+### 共通デザインの確認
+
+- `work-records/design.md`とA側renderer/CSSを作業記録HTMLの正本とする。
+- 生成元が異なっても、公開HTMLは共通の詳細ページ構造・タイポグラフィ・色・罫線・footerを使用する。生成元ごとのHTML/CSS/designの複製や旧一覧ページ用レイアウトを新規追加しない。
+- 新規導入・移行・再生成時は、1280px、900px、640px、320pxのviewportで横overflow、console/page error、failed requestがないことと、生成元間の主要構造・スタイルの一致を確認する。
+- デザイン不一致が残る場合は作業記録や生成元の導入を完了扱いにせず、A側renderer/CSSまたは対象projectの担当工程へ差し戻す。
+
 ## GitHub Issue状況の記録
 
 すべての作業記録の末尾に`## GitHub Issue状況`を必ず追加する。Issueに直接関係しない作業であっても、作業記録の該当リポジトリの全Open Issueを唯一の基本取得範囲とする。該当リポジトリ以外のIssueは一覧へ掲載しない。外部リポジトリのIssue確認が必要な場合も、一覧とは分離し、本文の補足として必要性・対象・結果を明記する。
 
 - GitHubから状態を取得した日時をJSTで明記し、その時点のスナップショットとして扱う。
-- 対象Issueごとに、該当リポジトリ、`GitHub Issue #<番号>`、タイトル、作業記録との関係、状態、state reasonを記載する。件数だけの要約、番号範囲、親Epicだけの記載は不可とする。Issue一覧の取得範囲を限定したり、一覧へ外部リポジトリを含めたりしない。
+- 対象Issueごとに、該当リポジトリ、`GitHub Issue #<番号>`、タイトル、作業記録との関係、状態、state reasonを記載する。Pull Requestは除外し、取得件数と一覧表のIssue行数を一致させる。件数だけの要約、番号範囲、親Epicだけの記載は不可とする。Issue一覧の取得範囲を限定したり、一覧へ外部リポジトリを含めたりしない。
 - 表示は[`projects/B_Stats_Site/work_record_010.html`](../projects/B_Stats_Site/work_record_010.html)と同じ順序にする。確認日時と取得範囲を記載し、実在する親子関係は`text`コードブロックで示した後、`順位`、`優先度`、`GitHub Issue`、`状態`、`関係・着手条件`の5列のMarkdown表へ対象Issueを1件ずつ記載する。親子関係がない場合は推測でツリーを作らず、「親子関係なし」とする。
 - GitHubへ接続できない場合は状態を推測せず、取得不可の理由と未確認のIssueを記載する。
 - 状態は作業記録作成時の記録であり、通常は過去の作業記録を後から最新状態へ書き換えない。記録漏れを是正する場合は理由を明記して追記し、状態更新が必要な場合は新しい作業記録に新しいスナップショットを追加する。
@@ -116,6 +123,8 @@ HTMLは生成物であり、通常は直接編集しない。表示変更はMark
 ## GitHub Issue状況
 確認日時（JST）: YYYY-MM-DD HH:MM
 取得範囲: <リポジトリと対象条件>
+取得件数: <Open Issue件数。Pull Request除外>（一覧行数: <表のIssue行数>）
+取得件数: <Open Issue件数。Pull Request除外>
 
 ### 親子関係
 ```text
@@ -125,7 +134,7 @@ HTMLは生成物であり、通常は直接編集しない。表示変更はMark
 ### 優先順位順の未完了一覧
 | 順位 | 優先度 | GitHub Issue | 状態 | 関係・着手条件 |
 | ---: | --- | --- | --- | --- |
-| 1 | P0 | [#<番号> <タイトル>](https://github.com/owner/repository/issues/<番号>) | 未完了 | <関係・着手条件> |
+| 1 | P0 | [#<番号> <タイトル>](https://github.com/owner/repository/issues/<番号>) | 未完了（state reason: null） | <関係・着手条件> |
 ```
 
 未使用の役割欄は作らず、実際に行った作業だけを記録する。
