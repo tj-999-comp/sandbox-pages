@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #49 進捗・お気に入りの端末間同期 — 作業記録 026</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 026 ・ 2026-09-05</p>
+          <h1>Issue #49 進捗・お気に入りの端末間同期</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_026.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Issue #49「v0.6.0 進捗・お気に入りの端末間同期」に対応した。従来は達成状況とお気に入りをlocalStorageにだけ保存していたため、Mac・iPad mini・業務用Windowsで保存状態を共有できなかった。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　変更内容</p><h2>変更内容</h2></div><div class="section-content"><ul><li>Cloudflare Pages Functionsに認証済みユーザー向け<code>/api/progress</code>を追加した。</li><li>Basic認証のユーザー名をSHA-256でハッシュ化したKVキーを使い、達成状況とお気に入りだけをCloudflare KVへ保存するようにした。</li><li>クライアント起動時にサーバー状態を読み込み、初回または未同期状態ではlocalStorageと統合して保存するようにした。</li><li>通常時はサーバー状態を正本とし、同期API障害時はlocalStorageへ保存して復旧後に再送するようにした。</li><li>APIでJSON形式、保存サイズ、保存項目を検証し、パスワード・SQL本文・回答履歴を保存しないようにした。</li><li>同期状態を学習情報モーダルへ表示し、Cloudflare KV binding <code>PROGRESS_KV</code> の設定手順をドキュメント化した。</li><li>アプリ表示をv0.6.0へ更新した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>node --check Apps/app/app.js</code></li><li><code>node --check Apps/functions/_middleware.js</code></li><li><code>node --check Apps/functions/api/progress.js</code></li><li><code>git diff --check</code></li><li><code>bash Apps/scripts/build-pages.sh</code></li><li>Cloudflare KVを模したAPIスモークテストで、GET、PUT、認証、Content-Type検証を確認した。</li><li>Playwrightのレスポンシブ検証（1280px、900px、640px、320px）でHTTP 200、横方向のはみ出しなし、page errorなしを確認した。静的サーバーではAPIがないためlocalStorageフォールバックとなる。</li><li>PlaywrightでlocalStorageのお気に入り保存とリロード後の復元を確認した。</li><li>PlaywrightのモックAPIで初回のローカル・サーバー状態統合、PUT、同期完了表示を確認した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　関連ファイル</p><h2>関連ファイル</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/functions/api/progress.js"><code>Apps/functions/api/progress.js</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/app.js"><code>Apps/app/app.js</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/index.html"><code>Apps/app/index.html</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/docs/HOSTING_CLOUDFLARE.md"><code>Apps/docs/HOSTING_CLOUDFLARE.md</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/docs/MVP_REQUIREMENTS.md"><code>Apps/docs/MVP_REQUIREMENTS.md</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/49">#49</a></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　本番反映</p><h2>本番反映</h2></div><div class="section-content"><ul><li>Cloudflare OAuthでWranglerへログインし、KV Namespaceを作成した。</li><li><code>Apps/wrangler.toml</code>へ<code>PROGRESS_KV</code> bindingを追加し、<code>e34e73b</code>として<code>main</code>へPushした。</li><li>Cloudflare PagesのProduction deploymentがActiveになったことを確認した。</li><li>本番Basic認証下でのMac・iPad mini・Windows間の実機確認は、デプロイ反映後のユーザー確認待ちとした。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 026</span>
+        <span><a href="md/work_record_026.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
