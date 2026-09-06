@@ -1,0 +1,257 @@
+name: Historical bootstrap and backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: Registered project identifier
+        required: true
+        type: string
+      source_commit_sha:
+        description: Exact source commit SHA to accept
+        required: true
+        type: string
+      target_basenames:
+        description: Comma-separated fixed work-record basenames
+        required: true
+        type: string
+      publication_id:
+        description: Auditable bootstrap publication identifier
+        required: true
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: pages-production-main
+  cancel-in-progress: false
+
+jobs:
+  dry-run:
+    name: Validate fixed historical targets (dry-run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      source_repository: ${{ steps.source.outputs.source_repository }}
+      source_branch: ${{ steps.source.outputs.source_branch }}
+      source_directory: ${{ steps.source.outputs.source_directory }}
+      main_sha: ${{ steps.main.outputs.main_sha }}
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Repository A
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: refs/heads/main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Require A main branch
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Resolve registered source
+        id: source
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+        run: |
+          set -euo pipefail
+          source_json="$(jq -cer --arg project_id "$PROJECT_ID" '.sources[] | select(.project_id == $project_id and .enabled == true)' config/sources.json)"
+          echo "source_repository=$(jq -er '.source_repository' <<<"$source_json")" >> "$GITHUB_OUTPUT"
+          source_ref="$(jq -er '.source_ref' <<<"$source_json")"
+          echo "source_branch=${source_ref#refs/heads/}" >> "$GITHUB_OUTPUT"
+          echo "source_directory=$(jq -er '.source_directory' <<<"$source_json")" >> "$GITHUB_OUTPUT"
+
+      - name: Record A main SHA
+        id: main
+        run: echo "main_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout registered source at fixed SHA
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: ${{ steps.source.outputs.source_repository }}
+          ref: ${{ inputs.source_commit_sha }}
+          token: ${{ github.token }}
+          path: _source
+          fetch-depth: 0
+          sparse-checkout: ${{ steps.source.outputs.source_directory }}
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+
+      - name: Verify isolated source checkout
+        run: |
+          set -euo pipefail
+          test "$(git -C _source rev-parse --show-toplevel)" != "$GITHUB_WORKSPACE"
+          if git -C _source config --local --get-regexp 'credential|http\..*extraheader'; then
+            echo "source checkout contains persisted credentials" >&2
+            exit 1
+          fi
+
+      - name: Run bootstrap dry-run
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TARGET_BASENAMES: ${{ inputs.target_basenames }}
+          PUBLICATION_ID: ${{ inputs.publication_id }}
+          MAIN_SHA: ${{ steps.main.outputs.main_sha }}
+        run: |
+          set -euo pipefail
+          python3 -m scripts.publish.bootstrap_engine \
+            --repository-root . \
+            --registry config/sources.json \
+            --provenance-root provenance \
+            --source-checkout _source \
+            --project-id "$PROJECT_ID" \
+            --source-commit-sha "$SOURCE_COMMIT_SHA" \
+            --target-basenames "$TARGET_BASENAMES" \
+            --publication-id "$PUBLICATION_ID" \
+            --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --source-branch-ref "refs/remotes/origin/${{ steps.source.outputs.source_branch }}" \
+            --expected-main-sha "$MAIN_SHA" \
+            --dry-run > bootstrap-plan.json
+          jq -e \
+            --arg project_id "$PROJECT_ID" \
+            --arg source_commit_sha "$SOURCE_COMMIT_SHA" \
+            --arg publication_id "$PUBLICATION_ID" \
+            '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == false)' \
+            bootstrap-plan.json >/dev/null
+
+      - name: Upload bootstrap plan
+        uses: actions/upload-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: bootstrap-plan-${{ inputs.project_id }}-${{ inputs.publication_id }}
+          path: bootstrap-plan.json
+          if-no-files-found: error
+          retention-days: 7
+
+  apply:
+    name: Apply fixed historical targets and deploy
+    needs: dry-run
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      commit_sha: ${{ steps.apply.outputs.commit_sha }}
+      no_op: ${{ steps.apply.outputs.no_op }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout latest Repository A main
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: refs/heads/main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Download bootstrap plan
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: bootstrap-plan-${{ inputs.project_id }}-${{ inputs.publication_id }}
+
+      - name: Bind plan to dispatch inputs
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          PUBLICATION_ID: ${{ inputs.publication_id }}
+        run: |
+          set -euo pipefail
+          jq -e \
+            --arg project_id "$PROJECT_ID" \
+            --arg source_commit_sha "$SOURCE_COMMIT_SHA" \
+            --arg publication_id "$PUBLICATION_ID" \
+            '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == false)' \
+            bootstrap-plan.json >/dev/null
+
+      - name: Checkout registered source at fixed SHA
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: ${{ needs.dry-run.outputs.source_repository }}
+          ref: ${{ inputs.source_commit_sha }}
+          token: ${{ github.token }}
+          path: _source
+          fetch-depth: 0
+          sparse-checkout: ${{ needs.dry-run.outputs.source_directory }}
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+
+      - name: Move source checkout outside Repository A
+        run: mv _source "$RUNNER_TEMP/source"
+
+      - name: Apply bootstrap with bounded main SHA
+        id: apply
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TARGET_BASENAMES: ${{ inputs.target_basenames }}
+          PUBLICATION_ID: ${{ inputs.publication_id }}
+        run: |
+          set -euo pipefail
+          for retry in 0 1; do
+            git fetch --no-tags origin main
+            git checkout --detach origin/main
+            git clean -ffdx
+            expected_main_sha="$(git rev-parse HEAD)"
+            result="$(python3 -m scripts.publish.bootstrap_engine \
+              --repository-root . \
+              --registry config/sources.json \
+              --provenance-root provenance \
+              --source-checkout "$RUNNER_TEMP/source" \
+              --project-id "$PROJECT_ID" \
+              --source-commit-sha "$SOURCE_COMMIT_SHA" \
+              --target-basenames "$TARGET_BASENAMES" \
+              --publication-id "$PUBLICATION_ID" \
+              --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+              --source-branch-ref "refs/remotes/origin/${{ needs.dry-run.outputs.source_branch }}" \
+              --expected-main-sha "$expected_main_sha")"
+            echo "$result" > bootstrap-result.json
+            if [[ "$(jq -r '.no_op' <<<"$result")" == "true" ]]; then
+              echo "no_op=true" >> "$GITHUB_OUTPUT"
+              echo "commit_sha=" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            mapfile -t changed_paths < <(jq -r '.changed_paths[]' <<<"$result")
+            test "${#changed_paths[@]}" -gt 0
+            git add --force -- "${changed_paths[@]}"
+            git diff --cached --check
+            git commit -m "chore(publish): bootstrap $PROJECT_ID historical records"
+            if git push origin HEAD:refs/heads/main; then
+              echo "no_op=false" >> "$GITHUB_OUTPUT"
+              echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [[ "$retry" == "1" ]]; then
+              echo "main advanced during bootstrap; retry limit reached" >&2
+              exit 1
+            fi
+            echo "main advanced during bootstrap; retrying once" >&2
+          done
+
+      - name: Upload bootstrap result
+        uses: actions/upload-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: bootstrap-result-${{ inputs.project_id }}-${{ inputs.publication_id }}
+          path: bootstrap-result.json
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: Deploy committed bootstrap SHA
+    needs: apply
+    if: ${{ needs.apply.result == 'success' && needs.apply.outputs.no_op != 'true' }}
+    uses: ./.github/workflows/deploy-pages.yml
+    with:
+      commit_sha: ${{ needs.apply.outputs.commit_sha }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

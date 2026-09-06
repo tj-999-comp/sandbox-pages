@@ -117,6 +117,24 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("dry_run", acceptance)
         self.assertIn("allow_enabled: bool = False", acceptance)
 
+    def test_historical_bootstrap_is_fixed_batch_and_notification_free(self):
+        workflow = (ROOT / ".github/workflows/bootstrap.yml").read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", workflow)
+        for input_name in ("project_id", "source_commit_sha", "target_basenames", "publication_id"):
+            self.assertIn(f"      {input_name}:", workflow)
+        self.assertIn("name: Run bootstrap dry-run", workflow)
+        self.assertIn("--dry-run", workflow)
+        self.assertIn("name: Bind plan to dispatch inputs", workflow)
+        self.assertIn("notify == false", workflow)
+        self.assertIn("python3 -m scripts.publish.bootstrap_engine", workflow)
+        self.assertIn("git push origin HEAD:refs/heads/main", workflow)
+        self.assertIn("for retry in 0 1", workflow)
+        self.assertIn("retrying once", workflow)
+        self.assertIn("uses: ./.github/workflows/deploy-pages.yml", workflow)
+        self.assertIn("group: pages-production-main", workflow)
+        self.assertNotIn("SLACK", workflow)
+        self.assertNotIn("--notify", workflow)
+
     def test_apply_cli_can_infer_create_or_update_from_provenance(self):
         apply_engine = (ROOT / "scripts/publish/apply_engine.py").read_text(encoding="utf-8")
         self.assertIn('choices=("auto", "create", "update")', apply_engine)
