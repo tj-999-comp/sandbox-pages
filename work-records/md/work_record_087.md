@@ -5,61 +5,61 @@
 
 - 課題: GitHub Issue #93「過去作業記録をidempotentなbootstrapでPagesへ遡及反映する」。
 - 目的: 固定source commitと対象basename集合を検証し、複数recordを一つの監査可能な反映単位としてPagesへ反映できる経路を追加する。
-- 完了条件: dry-runで対象差分を確認でき、通知付きの一括apply、同一入力のno-op、drift・改名・削除防止、固定SHA・provenance・index整合を検証できる状態にする。
+- 完了条件: dry-runで対象差分を確認でき、通知なしの一括apply、同一入力のno-op、drift・改名・削除防止、固定SHA・provenance・index整合を検証できる状態にする。#93の完了通知は本作業記録`work_record_087`だけを対象にする。
 
 ## 適用した役割
 
 ### Portfolio Planner
 
 - 入力: Issue #93の完了・安全条件、#90の棚卸し対応表、#91のmetadata整備、#92のrecord navigation、既存の単一record受入workflow。
-- 実施内容: 単一recordの通常publishと過去分一括反映を分離し、projectごとに固定SHAと対象basenameをdispatch入力として保持する構成へ分解した。bootstrap対象はsource側のpublish:trueかつ既存provenanceにないrecord集合に限定し、ユーザー要件に合わせて通知を既定有効化した。
+- 実施内容: 単一recordの通常publishと過去分一括反映を分離し、projectごとに固定SHAと対象basenameをdispatch入力として保持する構成へ分解した。bootstrap対象はsource側のpublish:trueかつ既存provenanceにないrecord集合に限定し、履歴の一括反映は通知しない契約にした。#93の完了通知は作業記録`work_record_087`だけを通常の単一record公開で送る。
 - 成果物: `bootstrap_engine` と専用workflowの実装方針。#90時点の候補に加え、#91・#92で追加された`sandbox_pages`の`work_record_084`〜`086`も固定SHAの対象範囲へ含める。
 - 検証結果: B_Stats_Siteはsource SHA `14468e72a58a00be29e18d132eda05ba0c1f01d7`で13件、sandbox_pagesは#92 merge SHA `0133974ecbeeada9ef0e8f0a52f9f397fe841fed`で15件の未公開対象を算出した。
-- 未解決事項: 実GitHub Actions dispatchによるB・sandbox_pagesのPages反映と、Pages上の全体受入は後続確認が必要。
-- 次工程への引き継ぎ: 固定対象を人間確認後、`bootstrap.yml`をprojectごとにdry-run→applyする。
+- 未解決事項: B_Stats_Siteの一括反映は実施せず、sandbox_pagesの過去記録反映後に#93記録だけを単体更新・通知する。
+- 次工程への引き継ぎ: `bootstrap.yml`は通知なしで実行し、完了後に`accept-source.yml`を`work_record_087`だけ指定して通知する。
 
 ### Portfolio Frontend Engineer
 
 - 入力: `scripts/publish/apply_engine.py`、`scripts/publish/read_only_acceptance.py`、`scripts/publish/provenance.py`、`scripts/publish/index_generator.py`、#92の`record_navigation`。
-- 実施内容: `scripts/publish/bootstrap_engine.py`を追加し、source registry、固定SHA、全source inventory、metadata、HTML安全性またはA所有renderer、既存provenance drift、index staleをapply前に検証するようにした。対象recordを同一一時ツリーへ反映し、既存recordのnavigationも更新して、一つのmanifestとindex更新を生成する。既存ファイルの削除・改名は行わず、通知指定時は対象recordごとにPages確認とSlack送信を行う。通常の`update`も通知対象へ拡張し、失敗時の再通知は単一・複数対象に対応させた。
+- 実施内容: `scripts/publish/bootstrap_engine.py`を追加し、source registry、固定SHA、全source inventory、metadata、HTML安全性またはA所有renderer、既存provenance drift、index staleをapply前に検証するようにした。対象recordを同一一時ツリーへ反映し、既存recordのnavigationも更新して、一つのmanifestとindex更新を生成する。既存ファイルの削除・改名は行わず、bootstrapの通知入力とSlack通知jobを廃止した。通常の`update`は通知対象に維持し、失敗時の再通知は単一・複数対象に対応させた。
 - 成果物: `.github/workflows/bootstrap.yml`、bootstrap engine、engine/workflowのテスト。
 - 検証結果: `source_html`と`a_rendered`の共通処理をfixtureで確認し、create/update通知対象と、create後の同一入力再実行が`no_op: true`、変更pathなしになることを確認した。
-- 未解決事項: Actions上の実行結果、固定commitのPages URL、複数project一括の運用実績は未取得。
-- 次工程への引き継ぎ: apply結果のcommit SHAとbootstrap manifestを#94の受入入力として記録する。
+- 未解決事項: B_Stats_Siteのbootstrapと、過去15件への通知取り消しは実施できない。既送信通知はSlack側での削除・訂正が必要な場合だけ別途判断する。
+- 次工程への引き継ぎ: 通常の単一record公開で`work_record_087`だけを更新し、Pages成功後に1件だけSlack通知する。
 
 ### Portfolio Reviewer
 
 - 入力: Issue #93、bootstrap engine/workflow差分、既存publish workflow、provenance契約、テストfixture。
-- 実施内容: 対象集合がpublish:trueかつ未公開recordに限定されること、source SHA・main SHA・既存provenanceを照合すること、create/update/bootstrapの通知経路と自動削除経路が分離されていること、dry-run artifactをapply入力へbindすることをレビューした。
-- 成果物: 通知漏れを防ぐ通常publish・bootstrap・再通知Workflowの更新。実環境でのdispatch・Pages公開は実行前確認へ引き継いだ。
-- 検証結果: 119 unittest、workflow YAML parse、`git diff --check`に合格した。実Workflow run `34037887369`はbootstrap dry-run開始前に`upload-artifact`の誤ったSHA参照で停止し、修正後のrun `34038106064`はWorkflow入力（source checkout・dry-run artifact・Python cache）がRepository Aのclean-worktree検査へ混入して停止、run `34038305874`はapply commit前のGit user identity未設定で停止した。artifact/inputをrunner tempへ移し、Python bytecodeとGit identityを設定して再実行する。sandbox_pagesの実データ相当一時cloneでは16件の`notify=true` dry-run、apply、再実行no-opを確認した。
-- 未解決事項: 実運用のPages・provenance・公開URL確認は未実施。
-- 次工程への引き継ぎ: 固定対象とpublication_idを承認してからworkflowを実行する。
+- 実施内容: 対象集合がpublish:trueかつ未公開recordに限定されること、source SHA・main SHA・既存provenanceを照合すること、通常の単一recordだけを通知対象にし、bootstrapを通知対象外にすること、dry-run artifactをapply入力へbindすることをレビューした。
+- 成果物: 通常publishのcreate/update通知経路を維持しつつ、bootstrapの通知入力・通知job・engine引数を削除する更新。
+- 検証結果: 実Workflow run `34038486385`はsandbox_pagesの16件反映、Pages deploy、通知jobまで成功したが、当時の`notify=true`入力により16件を通知した。このうち#93で意図した通知は`work_record_087`だけだったため、今回の修正で今後のbootstrap通知を禁止する。
+- 未解決事項: 既に送信された15件の通知は取り消せない。修正PRのマージ後、`work_record_087`だけを通常公開として更新し、単一通知経路を確認する。
+- 次工程への引き継ぎ: bootstrapの実反映済み状態を維持したまま、`accept-source.yml`を`work_record_087`だけで実行する。
 
 ## 主要な判断
 
 - 判断: 通常の単一record受入とは別に、複数basenameを一つのbootstrap applyへ渡す。
 - 理由: 過去分を個別commit・個別deployすると、同一監査commit、通知抑制、再実行no-opという要件を満たしにくいため。
-- 判断: manifestの`operation`は既存provenance schemaの`create` / `update`を使用し、bootstrap識別はpublication_idとworkflowで行う。反映を伴う`create`、`update`、通知指定bootstrapはSlack通知対象とする。
-- 理由: 既存manifestの互換性を保ちつつ、push・PR merge後に反映結果だけが通知されるようにするため。no-opとwithdrawは引き続き通知しない。
+- 判断: manifestの`operation`は既存provenance schemaの`create` / `update`を使用し、bootstrap識別はpublication_idとworkflowで行う。反映を伴う通常の単一recordの`create`、`update`だけをSlack通知対象とし、bootstrap/backfillは常に通知しない。
+- 理由: 履歴一括反映で15件以上の不要な通知を発生させず、作業完了時は対象作業記録1件だけを通知するため。no-opとwithdrawも引き続き通知しない。
 - 判断: 対象sourceのpublish:true集合と既存provenanceとの差分を対象集合と一致させる。
 - 理由: 対象漏れ、publish:falseの誤公開、対象外recordの混入をapply前に停止するため。
 
 ## 最終結果
 
-- 解決したこと: 固定source SHA・対象record集合・既存provenanceを検証し、複数recordを同一commitで反映するbootstrap engineとdry-run/apply/deploy workflowを追加した。通常publishのupdateとbootstrapも通知でき、drift時は停止し、既存公開物を削除せず、同一入力はno-opとして扱う。
+- 解決したこと: 固定source SHA・対象record集合・既存provenanceを検証し、複数recordを同一commitで反映するbootstrap engineとdry-run/apply/deploy workflowを追加した。通常publishのcreate/updateは通知できる一方、bootstrap/backfillは通知しない契約へ修正した。drift時は停止し、既存公開物を削除せず、同一入力はno-opとして扱う。
 - 変更ファイル: `.github/workflows/accept-source.yml`、`.github/workflows/bootstrap.yml`、`.github/workflows/notify-publication.yml`、`docs/SANDBOX_PAGES_OPERATIONS.md`、`scripts/publish/apply_engine.py`、`scripts/publish/bootstrap_engine.py`、`scripts/publish/slack_notification.py`、テスト、本作業記録一式。
-- 検証結果: 119 unittest、Python AST、YAML、`git diff --check`に合格。sandbox_pagesの固定SHA相当ツリーで未公開15件を算出し、通知指定のdry-run/apply/no-opを確認した。
-- ブランチ: `codex/093-bootstrap`
-- commit: #93通知経路変更を含めてコミット予定
-- PR: 未作成
-- 未解決事項: B_Stats_Site 13件とsandbox_pages 16件の実workflow dispatch、Pages公開、manifest digest、Slack受信、既存新規record E2Eの確認が残っている。run `34037887369`はartifact action SHA、run `34038106064`はclean-worktree入力混入、run `34038305874`はGit identityを修正済み。
-- 次アクション: PR反映後、対象SHA・basename・publication_id・`notify=true`を確認し、#93のbootstrap workflowを実行する。
+- 検証結果: 実Workflow run `34038486385`でsandbox_pagesの16件をPagesへ反映し、Pages deployと16件通知が成功した。通知方針修正後はbootstrap無通知のworkflow・engine・テストを検証し、`work_record_087`だけを通常公開で更新して単一通知を確認する。
+- ブランチ: `codex/093-single-record-notify`
+- commit: 修正内容をPRへ提出予定
+- PR: 作成予定
+- 未解決事項: 既送信された15件の通知は撤回できない。B_Stats_Siteのbootstrapは実施しない。
+- 次アクション: 修正PRをマージ後、`work_record_087`だけを`notify=true`で再公開し、PagesとSlackの単一通知を確認する。
 
 ## GitHub Issue状況
 
-確認日時（JST）: 2026-09-06 22:56:02
-取得範囲: `tj-999-comp/sandbox-pages` のOpen Issue全件（Pull Request除外、取得件数8・一覧行数8）
+確認日時（JST）: 2026-09-06 23:26:24
+取得範囲: `tj-999-comp/sandbox-pages` のOpen Issue全件（Pull Request除外、取得件数7・一覧行数7）
 
 ### 親子関係
 
@@ -68,9 +68,9 @@
 ├── #90
 ├── #91
 ├── #92
-├── #93
 └── #94
 
+#93は#89のsub-issueだがクローズ済みで、Open Issue一覧から除外。
 #118・#120は#89のsub-issuesではない
 ```
 
@@ -82,7 +82,6 @@
 | 2 | P2 | [#90 [Inventory] 各生成元の過去作業記録を棚卸しし公開対応表を確定する](https://github.com/tj-999-comp/sandbox-pages/issues/90) | Open（state reason: null） | #89の子。対応表を#93へ引き継ぐ。 |
 | 3 | P2 | [#91 [Migration] 過去作業記録のmetadata・命名・HTMLを公開契約へ整備する](https://github.com/tj-999-comp/sandbox-pages/issues/91) | Open（state reason: null） | #89の子。コミット`4079439`はmain反映済み。 |
 | 4 | P1 | [#92 [UI/Index] 作業記録ページの構成とrecord間リンクを実装する](https://github.com/tj-999-comp/sandbox-pages/issues/92) | Open（state reason: null） | #89の子。PR #119はmerge済み。 |
-| 5 | P1 | [#93 [Publish] 過去作業記録をidempotentなbootstrapでPagesへ遡及反映する](https://github.com/tj-999-comp/sandbox-pages/issues/93) | Open（state reason: null） | #89の子。本作業で通知付きbootstrap経路を整備し、実反映を残課題とする。 |
-| 6 | P0 | [#94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う](https://github.com/tj-999-comp/sandbox-pages/issues/94) | Open（state reason: null） | #89の子。#90〜#93完了後に全体受入を行う。 |
-| 7 | 未設定 | [#118 自分専用のスポーツ内容確認サイト用リポジトリを作成する](https://github.com/tj-999-comp/sandbox-pages/issues/118) | Open（state reason: null） | #89のsub-issueではない。別project準備の課題。 |
-| 8 | 未設定 | [#120 [受入] スポーツサイト生成元リポジトリを公開側へ登録する](https://github.com/tj-999-comp/sandbox-pages/issues/120) | Open（state reason: null） | #89のsub-issueではない。別project受入の課題。 |
+| 5 | P0 | [#94 [Verify/Operations] 過去分公開とrecord間リンクの全体受入・運用引き継ぎを行う](https://github.com/tj-999-comp/sandbox-pages/issues/94) | Open（state reason: null） | #89の子。#90〜#93完了後に全体受入を行う。 |
+| 6 | 未設定 | [#118 自分専用のスポーツ内容確認サイト用リポジトリを作成する](https://github.com/tj-999-comp/sandbox-pages/issues/118) | Open（state reason: null） | #89のsub-issueではない。別project準備の課題。 |
+| 7 | 未設定 | [#120 [受入] スポーツサイト生成元リポジトリを公開側へ登録する](https://github.com/tj-999-comp/sandbox-pages/issues/120) | Open（state reason: null） | #89のsub-issueではない。別project受入の課題。 |

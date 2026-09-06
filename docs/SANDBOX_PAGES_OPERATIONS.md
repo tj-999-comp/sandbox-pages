@@ -59,7 +59,7 @@ target_basename: work_record_###
 - `deploy`: `apply`が返した完全なcommit SHAだけをdeployしていること。`no_op=true`ならcommit・deployしない。
 - `provenance`: `provenance/sandbox_pages/<publication_id>.json`のsource SHA、対象basename、digest、operation、notify。
 - Pages: manifestの`public_url`をPages originと結合した対象record URLがHTTP 200〜399であること。
-- Slack: `operation=create`または`update`、`no_op=false`、`notify=true`、Pages成功の全条件を満たす場合、タイトル、project、basename、同じ`publication_id`、対象record URLが届くこと。bootstrapは対象recordごとに同じ確認と通知を行う。
+- Slack: 通常の単一record公開で`operation=create`または`update`、`no_op=false`、`notify=true`、Pages成功の全条件を満たす場合、タイトル、project、basename、同じ`publication_id`、対象record URLが届くこと。bootstrap/backfillは履歴をまとめて反映するため通知しない。
 
 ### #86のE2E証跡レビュー
 
@@ -115,7 +115,7 @@ commit_sha: <そのprovenanceを含むapply commitの40桁SHA>
 
 ## 6. 通知対象の契約
 
-公開反映を伴うcreate/updateは、明示的に`notify=false`とした場合を除き通知する。複数recordのbootstrapは対象recordごとに通知する。
+通常の単一record公開で公開反映を伴うcreate/updateは、明示的に`notify=false`とした場合を除き通知する。bootstrap/backfillは既存recordをまとめて反映するため通知しない。作業記録を通知したい場合は、bootstrap完了後に対象の作業記録1件だけを通常の単一record公開として`notify=true`で実行する。
 
 | apply状態 | commit / Pages | Slack |
 | --- | --- | --- |
@@ -123,7 +123,7 @@ commit_sha: <そのprovenanceを含むapply commitの40桁SHA>
 | `update`、`notify=false` | 必要に応じて実行 | 通知しない |
 | `no_op=true` | 実行しない | 通知しない |
 | withdraw | 取り下げcommit後にdeploy | 通知しない |
-| bootstrap / backfill、`notify=true` | 反映後に対象recordを検証 | 対象recordごとに通知する |
+| bootstrap / backfill | 反映後に対象recordを検証 | 通知しない |
 
 `publish: false`、source側の削除、metadata変更だけを理由に公開済みHTMLやMarkdownを自動削除しない。削除はwithdraw workflowのpreviewと明示承認を経る。
 

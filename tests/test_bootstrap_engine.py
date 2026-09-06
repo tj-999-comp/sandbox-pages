@@ -22,10 +22,9 @@ class BootstrapEngineTests(unittest.TestCase):
                 accepted_at="2026-09-07T00:00:00Z",
                 source_branch_ref="refs/heads/main",
                 expected_main_sha=_git(fixture.repo, "rev-parse", "HEAD"),
-                notify=True,
             )
             self.assertFalse(result.no_op)
-            self.assertTrue(result.notify)
+            self.assertFalse(result.notify)
             self.assertEqual(result.operation, "create")
             self.assertEqual(result.target_basenames, ("work_record_001",))
             _git(fixture.repo, "add", ".")
