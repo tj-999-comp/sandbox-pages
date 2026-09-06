@@ -32,7 +32,7 @@
 - 入力: Issue #93、bootstrap engine/workflow差分、既存publish workflow、provenance契約、テストfixture。
 - 実施内容: 対象集合がpublish:trueかつ未公開recordに限定されること、source SHA・main SHA・既存provenanceを照合すること、create/update/bootstrapの通知経路と自動削除経路が分離されていること、dry-run artifactをapply入力へbindすることをレビューした。
 - 成果物: 通知漏れを防ぐ通常publish・bootstrap・再通知Workflowの更新。実環境でのdispatch・Pages公開は実行前確認へ引き継いだ。
-- 検証結果: 119 unittest、workflow YAML parse、`git diff --check`に合格した。実Workflow run `34037887369`はbootstrap dry-run開始前に`upload-artifact`の誤ったSHA参照で停止し、修正後のrun `34038106064`はWorkflow入力（source checkout・dry-run artifact・Python cache）がRepository Aのclean-worktree検査へ混入して停止した。artifactをrunner tempへ移し、Python bytecodeを抑制して再実行する。sandbox_pagesの実データ相当一時cloneでは16件の`notify=true` dry-run、apply、再実行no-opを確認した。
+- 検証結果: 119 unittest、workflow YAML parse、`git diff --check`に合格した。実Workflow run `34037887369`はbootstrap dry-run開始前に`upload-artifact`の誤ったSHA参照で停止し、修正後のrun `34038106064`はWorkflow入力（source checkout・dry-run artifact・Python cache）がRepository Aのclean-worktree検査へ混入して停止、run `34038305874`はapply commit前のGit user identity未設定で停止した。artifact/inputをrunner tempへ移し、Python bytecodeとGit identityを設定して再実行する。sandbox_pagesの実データ相当一時cloneでは16件の`notify=true` dry-run、apply、再実行no-opを確認した。
 - 未解決事項: 実運用のPages・provenance・公開URL確認は未実施。
 - 次工程への引き継ぎ: 固定対象とpublication_idを承認してからworkflowを実行する。
 
@@ -53,7 +53,7 @@
 - ブランチ: `codex/093-bootstrap`
 - commit: #93通知経路変更を含めてコミット予定
 - PR: 未作成
-- 未解決事項: B_Stats_Site 13件とsandbox_pages 16件の実workflow dispatch、Pages公開、manifest digest、Slack受信、既存新規record E2Eの確認が残っている。run `34037887369`はartifact action SHA、run `34038106064`はclean-worktree入力混入を修正済み。
+- 未解決事項: B_Stats_Site 13件とsandbox_pages 16件の実workflow dispatch、Pages公開、manifest digest、Slack受信、既存新規record E2Eの確認が残っている。run `34037887369`はartifact action SHA、run `34038106064`はclean-worktree入力混入、run `34038305874`はGit identityを修正済み。
 - 次アクション: PR反映後、対象SHA・basename・publication_id・`notify=true`を確認し、#93のbootstrap workflowを実行する。
 
 ## GitHub Issue状況
