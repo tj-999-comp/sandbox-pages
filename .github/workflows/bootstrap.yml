@@ -1,0 +1,362 @@
+name: Historical bootstrap and backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: Registered project identifier
+        required: true
+        type: string
+      source_commit_sha:
+        description: Exact source commit SHA to accept
+        required: true
+        type: string
+      target_basenames:
+        description: Comma-separated fixed work-record basenames
+        required: true
+        type: string
+      publication_id:
+        description: Auditable bootstrap publication identifier
+        required: true
+        type: string
+      notify:
+        description: Send one Slack notification per published record
+        required: false
+        default: true
+        type: boolean
+
+permissions: {}
+
+concurrency:
+  group: pages-production-main
+  cancel-in-progress: false
+
+jobs:
+  dry-run:
+    name: Validate fixed historical targets (dry-run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      source_repository: ${{ steps.source.outputs.source_repository }}
+      source_branch: ${{ steps.source.outputs.source_branch }}
+      source_directory: ${{ steps.source.outputs.source_directory }}
+      main_sha: ${{ steps.main.outputs.main_sha }}
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Repository A
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: refs/heads/main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Require A main branch
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Resolve registered source
+        id: source
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+        run: |
+          set -euo pipefail
+          source_json="$(jq -cer --arg project_id "$PROJECT_ID" '.sources[] | select(.project_id == $project_id and .enabled == true)' config/sources.json)"
+          echo "source_repository=$(jq -er '.source_repository' <<<"$source_json")" >> "$GITHUB_OUTPUT"
+          source_ref="$(jq -er '.source_ref' <<<"$source_json")"
+          echo "source_branch=${source_ref#refs/heads/}" >> "$GITHUB_OUTPUT"
+          echo "source_directory=$(jq -er '.source_directory' <<<"$source_json")" >> "$GITHUB_OUTPUT"
+
+      - name: Record A main SHA
+        id: main
+        run: echo "main_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout registered source at fixed SHA
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: ${{ steps.source.outputs.source_repository }}
+          ref: ${{ inputs.source_commit_sha }}
+          token: ${{ github.token }}
+          path: _source
+          fetch-depth: 0
+          sparse-checkout: ${{ steps.source.outputs.source_directory }}
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+
+      - name: Verify isolated source checkout
+        run: |
+          set -euo pipefail
+          test "$(git -C _source rev-parse --show-toplevel)" != "$GITHUB_WORKSPACE"
+          if git -C _source config --local --get-regexp 'credential|http\..*extraheader'; then
+            echo "source checkout contains persisted credentials" >&2
+            exit 1
+          fi
+
+      - name: Run bootstrap dry-run
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TARGET_BASENAMES: ${{ inputs.target_basenames }}
+          PUBLICATION_ID: ${{ inputs.publication_id }}
+          NOTIFY: ${{ inputs.notify }}
+          MAIN_SHA: ${{ steps.main.outputs.main_sha }}
+        run: |
+          set -euo pipefail
+          notify_args=()
+          if [[ "$NOTIFY" == "true" ]]; then
+            notify_args+=(--notify)
+          fi
+          python3 -m scripts.publish.bootstrap_engine \
+            --repository-root . \
+            --registry config/sources.json \
+            --provenance-root provenance \
+            --source-checkout _source \
+            --project-id "$PROJECT_ID" \
+            --source-commit-sha "$SOURCE_COMMIT_SHA" \
+            --target-basenames "$TARGET_BASENAMES" \
+            --publication-id "$PUBLICATION_ID" \
+            --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --source-branch-ref "refs/remotes/origin/${{ steps.source.outputs.source_branch }}" \
+            --expected-main-sha "$MAIN_SHA" \
+            "${notify_args[@]}" \
+            --dry-run > bootstrap-plan.json
+          jq -e \
+            --arg project_id "$PROJECT_ID" \
+            --arg source_commit_sha "$SOURCE_COMMIT_SHA" \
+            --arg publication_id "$PUBLICATION_ID" \
+            --argjson notify "$NOTIFY" \
+            '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == $notify)' \
+            bootstrap-plan.json >/dev/null
+
+      - name: Upload bootstrap plan
+        uses: actions/upload-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: bootstrap-plan-${{ inputs.project_id }}-${{ inputs.publication_id }}
+          path: bootstrap-plan.json
+          if-no-files-found: error
+          retention-days: 7
+
+  apply:
+    name: Apply fixed historical targets and deploy
+    needs: dry-run
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      commit_sha: ${{ steps.apply.outputs.commit_sha }}
+      no_op: ${{ steps.apply.outputs.no_op }}
+      operation: ${{ steps.apply.outputs.operation }}
+      publication_id: ${{ steps.apply.outputs.publication_id }}
+      notify: ${{ steps.apply.outputs.notify }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout latest Repository A main
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: refs/heads/main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+
+      - name: Download bootstrap plan
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: bootstrap-plan-${{ inputs.project_id }}-${{ inputs.publication_id }}
+
+      - name: Bind plan to dispatch inputs
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          PUBLICATION_ID: ${{ inputs.publication_id }}
+          NOTIFY: ${{ inputs.notify }}
+        run: |
+          set -euo pipefail
+          jq -e \
+            --arg project_id "$PROJECT_ID" \
+            --arg source_commit_sha "$SOURCE_COMMIT_SHA" \
+            --arg publication_id "$PUBLICATION_ID" \
+            --argjson notify "$NOTIFY" \
+            '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == $notify)' \
+            bootstrap-plan.json >/dev/null
+
+      - name: Checkout registered source at fixed SHA
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: ${{ needs.dry-run.outputs.source_repository }}
+          ref: ${{ inputs.source_commit_sha }}
+          token: ${{ github.token }}
+          path: _source
+          fetch-depth: 0
+          sparse-checkout: ${{ needs.dry-run.outputs.source_directory }}
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+
+      - name: Move source checkout outside Repository A
+        run: mv _source "$RUNNER_TEMP/source"
+
+      - name: Apply bootstrap with bounded main SHA
+        id: apply
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TARGET_BASENAMES: ${{ inputs.target_basenames }}
+          PUBLICATION_ID: ${{ inputs.publication_id }}
+          NOTIFY: ${{ inputs.notify }}
+        run: |
+          set -euo pipefail
+          for retry in 0 1; do
+            git fetch --no-tags origin main
+            git checkout --detach origin/main
+            git clean -ffdx
+            expected_main_sha="$(git rev-parse HEAD)"
+            notify_args=()
+            if [[ "$NOTIFY" == "true" ]]; then
+              notify_args+=(--notify)
+            fi
+            result="$(python3 -m scripts.publish.bootstrap_engine \
+              --repository-root . \
+              --registry config/sources.json \
+              --provenance-root provenance \
+              --source-checkout "$RUNNER_TEMP/source" \
+              --project-id "$PROJECT_ID" \
+              --source-commit-sha "$SOURCE_COMMIT_SHA" \
+              --target-basenames "$TARGET_BASENAMES" \
+              --publication-id "$PUBLICATION_ID" \
+              --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+              --source-branch-ref "refs/remotes/origin/${{ needs.dry-run.outputs.source_branch }}" \
+              --expected-main-sha "$expected_main_sha" \
+              "${notify_args[@]}")"
+            echo "$result" > bootstrap-result.json
+            if [[ "$(jq -r '.no_op' <<<"$result")" == "true" ]]; then
+              echo "no_op=true" >> "$GITHUB_OUTPUT"
+              echo "commit_sha=" >> "$GITHUB_OUTPUT"
+              echo "operation=$(jq -r '.operation' <<<"$result")" >> "$GITHUB_OUTPUT"
+              echo "publication_id=$(jq -r '.publication_id' <<<"$result")" >> "$GITHUB_OUTPUT"
+              echo "notify=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            mapfile -t changed_paths < <(jq -r '.changed_paths[]' <<<"$result")
+            test "${#changed_paths[@]}" -gt 0
+            git add --force -- "${changed_paths[@]}"
+            git diff --cached --check
+            git commit -m "chore(publish): bootstrap $PROJECT_ID historical records"
+            if git push origin HEAD:refs/heads/main; then
+              echo "no_op=false" >> "$GITHUB_OUTPUT"
+              echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+              echo "operation=$(jq -r '.operation' <<<"$result")" >> "$GITHUB_OUTPUT"
+              echo "publication_id=$(jq -r '.publication_id' <<<"$result")" >> "$GITHUB_OUTPUT"
+              echo "notify=$(jq -r '.notify' <<<"$result")" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [[ "$retry" == "1" ]]; then
+              echo "main advanced during bootstrap; retry limit reached" >&2
+              exit 1
+            fi
+            echo "main advanced during bootstrap; retrying once" >&2
+          done
+
+      - name: Upload bootstrap result
+        uses: actions/upload-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: bootstrap-result-${{ inputs.project_id }}-${{ inputs.publication_id }}
+          path: bootstrap-result.json
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: Deploy committed bootstrap SHA
+    needs: apply
+    if: ${{ needs.apply.result == 'success' && needs.apply.outputs.no_op != 'true' }}
+    uses: ./.github/workflows/deploy-pages.yml
+    with:
+      commit_sha: ${{ needs.apply.outputs.commit_sha }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+  notify:
+    name: Notify Slack after successful bootstrap
+    needs: [apply, deploy]
+    if: >-
+      needs.apply.result == 'success' &&
+      needs.deploy.result == 'success' &&
+      needs.apply.outputs.no_op != 'true' &&
+      needs.apply.outputs.notify == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout committed bootstrap
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ needs.apply.outputs.commit_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Resolve bootstrap records and public URLs
+        env:
+          PROJECT_ID: ${{ inputs.project_id }}
+          TARGET_BASENAMES: ${{ inputs.target_basenames }}
+          PUBLICATION_ID: ${{ needs.apply.outputs.publication_id }}
+          SITE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          manifest="provenance/$PROJECT_ID/$PUBLICATION_ID.json"
+          test -f "$manifest"
+          jq -e '.notify == true and (.operation == "create" or .operation == "update")' "$manifest" >/dev/null
+          IFS=',' read -r -a basenames <<< "$TARGET_BASENAMES"
+          test "${#basenames[@]}" -gt 0
+          : > "$RUNNER_TEMP/notification-records.tsv"
+          for raw_basename in "${basenames[@]}"; do
+            basename="$(printf '%s' "$raw_basename" | sed -e 's/^ *//' -e 's/ *$//')"
+            test -n "$basename"
+            record="$(jq -cer --arg basename "$basename" '
+              [.records[] | select(.basename == $basename)]
+              | if length == 1 then .[0] else error("target record must be unique") end
+            ' "$manifest")"
+            title="$(jq -er '.metadata.title | select(type == "string" and length > 0)' <<<"$record")"
+            record_path="$(jq -er '.public_url | select(type == "string" and length > 0)' <<<"$record")"
+            public_url="$(python3 -m scripts.publish.slack_notification resolve-url \
+              --site-url "$SITE_URL" \
+              --record-path "$record_path")"
+            printf '%s\t%s\t%s\n' "$basename" "$title" "$public_url" >> "$RUNNER_TEMP/notification-records.tsv"
+          done
+
+      - name: Verify bootstrap public URLs
+        run: |
+          set -euo pipefail
+          while IFS=$'\t' read -r _basename _title public_url; do
+            python3 -m scripts.publish.slack_notification verify-url \
+              --url "$public_url" \
+              --attempts 5 \
+              --delay-seconds 10
+          done < "$RUNNER_TEMP/notification-records.tsv"
+
+      - name: Send bootstrap Slack notifications
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          PROJECT_ID: ${{ inputs.project_id }}
+          PUBLICATION_ID: ${{ needs.apply.outputs.publication_id }}
+        run: |
+          set -euo pipefail
+          while IFS=$'\t' read -r basename title public_url; do
+            python3 -m scripts.publish.slack_notification send \
+              --webhook-env SLACK_WEBHOOK_URL \
+              --project-id "$PROJECT_ID" \
+              --target-basename "$basename" \
+              --title "$title" \
+              --publication-id "$PUBLICATION_ID" \
+              --public-url "$public_url"
+          done < "$RUNNER_TEMP/notification-records.tsv"

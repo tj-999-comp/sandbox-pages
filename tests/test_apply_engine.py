@@ -33,6 +33,39 @@ class ApplyEngineTests(unittest.TestCase):
             )
             self.assertTrue(manifest["notify"])
 
+    def test_update_result_and_manifest_mark_notification_target(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            fixture = _Fixture(Path(temp_dir))
+            initial = fixture.create_acceptance("work_record_011")
+            fixture.apply(initial, "pub-011", "create")
+            _git(fixture.repo, "add", ".")
+            _git(fixture.repo, "commit", "--quiet", "-m", "apply record")
+
+            source_root = fixture.checkout / "work-records"
+            (source_root / "md/work_record_011.md").write_text("# Updated record\n", encoding="utf-8")
+            (source_root / "metadata/work_record_011.yml").write_text(
+                "schema_version: 1\n"
+                "title: Updated record\n"
+                "date: 2026-08-20\n"
+                "project_id: B_Stats_Site\n"
+                "tags: []\n"
+                "publish: true\n",
+                encoding="utf-8",
+            )
+            _git(fixture.checkout, "add", ".")
+            _git(fixture.checkout, "commit", "--quiet", "-m", "update record")
+            fixture.source_head = _git(fixture.checkout, "rev-parse", "HEAD")
+
+            acceptance = fixture.create_acceptance("work_record_011")
+            result = fixture.apply(acceptance, "pub-011-update", "update", notify=True)
+
+            self.assertTrue(result.notify)
+            manifest = json.loads(
+                (fixture.repo / "provenance/B_Stats_Site/pub-011-update.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(manifest["operation"], "update")
+            self.assertTrue(manifest["notify"])
+
     def test_operation_inference_uses_previous_provenance(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             fixture = _Fixture(Path(temp_dir))

@@ -239,7 +239,7 @@ def apply_verified_payload(
             )
 
         final_published = _inventory_directory(staged_destination, ignored_paths={"index.html"})
-        notification_target = notify and operation == "create"
+        notification_target = notify and operation in {"create", "update"}
         manifest = build_manifest(
             publication_id=publication_id,
             project_id=project_id,

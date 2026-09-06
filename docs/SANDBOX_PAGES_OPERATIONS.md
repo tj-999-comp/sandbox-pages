@@ -4,7 +4,7 @@
 
 対象: `tj-999-comp/sandbox-pages` の `sandbox_pages` project
 
-この文書は、本番運用として手動で承認した作業記録1件を、固定commit・単一basenameでPagesへ公開し、必要な場合だけSlackへ通知するための運用手順である。公開リポジトリの受入・配信契約は [`projects/README.md`](../projects/README.md)、Actionsの権限境界は [`docs/ACTIONS_MAIN_POLICY.md`](ACTIONS_MAIN_POLICY.md)を正本とする。
+この文書は、本番運用として手動で承認した作業記録を、固定commit・対象basenameでPagesへ公開し、反映されたcreate/updateを漏れなくSlackへ通知するための運用手順である。公開リポジトリの受入・配信契約は [`projects/README.md`](../projects/README.md)、Actionsの権限境界は [`docs/ACTIONS_MAIN_POLICY.md`](ACTIONS_MAIN_POLICY.md)を正本とする。
 
 ## 責任境界
 
@@ -59,7 +59,7 @@ target_basename: work_record_###
 - `deploy`: `apply`が返した完全なcommit SHAだけをdeployしていること。`no_op=true`ならcommit・deployしない。
 - `provenance`: `provenance/sandbox_pages/<publication_id>.json`のsource SHA、対象basename、digest、operation、notify。
 - Pages: manifestの`public_url`をPages originと結合した対象record URLがHTTP 200〜399であること。
-- Slack: `operation=create`、`no_op=false`、`notify=true`、Pages成功の全条件を満たす場合だけ、タイトル、project、basename、同じ`publication_id`、対象record URLが届くこと。
+- Slack: `operation=create`または`update`、`no_op=false`、`notify=true`、Pages成功の全条件を満たす場合、タイトル、project、basename、同じ`publication_id`、対象record URLが届くこと。bootstrapは対象recordごとに同じ確認と通知を行う。
 
 ### #86のE2E証跡レビュー
 
@@ -95,11 +95,11 @@ Issue #86の実E2Eは重大な未解決事項なしと判定した。
 
 Pages deployが成功し、Slackの送信jobだけが失敗した場合、Pagesをrollbackしない。通常の `accept-source.yml` を再実行してはならない。再実行するとapplyが新しいrun由来の `publication_id` を生成し、Pages・provenanceの再処理を誘発するためである。
 
-送信stepまで失敗したことを確認したうえで、`Retry publication notification` を手動dispatchする。
+送信stepまで失敗したことを確認したうえで、`Retry publication notification` を手動dispatchする。`target_basenames`には単一recordまたはカンマ区切りの複数recordを指定する。
 
 ```text
 project_id: sandbox_pages
-target_basename: work_record_###
+target_basenames: work_record_###
 publication_id: <失敗したcreateのpublication_id>
 commit_sha: <そのprovenanceを含むapply commitの40桁SHA>
 ```
@@ -107,23 +107,23 @@ commit_sha: <そのprovenanceを含むapply commitの40桁SHA>
 このworkflowは次だけを行う。
 
 - 指定commitをcheckoutし、`HEAD`と入力SHAが一致することを確認する。
-- 同じpublication IDのmanifestが`operation=create`かつ`notify=true`であること、basenameが一意であることを確認する。
+- 同じpublication IDのmanifestが`operation=create`または`update`かつ`notify=true`であること、指定basenameがmanifest内で一意であることを確認する。
 - manifestの相対URLを固定Pages originへ結合し、公開URLを再確認する。
-- `SLACK_WEBHOOK_URL`を送信stepだけへ渡し、同じpublication IDで1回送信する。
+- `SLACK_WEBHOOK_URL`を送信stepだけへ渡し、指定対象ごとに同じpublication IDで1回送信する。
 
 この経路にはPages write、id-token、contents writeがなく、公開ファイル・index・provenanceを変更しない。Webhookは通知済み判定を持たないため、送信結果が不明なtimeoutではSlackを目視確認してから再送し、既に届いていれば再送しない。成功済みjobの再実行は通知重複になるため行わない。
 
-## 6. 通知対象外の契約
+## 6. 通知対象の契約
 
-通知対象は新規createだけである。
+公開反映を伴うcreate/updateは、明示的に`notify=false`とした場合を除き通知する。複数recordのbootstrapは対象recordごとに通知する。
 
 | apply状態 | commit / Pages | Slack |
 | --- | --- | --- |
-| `create`、`no_op=false`、`notify=true` | 実行 | 通知する |
-| `update` | 必要に応じて実行 | 通知しない |
+| `create`または`update`、`no_op=false`、`notify=true` | 実行 | 通知する |
+| `update`、`notify=false` | 必要に応じて実行 | 通知しない |
 | `no_op=true` | 実行しない | 通知しない |
 | withdraw | 取り下げcommit後にdeploy | 通知しない |
-| bootstrap / backfill | 反映しても通知抑制 | 通知しない |
+| bootstrap / backfill、`notify=true` | 反映後に対象recordを検証 | 対象recordごとに通知する |
 
 `publish: false`、source側の削除、metadata変更だけを理由に公開済みHTMLやMarkdownを自動削除しない。削除はwithdraw workflowのpreviewと明示承認を経る。
 
@@ -133,6 +133,6 @@ push、schedule、repository_dispatchなどの恒久自動公開へ切り替え�
 
 - trigger、対象branch、対象source、対象basenameの決定方法
 - PR承認、ruleset、Actions bypass、権限とSecretの境界
-- update、no-op、withdraw、bootstrapの通知抑制
+- no-op、withdraw、明示的に抑制したbootstrapの通知抑制
 - 競合、rollback、再通知、監査証跡、障害時の停止責任
 - 少なくとも新規record 1件の実E2Eと再実行結果

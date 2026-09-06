@@ -94,7 +94,7 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn("publication_id: ${{ steps.apply.outputs.publication_id }}", workflow)
         self.assertIn("notify: ${{ steps.apply.outputs.notify }}", workflow)
         self.assertIn("needs: [apply, deploy]", workflow)
-        self.assertIn("needs.apply.outputs.operation == 'create'", workflow)
+        self.assertIn("needs.apply.outputs.operation == 'create' || needs.apply.outputs.operation == 'update'", workflow)
         self.assertIn("needs.apply.outputs.no_op != 'true'", workflow)
         self.assertIn("needs.apply.outputs.notify == 'true'", workflow)
         self.assertIn("SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}", workflow)
@@ -116,6 +116,24 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertIn('"merge-base", "--is-ancestor"', acceptance)
         self.assertIn("dry_run", acceptance)
         self.assertIn("allow_enabled: bool = False", acceptance)
+
+    def test_historical_bootstrap_is_fixed_batch_and_notifies_when_requested(self):
+        workflow = (ROOT / ".github/workflows/bootstrap.yml").read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", workflow)
+        for input_name in ("project_id", "source_commit_sha", "target_basenames", "publication_id", "notify"):
+            self.assertIn(f"      {input_name}:", workflow)
+        self.assertIn("name: Run bootstrap dry-run", workflow)
+        self.assertIn("--dry-run", workflow)
+        self.assertIn("name: Bind plan to dispatch inputs", workflow)
+        self.assertIn("notify == $notify", workflow)
+        self.assertIn("python3 -m scripts.publish.bootstrap_engine", workflow)
+        self.assertIn("git push origin HEAD:refs/heads/main", workflow)
+        self.assertIn("for retry in 0 1", workflow)
+        self.assertIn("retrying once", workflow)
+        self.assertIn("uses: ./.github/workflows/deploy-pages.yml", workflow)
+        self.assertIn("group: pages-production-main", workflow)
+        self.assertIn("SLACK_WEBHOOK_URL", workflow)
+        self.assertIn("--notify", workflow)
 
     def test_apply_cli_can_infer_create_or_update_from_provenance(self):
         apply_engine = (ROOT / "scripts/publish/apply_engine.py").read_text(encoding="utf-8")
@@ -147,10 +165,10 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertNotIn("SLACK", workflow)
         self.assertNotIn("rsync --delete", workflow)
 
-    def test_notification_retry_is_fixed_commit_create_only_and_has_no_pages_write(self):
+    def test_notification_retry_is_fixed_commit_for_create_or_update_and_has_no_pages_write(self):
         workflow = (ROOT / ".github/workflows/notify-publication.yml").read_text(encoding="utf-8")
         self.assertIn("workflow_dispatch:", workflow)
-        for input_name in ("project_id", "target_basename", "publication_id", "commit_sha"):
+        for input_name in ("project_id", "target_basenames", "publication_id", "commit_sha"):
             self.assertIn(f"      {input_name}:", workflow)
         self.assertIn("permissions: {}", workflow)
         self.assertIn("contents: read", workflow)
@@ -159,7 +177,7 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertNotIn("contents: write", workflow)
         self.assertIn("ref: ${{ inputs.commit_sha }}", workflow)
         self.assertIn("test \"$(git rev-parse HEAD)\" = \"$COMMIT_SHA\"", workflow)
-        self.assertIn('.operation == "create"', workflow)
+        self.assertIn('(.operation == "create" or .operation == "update")', workflow)
         self.assertIn('.notify == true', workflow)
         self.assertIn("slack_notification verify-url", workflow)
         self.assertIn("slack_notification send", workflow)
