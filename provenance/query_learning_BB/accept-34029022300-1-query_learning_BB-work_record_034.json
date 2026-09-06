@@ -1,0 +1,1366 @@
+{
+  "accepted_at": "2026-09-06T11:01:32Z",
+  "notify": true,
+  "operation": "create",
+  "project_id": "query_learning_BB",
+  "public_base_path": "/sandbox-pages/projects/query_learning_BB/",
+  "publication_id": "accept-34029022300-1-query_learning_BB-work_record_034",
+  "published_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "7cd6d8ea856b73095cc6030edb418f6e506798f179a951948f86a0eac3e44f70",
+      "size_bytes": 2174
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "5c87eb20f8203226a6406a8e95c4a400300dfbfc14d8fee05e4c736706c3a11e",
+      "size_bytes": 3568
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "72a773924cc63b529feaf8288c4c13bdc9b2636b14d8ca075b7520acdfb9246a",
+      "size_bytes": 3584
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "a61899636a9eaf4815410120c7782a0577e90ae35bd3e55e40360921606096be",
+      "size_bytes": 2909
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "cc3dce852b1ef6424b4397a7c5bfab286ced74715c3f01f7d5d291558e33acb8",
+      "size_bytes": 4997
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "af70ab1537824be3a7bb63dd7ad241376761387274a2d8a10ae1cb0de0837380",
+      "size_bytes": 3920
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "adc0d614602dbc49962dc911d8ef519875f8b709bd535390a385e3a3bd5a1aa3",
+      "size_bytes": 3773
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "10296c33f34d28b495adf0e32950756df99e1c7bc4439d1aa66f6e061b581c6e",
+      "size_bytes": 5524
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "6a48be6fe121daea4574a6f4efff84d21d3d9b6a1673900f0ec6bd55af7e95e4",
+      "size_bytes": 5942
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "462a37aaa1d88888ff1aa570e7feaeeb0cb663dbc5b899fe42c3f09f0383a6e6",
+      "size_bytes": 4887
+    },
+    {
+      "path": "md/work_record_011.md",
+      "sha256": "caaaf3eb75e3b239106eae48d0e078c2336433504fb1ebfeece5f38c34fd97dd",
+      "size_bytes": 4414
+    },
+    {
+      "path": "md/work_record_012.md",
+      "sha256": "5b583863885f2d19c4067384cf9ce372dbda0161d3a64073841a8265abe01427",
+      "size_bytes": 6946
+    },
+    {
+      "path": "md/work_record_013.md",
+      "sha256": "23fece85011cfbbe07c345d3354098ea114566663f209f5d4b31907b5db0d869",
+      "size_bytes": 4124
+    },
+    {
+      "path": "md/work_record_014.md",
+      "sha256": "aa158896a2672be3e998212b5ff41bf3c4657abfb05719394bef40926a382473",
+      "size_bytes": 4374
+    },
+    {
+      "path": "md/work_record_015.md",
+      "sha256": "83916924808538f1b8766c5d37d47453bfcbe396507fbcd3e958ec1af991e870",
+      "size_bytes": 4676
+    },
+    {
+      "path": "md/work_record_016.md",
+      "sha256": "4685ad30b4787f6b31c53282540038c2ea9576291bd35fb10a0c10e10103e2e1",
+      "size_bytes": 4121
+    },
+    {
+      "path": "md/work_record_017.md",
+      "sha256": "c19b6f3f923393ecc77b7603b042636b6857c0fa652a6ae37d651c592b17c8da",
+      "size_bytes": 4326
+    },
+    {
+      "path": "md/work_record_018.md",
+      "sha256": "bb624ea10f94ed9893a11161b7348630afc35687273275075b34333c3ac1ef08",
+      "size_bytes": 6164
+    },
+    {
+      "path": "md/work_record_019.md",
+      "sha256": "21b203b56c185b5c33522cd2c21b7fb9c31fa474e36458e9bfd0a26966cc93da",
+      "size_bytes": 2412
+    },
+    {
+      "path": "md/work_record_020.md",
+      "sha256": "81f2be8068159f67cac2512f55584e60dc3486a0426ddb7f186904e046572056",
+      "size_bytes": 1635
+    },
+    {
+      "path": "md/work_record_021.md",
+      "sha256": "5c75bc7b8a610b32a6cc7556e73cf049835528a57ccf7203c55b50215d81337f",
+      "size_bytes": 2315
+    },
+    {
+      "path": "md/work_record_022.md",
+      "sha256": "73f9877ea907cc492672e9ce06e0692dce67ec5f7fc22492041229e980fc764a",
+      "size_bytes": 2170
+    },
+    {
+      "path": "md/work_record_023.md",
+      "sha256": "e537a25b98b0f6d57f82d258de185e5ac26680faf23d16c9a2bae3f68f8831dd",
+      "size_bytes": 5094
+    },
+    {
+      "path": "md/work_record_024.md",
+      "sha256": "b551b06e3f617a766395dd985d6abd82fde07d6274f3becf2b139b82182a9939",
+      "size_bytes": 4723
+    },
+    {
+      "path": "md/work_record_025.md",
+      "sha256": "b5a5ef875402175dedab4feedfb873f75c81b1b63ef4eccbfd02a2add9107c5d",
+      "size_bytes": 4567
+    },
+    {
+      "path": "md/work_record_026.md",
+      "sha256": "2023a1a62a3128478997eb567f99a5d406f90242160c936603435e4c6130e8fe",
+      "size_bytes": 3163
+    },
+    {
+      "path": "md/work_record_027.md",
+      "sha256": "509512a19c5d7dc07361bd89c493116e31776e4a8686b4e037b2ae7ea8dadbf1",
+      "size_bytes": 3889
+    },
+    {
+      "path": "md/work_record_028.md",
+      "sha256": "73d75ee424a1f0fd669d566ac0af836ee00690d9fe9ebd62c1a52dccfdbed305",
+      "size_bytes": 1862
+    },
+    {
+      "path": "md/work_record_029.md",
+      "sha256": "ba3a68bec8cae3cd4a349943a4bb7b4a98738092c690e06af6d95102d0baa330",
+      "size_bytes": 2874
+    },
+    {
+      "path": "md/work_record_030.md",
+      "sha256": "895e12b534821991a06097b04e419d494556d7775c6166fc9f029cefc285a0e3",
+      "size_bytes": 4808
+    },
+    {
+      "path": "md/work_record_031.md",
+      "sha256": "3156c1e95fd08dd0c62838167e2d0468d46dada003482ebd4de41007f8f1f2b9",
+      "size_bytes": 3517
+    },
+    {
+      "path": "md/work_record_032.md",
+      "sha256": "f70e7462a105248f7c11d58740cb1c74363cd09122f768d1e945f6469fdb8302",
+      "size_bytes": 4871
+    },
+    {
+      "path": "md/work_record_033.md",
+      "sha256": "76c684e9c7aa1c501a98c1d79c5b966b10df7651e22ecc0bf4d7ff7b9d187b38",
+      "size_bytes": 3770
+    },
+    {
+      "path": "md/work_record_034.md",
+      "sha256": "4147ebe99c8aac74c4726c39fb914a68e6f23dd07c8092d48d7859bc3c26afc0",
+      "size_bytes": 4147
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "08912743e65534ce5d17e43c8442ae650acd1ef85b54ef9547caa72b8ea3e48c",
+      "size_bytes": 4312
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "35dc373daeb7b3267be9d337225308898c4ab77e86b7f6b74ec51de8f527ddd1",
+      "size_bytes": 5662
+    },
+    {
+      "path": "work_record_003.html",
+      "sha256": "7d08493eb8f93ddb4ec4e7523709d83083a3d44b8891d5d0d7413b08488074f2",
+      "size_bytes": 6232
+    },
+    {
+      "path": "work_record_004.html",
+      "sha256": "3057050440d691dce57a515f752d1d0eaf3ae4546f404146eb00dd2130a1806f",
+      "size_bytes": 5365
+    },
+    {
+      "path": "work_record_005.html",
+      "sha256": "17ebf294376f68884717c8ff8e137f58249935dc7c2f105682394c79f2831256",
+      "size_bytes": 7959
+    },
+    {
+      "path": "work_record_006.html",
+      "sha256": "73407b05a4cf3014bb966107832a2847bdb35bc630ce217294215e40e566bd8e",
+      "size_bytes": 6650
+    },
+    {
+      "path": "work_record_007.html",
+      "sha256": "31a7441ca075bb59e28b98703854632d30eca91995986349e39af9f1b3a1d6db",
+      "size_bytes": 6094
+    },
+    {
+      "path": "work_record_008.html",
+      "sha256": "b5f74813e0372b3bbd82f9001aeb54a845c392551b90e4202ea8695fc4d685aa",
+      "size_bytes": 9039
+    },
+    {
+      "path": "work_record_009.html",
+      "sha256": "ca80adea811cf66c145690518e5281379eb5da45085195a85b5556b9e3638291",
+      "size_bytes": 9256
+    },
+    {
+      "path": "work_record_010.html",
+      "sha256": "7d9f5fdd134b671df2300e54e91dd3a0fad2a70f048ed5f7ba536ad4f5ba0c48",
+      "size_bytes": 7766
+    },
+    {
+      "path": "work_record_011.html",
+      "sha256": "11108b209025e9c2d8b0a8ce3679305ad1569ff73f9c6a0391e7c8c10b2d496e",
+      "size_bytes": 7461
+    },
+    {
+      "path": "work_record_012.html",
+      "sha256": "3566dfad6c0c1b9cdda72751dfb3b088ab2f261ac24bd4c7fd8d2da3a6156e9a",
+      "size_bytes": 10875
+    },
+    {
+      "path": "work_record_013.html",
+      "sha256": "52beda0094bd65ef8b5fdddca6eac14bcd5915d15759c4edaeeff55658c9ea5a",
+      "size_bytes": 7063
+    },
+    {
+      "path": "work_record_014.html",
+      "sha256": "3d5ac921183c3194afc9b0bd8532c5f3d9c06bca84a2351f8fce058072e272e7",
+      "size_bytes": 7306
+    },
+    {
+      "path": "work_record_015.html",
+      "sha256": "512ced46bf0bb2f2392e4864a4b88fe41d6b7646ae69969f715c04ee0bd29761",
+      "size_bytes": 7555
+    },
+    {
+      "path": "work_record_016.html",
+      "sha256": "89c96c84978221bdcf2bd4fb6168703dea067d44a557ad7638f37b1d75812568",
+      "size_bytes": 6929
+    },
+    {
+      "path": "work_record_017.html",
+      "sha256": "6a18fb94d655be71bb6afa78e38b8cf0377177fd1b815bfe80a85e51e31e2522",
+      "size_bytes": 7108
+    },
+    {
+      "path": "work_record_018.html",
+      "sha256": "f2630f193418a344bb8e6d93340bf82c65d5768fbf517576f5d253bf537afadc",
+      "size_bytes": 9342
+    },
+    {
+      "path": "work_record_019.html",
+      "sha256": "0980ad7d79a1473dc3dd1a5b1c46202569cad4dcb41308bf8b50953f5f7a038f",
+      "size_bytes": 4490
+    },
+    {
+      "path": "work_record_020.html",
+      "sha256": "0457b8b1a123fb8881d65d0f38f76dd0b961da6e2152c986554e09651891e691",
+      "size_bytes": 3690
+    },
+    {
+      "path": "work_record_021.html",
+      "sha256": "529970957b18c6508e343f327cf15f6618fd1ead3a6b5eca0d32feaec03c3e7e",
+      "size_bytes": 4396
+    },
+    {
+      "path": "work_record_022.html",
+      "sha256": "53ffe3f387e31b614d27da2fae0a4d2fbddbe7b83a97f13586dad6f1c102ae11",
+      "size_bytes": 4248
+    },
+    {
+      "path": "work_record_023.html",
+      "sha256": "7b979806d738f8f036d2188c6b3f59710b2e8cb4cf166b481cbe4097b4252aa0",
+      "size_bytes": 7778
+    },
+    {
+      "path": "work_record_024.html",
+      "sha256": "124533c4b815dbb9e27dcaf6cdd4a2cf29ec985f737c5483ce5dcb1be9e50e11",
+      "size_bytes": 7546
+    },
+    {
+      "path": "work_record_025.html",
+      "sha256": "73caef86ee7812d1144c383f84e1d4df5978caa9c7c946bf27e97c2ab4058e81",
+      "size_bytes": 7499
+    },
+    {
+      "path": "work_record_026.html",
+      "sha256": "6cfdd346a9db259634ffc1fbe24de9341edf0c21565473bbc4439118de67ac96",
+      "size_bytes": 5427
+    },
+    {
+      "path": "work_record_027.html",
+      "sha256": "c5aa715d134ac45bb03c319f0fb1db48f99543b19cc552afd8613054b0f99ced",
+      "size_bytes": 6436
+    },
+    {
+      "path": "work_record_028.html",
+      "sha256": "52ca2a7245ccd0e21420ce4cdbc7d08be869c8fd8504fcd992eda2a9f9ddf288",
+      "size_bytes": 4014
+    },
+    {
+      "path": "work_record_029.html",
+      "sha256": "6b5396e7a507cb143cd70457e573a6a87d20305da9d477e71bfa0b9635a09d3d",
+      "size_bytes": 5207
+    },
+    {
+      "path": "work_record_030.html",
+      "sha256": "e9e5be67128ab9fc09c8d0751f9ed5058f3dacdd455cd0f0ff85f9741f3bfdac",
+      "size_bytes": 7604
+    },
+    {
+      "path": "work_record_031.html",
+      "sha256": "34903190ac4c507e5f5b0b07c65a47b8acabe220efca442e3300162ed6fe4c0c",
+      "size_bytes": 5777
+    },
+    {
+      "path": "work_record_032.html",
+      "sha256": "00c4a46aa7efc4f28b7e380e1674e052c7dec2a09ee618cc744b47b34aee14b7",
+      "size_bytes": 7634
+    },
+    {
+      "path": "work_record_033.html",
+      "sha256": "23bc271273fef5c67fc637a978d5571111a9d66723d413b0332cf6a43d6f4e23",
+      "size_bytes": 6403
+    },
+    {
+      "path": "work_record_034.html",
+      "sha256": "ab4ce23c2e6b2505ac969c9def08443459f41d3f57a1d3873341a93b64014dcc",
+      "size_bytes": 7107
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-09-01",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "github-actions",
+          "work-records"
+        ],
+        "title": "公開側リポジトリへの作業記録連携導入準備"
+      },
+      "metadata_sha256": "b530fdf2d78bff9e68f815b2116074cc0f1e3e7800a22caca1fcd3893b7dcbf8",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_001.html"
+    },
+    {
+      "basename": "work_record_002",
+      "metadata": {
+        "date": "2026-09-02",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "data-audit",
+          "github-issues",
+          "mvp",
+          "requirements"
+        ],
+        "title": "SQL学習WebサイトMVPの要件整理と残作業Issue作成"
+      },
+      "metadata_sha256": "c4d79b1d5c241c0e5ec376cc12bafbfe8938fd9d71d00a17cacbf17ac023a5b7",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_002.html"
+    },
+    {
+      "basename": "work_record_003",
+      "metadata": {
+        "date": "2026-09-03",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "data-audit",
+          "mvp",
+          "sqlite"
+        ],
+        "title": "#10 CSVデータ監査とSQLiteデータセット確定"
+      },
+      "metadata_sha256": "aa822492f2c12cae541beb0d2db598d907b58c5ebdc7288c8fd1d39a3c6f523a",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_003.html"
+    },
+    {
+      "basename": "work_record_004",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "basic-auth",
+          "cloudflare-pages",
+          "codex",
+          "hosting",
+          "mvp"
+        ],
+        "title": "#6 MVPホスティング先とBasic認証方式の決定・受入確認"
+      },
+      "metadata_sha256": "fadf3d02465e280c5054b3a2e473e90cfe8c29c1d32efa3a6ce3e7a911dd98b7",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_004.html"
+    },
+    {
+      "basename": "work_record_005",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "acceptance-test",
+          "codex",
+          "mvp",
+          "sql-judgement"
+        ],
+        "title": "#9 SQL正誤判定・読み取り専用制限の受入確認と基準確定"
+      },
+      "metadata_sha256": "4407bb652e91818e21a04dd647d533e31dba2545b82eae991ab305173add40d5",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_005.html"
+    },
+    {
+      "basename": "work_record_006",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "data-audit",
+          "mvp",
+          "sqlite"
+        ],
+        "title": "#10 データセット確定と利用条件確認"
+      },
+      "metadata_sha256": "1b200e430ae2048946fac15b4bd6b207a9f25982f6836abc2624c6000ccf8d16",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_006.html"
+    },
+    {
+      "basename": "work_record_007",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "acceptance",
+          "codex",
+          "mvp",
+          "requirements"
+        ],
+        "title": "#14 MVP要件定義書の確定と凍結"
+      },
+      "metadata_sha256": "a915502ce5d51d3b1a3460829ec72e1746bf1b41d788fb074c812a1ce3b7afa3",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_007.html"
+    },
+    {
+      "basename": "work_record_008",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "acceptance",
+          "codex",
+          "content",
+          "mvp",
+          "sql"
+        ],
+        "title": "#13 仮問題10問のMVPコンテンツ検証"
+      },
+      "metadata_sha256": "77889284585a80ed14ed37eba41b9132de3c686a7b418a55e94ed47ccfe1023f",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_008.html"
+    },
+    {
+      "basename": "work_record_009",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "acceptance",
+          "browser",
+          "codex",
+          "localstorage",
+          "mvp"
+        ],
+        "title": "#12 PC・iPad・ブラウザ保存のMVP受入確認"
+      },
+      "metadata_sha256": "9576a50394eba5a4446ee3808977421052f388d16e10e2843505d2aeea174e4a",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_009.html"
+    },
+    {
+      "basename": "work_record_010",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "basic-auth",
+          "cloudflare-pages",
+          "codex",
+          "hosting",
+          "mvp",
+          "smoke-test"
+        ],
+        "title": "#11 Basic認証付き公開環境の最終スモークテスト"
+      },
+      "metadata_sha256": "9567b97fcf62a28d0f380782af1194a5623d457102260c2b91febb8408f2959b",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_010.html"
+    },
+    {
+      "basename": "work_record_011",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "acceptance",
+          "codex",
+          "completion",
+          "mvp",
+          "release"
+        ],
+        "title": "MVP完了判定と親Issue #8のクローズ"
+      },
+      "metadata_sha256": "fff9c6c3ce33229443abba9b183be76702b50e7fc39e33565d1376a74f551903",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_011.html"
+    },
+    {
+      "basename": "work_record_012",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "github-issues",
+          "planning",
+          "post-mvp",
+          "versioning"
+        ],
+        "title": "バージョン方針の策定と次期改善Issue #26〜#34の起票"
+      },
+      "metadata_sha256": "0ab7b5ea8dbb0d961ee4045f7a7556d16e8850eae3199e5529b09ad99303c09c",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_012.html"
+    },
+    {
+      "basename": "work_record_013",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "accessibility",
+          "codex",
+          "progress",
+          "ui",
+          "v0.2.0"
+        ],
+        "title": "Issue #27 達成済み表示のコンパクト化"
+      },
+      "metadata_sha256": "f710527428b797e92e2f10afff401f21fddfed9e10dcb416a4c57951c9e76b73",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_013.html"
+    },
+    {
+      "basename": "work_record_014",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "accessibility",
+          "codex",
+          "navigation",
+          "ui",
+          "v0.2.0"
+        ],
+        "title": "Issue #28 前後の問題への移動"
+      },
+      "metadata_sha256": "41c3510f424ac5b46c010c4bb78f67a3028aca342a64c454c6a21e2ebd729267",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_014.html"
+    },
+    {
+      "basename": "work_record_015",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "accessibility",
+          "codex",
+          "drawer",
+          "ui",
+          "v0.2.0"
+        ],
+        "title": "Issue #29 問題一覧ドロワー化"
+      },
+      "metadata_sha256": "b0616b0e515ecd850212e66aaa7f17a8265114eab4355713c4eea4c38caa7254",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_015.html"
+    },
+    {
+      "basename": "work_record_016",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "layout",
+          "responsive",
+          "ui",
+          "v0.2.0"
+        ],
+        "title": "Issue #30 エディタと実行結果の2ペイン化"
+      },
+      "metadata_sha256": "dd28e252f74fad5f2dc862a5dfde42f0c30d8ca64ec450c5a5079d2ad2313b69",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_016.html"
+    },
+    {
+      "basename": "work_record_017",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "responsive",
+          "scrolling",
+          "ui",
+          "v0.2.0"
+        ],
+        "title": "Issue #31 実行結果のペイン内スクロール"
+      },
+      "metadata_sha256": "78a8e06bdfdedf6c980d8502d4e3496d9f4ff198b2bcfa8d98f988bfd4bceec5",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_017.html"
+    },
+    {
+      "basename": "work_record_018",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "completion",
+          "ui",
+          "v0.2.0",
+          "work-record"
+        ],
+        "title": "v0.2.0 学習画面UX改善の完了"
+      },
+      "metadata_sha256": "4333d227a7825e68df8a9da2ae05257b580c33496cf8401ff2bd3b2b472d8c69",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_018.html"
+    },
+    {
+      "basename": "work_record_019",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "favorite",
+          "responsive",
+          "ui",
+          "v0.2.1",
+          "work-record"
+        ],
+        "title": "Issue #41 問題画面の情報配置と操作性改善"
+      },
+      "metadata_sha256": "3244b2c3335fe48d5a15a7b0e24767fe8ea1db570739e89fd027fb20d19551b3",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_019.html"
+    },
+    {
+      "basename": "work_record_020",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "completion",
+          "issue-41",
+          "v0.2.1",
+          "work-record"
+        ],
+        "title": "Issue #41 クローズとv0.2.1改善の完了記録"
+      },
+      "metadata_sha256": "bdb7cfd04e8071485b3762fb40c845b70394fb09ed1391bd2daa385650737577",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_020.html"
+    },
+    {
+      "basename": "work_record_021",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "answer-example",
+          "codex",
+          "responsive",
+          "ui",
+          "v0.2.2",
+          "work-record"
+        ],
+        "title": "Issue #43 解答例ボタンと結果エリア表示"
+      },
+      "metadata_sha256": "76728a8260939d81167d6284f11f1b6d41c262888b8c5a57091e40ce34832465",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_021.html"
+    },
+    {
+      "basename": "work_record_022",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "answer-example",
+          "codex",
+          "issue-43",
+          "ui",
+          "v0.2.2",
+          "work-record"
+        ],
+        "title": "Issue #43 解答例表示のトグル化と整形"
+      },
+      "metadata_sha256": "ceeec12cd10f2b9dcea49db819d185239c384283be8c0e3c70516c505190fdb1",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_022.html"
+    },
+    {
+      "basename": "work_record_023",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codemirror",
+          "codex",
+          "csp",
+          "issue-32",
+          "sql-editor",
+          "v0.3.0",
+          "work-record"
+        ],
+        "title": "Issue #32 SQLエディタの高機能化と公開反映"
+      },
+      "metadata_sha256": "8da203f336f04a02fa9ac0fe0e9c9c9c6878e2097b2636ef77db091e09ab7e74",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_023.html"
+    },
+    {
+      "basename": "work_record_024",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codemirror",
+          "codex",
+          "issue-33",
+          "sql-completion",
+          "sqlite-schema",
+          "v0.4.0",
+          "work-record"
+        ],
+        "title": "Issue #33 SQLiteスキーマ連動SQL補完"
+      },
+      "metadata_sha256": "e42f673ec4478e277f7110cbdbde4b28ffb9df7cf01d890bf71726f940213271",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_024.html"
+    },
+    {
+      "basename": "work_record_025",
+      "metadata": {
+        "date": "2026-09-04",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "issue-34",
+          "problem-bank",
+          "sql-problems",
+          "v0.5.0",
+          "work-record"
+        ],
+        "title": "Issue #34 SQL問題バンクを100問へ拡充"
+      },
+      "metadata_sha256": "7f7a3d319099cce11a5087e8fb61b668b291786bf33ee017a95e4ea6f398ea2e",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_025.html"
+    },
+    {
+      "basename": "work_record_026",
+      "metadata": {
+        "date": "2026-09-05",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "cloudflare-kv",
+          "codex",
+          "issue-49",
+          "progress-sync",
+          "v0.6.0",
+          "work-record"
+        ],
+        "title": "Issue #49 進捗・お気に入りの端末間同期"
+      },
+      "metadata_sha256": "a394b33f04a1d7d18da5bebab36b9b963d6d216827e98936f379728f7f0c7064",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_026.html"
+    },
+    {
+      "basename": "work_record_027",
+      "metadata": {
+        "date": "2026-09-05",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "completion",
+          "issue-48",
+          "v0.5.1",
+          "work-record"
+        ],
+        "title": "Issue #48 クローズとv0.5.1開始画面・問題一覧改善の完了記録"
+      },
+      "metadata_sha256": "379b0e317b5d8127c4cc1937a5abcd209cabae762fad32d19eeb79dc8a0e01ea",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_027.html"
+    },
+    {
+      "basename": "work_record_028",
+      "metadata": {
+        "date": "2026-09-05",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "issue-49",
+          "production",
+          "progress-sync",
+          "v0.6.0",
+          "work-record"
+        ],
+        "title": "Issue #49 v0.6.0進捗同期の本番確認"
+      },
+      "metadata_sha256": "3d015d21c220b944df3ea34bc235895c65026fec97e5da7fdf1939eb639dbac1",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_028.html"
+    },
+    {
+      "basename": "work_record_029",
+      "metadata": {
+        "date": "2026-09-06",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "issue-52",
+          "problem-spec",
+          "production",
+          "required-columns",
+          "v1.1.1",
+          "work-record"
+        ],
+        "title": "Issue #52 v1.1.1問題仕様と必要カラム表示の本番反映"
+      },
+      "metadata_sha256": "8b3c08ec9eef2f3fef96aefe0056a5c2df4661145e8372b356564983f681821c",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_029.html"
+    },
+    {
+      "basename": "work_record_030",
+      "metadata": {
+        "date": "2026-09-06",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "design",
+          "issue-26",
+          "production",
+          "stg",
+          "ui",
+          "v1.1.0",
+          "work-record"
+        ],
+        "title": "Issue #26 v1.1.0白基調デザイン確定とUI最終調整"
+      },
+      "metadata_sha256": "664b0285ac9b0a277e5b5a3404600fd755d0e3c78b90900214d3201f0e5d9e79",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_030.html"
+    },
+    {
+      "basename": "work_record_031",
+      "metadata": {
+        "date": "2026-09-06",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "design",
+          "design-review",
+          "issue-55",
+          "production",
+          "stg",
+          "ui",
+          "work-record"
+        ],
+        "title": "Issue #55 UI改善案の採用と本番反映"
+      },
+      "metadata_sha256": "650c32882cf52b7c6bfbcb9868b8bd09f9d00017ceca81195d62c7cae94ac804",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_031.html"
+    },
+    {
+      "basename": "work_record_032",
+      "metadata": {
+        "date": "2026-09-06",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "issue-57",
+          "problem-statements",
+          "production",
+          "required-columns",
+          "stg",
+          "work-record"
+        ],
+        "title": "Issue #57 問題文の論理整合性と必要カラム表示の全問修正"
+      },
+      "metadata_sha256": "16e47899f2ade78d79ea922546a7ef08dc541b7542a37596bbecaf4324355ab8",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_032.html"
+    },
+    {
+      "basename": "work_record_033",
+      "metadata": {
+        "date": "2026-09-06",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "codex",
+          "completion-mark",
+          "design-review",
+          "issue-58",
+          "production",
+          "stg",
+          "v1.1.2",
+          "work-record"
+        ],
+        "title": "Issue #58 v1.1.2 達成済みマークの枠調整と本番反映"
+      },
+      "metadata_sha256": "a3bd00cb35c21ebaf604065bdb5f59a4901a6785f90c2135d03684f4b6334725",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_033.html"
+    },
+    {
+      "basename": "work_record_034",
+      "metadata": {
+        "date": "2026-09-06",
+        "project_id": "query_learning_BB",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "auto-publish",
+          "automation",
+          "codex",
+          "github-actions",
+          "sandbox-pages",
+          "slack",
+          "work-record"
+        ],
+        "title": "作業記録の全件自動連携とSlack通知制御の設定"
+      },
+      "metadata_sha256": "c55a8c1615bfe045538ec365aaf9429000d52d272a5c12181c9bebd43f2ef644",
+      "public_url": "/sandbox-pages/projects/query_learning_BB/work_record_034.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "77eca4f0b1889a41958d7b75d79ef2f6ecbb9aec",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/query_learning_BB"
+  },
+  "source_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "7cd6d8ea856b73095cc6030edb418f6e506798f179a951948f86a0eac3e44f70",
+      "size_bytes": 2174
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "5c87eb20f8203226a6406a8e95c4a400300dfbfc14d8fee05e4c736706c3a11e",
+      "size_bytes": 3568
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "72a773924cc63b529feaf8288c4c13bdc9b2636b14d8ca075b7520acdfb9246a",
+      "size_bytes": 3584
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "a61899636a9eaf4815410120c7782a0577e90ae35bd3e55e40360921606096be",
+      "size_bytes": 2909
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "cc3dce852b1ef6424b4397a7c5bfab286ced74715c3f01f7d5d291558e33acb8",
+      "size_bytes": 4997
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "af70ab1537824be3a7bb63dd7ad241376761387274a2d8a10ae1cb0de0837380",
+      "size_bytes": 3920
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "adc0d614602dbc49962dc911d8ef519875f8b709bd535390a385e3a3bd5a1aa3",
+      "size_bytes": 3773
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "10296c33f34d28b495adf0e32950756df99e1c7bc4439d1aa66f6e061b581c6e",
+      "size_bytes": 5524
+    },
+    {
+      "path": "md/work_record_009.md",
+      "sha256": "6a48be6fe121daea4574a6f4efff84d21d3d9b6a1673900f0ec6bd55af7e95e4",
+      "size_bytes": 5942
+    },
+    {
+      "path": "md/work_record_010.md",
+      "sha256": "462a37aaa1d88888ff1aa570e7feaeeb0cb663dbc5b899fe42c3f09f0383a6e6",
+      "size_bytes": 4887
+    },
+    {
+      "path": "md/work_record_011.md",
+      "sha256": "caaaf3eb75e3b239106eae48d0e078c2336433504fb1ebfeece5f38c34fd97dd",
+      "size_bytes": 4414
+    },
+    {
+      "path": "md/work_record_012.md",
+      "sha256": "5b583863885f2d19c4067384cf9ce372dbda0161d3a64073841a8265abe01427",
+      "size_bytes": 6946
+    },
+    {
+      "path": "md/work_record_013.md",
+      "sha256": "23fece85011cfbbe07c345d3354098ea114566663f209f5d4b31907b5db0d869",
+      "size_bytes": 4124
+    },
+    {
+      "path": "md/work_record_014.md",
+      "sha256": "aa158896a2672be3e998212b5ff41bf3c4657abfb05719394bef40926a382473",
+      "size_bytes": 4374
+    },
+    {
+      "path": "md/work_record_015.md",
+      "sha256": "83916924808538f1b8766c5d37d47453bfcbe396507fbcd3e958ec1af991e870",
+      "size_bytes": 4676
+    },
+    {
+      "path": "md/work_record_016.md",
+      "sha256": "4685ad30b4787f6b31c53282540038c2ea9576291bd35fb10a0c10e10103e2e1",
+      "size_bytes": 4121
+    },
+    {
+      "path": "md/work_record_017.md",
+      "sha256": "c19b6f3f923393ecc77b7603b042636b6857c0fa652a6ae37d651c592b17c8da",
+      "size_bytes": 4326
+    },
+    {
+      "path": "md/work_record_018.md",
+      "sha256": "bb624ea10f94ed9893a11161b7348630afc35687273275075b34333c3ac1ef08",
+      "size_bytes": 6164
+    },
+    {
+      "path": "md/work_record_019.md",
+      "sha256": "21b203b56c185b5c33522cd2c21b7fb9c31fa474e36458e9bfd0a26966cc93da",
+      "size_bytes": 2412
+    },
+    {
+      "path": "md/work_record_020.md",
+      "sha256": "81f2be8068159f67cac2512f55584e60dc3486a0426ddb7f186904e046572056",
+      "size_bytes": 1635
+    },
+    {
+      "path": "md/work_record_021.md",
+      "sha256": "5c75bc7b8a610b32a6cc7556e73cf049835528a57ccf7203c55b50215d81337f",
+      "size_bytes": 2315
+    },
+    {
+      "path": "md/work_record_022.md",
+      "sha256": "73f9877ea907cc492672e9ce06e0692dce67ec5f7fc22492041229e980fc764a",
+      "size_bytes": 2170
+    },
+    {
+      "path": "md/work_record_023.md",
+      "sha256": "e537a25b98b0f6d57f82d258de185e5ac26680faf23d16c9a2bae3f68f8831dd",
+      "size_bytes": 5094
+    },
+    {
+      "path": "md/work_record_024.md",
+      "sha256": "b551b06e3f617a766395dd985d6abd82fde07d6274f3becf2b139b82182a9939",
+      "size_bytes": 4723
+    },
+    {
+      "path": "md/work_record_025.md",
+      "sha256": "b5a5ef875402175dedab4feedfb873f75c81b1b63ef4eccbfd02a2add9107c5d",
+      "size_bytes": 4567
+    },
+    {
+      "path": "md/work_record_026.md",
+      "sha256": "2023a1a62a3128478997eb567f99a5d406f90242160c936603435e4c6130e8fe",
+      "size_bytes": 3163
+    },
+    {
+      "path": "md/work_record_027.md",
+      "sha256": "509512a19c5d7dc07361bd89c493116e31776e4a8686b4e037b2ae7ea8dadbf1",
+      "size_bytes": 3889
+    },
+    {
+      "path": "md/work_record_028.md",
+      "sha256": "73d75ee424a1f0fd669d566ac0af836ee00690d9fe9ebd62c1a52dccfdbed305",
+      "size_bytes": 1862
+    },
+    {
+      "path": "md/work_record_029.md",
+      "sha256": "ba3a68bec8cae3cd4a349943a4bb7b4a98738092c690e06af6d95102d0baa330",
+      "size_bytes": 2874
+    },
+    {
+      "path": "md/work_record_030.md",
+      "sha256": "895e12b534821991a06097b04e419d494556d7775c6166fc9f029cefc285a0e3",
+      "size_bytes": 4808
+    },
+    {
+      "path": "md/work_record_031.md",
+      "sha256": "3156c1e95fd08dd0c62838167e2d0468d46dada003482ebd4de41007f8f1f2b9",
+      "size_bytes": 3517
+    },
+    {
+      "path": "md/work_record_032.md",
+      "sha256": "f70e7462a105248f7c11d58740cb1c74363cd09122f768d1e945f6469fdb8302",
+      "size_bytes": 4871
+    },
+    {
+      "path": "md/work_record_033.md",
+      "sha256": "76c684e9c7aa1c501a98c1d79c5b966b10df7651e22ecc0bf4d7ff7b9d187b38",
+      "size_bytes": 3770
+    },
+    {
+      "path": "md/work_record_034.md",
+      "sha256": "4147ebe99c8aac74c4726c39fb914a68e6f23dd07c8092d48d7859bc3c26afc0",
+      "size_bytes": 4147
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "40226df26731e294eb9015d7f0f1231f6dd7b052bf1014b5abd6a5adfea79bd9",
+      "size_bytes": 195
+    },
+    {
+      "path": "metadata/work_record_002.yml",
+      "sha256": "624df7fb4b33da9d8382dc6e1893353ef70f15cb408ccbacacec2908e3e998af",
+      "size_bytes": 213
+    },
+    {
+      "path": "metadata/work_record_003.yml",
+      "sha256": "255c284dca1d7b84f103f1075090ca0c9f75617b35a86a1a4c30ffa0d91bc5a4",
+      "size_bytes": 185
+    },
+    {
+      "path": "metadata/work_record_004.yml",
+      "sha256": "6e56f8d35a74f7d6c1aee05187616ef795a0b1da660823198ae81a532b466924",
+      "size_bytes": 220
+    },
+    {
+      "path": "metadata/work_record_005.yml",
+      "sha256": "4340bfda2c257769b8a960c4ae13c7256c23e44d8bf46befbd7dc3cebbc3547b",
+      "size_bytes": 217
+    },
+    {
+      "path": "metadata/work_record_006.yml",
+      "sha256": "53a20acff904875f5d0770dbdb3e659c637be8120ded10b65016650f350bffea",
+      "size_bytes": 179
+    },
+    {
+      "path": "metadata/work_record_007.yml",
+      "sha256": "be9ccb748e455ab72eff9dc9212be4a57d0d02e584fa78210a99380fa6ff572b",
+      "size_bytes": 176
+    },
+    {
+      "path": "metadata/work_record_008.yml",
+      "sha256": "793174bb42319f721847b9225716aa0dfa4d63c2f61e9ffdc385b9e14e635d62",
+      "size_bytes": 181
+    },
+    {
+      "path": "metadata/work_record_009.yml",
+      "sha256": "3ef973abe14d751d18daea7dd39b291d4f46c09d7b856fa1ea143d89dc45c7d8",
+      "size_bytes": 197
+    },
+    {
+      "path": "metadata/work_record_010.yml",
+      "sha256": "5151372f52bd07805ab442e2b80559695e64b1e7aed5bae7d2a8f75dc5b4c91f",
+      "size_bytes": 224
+    },
+    {
+      "path": "metadata/work_record_011.yml",
+      "sha256": "f1c58553c356b31284822bff85f97c607430c890c4f54584d0e736bc10db4140",
+      "size_bytes": 187
+    },
+    {
+      "path": "metadata/work_record_012.yml",
+      "sha256": "861601aeb27c11979e8b1e8966b0cac65e7340d54dcf7358499c7f3024b6a9cc",
+      "size_bytes": 221
+    },
+    {
+      "path": "metadata/work_record_013.yml",
+      "sha256": "0f637913fbc09aaae42e81a24ef9684b3dab03e648606d36891be2c13f81d2c2",
+      "size_bytes": 191
+    },
+    {
+      "path": "metadata/work_record_014.yml",
+      "sha256": "c0853877f39b703b493040c5a8a88ba33bf24ca28fef519f3505607c646ec037",
+      "size_bytes": 181
+    },
+    {
+      "path": "metadata/work_record_015.yml",
+      "sha256": "ab94606d9c7ab5ac1a92339a50983ac7ac237299a453950d3f575c568bcafa90",
+      "size_bytes": 177
+    },
+    {
+      "path": "metadata/work_record_016.yml",
+      "sha256": "1c4eeb78e70c6472fdb1cfe4548bc87a1314165811987309e4c9113ff6454a84",
+      "size_bytes": 190
+    },
+    {
+      "path": "metadata/work_record_017.yml",
+      "sha256": "9d9ef870e9aef853aa73b38723f093b599b91288af219a4b1b1ffd2a681c9dd4",
+      "size_bytes": 192
+    },
+    {
+      "path": "metadata/work_record_018.yml",
+      "sha256": "ced634d545851450f676b8fdd7dfebe375c22fb371de3e4af4132fd8f45bf9dc",
+      "size_bytes": 178
+    },
+    {
+      "path": "metadata/work_record_019.yml",
+      "sha256": "cf014bae0867660bd4290b860ff5c6fabb8ed6b18eb01c451d8ef11020da6e65",
+      "size_bytes": 207
+    },
+    {
+      "path": "metadata/work_record_020.yml",
+      "sha256": "b64fe0ba2bbfb5ac6d9d862cd494d68d4b1939cf740e2ce00a14f3c498bd62e4",
+      "size_bytes": 200
+    },
+    {
+      "path": "metadata/work_record_021.yml",
+      "sha256": "aa8a4b8041e3a841ca082976ba99c3a2b4b048e42e172ce9c8503f41f181ce47",
+      "size_bytes": 210
+    },
+    {
+      "path": "metadata/work_record_022.yml",
+      "sha256": "d2dabf2933cbcaeac865ddbc148018d80f0ac83890c103f5bc3b9e8fdebaec1d",
+      "size_bytes": 205
+    },
+    {
+      "path": "metadata/work_record_023.yml",
+      "sha256": "218a2929df3b3d1157865e9ca12cf2d785eef4f58f1dbd515cf5fc22bec16fc8",
+      "size_bytes": 220
+    },
+    {
+      "path": "metadata/work_record_024.yml",
+      "sha256": "26b4da3aea5dafa4c7eeee815d8cbe9598ab1ec3d42b88f977bcafffc69f4712",
+      "size_bytes": 222
+    },
+    {
+      "path": "metadata/work_record_025.yml",
+      "sha256": "286a6d05df7ffc7c761987b4b24af56b70c87cf8199d32ed2fdbe3f400c53923",
+      "size_bytes": 210
+    },
+    {
+      "path": "metadata/work_record_026.yml",
+      "sha256": "9bbf7c3d80679db1c7de62f796deb5024817bf65c83f89156219a20d9df1c02d",
+      "size_bytes": 218
+    },
+    {
+      "path": "metadata/work_record_027.yml",
+      "sha256": "d43512eeaa8274bbced29b4e956c83fb6d2981b24881999b2509c3de2b1e3459",
+      "size_bytes": 227
+    },
+    {
+      "path": "metadata/work_record_028.yml",
+      "sha256": "e96611e3efdc55e9de7f5e89af2a95596d655c450d5610794815cf65bbc97298",
+      "size_bytes": 206
+    },
+    {
+      "path": "metadata/work_record_029.yml",
+      "sha256": "02fd2d3620ed8877cc0a1aac96481e6f90556b16954a1993b966bbea5c83f4ae",
+      "size_bytes": 247
+    },
+    {
+      "path": "metadata/work_record_030.yml",
+      "sha256": "9cc1ac0bfff55bbc4d12e80eee5dc164c033cd5b49c3ca8271d122e29a24febb",
+      "size_bytes": 225
+    },
+    {
+      "path": "metadata/work_record_031.yml",
+      "sha256": "a10bc24e58c981518521f4831ba4d404c7592ef18a5c012df48de6ccb61b2414",
+      "size_bytes": 217
+    },
+    {
+      "path": "metadata/work_record_032.yml",
+      "sha256": "79c3f57b8ad0abbe1136b94191399bd0116b0e3ce6fb9c04f36d72a1e51e7403",
+      "size_bytes": 259
+    },
+    {
+      "path": "metadata/work_record_033.yml",
+      "sha256": "ec17d6e926b8f66da8b65da8ce76be0ee6646bbee55a0d7b3333b665c081c037",
+      "size_bytes": 250
+    },
+    {
+      "path": "metadata/work_record_034.yml",
+      "sha256": "3772c68c6900f9149de609fbef3e59aa1c68aa5db0f8a350a05e923a9739a9b8",
+      "size_bytes": 244
+    }
+  ]
+}
