@@ -43,7 +43,7 @@ B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用�
 | `B_Stats_Site` | `tj-999-comp/B_Stats_Site` | `main` | `work-records/` | `projects/B_Stats_Site/` |
 | `tech_article_nortification` | `tj-999-comp/tech_article_nortification` | `main` | `work-records/`（導入準備中） | `projects/tech_article_nortification/` |
 | `NBA_Draft_DB` | `tj-999-comp/NBA_Draft_DB` | `main` | `work-records/`（手動E2E運用中） | `projects/NBA_Draft_DB/` |
-| `query_learning_BB` | `tj-999-comp/query_learning_BB` | `main` | `work-records/`（手動E2E運用中） | `projects/query_learning_BB/` |
+| `query_learning_BB` | `tj-999-comp/query_learning_BB` | `main` | `work-records/`（main更新時に自動受入） | `projects/query_learning_BB/` |
 | `sandbox_pages` | `tj-999-comp/sandbox-pages` | `main` | `work-records/`（手動本番運用中） | `projects/sandbox_pages/` |
 
 新しい生成元は、公開リポジトリ側で `project_id`、リポジトリ、branch、生成元ディレクトリ、公開先ディレクトリ、support file、generator ID、サイズ上限を登録し、受入テストを通過するまで無効とする。metadataの値から任意の公開先パスを組み立てず、公開リポジトリに登録された対応だけを使う。
@@ -149,7 +149,7 @@ Issue #84の受入前修復では、既存 `work_record_005` に残っていたs
 
 ### `query_learning_BB` の導入契約
 
-`query_learning_BB` は、新規生成元向けの `a_rendered` 方式で登録する。source registry登録、disabled受入dry-run、承認済み固定commitによる手動E2E、Pages公開、Slack通知、同一要求のno-op確認は完了している。現在は個別の公開要求を手動dispatchだけで受け入れるために `enabled: true` としており、恒久自動公開triggerは設定しない。
+`query_learning_BB` は、新規生成元向けの `a_rendered` 方式で登録する。source registry登録、disabled受入dry-run、承認済み固定commitによる手動E2E、Pages公開、Slack通知、同一要求のno-op確認は完了している。`enabled: true` とし、生成元mainの作業記録変更を検出したworkflow dispatchを受け入れる。各受入は固定SHA・単一basenameで検証し、公開側の受入・provenance・Pages deployを通過したものだけを公開する。
 
 生成元へ渡す固定情報は次のとおりである。
 
@@ -162,9 +162,9 @@ Issue #84の受入前修復では、既存 `work_record_005` に残っていたs
 | 生成元入力 | `work-records/md/work_record_###.md` と `work-records/metadata/work_record_###.yml` |
 | `html_mode` | `a_rendered`（HTML・CSS・designは生成元へ追加しない） |
 | 公開先 | `projects/query_learning_BB/` |
-| 公開要求 | `project_id`、固定 `source_commit_sha`、`target_basename` の3入力 |
+| 公開要求 | `project_id`、固定 `source_commit_sha`、`target_basename`、`notify` の4入力（通常は通知true） |
 
-初期provenanceは公開済みレコードなしのbootstrap状態から開始し、承認済み固定commitの `work_record_001` を手動E2Eで公開済みである。生成元の `publish: true` は公開要求であり、恒久自動公開triggerは設定しない。
+初期provenanceは公開済みレコードなしのbootstrap状態から開始し、承認済み固定commitの `work_record_001` を手動E2Eで公開済みである。生成元の `publish: true` は公開要求であり、生成元mainの作業記録変更時には自動的に公開要求へ変換される。`notify` がfalseの要求ではPages公開のみを行い、Slack通知は行わない。
 
 生成元は公開リポジトリをcheckout・編集・commit・pushせず、検証済みcommitの固定SHAと公開対象basenameだけを公開要求として送る。A側の受入validator、`a_rendered` renderer、Pages deploy、Slack通知の成功を確認するまで、公開要求を実公開完了とはみなさない。
 

@@ -57,6 +57,7 @@ class PagesWorkflowTests(unittest.TestCase):
         self.assertNotIn("\n  schedule:", workflow)
         for input_name in ("project_id", "source_commit_sha", "target_basename"):
             self.assertIn(f"      {input_name}:", workflow)
+        self.assertIn("      notify:", workflow)
         self.assertIn("permissions: {}", workflow)
         self.assertIn("contents: read", workflow)
         self.assertIn("contents: write", workflow)
@@ -87,6 +88,8 @@ class PagesWorkflowTests(unittest.TestCase):
         deploy_block = workflow.split("\n  deploy:\n", 1)[1].split("\n  notify:\n", 1)[0]
         self.assertIn("\n    if:", deploy_block)
         self.assertIn("--notify", workflow)
+        self.assertIn('NOTIFY: ${{ inputs.notify }}', workflow)
+        self.assertIn('if [[ "$NOTIFY" == "true" ]]', workflow)
         self.assertIn("operation: ${{ steps.apply.outputs.operation }}", workflow)
         self.assertIn("publication_id: ${{ steps.apply.outputs.publication_id }}", workflow)
         self.assertIn("notify: ${{ steps.apply.outputs.notify }}", workflow)

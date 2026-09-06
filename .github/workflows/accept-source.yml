@@ -15,6 +15,11 @@ on:
         description: Numbered work-record basename to inspect
         required: true
         type: string
+      notify:
+        description: Send the post-publish Slack notification
+        required: false
+        default: true
+        type: boolean
 
 permissions: {}
 
@@ -223,6 +228,7 @@ jobs:
           PROJECT_ID: ${{ inputs.project_id }}
           TARGET_BASENAME: ${{ inputs.target_basename }}
           SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          NOTIFY: ${{ inputs.notify }}
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
           set -euo pipefail
@@ -246,6 +252,11 @@ jobs:
             git clean -ffdx
             expected_main_sha="$(git rev-parse HEAD)"
 
+            notify_args=()
+            if [[ "$NOTIFY" == "true" ]]; then
+              notify_args+=(--notify)
+            fi
+
             result="$(python3 -m scripts.publish.apply_engine \
               --acceptance "$RUNNER_TEMP/acceptance/acceptance.json" \
               --source-checkout "$RUNNER_TEMP/source" \
@@ -255,7 +266,7 @@ jobs:
               --publication-id "accept-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${PROJECT_ID}-${TARGET_BASENAME}" \
               --accepted-at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
               --operation auto \
-              --notify \
+              "${notify_args[@]}" \
               --expected-main-sha "$expected_main_sha" \
               --source-branch-ref "refs/remotes/origin/${{ needs.dry-run.outputs.source_branch }}")"
             echo "$result" > "$RUNNER_TEMP/apply-result.json"
