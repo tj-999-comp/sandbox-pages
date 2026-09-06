@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #30 エディタと実行結果の2ペイン化 — 作業記録 016</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 016 ・ 2026-09-04</p>
+          <h1>Issue #30 エディタと実行結果の2ペイン化</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_016.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Issue #30「エディタと実行結果を左右2ペインで表示」に対応し、問題文とナビゲーションを上段に保ちながら、SQL入力と実行結果を分離して表示できるようにした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　変更内容</p><h2>変更内容</h2></div><div class="section-content"><ul><li>デスクトップ幅ではSQLエディタを左、実行結果を右に配置した。</li><li>実行ボタンと正誤判定ボタンをSQLペイン内に配置した。</li><li>正誤結果、実行結果、参考SQL、解説を結果ペイン内に配置した。</li><li>問題文、問題間ナビゲーション、問題タイトルの配置を2ペインの上段に維持した。</li><li>860px以下ではSQLペインと結果ペインを上下配置へ切り替えた。</li><li>各ペインに<code>min-width: 0</code>を設定し、結果テーブルによる不要な横スクロールを防いだ。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　受入条件の確認</p><h2>受入条件の確認</h2></div><div class="section-content"><ul><li>左側にSQLエディタを表示: 成功</li><li>右側に実行結果を表示: 成功</li><li>問題文、操作ボタン、正誤結果の配置を維持: 成功</li><li>エディタと結果の幅を確保: 成功</li><li>狭い画面で上下配置へ切り替え: 768px幅で確認</li><li>不要な横スクロールを発生させない: 1280 / 900 / 640 / 320pxで確認</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>node --check Apps/app/app.js</code></li><li><code>node --check Apps/public/app.js</code></li><li><code>python3 -m json.tool Apps/data/problems.json</code></li><li><code>git diff --check</code></li><li><code>python3 scripts/dev/validate_work_records.py</code></li><li>Playwrightで1280x900、900x900、640x900、320x800を確認。横方向のはみ出し、console error、page error、failed requestはなかった。</li><li>PlaywrightでQ01を選択し、デスクトップ幅で左右のペイン配置、SQL実行、正誤結果、参考SQL表示を確認した。</li><li>Playwrightで768x1024相当幅に変更し、上下配置と横スクロールがないことを確認した。</li></ul>
+<p>検証証跡:</p>
+<ul><li><code>/private/tmp/playwright-browser-verify/2026-09-04T05-28-42-040Z/report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-30-00-956Z/scenario-report.json</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-30-00-956Z/issue30-desktop-two-pane.png</code></li><li><code>/private/tmp/playwright-browser-verify/scenario-2026-09-04T05-30-00-956Z/issue30-ipad-stacked.png</code></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　関連ファイル</p><h2>関連ファイル</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/index.html"><code>Apps/app/index.html</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/styles.css"><code>Apps/app/styles.css</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/30">#30</a></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-04 14:30:17 JSTに、<code>tj-999-comp/query_learning_BB</code>のOpen IssueをPull Requestを除いて取得した（取得件数: 6件）。#26のsub-issues APIを確認し、#27〜#34の8件が返却された。#27〜#29はclosed/completed、#30〜#34はopenだった。Open Issue取得時点では全Issueのstate reasonが未設定だった。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/30">#30</a></td><td>OPEN（state reason未設定）</td><td>本作業。エディタと実行結果の2ペイン化を実装・検証した。</td></tr><tr><td>2</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/31">#31</a></td><td>OPEN（state reason未設定）</td><td>本作業の結果ペインを前提とする。</td></tr><tr><td>3</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/32">#32</a></td><td>OPEN（state reason未設定）</td><td>v0.2.0完了後に着手する。</td></tr><tr><td>4</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/33">#33</a></td><td>OPEN（state reason未設定）</td><td>#32を前提とする。</td></tr><tr><td>5</td><td>中</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/34">#34</a></td><td>OPEN（state reason未設定）</td><td>主題一覧ドキュメントの所在確定後に着手する。</td></tr><tr><td>6</td><td>高</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/26">#26</a></td><td>OPEN（state reason未設定）</td><td>次期フェーズ全体の管理Issue。#30はsub-issues APIで確認済み。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 016</span>
+        <span><a href="md/work_record_016.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
