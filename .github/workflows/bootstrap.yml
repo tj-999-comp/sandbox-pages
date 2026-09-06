@@ -98,6 +98,9 @@ jobs:
             exit 1
           fi
 
+      - name: Move source checkout outside Repository A
+        run: mv _source "$RUNNER_TEMP/source"
+
       - name: Run bootstrap dry-run
         env:
           PROJECT_ID: ${{ inputs.project_id }}
@@ -106,6 +109,7 @@ jobs:
           PUBLICATION_ID: ${{ inputs.publication_id }}
           NOTIFY: ${{ inputs.notify }}
           MAIN_SHA: ${{ steps.main.outputs.main_sha }}
+          PYTHONDONTWRITEBYTECODE: "1"
         run: |
           set -euo pipefail
           notify_args=()
@@ -116,7 +120,7 @@ jobs:
             --repository-root . \
             --registry config/sources.json \
             --provenance-root provenance \
-            --source-checkout _source \
+            --source-checkout "$RUNNER_TEMP/source" \
             --project-id "$PROJECT_ID" \
             --source-commit-sha "$SOURCE_COMMIT_SHA" \
             --target-basenames "$TARGET_BASENAMES" \
@@ -125,20 +129,20 @@ jobs:
             --source-branch-ref "refs/remotes/origin/${{ steps.source.outputs.source_branch }}" \
             --expected-main-sha "$MAIN_SHA" \
             "${notify_args[@]}" \
-            --dry-run > bootstrap-plan.json
+            --dry-run > "$RUNNER_TEMP/bootstrap-plan.json"
           jq -e \
             --arg project_id "$PROJECT_ID" \
             --arg source_commit_sha "$SOURCE_COMMIT_SHA" \
             --arg publication_id "$PUBLICATION_ID" \
             --argjson notify "$NOTIFY" \
             '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == $notify)' \
-            bootstrap-plan.json >/dev/null
+            "$RUNNER_TEMP/bootstrap-plan.json" >/dev/null
 
       - name: Upload bootstrap plan
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: bootstrap-plan-${{ inputs.project_id }}-${{ inputs.publication_id }}
-          path: bootstrap-plan.json
+          path: ${{ runner.temp }}/bootstrap-plan.json
           if-no-files-found: error
           retention-days: 7
 
@@ -173,6 +177,9 @@ jobs:
         with:
           name: bootstrap-plan-${{ inputs.project_id }}-${{ inputs.publication_id }}
 
+      - name: Move bootstrap plan outside Repository A
+        run: mv bootstrap-plan.json "$RUNNER_TEMP/bootstrap-plan.json"
+
       - name: Bind plan to dispatch inputs
         env:
           PROJECT_ID: ${{ inputs.project_id }}
@@ -187,7 +194,7 @@ jobs:
             --arg publication_id "$PUBLICATION_ID" \
             --argjson notify "$NOTIFY" \
             '(.project_id == $project_id and .source_commit_sha == $source_commit_sha and .publication_id == $publication_id and .notify == $notify)' \
-            bootstrap-plan.json >/dev/null
+            "$RUNNER_TEMP/bootstrap-plan.json" >/dev/null
 
       - name: Checkout registered source at fixed SHA
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -212,6 +219,7 @@ jobs:
           TARGET_BASENAMES: ${{ inputs.target_basenames }}
           PUBLICATION_ID: ${{ inputs.publication_id }}
           NOTIFY: ${{ inputs.notify }}
+          PYTHONDONTWRITEBYTECODE: "1"
         run: |
           set -euo pipefail
           for retry in 0 1; do
