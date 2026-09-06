@@ -50,8 +50,8 @@
   - キーボード: record pageでTab移動とfocus-visible passed。
   - GitHub Actions: #93 latest publish run `34039818274` success、bootstrap no-op run `34040858354` success。Node.js 20 deprecation annotationは既存Action依存で、今回の検証失敗ではない。
 - 作業ブランチ: `codex/094-acceptance-operations`
-- コミット: 作成前
-- PR: 作成前
+- コミット: `80598f8 fix: complete Issue #94 publication acceptance`
+- PR: 未作成（作成許可待ち）
 - PRレビュー・CI: ローカルレビュー・テスト済み。PR作成後にGitHub上の差分、CI、merge後Pages deployを確認する。
 - 未解決事項: 修正後HTMLのmain Pagesへの反映と、反映後の公開URL全体巡回。
 - 次アクション: PRのreviewとCIを通し、merge後にPages deploy、公開URL巡回、Issue #94への完了コメントを行う。Issue closeはmergeまたは明示承認後とする。
