@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #65 v2.0.0親Issueと子Issueの作成 — 作業記録 036</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><a class="record-navigation__pager-link" href="work_record_037.html" aria-label="前の記録：Issue #65 v2.0.0のSTG反映と本番承認ルールの確定">← 前の記録<span>work_record_037</span></a><span class="record-navigation__position">3 / 38</span><a class="record-navigation__pager-link" href="work_record_035.html" aria-label="次の記録：Issue #58 達成済みマークの表示調整と本番反映">→ 次の記録<span>work_record_035</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 036 ・ 2026-09-07</p>
+          <h1>Issue #65 v2.0.0親Issueと子Issueの作成</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_036.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>現在のSQL学習サイトは、問題一覧・問題詳細・SQL実行・結果表示を1ページ内で切り替える構成になっている。問題ごとにページを分けられる可能性を検討し、v2.0.0としてURL、ビルド、ナビゲーション、公開環境の受入までを計画化することにした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了内容</p><h2>完了内容</h2></div><div class="section-content"><ul><li>[v2.0.0] 問題別ページ化と学習導線の再構成を管理する親Issue <a href="https://github.com/tj-999-comp/query_learning_BB/issues/65">#65</a>を作成した。</li><li>問題ごとの固有URL、直接アクセス、リロード、戻る／進む、ブックマーク、既存の進捗・お気に入り・正解数維持を目的として定義した。</li><li>v2.0.0-alpha、v2.0.0-beta、v2.0.0の予定と、要件・共通基盤・問題ページ化・全問題生成・受入の工程を親Issueに記載した。</li><li>親Issueの子Issueとして、URL設計から公開環境の受入までを5件に分解した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　作成した子Issue</p><h2>作成した子Issue</h2></div><div class="section-content"><ol><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/66">#66 問題ページのURL設計と静的ビルド方式を決める</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/67">#67 問題別ページの共通レイアウトとナビゲーションを実装する</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/68">#68 全問題ページの生成と直接アクセス対応を実装する</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/69">#69 問題ページ化後の進捗・お気に入り・正誤判定を回帰確認する</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/70">#70 Cloudflare Pages公開環境で受入テストを行う</a></li></ol>
+<p>GitHubのsub-issues APIで、5件すべてが親Issue #65に紐づいていることを確認した。次の着手対象は、方式決定を行うIssue #66とした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　v2.0.0の計画</p><h2>v2.0.0の計画</h2></div><div class="section-content"><ul><li><strong>alpha</strong>：問題ページURL、静的ビルド方式、Cloudflare Pagesでの直接アクセス対応を調査・決定する。</li><li><strong>beta</strong>：問題別ページ、共通レイアウト、問題間ナビゲーションを実装し、主要ブラウザで回帰確認する。</li><li><strong>正式版</strong>：全問題ページを生成・公開し、Cloudflare Pages本番環境で直接アクセス、リロード、SQL学習フローを受入確認する。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　今後の着手条件</p><h2>今後の着手条件</h2></div><div class="section-content"><ul><li>本作業記録のPRをmainへマージする。</li><li>マージ完了を確認した後、Issue #66のURL設計・静的ビルド方式の比較と技術検証に着手する。</li><li>Cloudflare Pagesの直接アクセス仕様やURL方式で判断が必要になった場合は、実装を進める前に確認する。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　検証</p><h2>検証</h2></div><div class="section-content"><ul><li>作業記録作成直前の2026-09-07 16:57:21 JSTにOpen Issue一覧をGitHub APIから取得した。</li><li>取得範囲は<code>--state open --limit 1000</code>、取得件数は6件である。</li><li>#65のsub-issues APIを確認し、#66〜#70の5件が登録されていることを確認した。</li><li>作業記録のMarkdownとmetadataを作成後、<code>python3 scripts/dev/validate_work_records.py</code>で全件検証する。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">07　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>作業記録作成直前の2026-09-07 16:57:21 JSTに、Pull Requestを除く <code>tj-999-comp/query_learning_BB</code> のOpen IssueをGitHub APIから取得した。取得範囲は<code>--state open --limit 1000</code>、取得件数は6件である。親子関係は#65のsub-issues APIで確認した。外部リポジトリのIssueは一覧へ含めていない。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td>[#66 [v2.0.0] 問題ページのURL設計と静的ビルド方式を決める](https://github.com/tj-999-comp/query_learning_BB/issues/66)</td><td>Open（state reason未設定）</td><td>#65の子Issue。方式決定のため、作業記録PRのmainマージ後に着手する。</td></tr><tr><td>2</td><td>未設定</td><td>[#67 [v2.0.0] 問題別ページの共通レイアウトとナビゲーションを実装する](https://github.com/tj-999-comp/query_learning_BB/issues/67)</td><td>Open（state reason未設定）</td><td>#65の子Issue。#66の方式決定後に着手する。</td></tr><tr><td>3</td><td>未設定</td><td>[#68 [v2.0.0] 全問題ページの生成と直接アクセス対応を実装する](https://github.com/tj-999-comp/query_learning_BB/issues/68)</td><td>Open（state reason未設定）</td><td>#65の子Issue。#66の方式決定と#67の共通基盤実装後に着手する。</td></tr><tr><td>4</td><td>未設定</td><td>[#69 [v2.0.0] 問題ページ化後の進捗・お気に入り・正誤判定を回帰確認する](https://github.com/tj-999-comp/query_learning_BB/issues/69)</td><td>Open（state reason未設定）</td><td>#65の子Issue。#67・#68の実装後に着手する。</td></tr><tr><td>5</td><td>未設定</td><td>[#70 [v2.0.0] Cloudflare Pages公開環境で受入テストを行う](https://github.com/tj-999-comp/query_learning_BB/issues/70)</td><td>Open（state reason未設定）</td><td>#65の子Issue。#68・#69の完了後に着手する。</td></tr><tr><td>6</td><td>未設定</td><td>[#65 [v2.0.0] 問題別ページ化と学習導線の再構成](https://github.com/tj-999-comp/query_learning_BB/issues/65)</td><td>Open（state reason未設定）</td><td>v2.0.0の親Issue。#66〜#70の進行を管理する。</td></tr></tbody></table></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">08　関連ファイル</p><h2>関連ファイル</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/work-records/README.md"><code>work-records/README.md</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/scripts/build-pages.sh"><code>Apps/scripts/build-pages.sh</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/index.html"><code>Apps/app/index.html</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/app/app.js"><code>Apps/app/app.js</code></a></li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 036</span>
+        <span>Markdown原本: <code>md/work_record_036.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>

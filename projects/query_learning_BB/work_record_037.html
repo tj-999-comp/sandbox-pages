@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #65 v2.0.0のSTG反映と本番承認ルールの確定 — 作業記録 037</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><a class="record-navigation__pager-link" href="work_record_038.html" aria-label="前の記録：Issue #81 v2.0.1本番反映と承認範囲ルールの明文化">← 前の記録<span>work_record_038</span></a><span class="record-navigation__position">2 / 38</span><a class="record-navigation__pager-link" href="work_record_036.html" aria-label="次の記録：Issue #65 v2.0.0親Issueと子Issueの作成">→ 次の記録<span>work_record_036</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 037 ・ 2026-09-07</p>
+          <h1>Issue #65 v2.0.0のSTG反映と本番承認ルールの確定</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_037.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>v2.0.0の問題別ページ化をmainへ反映済みだったが、STG環境はv1.2.1のままだった。公開手順を整理し、STGで確認した後にユーザーの明示的なOKを受けてから本番へ反映する運用ルールを確定したうえで、v2.0.0をSTGへ反映した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了内容</p><h2>完了内容</h2></div><div class="section-content"><ul><li>mainのv2.0.0をSTGへ反映するPR <a href="https://github.com/tj-999-comp/query_learning_BB/pull/79">#79</a>を作成し、<code>stg</code>へマージした。</li><li>STGコミット<code>3b2fd35</code>で、ホームと問題別ページに<code>v2.0.0</code>が表示されることを確認した。</li><li>STGで問題別URL <code>/problems/mvp-001/</code> がHTTP 200、不正な問題URLがHTTP 404になることを確認した。</li><li>本番反映の手順を <a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/docs/HOSTING_CLOUDFLARE.md"><code>Apps/docs/HOSTING_CLOUDFLARE.md</code></a> に追加した。</li><li>READMEにも、STG確認とユーザーの明示的なOKを本番反映の必須条件とすることを追記した。</li><li>公開ルール変更PR <a href="https://github.com/tj-999-comp/query_learning_BB/pull/78">#78</a>をマージした。</li><li>Issue #65と子Issue #66〜#70の完了状態を確認した。作業記録作成時点でOpen Issueは0件だった。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　本番反映ルール</p><h2>本番反映ルール</h2></div><div class="section-content"><p>今後のリリースは、次の順序で進める。</p>
+<ol><li>実装用ブランチから<code>stg</code>へ反映するPRを作成する。</li><li><code>stg</code>へのマージ後、STG Preview deploymentを確認する。</li><li>STG URLで主要フローと必要な回帰確認を行う。</li><li>確認結果、対象コミット、STG URLを記録する。</li><li>ユーザーから「本番反映してよい」という明示的なOKを受ける。</li><li>明示承認後に、承認済みの同一コミットを<code>main</code>へ反映する。</li><li>Production deploymentと本番スモークテスト結果を記録する。</li></ol>
+<p>CI成功、STG deploymentのActive、Issueクローズ、作業者自身の受入判断だけでは本番承認とみなさない。明示承認がない場合はSTG確認で停止する。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　確認結果</p><h2>確認結果</h2></div><div class="section-content"><ul><li>STG URL: <code>https://stg.query-learning-bb.pages.dev/</code></li><li>ホーム: HTTP 200、<code>v2.0.0</code></li><li>問題別URL: HTTP 200、<code>data-problem-id="mvp-001"</code></li><li>不正な問題URL: HTTP 404、404画面を表示</li><li>Basic認証情報は読み取り確認の実行中だけ使用し、リポジトリ・ファイル・作業記録へ保存していない。</li><li>今回のSTG反映操作では、アプリ本体を本番へ追加反映していない。既存の本番v2.0.0は維持した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>作業記録作成直前の2026-09-07 18:11:27 JSTに、Pull Requestを除く <code>tj-999-comp/query_learning_BB</code> のOpen Issue一覧をGitHub APIから取得した。取得範囲は<code>--state open --limit 1000</code>、取得件数は0件である。該当するIssue行はない。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　関連PR・ファイル</p><h2>関連PR・ファイル</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/pull/78">#78 公開ルール変更</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/pull/79">#79 v2.0.0のSTG反映</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/Apps/docs/HOSTING_CLOUDFLARE.md"><code>Apps/docs/HOSTING_CLOUDFLARE.md</code></a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/blob/main/README.md"><code>README.md</code></a></li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">07　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>python3 scripts/dev/validate_work_records.py</code></li><li><code>git diff --check</code></li><li>STGへの認証付きHTTP確認</li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 037</span>
+        <span>Markdown原本: <code>md/work_record_037.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
