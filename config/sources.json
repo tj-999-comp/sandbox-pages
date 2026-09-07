@@ -140,6 +140,29 @@
         "max_file_size_bytes": 1048576,
         "max_total_size_bytes": 10485760
       }
+    },
+    {
+      "project_id": "sport-portal",
+      "source_repository": "tj-999-comp/sport-portal",
+      "source_ref": "refs/heads/main",
+      "source_directory": "work-records",
+      "metadata_directory": "work-records/metadata",
+      "destination_directory": "projects/sport-portal",
+      "public_base_path": "/sandbox-pages/projects/sport-portal/",
+      "support_files": [],
+      "ignored_files": [
+        "README.md",
+        "md/.gitkeep",
+        "metadata/.gitkeep"
+      ],
+      "generator_id": "a-rendered-work-record-v1",
+      "html_mode": "a_rendered",
+      "enabled": false,
+      "limits": {
+        "max_files": 100,
+        "max_file_size_bytes": 1048576,
+        "max_total_size_bytes": 10485760
+      }
     }
   ]
 }

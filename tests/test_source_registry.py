@@ -25,6 +25,7 @@ class SourceRegistryTests(unittest.TestCase):
                 "NBA_Draft_DB",
                 "query_learning_BB",
                 "sandbox_pages",
+                "sport-portal",
                 "tech_article_nortification",
             ],
         )
@@ -92,6 +93,26 @@ class SourceRegistryTests(unittest.TestCase):
         )
         self.assertEqual(sandbox_source["ignored_files"], [])
         self.assertEqual(sandbox_source["limits"]["max_files"], 300)
+
+        sport_source = registry["sources"][4]
+        self.assertEqual(sport_source["source_repository"], "tj-999-comp/sport-portal")
+        self.assertEqual(sport_source["source_ref"], "refs/heads/main")
+        self.assertEqual(sport_source["source_directory"], "work-records")
+        self.assertEqual(sport_source["metadata_directory"], "work-records/metadata")
+        self.assertEqual(sport_source["destination_directory"], "projects/sport-portal")
+        self.assertEqual(
+            sport_source["public_base_path"],
+            "/sandbox-pages/projects/sport-portal/",
+        )
+        self.assertEqual(sport_source["html_mode"], "a_rendered")
+        self.assertEqual(sport_source["generator_id"], "a-rendered-work-record-v1")
+        self.assertFalse(sport_source["enabled"])
+        self.assertEqual(sport_source["support_files"], [])
+        self.assertEqual(
+            sport_source["ignored_files"],
+            ["README.md", "md/.gitkeep", "metadata/.gitkeep"],
+        )
+        self.assertEqual(sport_source["limits"]["max_files"], 100)
 
     def test_tech_article_source_has_the_fixed_issue_contract(self):
         registry = load_registry(ROOT / "config" / "sources.json")

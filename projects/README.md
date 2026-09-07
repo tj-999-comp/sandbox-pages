@@ -45,6 +45,7 @@ B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用�
 | `NBA_Draft_DB` | `tj-999-comp/NBA_Draft_DB` | `main` | `work-records/`（手動E2E運用中） | `projects/NBA_Draft_DB/` |
 | `query_learning_BB` | `tj-999-comp/query_learning_BB` | `main` | `work-records/`（main更新時に自動受入） | `projects/query_learning_BB/` |
 | `sandbox_pages` | `tj-999-comp/sandbox-pages` | `main` | `work-records/`（手動本番運用中） | `projects/sandbox_pages/` |
+| `sport-portal` | `tj-999-comp/sport-portal` | `main` | `work-records/`（受入準備中、enabled: false） | `projects/sport-portal/` |
 
 新しい生成元は、公開リポジトリ側で `project_id`、リポジトリ、branch、生成元ディレクトリ、公開先ディレクトリ、support file、generator ID、サイズ上限を登録し、受入テストを通過するまで無効とする。metadataの値から任意の公開先パスを組み立てず、公開リポジトリに登録された対応だけを使う。
 
@@ -167,6 +168,24 @@ Issue #84の受入前修復では、既存 `work_record_005` に残っていたs
 初期provenanceは公開済みレコードなしのbootstrap状態から開始し、承認済み固定commitの `work_record_001` を手動E2Eで公開済みである。生成元の `publish: true` は公開要求であり、生成元mainの作業記録変更時には自動的に公開要求へ変換される。`notify` がfalseの要求ではPages公開のみを行い、Slack通知は行わない。
 
 生成元は公開リポジトリをcheckout・編集・commit・pushせず、検証済みcommitの固定SHAと公開対象basenameだけを公開要求として送る。A側の受入validator、`a_rendered` renderer、Pages deploy、Slack通知の成功を確認するまで、公開要求を実公開完了とはみなさない。
+
+### `sport-portal` の導入契約
+
+`sport-portal` は、自分専用のスポーツ内容確認サイトを管理する新規生成元である。公開側の初期登録は `enabled: false` とし、生成元のmainへ初期作業記録を反映した後に、固定commitによるdisabled dry-run、手動E2E、Pages公開URL、必要な通知、同一要求のno-opを確認する。
+
+| 項目 | 値 |
+| --- | --- |
+| `project_id` | `sport-portal` |
+| 生成元リポジトリ | `tj-999-comp/sport-portal` |
+| 生成元branch | `main` |
+| `generator_id` | `a-rendered-work-record-v1` |
+| 生成元入力 | `work-records/md/work_record_###.md` と `work-records/metadata/work_record_###.yml` |
+| `html_mode` | `a_rendered`（HTML・CSS・designは生成元へ追加しない） |
+| 公開先 | `projects/sport-portal/` |
+| 公開要求 | `project_id`、固定 `source_commit_sha`、`target_basename` の3入力 |
+| 状態 | `enabled: false`（受入準備中） |
+
+生成元側の `request-publish.yml` は `project_id: sport-portal` を固定し、公開要求時には対象basenameと固定source SHAだけを公開側へ送る。公開側での受入・renderer・provenance・Pages処理が完了するまで、metadataの `publish: true` は公開完了を意味しない。
 
 ### 作業記録HTMLデザインの共通契約
 
