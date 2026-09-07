@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>スポーツポータルMVP仕様書の作成 — 作業記録 002</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">sport-portal</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><a class="record-navigation__pager-link" href="work_record_003.html" aria-label="前の記録：MVPリリース工程のIssue分解">← 前の記録<span>work_record_003</span></a><span class="record-navigation__position">2 / 3</span><a class="record-navigation__pager-link" href="work_record_001.html" aria-label="次の記録：sport-portalを生成元リポジトリとして整備">→ 次の記録<span>work_record_001</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 002 ・ 2026-09-07</p>
+          <h1>スポーツポータルMVP仕様書の作成</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_002.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p>スポーツポータルのMVP要件をヒアリングし、実装へ引き継げる仕様書として整理した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　確定した要件</p><h2>確定した要件</h2></div><div class="section-content"><ul><li>対象は2026年シーズンのJ1リーグ。</li><li>J1の試合予定、最終結果、順位表を表示する。</li><li>試合一覧は開催日単位の横スクロールで表示し、今日または次の試合開催日を初期位置とする。</li><li>Cloudflare PagesとCloudflare Workersを利用し、公式サイトから毎日6回データを取得する。</li><li>手動更新、最新更新日時、更新成功・失敗状態を実装する。</li><li>更新失敗時は前回データを表示する。</li><li>Basic認証、HTTPS、検索エンジン非登録を適用する。</li><li>スマートフォン・iPad・PCのFirefoxを対象とし、白黒ベースにマゼンタをアクセントとする。</li><li>将来のリーグ追加を考慮するが、MVPで表示するのはJ1のみとする。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　成果物</p><h2>成果物</h2></div><div class="section-content"><ul><li><code>docs/MVP_SPEC.md</code>: MVP仕様書</li><li><code>work-records/md/work_record_002.md</code>: 本作業記録</li><li><code>work-records/metadata/work_record_002.yml</code>: 作業記録metadata</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　未確定事項</p><h2>未確定事項</h2></div><div class="section-content"><ul><li>自動更新の具体的な6時刻は別Issueで決定する。</li><li>Basic認証のユーザー名・パスワードは利用者が決定する。</li><li>公式サイトの最終取得元URLとHTML抽出方法は実装時に確定する。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>sport-portal · 作業記録 002</span>
+        <span>Markdown原本: <code>md/work_record_002.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
