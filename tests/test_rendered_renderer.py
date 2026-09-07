@@ -81,6 +81,22 @@ class RenderedRendererTests(unittest.TestCase):
         self.assertIn('href="work_record_002.html"', rendered)
         self.assertNotIn('href="work_record_001.html"', rendered)
 
+    def test_local_record_markdown_links_target_published_html(self):
+        with tempfile.TemporaryDirectory() as directory:
+            markdown = Path(directory) / "work_record_001.md"
+            markdown.write_text(
+                "# Record\n\n## 関連\n\n"
+                "[同じ階層](work_record_002.md) [md階層](md/work_record_003.md)\n",
+                encoding="utf-8",
+            )
+
+            rendered = render_work_record(markdown, _metadata())
+
+        self.assertIn('href="work_record_002.html"', rendered)
+        self.assertIn('href="work_record_003.html"', rendered)
+        self.assertIn('Markdown原本: <code>md/work_record_001.md</code>', rendered)
+        self.assertNotIn('href="md/work_record_001.md"', rendered)
+
     def test_raw_html_is_escaped_and_unsafe_links_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             markdown = Path(directory) / "work_record_001.md"

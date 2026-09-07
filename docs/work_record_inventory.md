@@ -1,6 +1,6 @@
 # 過去作業記録棚卸し対応表
 
-更新日: 2026-09-06
+更新日: 2026-09-07
 
 ## 目的
 
@@ -16,9 +16,9 @@ Issue #90の完了条件に基づき、登録済み5生成元の現在`main`を�
 | `tech_article_nortification` | `tj-999-comp/tech_article_nortification` | `c026267696feb6802f83807b76eb499a89e57037` | `a_rendered` | 17 | 2 | 0 | 15 |
 | `NBA_Draft_DB` | `tj-999-comp/NBA_Draft_DB` | `3604ed8680ad02f7e3310ac0b2a1f1f259df7058` | `a_rendered` | 1 | 1 | 0 | 0 |
 | `query_learning_BB` | `tj-999-comp/query_learning_BB` | `77eca4f0b1889a41958d7b75d79ef2f6ecbb9aec` | `a_rendered` | 34 | 34 | 0 | 0 |
-| `sandbox_pages` | `tj-999-comp/sandbox-pages` | `4a89737e671f82b25e4f6e7ec80ca2aff59cc289` | `source_html` | 83 | 71 | 12 | 0 |
+| `sandbox_pages` | `tj-999-comp/sandbox-pages` | `306d83809be1ea383c7154a56132f16f277bff16` | `source_html` | 87 | 87 | 0 | 0 |
 
-合計: source record 166件、公開済み126件、未公開候補40件、metadataで`publish: false`の非公開15件。全recordでMarkdownとmetadataのbasename対応、およびmetadataのtitle/dateとMarkdown見出し・作成日の一致を確認した。
+合計: source record 170件、公開済み142件、未公開候補13件、metadataで`publish: false`の非公開15件。全recordでMarkdownとmetadataのbasename対応、およびmetadataのtitle/dateとMarkdown見出し・作成日の一致を確認した。
 
 公開済みは公開側のMarkdownとHTMLがともに存在するrecord、未公開候補はmetadataが`publish: true`だが公開側の両ファイルがないrecord、非公開はmetadataが`publish: false`のrecordを指す。
 
@@ -162,7 +162,7 @@ Issue #90の完了条件に基づき、登録済み5生成元の現在`main`を�
 ### `sandbox_pages`
 
 - 生成元: `tj-999-comp/sandbox-pages` / `refs/heads/main`
-- 棚卸し基準SHA: `4a89737e671f82b25e4f6e7ec80ca2aff59cc289`
+- 棚卸し基準SHA: `306d83809be1ea383c7154a56132f16f277bff16`
 - 公開先: `projects/sandbox_pages/`
 - HTML方式: `source_html`
 - provenance: 公開済みrecordについて、対応する最新の受入manifestを記載。
@@ -239,19 +239,23 @@ Issue #90の完了条件に基づき、登録済み5生成元の現在`main`を�
 | `work_record_068` | 2026-08-31 | Issue #80 sandbox-pages source registry登録 | MD + metadata + HTML | `true` | ○ | `accept-33406726036-1-sandbox_pages-work_record_074.json` |
 | `work_record_069` | 2026-08-31 | Issue #81 sandbox_pages作業記録metadata整備 | MD + metadata + HTML | `true` | ○ | `accept-33406726036-1-sandbox_pages-work_record_074.json` |
 | `work_record_070` | 2026-08-31 | Issue #82 同一repository source受入隔離 | MD + metadata + HTML | `true` | ○ | `accept-33406726036-1-sandbox_pages-work_record_074.json` |
-| `work_record_071` | 2026-08-31 | Issue #83 sandbox_pages初期provenance登録 | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_072` | 2026-08-31 | Issue #84 sandbox_pages disabled受入dry-runの修復 | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_073` | 2026-08-31 | Issue #85 sandbox_pages手動E2E有効化 | MD + metadata + HTML | `true` | — | `—` |
+| `work_record_071` | 2026-08-31 | Issue #83 sandbox_pages初期provenance登録 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_072` | 2026-08-31 | Issue #84 sandbox_pages disabled受入dry-runの修復 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_073` | 2026-08-31 | Issue #85 sandbox_pages手動E2E有効化 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
 | `work_record_074` | 2026-08-31 | Issue #86 sandbox_pages新規作業記録E2E | MD + metadata + HTML | `true` | ○ | `accept-33406726036-1-sandbox_pages-work_record_074.json` |
-| `work_record_075` | 2026-09-01 | Issue #87 sandbox_pages公開運用の引き継ぎ | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_076` | 2026-09-01 | Issue #79 sandbox_pages本番運用開始確認 | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_077` | 2026-09-01 | 生成元リポジトリ用GitHub Templateを登録 | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_078` | 2026-09-01 | query_learning_BBの公開側registry導入 | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_079` | 2026-09-01 | query_learning_BBの受入baselineを登録 | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_080` | 2026-09-01 | query_learning_BBを手動E2E向けに有効化 | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_081` | 2026-09-01 | query_learning_BBの手動公開E2E完了 | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_082` | 2026-09-01 | 全生成元のIssue状況・HTMLデザイン運用を統一 | MD + metadata + HTML | `true` | — | `—` |
-| `work_record_083` | 2026-09-01 | Issue #102完了確認と全生成元公開HTML受入 | MD + metadata + HTML | `true` | — | `—` |
+| `work_record_075` | 2026-09-01 | Issue #87 sandbox_pages公開運用の引き継ぎ | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_076` | 2026-09-01 | Issue #79 sandbox_pages本番運用開始確認 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_077` | 2026-09-01 | 生成元リポジトリ用GitHub Templateを登録 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_078` | 2026-09-01 | query_learning_BBの公開側registry導入 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_079` | 2026-09-01 | query_learning_BBの受入baselineを登録 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_080` | 2026-09-01 | query_learning_BBを手動E2E向けに有効化 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_081` | 2026-09-01 | query_learning_BBの手動公開E2E完了 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_082` | 2026-09-01 | 全生成元のIssue状況・HTMLデザイン運用を統一 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_083` | 2026-09-01 | Issue #102完了確認と全生成元公開HTML受入 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_084` | 2026-09-06 | Issue #90 過去作業記録の棚卸しと公開対応表 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_085` | 2026-09-06 | Issue #91 過去作業記録のmetadata・命名・HTMLを公開契約へ整備 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_086` | 2026-09-06 | Issue #92 作業記録ページの構成とrecord間リンクを実装 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
+| `work_record_087` | 2026-09-06 | Issue #93 固定対象の一括bootstrap経路を実装 | MD + metadata + HTML | `true` | ○ | `accept-34039818274-1-sandbox_pages-work_record_087.json` |
 
 整合性確認: **合格**。
 
@@ -273,6 +277,6 @@ Issue #90の完了条件に基づき、登録済み5生成元の現在`main`を�
 - `tech_article_nortification`: `work_record_001`〜`work_record_013`、`work_record_016`、`work_record_017`は`publish: false`。公開済みは`014`、`015`のみ。
 - `NBA_Draft_DB`: source record 1件と公開側1件が一致する。
 - `query_learning_BB`: source record 34件と公開側34件、provenance 34件が一致する。
-- `sandbox_pages`: `work_record_071`〜`work_record_073`、`work_record_075`〜`work_record_083`の12件はsource側metadataが`publish: true`だが、現行公開先に両ファイルがない。
+- `sandbox_pages`: source record 87件と公開側87件、provenance 87件が一致する。bootstrap/backfillの対象だった`work_record_071`〜`work_record_073`、`work_record_075`〜`work_record_087`も公開済みである。
 
 この対応表を入力として、Issue #91でmetadata・HTML整備、Issue #92でindexとrecord間リンク、Issue #93で固定SHAの遡及反映、Issue #94でPages上の全体受入を行う。未公開候補は推測で公開せず、固定source commitと公開可否を確認してから後続工程へ渡す。

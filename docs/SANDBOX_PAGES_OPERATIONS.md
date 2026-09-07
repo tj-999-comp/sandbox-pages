@@ -1,6 +1,6 @@
 # sandbox_pages 公開運用引き継ぎ
 
-更新日: 2026-09-01
+更新日: 2026-09-07
 
 対象: `tj-999-comp/sandbox-pages` の `sandbox_pages` project
 
@@ -68,6 +68,22 @@ Issue #86の実E2Eは重大な未解決事項なしと判定した。
 - run `33405631634`: source SHA `a407281afb01e54281fa26a7eda89b5b681380b1`、`work_record_074`、`operation=create`、`no_op=false`、`notify=true`。apply commit `6c3c9a7c25f0bc4809329fee92c2dd9d01a21158`、publication ID `accept-33405631634-1-sandbox_pages-work_record_074`。PagesとSlack通知に成功。
 - run `33405868613`: 同じ要求の再実行で`operation=update`、`no_op=true`、`notify=false`。commit、deploy、通知は発生しなかった。
 - run `33406726036`: 最終source SHA `719a1806492244942c77738d5336865ac8b1c96d`との同期で、`operation=update`、`no_op=false`、`notify=false`。apply commit `597ed80e9609f476a1c13a734aabc39e72251945`、Pages deployに成功。公開URLを1280px幅と320px幅で確認し、HTTP 200、横overflowなし、console/page errorなし。
+
+### #94 全体受入スナップショット（2026-09-07）
+
+生成元の`main`固定SHA、source record件数、公開側の最新provenanceを照合した。公開対象・公開済み・未公開候補・非公開の対応は次のとおりで、合計170件 = 公開142件 + 未公開候補13件 + 非公開15件となる。
+
+| project_id | source SHA | source record | 公開済み | 未公開候補 | 非公開 | 最新公開側provenance |
+|---|---|---:|---:|---:|---:|---|
+| `B_Stats_Site` | `14468e72a58a00be29e18d132eda05ba0c1f01d7` | 31 | 18 | 13 | 0 | `update-20260907-record-links-B_Stats_Site`（作業ブランチ） |
+| `tech_article_nortification` | `c026267696feb6802f83807b76eb499a89e57037` | 17 | 2 | 0 | 15 | `update-20260907-record-links-tech_article_nortification`（作業ブランチ） |
+| `NBA_Draft_DB` | `3604ed8680ad02f7e3310ac0b2a1f1f259df7058` | 1 | 1 | 0 | 0 | `update-20260907-record-links-NBA_Draft_DB`（作業ブランチ） |
+| `query_learning_BB` | `77eca4f0b1889a41958d7b75d79ef2f6ecbb9aec` | 34 | 34 | 0 | 0 | `update-20260907-record-links-query_learning_BB`（作業ブランチ） |
+| `sandbox_pages` | `306d83809be1ea383c7154a56132f16f277bff16` | 87 | 87 | 0 | 0 | `accept-34039818274-1-sandbox_pages-work_record_087` |
+
+リンク巡回では、global index、5つのproject index、公開record 142件を対象に、HTTP status、project境界、record basename、孤立record、横overflowを確認した。現行Pagesで`a_rendered` record本文の`work_record_###.md`リンクが404になる問題を検出したため、rendererで公開HTMLへの正規化、a_rendered footerの非公開Markdownリンク除去、既存55件の公開HTMLとprovenance更新を作業ブランチへ反映した。修正後のローカルPagesは156ページを1280pxで巡回し、404・console/page error・横overflow・誤projectリンクなし。global/project indexと代表recordは1280px・320px、Tab移動とfocus-visibleを確認済み。mainのPagesへ反映するにはPRのmerge後にdeploy結果を再確認する。
+
+bootstrap/backfillの再実行は、古いsource SHAを指定したrun `34040802753`が「previous accepted source commitより古い」として停止した後、最新受入SHA `1147b36c980e192af90cac93d7854905103f9978`でrun `34040858354`を再実行した。dry-run/applyは成功し、`no_op=true`、remote main SHAは`306d83809be1ea383c7154a56132f16f277bff16`のまま、deploy jobはskip、通知jobは存在せず、重複Slack通知なしを確認した。
 
 ## 3. 緊急停止
 
