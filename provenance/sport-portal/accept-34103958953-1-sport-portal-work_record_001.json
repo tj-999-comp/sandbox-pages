@@ -1,0 +1,56 @@
+{
+  "accepted_at": "2026-09-07T09:05:13Z",
+  "notify": true,
+  "operation": "create",
+  "project_id": "sport-portal",
+  "public_base_path": "/sandbox-pages/projects/sport-portal/",
+  "publication_id": "accept-34103958953-1-sport-portal-work_record_001",
+  "published_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "5971f70a586c7ac7a6c8d5817d6220d111a9c32989649224111535d579b0c2ba",
+      "size_bytes": 686
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "9381e9d352258243458303f05958f9ea03f866a7f300b366d6b0865576972c43",
+      "size_bytes": 2806
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-09-07",
+        "project_id": "sport-portal",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "setup",
+          "source-repository"
+        ],
+        "title": "sport-portalを生成元リポジトリとして整備"
+      },
+      "metadata_sha256": "d2656b20ed9ab07f2e12332da946e4f8636341e1cbbb98bb79b2d6d4cc5756bf",
+      "public_url": "/sandbox-pages/projects/sport-portal/work_record_001.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "3dca25cfcb6d86775a99300533ec95bbd14130e5",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/sport-portal"
+  },
+  "source_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "5971f70a586c7ac7a6c8d5817d6220d111a9c32989649224111535d579b0c2ba",
+      "size_bytes": 686
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "b8b3025ef9a16e3c5441f155efb674bf7b87ae42b8d388e2638c97d7dc230896",
+      "size_bytes": 178
+    }
+  ]
+}
