@@ -106,7 +106,7 @@ class SourceRegistryTests(unittest.TestCase):
         )
         self.assertEqual(sport_source["html_mode"], "a_rendered")
         self.assertEqual(sport_source["generator_id"], "a-rendered-work-record-v1")
-        self.assertFalse(sport_source["enabled"])
+        self.assertTrue(sport_source["enabled"])
         self.assertEqual(sport_source["support_files"], [])
         self.assertEqual(
             sport_source["ignored_files"],

@@ -45,7 +45,7 @@ B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用�
 | `NBA_Draft_DB` | `tj-999-comp/NBA_Draft_DB` | `main` | `work-records/`（手動E2E運用中） | `projects/NBA_Draft_DB/` |
 | `query_learning_BB` | `tj-999-comp/query_learning_BB` | `main` | `work-records/`（main更新時に自動受入） | `projects/query_learning_BB/` |
 | `sandbox_pages` | `tj-999-comp/sandbox-pages` | `main` | `work-records/`（手動本番運用中） | `projects/sandbox_pages/` |
-| `sport-portal` | `tj-999-comp/sport-portal` | `main` | `work-records/`（受入準備中、enabled: false） | `projects/sport-portal/` |
+| `sport-portal` | `tj-999-comp/sport-portal` | `main` | `work-records/`（手動E2E運用中、enabled: true） | `projects/sport-portal/` |
 
 新しい生成元は、公開リポジトリ側で `project_id`、リポジトリ、branch、生成元ディレクトリ、公開先ディレクトリ、support file、generator ID、サイズ上限を登録し、受入テストを通過するまで無効とする。metadataの値から任意の公開先パスを組み立てず、公開リポジトリに登録された対応だけを使う。
 
@@ -171,7 +171,7 @@ Issue #84の受入前修復では、既存 `work_record_005` に残っていたs
 
 ### `sport-portal` の導入契約
 
-`sport-portal` は、自分専用のスポーツ内容確認サイトを管理する新規生成元である。公開側の初期登録は `enabled: false` とし、生成元のmainへ初期作業記録を反映した後に、固定commitによるdisabled dry-run、手動E2E、Pages公開URL、必要な通知、同一要求のno-opを確認する。
+`sport-portal` は、自分専用のスポーツ内容確認サイトを管理する生成元である。source registry登録とdisabled dry-runを完了し、手動E2Eを受け入れるため `enabled: true` に変更した。固定commitによる受入、Pages公開URL、必要な通知、同一要求のno-opを確認する。
 
 | 項目 | 値 |
 | --- | --- |
@@ -183,7 +183,7 @@ Issue #84の受入前修復では、既存 `work_record_005` に残っていたs
 | `html_mode` | `a_rendered`（HTML・CSS・designは生成元へ追加しない） |
 | 公開先 | `projects/sport-portal/` |
 | 公開要求 | `project_id`、固定 `source_commit_sha`、`target_basename` の3入力 |
-| 状態 | `enabled: false`（受入準備中） |
+| 状態 | `enabled: true`（手動E2E運用中） |
 
 生成元側の `request-publish.yml` は `project_id: sport-portal` を固定し、公開要求時には対象basenameと固定source SHAだけを公開側へ送る。公開側での受入・renderer・provenance・Pages処理が完了するまで、metadataの `publish: true` は公開完了を意味しない。
 
