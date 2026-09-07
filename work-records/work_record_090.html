@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>sport-portal公開受入の有効化と実E2E確認 — 作業記録 090</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 090 ・ <time datetime="2026-09-07">2026-09-07</time></p>
+          <h1>sport-portal公開受入の有効化と実E2E確認</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_090.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: <code>sport-portal</code>を公開側の生成元として有効化し、生成元から公開ページまでの実E2Eを完了する。</li><li>目的: <code>enabled: true</code>への切り替え後も、固定commit受入、Pages公開、provenance、Slack通知、再実行時のno-opが成立することを確認する。</li><li>完了条件: 設定変更をマージし、生成元・公開側のActionsが成功し、公開URLが到達可能で、Issue #120を完了として記録・クローズする。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>sport-portal</code>の公開受入準備、公開側registry、Issue #120、PR #128。</li><li>実施内容: <code>config/sources.json</code>の<code>sport-portal</code>を<code>enabled: false</code>から<code>enabled: true</code>へ変更し、運用説明と受入テストの期待値を更新した。生成元Actionsに必要な<code>PUBLISH_APP_ID</code> Actions variableが未設定だったため、値を補完した。</li><li>成果物: PR #128、公開側mainへのマージコミット<code>1a5d634f24c4815e74ac76c8d01170e81ab2a6e0</code>、公開反映コミット<code>ef58d9b71b0ed2fb8bb55567e29a9f0b6d773a3a</code>。</li><li>検証結果: 公開側テスト121件、index generator、作業記録HTML、ファイル名、差分チェックが成功した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: <code>sport-portal</code>の通常運用では、生成元側からpublish requestを実行し、公開側の受入runとprovenanceを確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: PR #128、生成元Actions run、公開側Actions run、Pages公開URL、Issue #120。</li><li>実施内容: 設定変更のCI、実E2Eの各job、公開反映結果、provenanceの生成元SHA・record basename・公開URL、同一入力の再実行結果を照合した。</li><li>成果物: Issue #120への完了コメント、Issueの完了クローズ、公開URLとActions runの確認結果。</li><li>検証結果: 生成元run <code>34103945295</code>、公開側run <code>34103958953</code>が成功した。公開URLはHTTP 200で、Slack通知も成功した。同一内容の再実行run <code>34104154093</code>は成功し、反映no-op、Deploy/Notifyスキップとなった。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: 今後の生成元record追加時は、同じ受入契約とno-op挙動を継続利用する。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: <code>sport-portal</code>のglobal index、project index、record page、公開受入後のPages URL。</li><li>実施内容: Chromiumで1280x900、900x900、640x900、320x800を確認し、HTTP応答、横overflow、console/page error、failed requestを確認した。</li><li>成果物: <code>/private/tmp/sport-portal-browser-global/report.json</code>、<code>/private/tmp/sport-portal-browser-project/report.json</code>、<code>/private/tmp/sport-portal-browser-record/report.json</code>。</li><li>検証結果: 全viewportでHTTP 200、横overflowなし、console/page errorなし、failed requestなし。公開record URLもHTTP 200で到達できた。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: UI変更を伴う公開更新では、同じ4viewport確認を継続する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: <code>enabled: true</code>への切り替えは、生成元mainの固定SHAを使った実E2Eが成功することを確認した後に行った。</li><li>理由: registryを有効化した状態で、source validation、公開側apply、Pages deploy、provenance、通知までの実運用経路を確認するため。</li><li>判断: 初回の生成元Actionsが<code>PUBLISH_APP_ID</code>未設定で停止したため、既存のGitHub App設定に対応するActions variableを追加して再実行した。</li><li>理由: 秘密情報を追加せず、workflowが要求する非秘密のApp IDだけを設定する最小対応とした。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと:<ul><li><code>sport-portal</code>を公開側registryで<code>enabled: true</code>に変更し、PR #128をマージした。</li><li>生成元run <code>34103945295</code>と公開側run <code>34103958953</code>で実E2Eを完了した。</li><li><code>provenance/sport-portal/accept-34103958953-1-sport-portal-work_record_001.json</code>を生成し、source SHA <code>3dca25cfcb6d86775a99300533ec95bbd14130e5</code>、record basename、公開URLを固定した。</li><li><code>https://tj-999-comp.github.io/sandbox-pages/projects/sport-portal/work_record_001.html</code>のHTTP 200、Slack通知成功、同一入力再実行時のno-opを確認した。</li><li>Issue #120へ結果をコメントし、完了理由<code>COMPLETED</code>でクローズした。Issue #118も完了済み。</li></ul></li><li>変更ファイル: PR #128で<code>config/sources.json</code>、<code>projects/README.md</code>、<code>tests/test_source_registry.py</code>、<code>tests/test_read_only_acceptance.py</code>を変更。本作業記録として<code>work-records/md/work_record_090.md</code>、metadata、生成HTMLを追加する。</li><li>検証結果: 公開側unit test 121件成功、index generator check成功、作業記録HTML check成功、filename validator成功、<code>git diff --check</code>成功。生成元・公開側ActionsとPages公開確認も成功。</li><li>作業ブランチ: PR #128は<code>codex/120-sport-portal-enable</code>。本作業記録はdocs-only運用に従い、最新<code>main</code>へ直接追加する。</li><li>コミット: PR #128 merge commit <code>1a5d634f24c4815e74ac76c8d01170e81ab2a6e0</code>、公開反映コミット<code>ef58d9b71b0ed2fb8bb55567e29a9f0b6d773a3a</code>。作業記録のcommitは作成後に追記する。</li><li>PR: <a href="https://github.com/tj-999-comp/sandbox-pages/pull/128">公開側PR #128</a>（マージ済み）。本作業記録はdocs-onlyのためPRなし。</li><li>PRレビュー・CI: PR #128のValidate check成功。実E2Eの生成元・公開側workflowも成功。</li><li>未解決事項: なし。</li><li>次アクション: <code>sport-portal</code>で新しい作業記録を追加した際は、生成元workflowのpublish requestを実行し、公開側のprovenanceとPages URLを確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-09-07 18:17 取得範囲: <code>tj-999-comp/sandbox-pages</code>のOpen Issue全件（Pull Request除外） 取得件数: 0件（一覧行数: 0件）</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし（Open Issueなし）</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<p>該当Issueなし。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 090</span>
+        <span><a href="md/work_record_090.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
