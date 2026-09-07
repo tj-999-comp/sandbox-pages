@@ -1,8 +1,10 @@
 # 作業記録の運用ルール
 
-更新日: 2026-09-01
+更新日: 2026-09-07
 
-共通のGitHub・Issue・PR・B/C/D適用標準は[`docs/PORTFOLIO_STANDARD.md`](../docs/PORTFOLIO_STANDARD.md)を参照する。この文書は作業記録のMarkdown/HTML作成と表示検証を定める。
+共通のGitHub・Issue・PR・全生成元適用標準は[`docs/PORTFOLIO_STANDARD.md`](../docs/PORTFOLIO_STANDARD.md)を参照する。この文書は作業記録のMarkdown/HTML作成と表示検証を定める。
+
+「作業記録を残して」の依頼は、作業記録の作成・HTML生成・検証に加えて、課題ブランチ、PR作成、レビュー・CI確認、PR mergeまでを一式として扱う。対応するIssueがある場合は、PR merge後に完了コメントを残してcloseし、対応Issueがない場合はIssue操作を省略する。ユーザーが明示的に省略・停止を指定した工程だけを除外する。この要約は全生成元リポジトリのREADMEまたはエージェント運用ファイルへ反映し、詳細は共通標準を参照する。
 
 このディレクトリには、リポジトリ内で行った調査、実装、判断、検証、残件を保存する。GitHub上のIssueと混同しないよう、ローカルの記録はすべて「作業記録」と呼ぶ。
 

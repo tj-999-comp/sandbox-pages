@@ -8,7 +8,9 @@
 
 正本URL: <https://github.com/tj-999-comp/sandbox-pages/blob/main/projects/README.md>
 
-B、C、Dなど生成元ごとの作業・GitHub・作業記録の共通運用は[`docs/PORTFOLIO_STANDARD.md`](../docs/PORTFOLIO_STANDARD.md)を参照する。この文書は公開リポジトリAの受入・配信契約を正本とする。
+B、C、Dなどすべての生成元リポジトリに共通する作業・GitHub・作業記録の運用は[`docs/PORTFOLIO_STANDARD.md`](../docs/PORTFOLIO_STANDARD.md)を参照する。この文書は公開リポジトリAの受入・配信契約を正本とする。
+
+生成元リポジトリでユーザーが「作業記録を残して」と依頼した場合は、作業記録の作成・検証、課題ブランチ、PR作成、レビュー・CI確認、PR mergeまでを一式として扱う。対応するIssueがある場合は、merge後に完了コメントを残してIssueをcloseし、対応Issueがない場合はIssue操作を行わない。生成元のREADMEまたはエージェント運用ファイルにはこの要約と共通標準への参照を置き、詳細手順を個別に複製しない。
 
 `sandbox_pages`自身の承認、停止、rollback、再通知の実運用は[`docs/SANDBOX_PAGES_OPERATIONS.md`](../docs/SANDBOX_PAGES_OPERATIONS.md)にまとめる。
 

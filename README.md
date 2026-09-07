@@ -17,4 +17,4 @@
 - Markdown原本は `work-records/md/work_record_###.md` で管理する
 - 同じ番号のHTMLを `work-records/work_record_###.html` へ生成する
 - 作成・生成・検証手順は [work-records/README.md](work-records/README.md) を参照する
-- PRのマージとブランチ削除は、ユーザーから明示的な指示がある場合のみ実施する
+- 「作業記録を残して」の依頼では、作業記録作成、PR作成、レビュー・CI確認、PR mergeまで実施し、対応Issueがあればmerge後にcloseする。ブランチ削除はユーザーの明示指示がある場合のみ実施する
