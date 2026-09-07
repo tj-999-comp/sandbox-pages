@@ -44,9 +44,9 @@
 - 変更ファイル: `tests/test_published_provenance_integrity.py`、`work-records/md/work_record_091.md`、`work-records/metadata/work_record_091.yml`、`work-records/work_record_091.html`。
 - 検証結果: 新規driftテスト1件成功。既存テストを含む全テスト、HTML生成・check、filename validator、`git diff --check`をPR工程で確認する。
 - 作業ブランチ: `codex/091-repair-query-provenance`。
-- コミット: 作成後に記録する。
-- PR: 作成後に記録する。先行復旧PRは[公開側PR #129](https://github.com/tj-999-comp/sandbox-pages/pull/129)（マージ済み）。
-- PRレビュー・CI: PR #129のValidate check成功。本作業のPRで新規driftテストをCI確認する。
+- コミット: `093d64f`（回帰テストと作業記録）。
+- PR: [公開側PR #130](https://github.com/tj-999-comp/sandbox-pages/pull/130)（作業中）。先行復旧PRは[公開側PR #129](https://github.com/tj-999-comp/sandbox-pages/pull/129)（マージ済み）。
+- PRレビュー・CI: PR #129のValidate check成功。PR #130で新規driftテストをCI確認する。
 - 未解決事項: なし。
 - 次アクション: 本作業のPRをmerge後、`query_learning_BB`の作業記録公開要求を再実行し、dry-run・apply・Pages deployの成功またはno-opを確認する。
 
