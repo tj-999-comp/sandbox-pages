@@ -75,12 +75,13 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
         self.assertEqual(source["generator_id"], "a-rendered-work-record-v1")
         self.assertTrue(source["enabled"])
 
-    def test_sport_portal_source_is_registered_but_disabled_until_e2e(self):
+    def test_sport_portal_source_is_registered_for_manual_e2e(self):
         source = resolve_source(
             registry_path=ROOT / "config/sources.json",
             project_id="sport-portal",
             source_commit_sha="a" * 40,
             target_basename="work_record_001",
+            allow_enabled=True,
         )
         self.assertEqual(source["source_repository"], "tj-999-comp/sport-portal")
         self.assertEqual(source["source_ref"], "refs/heads/main")
@@ -88,7 +89,7 @@ class ReadOnlyAcceptanceTests(unittest.TestCase):
         self.assertEqual(source["public_base_path"], "/sandbox-pages/projects/sport-portal/")
         self.assertEqual(source["html_mode"], "a_rendered")
         self.assertEqual(source["generator_id"], "a-rendered-work-record-v1")
-        self.assertFalse(source["enabled"])
+        self.assertTrue(source["enabled"])
 
     def test_resolve_allows_registered_enabled_source_with_explicit_opt_in(self):
         source = resolve_source(
