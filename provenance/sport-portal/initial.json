@@ -1,0 +1,17 @@
+{
+  "accepted_at": "2026-09-07T08:41:39Z",
+  "notify": false,
+  "operation": "create",
+  "project_id": "sport-portal",
+  "public_base_path": "/sandbox-pages/projects/sport-portal/",
+  "publication_id": "bootstrap-20260907-sport-portal",
+  "published_files": [],
+  "records": [],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "e3ca0fcbe16d25f2fd19e9a0405af4898817883f",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/sport-portal"
+  },
+  "source_files": []
+}
