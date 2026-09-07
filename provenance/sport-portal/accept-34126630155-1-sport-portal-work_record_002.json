@@ -1,0 +1,103 @@
+{
+  "accepted_at": "2026-09-07T13:18:40Z",
+  "notify": true,
+  "operation": "create",
+  "project_id": "sport-portal",
+  "public_base_path": "/sandbox-pages/projects/sport-portal/",
+  "publication_id": "accept-34126630155-1-sport-portal-work_record_002",
+  "published_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "5971f70a586c7ac7a6c8d5817d6220d111a9c32989649224111535d579b0c2ba",
+      "size_bytes": 686
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "260e4de18c2a0d5971e21ac4a8c8391b2075bf580290d78b67669dfb257892e4",
+      "size_bytes": 1453
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "4f3b9555afef68f3768a852ce801782ada12ae17ba756dde940e75018639dd05",
+      "size_bytes": 2873
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "e8044cfb0f359c92c415bef354415797cb31aaeaa43d1eb830e2dd07e4e6bb75",
+      "size_bytes": 3901
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-09-07",
+        "project_id": "sport-portal",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "setup",
+          "source-repository"
+        ],
+        "title": "sport-portalを生成元リポジトリとして整備"
+      },
+      "metadata_sha256": "d2656b20ed9ab07f2e12332da946e4f8636341e1cbbb98bb79b2d6d4cc5756bf",
+      "public_url": "/sandbox-pages/projects/sport-portal/work_record_001.html"
+    },
+    {
+      "basename": "work_record_002",
+      "metadata": {
+        "date": "2026-09-07",
+        "project_id": "sport-portal",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "cloudflare",
+          "mvp",
+          "requirements"
+        ],
+        "title": "スポーツポータルMVP仕様書の作成"
+      },
+      "metadata_sha256": "6a0adfce2e59d01ee3ff04a2570a7a9a978b6220c5a81c826caf06c8f42be0bc",
+      "public_url": "/sandbox-pages/projects/sport-portal/work_record_002.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "33c9e5c377ef6d6de729631879bec0c57ce8a68a",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/sport-portal"
+  },
+  "source_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "5971f70a586c7ac7a6c8d5817d6220d111a9c32989649224111535d579b0c2ba",
+      "size_bytes": 686
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "260e4de18c2a0d5971e21ac4a8c8391b2075bf580290d78b67669dfb257892e4",
+      "size_bytes": 1453
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "93e664282336b488892721bc7f91a7fe8fa8345d9597a7b0488ff861cf3a00d5",
+      "size_bytes": 2339
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "b8b3025ef9a16e3c5441f155efb674bf7b87ae42b8d388e2638c97d7dc230896",
+      "size_bytes": 178
+    },
+    {
+      "path": "metadata/work_record_002.yml",
+      "sha256": "f73c204c492d4ce56992d843a2b0c196de202bc70b7221fe8cd3a06c3a1a455f",
+      "size_bytes": 177
+    },
+    {
+      "path": "metadata/work_record_003.yml",
+      "sha256": "bd6baa6338f7ebfd375a52e75955097c6a831b044418201d396a4d30208738d4",
+      "size_bytes": 159
+    }
+  ]
+}
