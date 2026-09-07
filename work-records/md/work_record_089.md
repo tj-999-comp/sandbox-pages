@@ -49,9 +49,9 @@
 - 変更ファイル: 公開側の `config/sources.json`、`projects/README.md`、`provenance/sport-portal/initial.json`、生成index、テスト、作業記録。生成元側のREADME、`request-publish.yml`、初回作業記録とmetadata。
 - 検証結果: 生成元validator 1件成功、公開側ユニットテスト121件成功、index・filename・HTML検証成功、固定commit dry-run成功、Chromium 4 viewport確認成功。
 - 作業ブランチ: 公開側 `codex/120-sport-portal-acceptance`、生成元側 `codex/001-sport-portal-source-setup`。
-- コミット: 生成元側 `176a2801bcbd85801830cad57e88c55667df64aa`、公開側 `95d7699`。
-- PR: 生成元側・公開側とも未作成。
-- PRレビュー・CI: 未実施。
+- コミット: 生成元側 `176a2801bcbd85801830cad57e88c55667df64aa`（PR #1 merge commit `3dca25cfcb6d86775a99300533ec95bbd14130e5`）、公開側 `95d7699`、`62e7316`。
+- PR: [生成元PR #1](https://github.com/tj-999-comp/sport-portal/pull/1)（merge済み）、[公開側PR #127](https://github.com/tj-999-comp/sandbox-pages/pull/127)（確認中）。
+- PRレビュー・CI: 生成元PRのValidate check成功。公開側PRのCI・外部差分確認は進行中。
 - 未解決事項: source mainへのmerge、公開側PRのmerge、GitHub Actions実受入、Pages公開URL・Slack通知の確認、`enabled: true`化。
 - 次アクション: 生成元PRをmergeし、公開側PRをmergeした後、`sport-portal`の `work_record_001` を固定SHAで手動E2Eする。合格後に `config/sources.json` の `enabled` を `true` にする。
 
