@@ -72,6 +72,8 @@ Git操作の認証はSSHを基本とし、GitHub API用のInstallation tokenと�
 
 ### 生成元リポジトリ用テンプレートのGitHub App連携
 
+標準workflowの雛形は[`docs/templates/request-publish.yml`](templates/request-publish.yml)を使う。対象生成元の`PROJECT_ID`、validatorの配置、登録済みSecret/Variableだけを設定し、公開先のcheckout・編集・commit・push処理は追加しない。
+
 新しい生成元リポジトリを追加するときは、生成元リポジトリのREADMEまたは運用テンプレートへ、公開リポジトリA（`tj-999-comp/sandbox-pages`）とのGitHub App連携工程を必ず記載する。生成元ごとに次を設定・確認する。
 
 1. 公開リポジトリAの受入workflowを`workflow_dispatch`できるGitHub Appを、必要な最小権限で対象リポジトリへ利用可能にする。
