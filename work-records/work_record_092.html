@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>全リポジトリの作業記録自動公開とSlack通知の標準化 — 作業記録 092</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 092 ・ <time datetime="2026-09-08">2026-09-08</time></p>
+          <h1>全リポジトリの作業記録自動公開とSlack通知の標準化</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_092.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: sport-portalでmainへの作業記録Push後にSlack通知が届かなかったため、B_Stats_Siteを基準に全生成元リポジトリの公開フローを確認・統一する。</li><li>目的: 作業記録の自動公開、複数記録の同時Push、Pages公開成功後のSlack通知、手動再公開を全対象で同じ契約にする。</li><li>完了条件: 全対象リポジトリと公開テンプレートを修正し、CI・Pagesデプロイ・Slack通知を含む実動確認を成功させる。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: B_Stats_Siteの既存公開workflow、登録済みsourceリポジトリ、sandbox-pagesの受入workflowとテンプレート。</li><li>実施内容: tech_article_nortification、NBA_Draft_DB、query_learning_BB、sport-portalのrequest-publish workflowを標準化した。main Pushの自動公開、複数作業記録の抽出、固定SHAと対象basenameによる手動再公開、source側validator、sandbox-pagesへのdispatchを統一した。sandbox-pagesの受入workflowへ公開run名を追加し、Pages側の同時実行キューで一時キャンセルされた要求を再試行できるようにした。source側の待機ジョブを60分、再試行を最大20回・15秒間隔へ調整し、公開テンプレートにも反映した。</li><li>成果物: 4 sourceリポジトリのworkflow・validator/helper・READMEまたは運用文書、sandbox-pagesの受入workflow・公開テンプレート・標準文書。</li><li>検証結果: 各sourceの作業記録validator、workflow/templateのYAML構文、sandbox-pagesの既存テスト121件に合格した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: Reviewerによる差分・CI確認後、各PRをマージし、PagesとSlackの実動結果を確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 各リポジトリのbaseとの差分、CI結果、Pages受入run、Slack通知jobの実行結果。</li><li>実施内容: B_Stats_Siteとの要件適合、複数対象処理、固定SHA検証、テンプレート反映、キューキャンセル時の再試行、無関係な変更の混入を確認した。初回の同時実行テストでsource側5分上限による中断を検出し、待機時間修正後に再レビューした。</li><li>成果物: 修正PRのレビュー・CI確認と、4 sourceリポジトリ同時実行の最終判定。</li><li>検証結果: 最終E2Eで4件すべてが、source検証、公開要求、固定SHA適用、Pagesデプロイ、Slack通知の全job successとなった。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: マージ済みのmainと本作業記録を公開する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 公開の正本はB_Stats_Siteの構成に合わせ、source側は検証済みの固定SHAをsandbox-pagesへ渡し、sandbox-pages側で適用・Pagesデプロイ・Slack通知を完結させる。</li><li>理由: Push時点のsource内容を固定し、検証した内容と公開した内容のずれを防ぎながら、手動再公開と複数記録を同じ入口で扱えるため。</li><li>判断: sandbox-pagesのworkflow-level concurrencyは維持し、キャンセルされた公開要求をsource側で再試行する。</li><li>理由: Pagesのmain更新と固定SHAデプロイを直列化しつつ、同時Push時に後続要求が失われないようにするため。初回テストで5分上限が不足すると判明したため、待機上限と再試行回数を拡張した。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 全4 sourceリポジトリでmain Pushによる自動公開、複数作業記録対応、手動再公開、Pages公開後Slack通知を統一した。公開テンプレートも同じ仕様へ更新した。</li><li>変更ファイル: <code>tech_article_nortification/.github/workflows/request-publish.yml</code>、<code>NBA_Draft_DB/.github/workflows/request-publish.yml</code>、<code>query_learning_BB/.github/workflows/request-publish.yml</code>、<code>sport-portal/.github/workflows/request-publish.yml</code>、各sourceのvalidator/helper・README/運用文書、<code>sandbox-pages/.github/workflows/accept-source.yml</code>、<code>sandbox-pages/docs/templates/request-publish.yml</code>、<code>sandbox-pages/projects/README.md</code>、<code>sandbox-pages/docs/PORTFOLIO_STANDARD.md</code>。</li><li>検証結果: 4 source validator、workflow/template YAML構文、sandbox-pages既存テスト121件に合格。最終E2Eはtech、query、NBA、sportの全公開runでPagesデプロイとSlack通知を含めsuccess。</li><li>作業ブランチ: 各リポジトリの<code>codex/*</code>課題ブランチ。</li><li>コミット: 各PRのマージコミットとしてmainへ反映。</li><li>PR: <a href="https://github.com/tj-999-comp/tech_article_nortification/pull/29">tech_article_nortification #29</a>、<a href="https://github.com/tj-999-comp/NBA_Draft_DB/pull/28">NBA_Draft_DB #28</a>、<a href="https://github.com/tj-999-comp/query_learning_BB/pull/94">query_learning_BB #94</a>、<a href="https://github.com/tj-999-comp/sport-portal/pull/18">sport-portal #18</a>、<a href="https://github.com/tj-999-comp/sandbox-pages/pull/136">sandbox-pages #136</a>。すべてマージ済み。</li><li>PRレビュー・CI: 各PRのCI通過を確認し、初回同時実行テストで検出したsource側待機上限を修正後、再レビュー・再検証した。古い競合PR tech #28、sandbox-pages #135は後続PRへ置き換えたためcloseした。</li><li>未解決事項: なし。GitHub ActionsにはNode.js 20および<code>app-id</code>の非推奨警告が表示されるが、今回の実行結果には影響していない。</li><li>次アクション: 今後のsource追加時は<code>sandbox-pages/docs/templates/request-publish.yml</code>を基準にworkflowを導入する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-09-08 13:25 取得範囲: <code>tj-999-comp/sandbox-pages</code>のOpen Issue全件。Pull Requestは除外。 取得件数: 0件（一覧行数: 0行）</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 092</span>
+        <span><a href="md/work_record_092.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
