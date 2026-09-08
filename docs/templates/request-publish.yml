@@ -105,7 +105,7 @@ jobs:
           set -euo pipefail
           while IFS= read -r target_basename; do
             completed=false
-            for attempt in 1 2 3 4 5; do
+            for attempt in $(seq 1 20); do
               dispatch_started="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
               gh api --method POST "repos/$PUBLISH_REPOSITORY/actions/workflows/$PUBLISH_WORKFLOW/dispatches" \
                 -f "ref=$PUBLISH_REF" \
@@ -130,11 +130,12 @@ jobs:
                 break
               fi
               conclusion="$(gh run view "$run_id" --repo "$PUBLISH_REPOSITORY" --json conclusion --jq .conclusion)"
-              if [[ "$conclusion" != "cancelled" || "$attempt" == "5" ]]; then
+              if [[ "$conclusion" != "cancelled" || "$attempt" == "20" ]]; then
                 echo "sandbox-pages acceptance failed: $conclusion" >&2
                 exit 1
               fi
-              echo "sandbox-pages acceptance was cancelled by concurrency; retrying ($attempt/5)"
+              echo "sandbox-pages acceptance was cancelled by concurrency; retrying ($attempt/20)"
+              sleep 15
             done
             [[ "$completed" == "true" ]]
           done < <(jq -r '.[]' <<< "$TARGET_BASENAMES_JSON")
