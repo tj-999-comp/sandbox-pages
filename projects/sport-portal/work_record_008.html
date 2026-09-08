@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>#14/#7 本番デプロイとMVP受入完了 — 作業記録 008</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">sport-portal</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 6</span><a class="record-navigation__pager-link" href="work_record_007.html" aria-label="次の記録：MVP受入確認と残Issueの整理">→ 次の記録<span>work_record_007</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 008 ・ 2026-09-08</p>
+          <h1>#14/#7 本番デプロイとMVP受入完了</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_008.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p>Issue #14を本番環境の詳細チェックリスト、Issue #7を最終リリース判定の親Issueとして整理した。Pages本番デプロイ後の公開確認と画面受入を行い、利用者から問題なし・OKの確認を得たため、#14と#7をクローズした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　実施内容</p><h2>実施内容</h2></div><div class="section-content"><ul><li>Cron仕様をCloudflare Workers Freeプランに合わせ、1日5回へ統一した。設定はUTC 08:00 / 10:00 / 12:00 / 13:00 / 14:00、日本時間17:00 / 19:00 / 21:00 / 22:00 / 23:00とした。</li><li>Pages→WorkerのService Binding <code>SPORTAL_API</code>、WorkerのKV binding <code>SPORTAL_DATA</code>、Pages/WorkerのBasic認証Secret設定を前提に、本番受入項目を整理した。</li><li>認証済みPages応答へ <code>X-Robots-Tag: noindex, nofollow, noarchive</code>、<code>X-Content-Type-Options</code>、<code>Referrer-Policy</code>を付与するmiddlewareを実装した。</li><li>middlewareのセキュリティヘッダーテストを追加し、Pages接続・Cron手順の古い記載を更新した。</li><li>コミット <code>e300ca0</code> を <code>main</code> へpushし、Cloudflare Pagesの本番自動デプロイを起動した。</li><li><a href="https://github.com/tj-999-comp/sport-portal/issues/14">#14</a> と <a href="https://github.com/tj-999-comp/sport-portal/issues/7">#7</a> に整理結果・受入結果を記録してクローズした。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　本番確認</p><h2>本番確認</h2></div><div class="section-content"><ul><li>公開URL: https://sport-portal.pages.dev/</li><li>未認証トップが <code>401</code> とBasic認証要求を返すことを確認した。</li><li>HTTPアクセスがHTTPSへ <code>301</code> で遷移することを確認した。</li><li>未認証の <code>/api/status</code> が <code>401</code> を返すことを確認した。</li><li>認証済み画面を利用者が実機で確認し、問題なし・OKとした。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　画面確認</p><h2>画面確認</h2></div><div class="section-content"><ul><li>390×844、768×1024、1440×900で横方向のはみ出しがないことを確認した。</li><li>今日以降で最も近い試合日の初期選択を確認した。</li><li>試合一覧、延期表示、勝敗表示を確認した。</li><li>順位表20行の表示・開閉を確認した。</li><li>手動更新操作を確認した。</li><li>コンソールエラーがないことを確認した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>npm test</code> 成功（11件）</li><li><code>npm run test:syntax</code> 成功</li><li><code>git diff --check</code> 成功</li><li><code>main</code>と<code>origin/main</code>が一致していることを確認した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　Issueの状態</p><h2>Issueの状態</h2></div><div class="section-content"><ul><li>#14: クローズ。Cloudflare本番環境の作成・接続・受入を完了した。</li><li>#7: クローズ。Pages本番公開とMVP受入を完了した。</li><li>#2、#3、#12、#13: 今回の承認範囲ではIssue自体の状態を変更していない。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">07　参照</p><h2>参照</h2></div><div class="section-content"><ul><li>公開URL: https://sport-portal.pages.dev/</li><li>コミット: <code>e300ca0</code></li><li><a href="https://github.com/tj-999-comp/sport-portal/issues/14">#14 本番環境の作成・接続・受入</a></li><li><a href="https://github.com/tj-999-comp/sport-portal/issues/7">#7 Pages本番公開・MVP受入</a></li></ul></div></section>
+      </main>
+      <footer>
+        <span>sport-portal · 作業記録 008</span>
+        <span>Markdown原本: <code>md/work_record_008.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>

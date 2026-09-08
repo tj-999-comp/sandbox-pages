@@ -1,0 +1,264 @@
+{
+  "accepted_at": "2026-09-08T03:02:44Z",
+  "notify": true,
+  "operation": "create",
+  "project_id": "sport-portal",
+  "public_base_path": "/sandbox-pages/projects/sport-portal/",
+  "publication_id": "accept-34182076995-1-sport-portal-work_record_008",
+  "published_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "5971f70a586c7ac7a6c8d5817d6220d111a9c32989649224111535d579b0c2ba",
+      "size_bytes": 686
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "260e4de18c2a0d5971e21ac4a8c8391b2075bf580290d78b67669dfb257892e4",
+      "size_bytes": 1453
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "93e664282336b488892721bc7f91a7fe8fa8345d9597a7b0488ff861cf3a00d5",
+      "size_bytes": 2339
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "0d781ca7af208d936dc3156bd8ee541562c3cd8f04ca66b503e887fe6c9f7eb9",
+      "size_bytes": 2521
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "fc795340b67f71db591972c1a21450cdc0c564e100f448b2d1703dfa10ada306",
+      "size_bytes": 3878
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "5ef830f6c913edaefb5d5a3bc2391bb024a38fa6a89a6374019808e12ff140b2",
+      "size_bytes": 2887
+    },
+    {
+      "path": "work_record_001.html",
+      "sha256": "01146071a042c3bc618cbd9eb8512313d62e6fca00e9075749cdef816e2a311b",
+      "size_bytes": 2873
+    },
+    {
+      "path": "work_record_002.html",
+      "sha256": "20d5b57dc14e8be0c628afe99a448f69f949eda10eb306e0b762862dce7e155a",
+      "size_bytes": 3958
+    },
+    {
+      "path": "work_record_003.html",
+      "sha256": "f738be113fdd367f03d6cd4a84537e12dd3117a71a3587c51b50031845930f58",
+      "size_bytes": 4986
+    },
+    {
+      "path": "work_record_006.html",
+      "sha256": "9eebbe87ada9e93203fc21aaa3a6c151389c43f05925298747875f82cc3c1bc7",
+      "size_bytes": 5117
+    },
+    {
+      "path": "work_record_007.html",
+      "sha256": "267c4674bb46e9f9dd86415ac1780b208218c388173b0b3bf4d7e8c692dbda51",
+      "size_bytes": 6844
+    },
+    {
+      "path": "work_record_008.html",
+      "sha256": "49e0c67d3b733c65ad65f5c4b7ab38bee1c36ad59690ae9368f331b3a7e85281",
+      "size_bytes": 6081
+    }
+  ],
+  "records": [
+    {
+      "basename": "work_record_001",
+      "metadata": {
+        "date": "2026-09-07",
+        "project_id": "sport-portal",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "setup",
+          "source-repository"
+        ],
+        "title": "sport-portalを生成元リポジトリとして整備"
+      },
+      "metadata_sha256": "d2656b20ed9ab07f2e12332da946e4f8636341e1cbbb98bb79b2d6d4cc5756bf",
+      "public_url": "/sandbox-pages/projects/sport-portal/work_record_001.html"
+    },
+    {
+      "basename": "work_record_002",
+      "metadata": {
+        "date": "2026-09-07",
+        "project_id": "sport-portal",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "cloudflare",
+          "mvp",
+          "requirements"
+        ],
+        "title": "スポーツポータルMVP仕様書の作成"
+      },
+      "metadata_sha256": "6a0adfce2e59d01ee3ff04a2570a7a9a978b6220c5a81c826caf06c8f42be0bc",
+      "public_url": "/sandbox-pages/projects/sport-portal/work_record_002.html"
+    },
+    {
+      "basename": "work_record_003",
+      "metadata": {
+        "date": "2026-09-07",
+        "project_id": "sport-portal",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "issues",
+          "mvp",
+          "planning"
+        ],
+        "title": "MVPリリース工程のIssue分解"
+      },
+      "metadata_sha256": "77fbf2e1dfe487f2258f57d3ea3524c24b86ef959ff1865e55f58e357c5d7efa",
+      "public_url": "/sandbox-pages/projects/sport-portal/work_record_003.html"
+    },
+    {
+      "basename": "work_record_006",
+      "metadata": {
+        "date": "2026-09-08",
+        "project_id": "sport-portal",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "deployment",
+          "design",
+          "mvp",
+          "ui"
+        ],
+        "title": "スポーツポータルのメインデザイン決定と本番反映"
+      },
+      "metadata_sha256": "6d93f02c3cbd74c3597dacbde0ec9539cb1993062f0295fb7150e7913965b110",
+      "public_url": "/sandbox-pages/projects/sport-portal/work_record_006.html"
+    },
+    {
+      "basename": "work_record_007",
+      "metadata": {
+        "date": "2026-09-08",
+        "project_id": "sport-portal",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "acceptance",
+          "cloudflare",
+          "mvp",
+          "testing"
+        ],
+        "title": "MVP受入確認と残Issueの整理"
+      },
+      "metadata_sha256": "f678b9411ec79e5d7a4c7ba4139ad2ab84d5da4cc6e6cde3d4e7f2a2610ebd8e",
+      "public_url": "/sandbox-pages/projects/sport-portal/work_record_007.html"
+    },
+    {
+      "basename": "work_record_008",
+      "metadata": {
+        "date": "2026-09-08",
+        "project_id": "sport-portal",
+        "publish": true,
+        "schema_version": 1,
+        "tags": [
+          "acceptance",
+          "cloudflare",
+          "deployment",
+          "mvp"
+        ],
+        "title": "#14/#7 本番デプロイとMVP受入完了"
+      },
+      "metadata_sha256": "8f175174bebb247691e209ad41d46dd5267e45a44f19e7dbd61429a0596bc9e3",
+      "public_url": "/sandbox-pages/projects/sport-portal/work_record_008.html"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "commit_sha": "7f1c0bc724da574d4c56413510f5e01eb8e0c617",
+    "ref": "refs/heads/main",
+    "repository": "tj-999-comp/sport-portal"
+  },
+  "source_files": [
+    {
+      "path": "md/work_record_001.md",
+      "sha256": "5971f70a586c7ac7a6c8d5817d6220d111a9c32989649224111535d579b0c2ba",
+      "size_bytes": 686
+    },
+    {
+      "path": "md/work_record_002.md",
+      "sha256": "260e4de18c2a0d5971e21ac4a8c8391b2075bf580290d78b67669dfb257892e4",
+      "size_bytes": 1453
+    },
+    {
+      "path": "md/work_record_003.md",
+      "sha256": "93e664282336b488892721bc7f91a7fe8fa8345d9597a7b0488ff861cf3a00d5",
+      "size_bytes": 2339
+    },
+    {
+      "path": "md/work_record_004.md",
+      "sha256": "8a448cc6b8dc5f83b7fdf523d22ae02bdfa4c82dbb40bba6ea8e326078ef5d5a",
+      "size_bytes": 1095
+    },
+    {
+      "path": "md/work_record_005.md",
+      "sha256": "47957749becf1fb7cc0ecf47c1411cf9c6ce45586c41bef2993d0fffb37f5c2b",
+      "size_bytes": 2937
+    },
+    {
+      "path": "md/work_record_006.md",
+      "sha256": "0d781ca7af208d936dc3156bd8ee541562c3cd8f04ca66b503e887fe6c9f7eb9",
+      "size_bytes": 2521
+    },
+    {
+      "path": "md/work_record_007.md",
+      "sha256": "fc795340b67f71db591972c1a21450cdc0c564e100f448b2d1703dfa10ada306",
+      "size_bytes": 3878
+    },
+    {
+      "path": "md/work_record_008.md",
+      "sha256": "5ef830f6c913edaefb5d5a3bc2391bb024a38fa6a89a6374019808e12ff140b2",
+      "size_bytes": 2887
+    },
+    {
+      "path": "metadata/work_record_001.yml",
+      "sha256": "b8b3025ef9a16e3c5441f155efb674bf7b87ae42b8d388e2638c97d7dc230896",
+      "size_bytes": 178
+    },
+    {
+      "path": "metadata/work_record_002.yml",
+      "sha256": "f73c204c492d4ce56992d843a2b0c196de202bc70b7221fe8cd3a06c3a1a455f",
+      "size_bytes": 177
+    },
+    {
+      "path": "metadata/work_record_003.yml",
+      "sha256": "bd6baa6338f7ebfd375a52e75955097c6a831b044418201d396a4d30208738d4",
+      "size_bytes": 159
+    },
+    {
+      "path": "metadata/work_record_004.yml",
+      "sha256": "0982ae1d5d4448342ea692f5bd75b2c82d7366fe6456aab9126da23d6f2a1ee9",
+      "size_bytes": 167
+    },
+    {
+      "path": "metadata/work_record_005.yml",
+      "sha256": "f485b0bb680da52d73d65d8f7c72cb6e6e8314352c63530400a0329f2fd16ace",
+      "size_bytes": 170
+    },
+    {
+      "path": "metadata/work_record_006.yml",
+      "sha256": "6ab9f48c37fe94ccfbf71e58dbef681449a37fdb3b5dd91afd9fad72d1c74e99",
+      "size_bytes": 202
+    },
+    {
+      "path": "metadata/work_record_007.yml",
+      "sha256": "4f2d04c2bb76779b245368ae066eecb47454da42c888db225c754b257c8dd25a",
+      "size_bytes": 177
+    },
+    {
+      "path": "metadata/work_record_008.yml",
+      "sha256": "ad9bc76bfbfbd2ea67937046032a61e9de20039d3016dedaefddac650a29d33d",
+      "size_bytes": 188
+    }
+  ]
+}
