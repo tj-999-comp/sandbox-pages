@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #87 v2.0.1丸め条件と解答基準の整合 — 作業記録 039</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 39</span><a class="record-navigation__pager-link" href="work_record_038.html" aria-label="次の記録：Issue #81 v2.0.1本番反映と承認範囲ルールの明文化">→ 次の記録<span>work_record_038</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 039 ・ 2026-09-08</p>
+          <h1>Issue #87 v2.0.1丸め条件と解答基準の整合</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_039.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>Q.17（<code>bball-017</code>）で、問題文に平均得点の丸め条件がないにもかかわらず、小数点以下1桁の出力が実質的に必須になっていた。問題文に書かれていない丸めを正誤条件にしない方針に合わせ、同様の問題を全体走査した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了内容</p><h2>完了内容</h2></div><div class="section-content"><ul><li>平均値と<code>ROUND</code>を含む14問を全体走査した。</li><li>星3以下の問題は、問題文に丸め条件を明記せず、丸めない平均値を基準にした。Q.17と同じ小数点以下1桁の問題は<code>numericTolerance: 0.05</code>とし、丸めた解答も許容する。</li><li>星3以下の小数点以下2桁系は、丸めない基準値と既存の<code>numericTolerance: 0.01</code>で、丸めた解答を許容する形に整理した。<code>bball-099</code>は既存の許容差で条件を満たしていることを確認した。</li><li>星4の<code>bball-026</code>、<code>bball-029</code>、<code>bball-030</code>には小数点以下2桁の丸め条件を問題文へ明記し、<code>numericTolerance: 0</code>で厳密判定するようにした。</li><li>問題生成スクリプトに、難易度・問題文・<code>ROUND</code>・<code>numericTolerance</code>の整合性検証を追加した。</li><li>問題作成ガイドへ丸め条件の運用ルールを追記し、表示バージョンをv2.0.1へ更新した。</li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/87">Issue #87</a>をクローズした。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　STG・本番反映</p><h2>STG・本番反映</h2></div><div class="section-content"><ul><li>STG反映PR <a href="https://github.com/tj-999-comp/query_learning_BB/pull/88">#88</a>を<code>stg</code>へマージした。</li><li>STG確認済みコミットは<code>660ef8d0418534b69916bce20bc629d99f75c756</code>、Preview deploymentは<code>f2b6b766-3be0-4201-9246-54ddcd495cb9</code>である。</li><li>ユーザーの明示承認後、本番昇格PR <a href="https://github.com/tj-999-comp/query_learning_BB/pull/89">#89</a>を<code>main</code>へマージした。</li><li>Production反映コミットは<code>803b539a4c394b6516731099cf3dce610ef0c4dc</code>、Production deploymentは<code>10c34af9-05cd-4d11-9a7b-d305ada01bec</code>で、<code>Active</code>を確認した。</li><li><a href="https://query-learning-bb.pages.dev/">Production URL</a>が未認証アクセスに<code>401 Basic認証</code>を返すことを確認した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>python3 Apps/scripts/generate_problems.py --write</code></li><li><code>python3 Apps/scripts/generate_problems.py</code>（100問をSQLiteで検証）</li><li><code>bash Apps/scripts/build-pages.sh</code>（100問題ページを生成）</li><li>Q.17と同型の丸めた解答が許容差内で受理されることを確認</li><li>PR #88、#89の<code>Validate source</code>成功を確認</li><li>STG・ProductionのCloudflare Pages deployment状態を確認</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　関連Issue・PR</p><h2>関連Issue・PR</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/87">#87 v2.0.1: 問題文と解答基準の丸め条件を整合させる</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/pull/88">#88 v2.0.1: 丸め条件と解答基準を整合</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/pull/89">#89 v2.0.1: STG確認済み問題修正を本番へ反映</a></li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 039</span>
+        <span>Markdown原本: <code>md/work_record_039.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
