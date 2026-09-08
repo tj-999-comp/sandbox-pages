@@ -1,5 +1,7 @@
 name: Source acceptance and publish
 
+run-name: Publish ${{ inputs.project_id }} ${{ inputs.target_basename }}
+
 on:
   workflow_dispatch:
     inputs:
