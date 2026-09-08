@@ -1,0 +1,6 @@
+schema_version: 1
+title: '全リポジトリの作業記録自動公開とSlack通知の標準化'
+date: "2026-09-08"
+project_id: sandbox_pages
+tags: []
+publish: true
