@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #95 v2.0.2問題文と正解判定基準の並び順整合 — 作業記録 040</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 40</span><a class="record-navigation__pager-link" href="work_record_039.html" aria-label="次の記録：Issue #87 v2.0.1丸め条件と解答基準の整合">→ 次の記録<span>work_record_039</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 040 ・ 2026-09-09</p>
+          <h1>Issue #95 v2.0.2問題文と正解判定基準の並び順整合</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_040.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><ul><li>対象リポジトリ: <code>tj-999-comp/query_learning_BB</code></li><li>対象Issue: <a href="https://github.com/tj-999-comp/query_learning_BB/issues/95">#95</a></li></ul>
+<p>Q.61は問題文に出力の並び順指定がないにもかかわらず、解答・判定基準側のSQLに並び順が含まれている状態だった。難易度2の問題では並び順を指定しない場合、並び順に依存せず正解とする。一方、難易度3以上では問題文に並び順を明記し、指定した並び順を正解判定基準に含める方針とした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了内容</p><h2>完了内容</h2></div><div class="section-content"><ol><li>全100問を走査し、問題文の並び順指定と <code>resultSpec.rowOrder</code>、解答SQL・判定SQLの整合を確認した。</li><li>改修前の該当数をIssue #95へコメントした。</li></ol>
+<ul><li>問題文に並び順指定がない問題: 39問</li><li>内訳: 難易度2が26問、難易度3が13問</li><li>そのうち並び順を正解判定に含めていた問題: 6問（Q.16、Q.91、Q.92、Q.93、Q.96、Q.99）</li></ul>
+<ol><li>Q.61の問題文と正解判定基準を改修した。</li></ol>
+<ul><li>並び順を正解判定に含めない設定を明示</li><li>基準となるSQLから不要な <code>ORDER BY</code> を除去</li></ul>
+<ol><li>難易度3の該当13問について、問題文に並び順を明記し、指定順を正解判定基準に反映した。</li><li>改修後の走査で、問題文に並び順指定がない問題は難易度2の26問のみとなり、該当問題に並び順依存の判定基準がないことを確認した。</li></ol></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　Issue・ブランチ・本番反映</p><h2>Issue・ブランチ・本番反映</h2></div><div class="section-content"><ul><li>Issue #95を作成し、走査結果コメントと改修結果コメントを追加した。</li><li><code>stg</code>へコミット・push: <code>e091b66789622a79cbf3a5cfc56d1c3b2c569f27</code></li><li><code>main</code>へ反映・push: <code>77c5b5211e464d7232479c506b4fe4602badefd1</code></li><li>本番反映後のGitHub Actions検証: <a href="https://github.com/tj-999-comp/query_learning_BB/actions/runs/34300485231">Validate source / run 34300485231</a>（成功）</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>python3 Apps/scripts/generate_problems.py --write</code></li></ul>
+<ul><li>100問を生成し、全100問のSQLite検証に成功</li></ul>
+<ul><li>改修後の並び順ポリシー走査に成功</li><li><code>git diff --check</code> に成功</li><li><code>origin/stg</code> が <code>e091b66789622a79cbf3a5cfc56d1c3b2c569f27</code> を指すことを確認</li><li><code>origin/main</code> が <code>77c5b5211e464d7232479c506b4fe4602badefd1</code> を指すことを確認</li><li><code>https://stg.query-learning-bb.pages.dev/</code> と <code>https://query-learning-bb.pages.dev/</code> は、未認証のHTTPアクセスに対してHTTP 401 Basic認証を返すことを確認</li><li>接続中のIn-app Browserでは両URLの画面確認時に <code>ERR_BLOCKED_BY_CLIENT</code> が発生したため、認証後の画面表示までは確認できていない</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-09 10:58:52 JST時点で、Pull Requestを除くオープンIssueは1件だった。GitHub APIの取得結果と以下の一覧件数は一致している。</p>
+<table><thead><tr><th scope="col">番号</th><th scope="col">状態</th><th scope="col">タイトル</th><th scope="col">URL</th></tr></thead><tbody><tr><td>#95</td><td>OPEN</td><td>[v2.0.2] 問題文に指定のない並び順を正解判定から除外する</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/95">Issue #95</a></td></tr></tbody></table>
+<p>Issue #95は今回の改修内容を記録するため、クローズせずOPENのままとした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　関連Issue・コメント</p><h2>関連Issue・コメント</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/95">Issue #95</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/95#issuecomment-5594349799">走査結果コメント</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/95#issuecomment-5594389991">改修結果コメント</a></li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 040</span>
+        <span>Markdown原本: <code>md/work_record_040.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
