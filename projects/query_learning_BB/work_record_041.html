@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #96 v2.0.3問題文とSQL基準の並び順整合 — 作業記録 041</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 41</span><a class="record-navigation__pager-link" href="work_record_040.html" aria-label="次の記録：Issue #95 v2.0.2問題文と正解判定基準の並び順整合">→ 次の記録<span>work_record_040</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 041 ・ 2026-09-09</p>
+          <h1>Issue #96 v2.0.3問題文とSQL基準の並び順整合</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_041.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><ul><li>対象リポジトリ: <code>tj-999-comp/query_learning_BB</code></li><li>対象Issue: <a href="https://github.com/tj-999-comp/query_learning_BB/issues/96">#96</a></li></ul>
+<p>Q.63は問題文に出力の並び順指定がないにもかかわらず、解答SQL・判定SQLに<code>ORDER BY</code>が含まれていた。難易度2で問題文に並び順指定がない場合は、SQL基準にも順序を持たせず、並び順を前提にしない方針へ整合した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了内容</p><h2>完了内容</h2></div><div class="section-content"><ol><li>全100問を走査した。</li></ol>
+<ul><li>難易度2かつ問題文に並び順指定がない問題: 26件</li><li>そのうち解答SQL・判定SQLに<code>ORDER BY</code>が残っていた問題: 25件</li><li>25件はいずれも<code>resultSpec.rowOrder: insensitive</code></li><li>難易度3以上で問題文に並び順指定がない問題: 0件</li></ul>
+<ol><li>走査結果をIssue #96へコメントした。</li><li>Q.63を含む対象25件について、解答SQL・判定SQLから不要な<code>ORDER BY</code>を除去した。</li><li><code>requiredSqlTerms</code>に残っていた<code>ORDER BY</code>関連の学習必須語も除去した。</li><li>Q.63（<code>bball-063</code>）には<code>resultSpec.rowOrder: insensitive</code>を問題単位で明示した。</li><li><code>Apps/data/problems.json</code>を再生成した。</li></ol></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　STG・本番反映</p><h2>STG・本番反映</h2></div><div class="section-content"><ul><li><code>stg</code>へコミット・push: <code>dbb09660f389a43877b27eb7795110a764a452a0</code></li><li><code>main</code>へ反映・push: <code>c6e1b5d9eee4171f7273b2640e772dad6a3c2262</code></li><li>本番反映後のGitHub Actions検証: <a href="https://github.com/tj-999-comp/query_learning_BB/actions/runs/34308848709">Validate source / run 34308848709</a>（成功）</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>python3 Apps/scripts/generate_problems.py --write</code></li></ul>
+<ul><li>100問を生成し、全100問のSQLite検証に成功</li></ul>
+<ul><li>改修後の並び順ポリシー走査に成功</li></ul>
+<ul><li>難易度2かつ問題文に並び順指定がなく、SQLに<code>ORDER BY</code>が残る問題: 0件</li><li>難易度3以上で問題文に並び順指定がない問題: 0件</li></ul>
+<ul><li><code>git diff --check</code>に成功</li><li><code>origin/stg</code>が<code>dbb09660f389a43877b27eb7795110a764a452a0</code>を指すことを確認</li><li><code>origin/main</code>が<code>c6e1b5d9eee4171f7273b2640e772dad6a3c2262</code>を指すことを確認</li><li><code>https://stg.query-learning-bb.pages.dev/</code>と<code>https://query-learning-bb.pages.dev/</code>は、未認証のHTTPアクセスに対してHTTP 401 Basic認証を返すことを確認</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-09 13:05:53 JST時点で、Pull Requestを除くオープンIssueは2件だった。GitHub APIの取得結果と以下の一覧件数は一致している。</p>
+<table><thead><tr><th scope="col">番号</th><th scope="col">状態</th><th scope="col">タイトル</th><th scope="col">URL</th></tr></thead><tbody><tr><td>#96</td><td>OPEN</td><td>[v2.0.3] 問題文に指定のない並び順をSQL基準から除外する</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/96">Issue #96</a></td></tr><tr><td>#95</td><td>OPEN</td><td>[v2.0.2] 問題文に指定のない並び順を正解判定から除外する</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/95">Issue #95</a></td></tr></tbody></table>
+<p>Issue #95・#96は、今回の改修内容を記録するためクローズせずOPENのままとした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　関連Issue・コメント</p><h2>関連Issue・コメント</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/96">Issue #96</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/96#issuecomment-5594986502">改修前の走査結果コメント</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/96#issuecomment-5595022433">改修結果コメント</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/96#issuecomment-5595032763">stg反映コメント</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/95">関連Issue #95</a></li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 041</span>
+        <span>Markdown原本: <code>md/work_record_041.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
