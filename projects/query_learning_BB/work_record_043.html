@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #100 v2.0.5 SQL補完のテーブル修飾子保持 — 作業記録 043</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 43</span><a class="record-navigation__pager-link" href="work_record_042.html" aria-label="次の記録：Issue #97 v2.0.4問題文・判定基準の実務要件整合と本番反映">→ 次の記録<span>work_record_042</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 043 ・ 2026-09-10</p>
+          <h1>Issue #100 v2.0.5 SQL補完のテーブル修飾子保持</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_043.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><p>SQLエディターでテーブル名のエイリアスとカラム名をピリオドでつないだ補完候補をTabで確定すると、エイリアスが失われてカラム名だけになる問題を改善した。対象Issueは <a href="https://github.com/tj-999-comp/query_learning_BB/issues/100">#100</a>。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　変更内容</p><h2>変更内容</h2></div><div class="section-content"><ul><li>修飾子付き候補の表示ラベルを <code>t.team_id</code> のように維持した。</li><li>補完の置換範囲をカラム部分だけに限定し、入力済みの <code>t.</code> や <code>teams.</code> を保持するようにした。</li><li>別名の宣言位置より前に入力して候補が未修飾の <code>team_id</code> として表示される場合も、修飾子を保持するように補完範囲を修正した。</li><li>エイリアスなしのカラム候補と既存のSQLキーワード候補には従来の挙動を適用した。</li><li>アプリ本体と404ページのバージョン表記を v2.0.5 に更新した。</li><li>アプリREADMEに修飾子保持の仕様を追記した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>node --check Apps/app/app.js</code></li><li><code>git diff --check</code></li><li><code>bash Apps/scripts/build-pages.sh</code>（ホームページと問題ページ100件を生成）</li><li>Playwright操作検証（<code>/private/tmp/playwright-browser-verify/scenario-2026-09-10T01-21-23-628Z</code>）</li></ul>
+<ul><li><code>t.team_</code> → Tab → <code>t.team_id</code></li><li><code>teams.team_</code> → Tab → <code>teams.team_id</code></li><li><code>team_</code> → Tab → <code>team_id</code></li><li>Escによる候補終了、候補終了後のTabインデント、v2.0.5表示</li></ul>
+<ul><li>STG再現検証（追加修正後）</li></ul>
+<ul><li><code>SELECT t.team</code> → 未修飾候補 <code>team_id</code> → Tab → <code>SELECT t.team_id</code></li><li>別名をまだ解析できない位置でも、入力済みの <code>t.</code> が保持されることを確認</li></ul>
+<ul><li>レスポンシブスモーク（<code>/private/tmp/playwright-browser-verify/2026-09-10T01-21-35-083Z/report.json</code>）</li></ul>
+<ul><li>1280 / 900 / 640 / 320pxでHTTP 200</li><li>横方向のoverflowなし、page errorなし</li><li>Python静的サーバーでは <code>/api/progress</code> が404になるが、これはPages Functions未起動時の既存フォールバック対象</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　GitHub Issue・Git</p><h2>GitHub Issue・Git</h2></div><div class="section-content"><ul><li>Issue: <a href="https://github.com/tj-999-comp/query_learning_BB/issues/100">#100</a></li><li>実装コミット: <code>6a1868c</code> (<code>fix: preserve table qualifiers in SQL completion</code>)</li><li>追加修正コミット: <code>2281a42</code> (<code>fix: preserve qualifiers for unresolved completions</code>)</li><li>作業ブランチ: <code>codex/issue-100-alias-completion</code></li><li>Issue #100へ実装内容と検証結果をコメント済み</li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 043</span>
+        <span>Markdown原本: <code>md/work_record_043.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
