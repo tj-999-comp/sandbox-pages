@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Qiita記事の株式会社PRUM所属者除外 — 作業記録 018</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">tech_article_nortification</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 3</span><a class="record-navigation__pager-link" href="work_record_015.html" aria-label="次の記録：GAS定期実行とSlack未更新の調査">→ 次の記録<span>work_record_015</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 018 ・ 2026-09-07</p>
+          <h1>Qiita記事の株式会社PRUM所属者除外</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_018.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p>Qiitaの記事抽出結果に、通知上のノイズとなる株式会社PRUM所属者の記事が混入する課題（Issue #25）に対応した。Qiita APIの著者所属先情報を使って記事を除外し、除外後も設定された候補数を満たせるようにした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　対応</p><h2>対応</h2></div><div class="section-content"><ul><li><code>user.organization</code>を判定対象として、既定の除外先に<code>株式会社PRUM</code>を追加した。</li><li>除外処理をいいね数順のソート後、取得上限の適用前に実行するようにした。</li><li>除外された記事の分だけ、後続の候補記事を補充するようにした。</li><li>Unicode正規化、空白除去、<code>株式会社</code>・<code>(株)</code>の前後入れ替えを考慮して会社名を比較するようにした。</li><li><code>QIITA_EXCLUDED_ORGANIZATIONS</code>でカンマ区切りの除外先を変更できるようにした。未指定時は株式会社PRUM、空文字時は除外なしとする。</li><li>Step1の実行ログに除外件数を出力するようにした。</li><li>READMEに設定方法と判定仕様を追記した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>python3 -m unittest discover -s tests -v</code>: 31件成功</li><li>インメモリ構文確認: 成功</li><li><code>git diff --check</code>: 成功</li><li>株式会社PRUMの記事が取得上限より上位にある場合でも、除外後に非該当記事が補充されるテストを追加した。</li><li>表記揺れ（全角文字、法人格の後置）と類似会社名を区別するテストを追加した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　安全境界</p><h2>安全境界</h2></div><div class="section-content"><p>この記録にはtoken、Webhook URL、個人情報、記事本文を含めない。実データを使ったQiita取得、Slack通知、Notion同期は実施していない。</p></div></section>
+      </main>
+      <footer>
+        <span>tech_article_nortification · 作業記録 018</span>
+        <span>Markdown原本: <code>md/work_record_018.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
