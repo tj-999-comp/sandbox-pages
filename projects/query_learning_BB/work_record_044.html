@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #109 v2.1.0問題ページ遷移ローディングの本番反映 — 作業記録 044</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 44</span><a class="record-navigation__pager-link" href="work_record_043.html" aria-label="次の記録：Issue #100 v2.0.5 SQL補完のテーブル修飾子保持">→ 次の記録<span>work_record_043</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 044 ・ 2026-09-18</p>
+          <h1>Issue #109 v2.1.0問題ページ遷移ローディングの本番反映</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_044.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><ul><li>対象リポジトリ: <code>tj-999-comp/query_learning_BB</code></li><li>対象Issue: <a href="https://github.com/tj-999-comp/query_learning_BB/issues/109">#109</a></li></ul>
+<p>トップページの問題カードから問題ページへ遷移する際、遷移先の初期HTMLがホーム画面用のDOMを表示していた。そのため、JavaScriptが問題データとSQLiteを読み込むまでの間、トップページが一瞬表示される状態だった。</p>
+<p>Issue #109では、問題への遷移中にローディング表示を挟むための5案をデザインレビューし、04「問題画面スケルトン」を採用した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了内容</p><h2>完了内容</h2></div><div class="section-content"><ol><li>デザインレビューに問題ページ遷移用のローディング案を5案追加した。</li></ol>
+<ul><li>全面オーバーレイ</li><li>トップライン</li><li>遷移カード</li><li>問題画面スケルトン</li><li>ヘッダーステータス</li></ul>
+<ol><li>04「問題画面スケルトン」を実装した。</li></ol>
+<ul><li>通常クリック時にクリックした問題の番号とタイトルを表示</li><li>Cmd/Ctrl/Shift/Altクリックや中クリックは通常のリンク動作を維持</li><li>ローディング表示時間を約500msに調整</li></ul>
+<ol><li>遷移先の初期表示を修正した。</li></ol>
+<ul><li>問題ページ生成時からローディングスケルトンを表示</li><li>ホーム用<code>empty-state</code>を問題ページ生成時から非表示</li><li>問題データとSQLiteの準備完了後にスケルトンを閉じ、問題画面を表示</li></ul>
+<ol><li>ローディング画面のレイアウトを問題ページに合わせた。</li></ol>
+<ul><li>ヘッダー、メニュー、ブランド、ステータス表示</li><li>問題タイトル、メタ情報、お気に入り位置</li><li>問題文、必要カラム、問題間ナビゲーション</li><li>SQLエディタと実行結果の2ペイン</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>bash Apps/scripts/build-pages.sh</code></li></ul>
+<ul><li>ホームページと問題ページ100件を生成</li><li>SQLiteをPages向け2チャンクへ分割</li></ul>
+<ul><li><code>git diff --check</code></li><li>Playwright操作検証</li></ul>
+<ul><li>デスクトップ幅とモバイル幅で、トップページが表示されず初期描画からスケルトンになることを確認</li><li>スケルトン表示後に問題ページへ切り替わることを確認</li><li>ホーム用<code>empty-state</code>が初期状態で<code>display: none</code>になることを確認</li><li>コンソールエラー、ページエラー、失敗リクエストなし</li></ul>
+<ul><li>STG実画面検証</li></ul>
+<ul><li><a href="https://stg.query-learning-bb.pages.dev/">STG</a></li><li>認証付きブラウザでモバイル幅・デスクトップ幅を確認</li><li>SQLite準備完了、問題ページ表示、問題遷移ローディングを確認</li></ul>
+<ul><li>Productionスモークテスト</li></ul>
+<ul><li><a href="https://query-learning-bb.pages.dev/">Production</a></li><li>Basic認証後にSQLite準備完了とQ.01問題ページ表示を確認</li><li><code>SELECT team_id, team_name_j FROM teams ORDER BY team_name_j;</code>を実行し、結果テーブル表示を確認</li><li>コンソールエラーなし</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　STG・本番反映</p><h2>STG・本番反映</h2></div><div class="section-content"><ul><li>デザインレビュー反映PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/111">#111</a></li><li>初回実装PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/112">#112</a></li><li>500ms調整PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/113">#113</a></li><li>初期表示修正PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/114">#114</a></li><li>レイアウト調整PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/115">#115</a></li><li>ホーム領域初期非表示PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/116">#116</a></li><li>Production昇格PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/117">#117</a></li><li>Productionマージコミット: <code>c2be6e4b617ee850982abee83283f94d9389e081</code></li><li>Cloudflare Pages Production deployment: <code>62b724bf-3735-4196-9957-649728f95a09</code></li><li>Issue #109へ完了結果をコメントし、2026-09-18にcompletedとしてクローズした。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-18 10:44:02 JST時点で、Pull Requestを除くオープンIssueは5件だった。GitHub APIの取得範囲は<code>--state open --limit 1000</code>、取得件数は5件であり、以下の一覧件数と一致している。各Issueのsub-issues APIを確認し、いずれも返却は0件だった。優先度ラベルがないIssueは「未設定」と記載した。Issue #109は本一覧取得前にクローズ済みである。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/102">#102 SQLite準備ステータスの色分け</a></td><td>OPEN（state reason未設定）</td><td>本作業の対象外。別途対応する。</td></tr><tr><td>2</td><td>未設定</td><td>[#100 [v2.0.5] SQL補完でテーブル別名を保持してカラムを確定する](https://github.com/tj-999-comp/query_learning_BB/issues/100)</td><td>OPEN（state reason未設定）</td><td>本作業の対象外。SQL補完改善として別途扱う。</td></tr><tr><td>3</td><td>未設定</td><td>[#97 [v2.0.4] Q.66〜Q.68の問題文と使用テーブルを整合する](https://github.com/tj-999-comp/query_learning_BB/issues/97)</td><td>OPEN（state reason未設定）</td><td>本作業の対象外。問題仕様改善として別途扱う。</td></tr><tr><td>4</td><td>未設定</td><td>[#96 [v2.0.3] 問題文に指定のない並び順をSQL基準から除外する](https://github.com/tj-999-comp/query_learning_BB/issues/96)</td><td>OPEN（state reason未設定）</td><td>本作業の対象外。判定基準改善として別途扱う。</td></tr><tr><td>5</td><td>未設定</td><td>[#95 [v2.0.2] 問題文に指定のない並び順を正解判定から除外する](https://github.com/tj-999-comp/query_learning_BB/issues/95)</td><td>OPEN（state reason未設定）</td><td>本作業の対象外。判定基準改善として別途扱う。</td></tr></tbody></table>
+<p>作業記録作成時点で、対象Issue #109は本番反映と受入確認が完了したためクローズ済みである。残る5件は本作業の対象外であり、状態を変更していない。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　関連Issue・PR</p><h2>関連Issue・PR</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/109">Issue #109</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/109#issuecomment-5723768166">Issue #109完了結果コメント</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/pull/117">Production昇格PR #117</a></li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 044</span>
+        <span>Markdown原本: <code>md/work_record_044.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
