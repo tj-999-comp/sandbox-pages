@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>J2・J3対応の親Issue #42完了整理 — 作業記録 014</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">sport-portal</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 12</span><a class="record-navigation__pager-link" href="work_record_013.html" aria-label="次の記録：Issue #44のテスト・ドキュメント・STG受入整理">→ 次の記録<span>work_record_013</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 014 ・ 2026-09-18</p>
+          <h1>J2・J3対応の親Issue #42完了整理</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_014.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p>親Issue #42（J2・J3を追加し、Jリーグページでリーグタブを切り替えられるようにする）の完了条件を確認し、子Issueの完了状態を親Issueへ反映したうえでクローズした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了条件の確認</p><h2>完了条件の確認</h2></div><div class="section-content"><ul><li>J1/J2/J3のリーグタブ選択、日付ナビゲーション下への配置、視覚・ARIAによる選択状態を確認した。</li><li>リーグ切替時の試合日程・結果・順位表表示を確認した。</li><li>J1の既存表示、日付選択、順位表、手動更新が維持されていることを自動テストとSTG受入記録で確認した。</li><li>J2/J3の空データ・取得失敗時に別リーグのデータを表示しないことを確認した。</li><li>Worker/API、フロントエンド、テスト、データ取得元ドキュメントが更新済みであることを確認した。</li><li>STGでの主要操作と各リーグ表示の受入結果を、作業記録011・012・013で確認した。</li><li><code>npm test</code> は22件すべて成功し、<code>npm run test:syntax</code> も成功した。</li><li>作業記録validatorは全14件を検証した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　Issueの状態整理</p><h2>Issueの状態整理</h2></div><div class="section-content"><ul><li>子Issue #45（データ/API）を完了済みとして確認した。</li><li>子Issue #43（リーグタブ・画面）を完了済みとして確認した。</li><li>子Issue #44（テスト・ドキュメント・STG受入）を完了済みとして確認した。</li><li>親Issue #42の子Issueチェックボックスをすべて <code>[x]</code> に更新した。</li><li>完了条件と確認結果を#42へコメントし、#42をクローズした。</li></ul>
+<p>作業順序の誤りにより#45が#44より先に完了した経緯は、作業記録013および関連ドキュメントに記録している。認証情報、Secret値、KVの実データは記録していない。</p></div></section>
+      </main>
+      <footer>
+        <span>sport-portal · 作業記録 014</span>
+        <span>Markdown原本: <code>md/work_record_014.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
