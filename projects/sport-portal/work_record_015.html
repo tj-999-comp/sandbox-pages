@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>NPBページ追加と本番反映・Issueクローズ — 作業記録 015</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">sport-portal</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 13</span><a class="record-navigation__pager-link" href="work_record_014.html" aria-label="次の記録：J2・J3対応の親Issue #42完了整理">→ 次の記録<span>work_record_014</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 015 ・ 2026-09-23</p>
+          <h1>NPBページ追加と本番反映・Issueクローズ</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_015.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p>親Issue #46（NPBページ追加）と、Phase 1〜5の子Issue #47〜#51について、実装、STG確認、Production反映が完了したため、完了条件を確認してIssueをクローズした。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了した内容</p><h2>完了した内容</h2></div><div class="section-content"><ul><li>NPB 2026年シーズンの試合予定・試合結果ページを <code>/npb/</code> に追加した。</li><li>公式データ取得、保存、API、手動更新、更新状態・最終更新日時の表示をWorkerへ追加した。</li><li>セ・リーグとパ・リーグの順位表を各種順位モーダル内に表示し、中央・パの2リーグを上下に表示する構成へ整理した。</li><li>順位表の表示をJリーグ版に合わせ、外枠をなくし、テーブルを中央揃えにした。球団列、勝敗分、差、残試合数の列幅とマージンを最終指定へ調整した。</li><li>順位と残試合数を中央揃え、勝率を左揃えにした。</li><li>順位表のタブから星取表を外し、交流戦順位表を追加した。クライマックスシリーズと日本シリーズの表示にも対応した。</li><li>モーダルの見出しを「各種順位」に変更し、「NPBデータ」のタイトルを削除した。不要な上部バーと右上の閉じるボタンを削除し、Jリーグ版に合わせた開閉挙動へ揃えた。</li><li>試合予定・試合結果の日付変更時のスクロール位置と余白を調整した。</li><li>トップページへJリーグ、NPB、Bリーグ、NBAの導線を追加し、BリーグとNBAのプレースホルダーページを追加した。テーマカラーはNPBを紺、Bリーグを白黒、NBAを青とした。</li><li>デザインレビューに02-A〜02-Eの原寸大・全列表示案を追加し、02-Aを採用案として記録した。過去案は提案日時の降順でアーカイブした。</li><li>Production/STGのNPBデータ更新をGitHub Actionsで毎日8回実行するWorkflowを追加した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　反映結果</p><h2>反映結果</h2></div><div class="section-content"><ul><li>STG反映先: <code>https://stg.sport-portal.pages.dev/npb/</code></li><li>Production Pagesデプロイ: <code>831e3f22-7bf9-4ed6-b809-3cda56cceb27</code></li><li>Production Pages URL: <code>https://831e3f22.sport-portal.pages.dev</code></li><li>Production対象コミット: <code>7d9a3c839975f6ae27b2c00c9596014041b73896</code></li><li>Production Worker: <code>sport-portal-api</code></li><li>Production Worker Version ID: <code>3fb4dd65-404b-41fb-87ff-2fc811b5360e</code></li></ul>
+<p>認証情報、Secret値、KVの実データは記録していない。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>git diff --check</code> 成功。</li><li><code>node --check app/npb.js</code> 成功。</li><li>デザインレビューをPlaywrightで1280px、900px、640px、320px幅で確認し、横方向のはみ出し、コンソールエラー、ページエラー、失敗リクエストがないことを確認した。</li><li>Production PagesとWorker APIがBasic認証下で応答することを確認した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　Issueの状態</p><h2>Issueの状態</h2></div><div class="section-content"><ul><li>#47（公式データ取得・保存・API・手動更新）: 完了、クローズ。</li><li>#48（NPBの日程・試合結果ページ）: 完了、クローズ。</li><li>#49（順位表モーダル・ポストシーズン表示）: 完了、クローズ。最終要件に合わせ、星取表ではなく交流戦順位表を実装した。</li><li>#50（トップページ導線とBリーグ／NBA仮ページ）: 完了、クローズ。</li><li>#51（NPBデータの定期更新）: 完了、クローズ。</li><li>#46（NPBページ追加）: 子Issueをすべて完了として確認し、クローズ。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　未完了事項</p><h2>未完了事項</h2></div><div class="section-content"><p>今回のIssue範囲に残る未完了事項はない。ライブ速報・現在スコアは当初要件どおり対象外とした。</p></div></section>
+      </main>
+      <footer>
+        <span>sport-portal · 作業記録 015</span>
+        <span>Markdown原本: <code>md/work_record_015.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
