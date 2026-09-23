@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issue #119 v2.1.1ローディングスピナー04案の本番反映 — 作業記録 045</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">query_learning_BB</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 45</span><a class="record-navigation__pager-link" href="work_record_044.html" aria-label="次の記録：Issue #109 v2.1.0問題ページ遷移ローディングの本番反映">→ 次の記録<span>work_record_044</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 045 ・ 2026-09-23</p>
+          <h1>Issue #119 v2.1.1ローディングスピナー04案の本番反映</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_045.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　背景</p><h2>背景</h2></div><div class="section-content"><ul><li>対象リポジトリ: <code>tj-999-comp/query_learning_BB</code></li><li>対象Issue: <a href="https://github.com/tj-999-comp/query_learning_BB/issues/119">#119</a></li></ul>
+<p>問題ページ遷移中のローディング画面に表示するスピナーについて、既存の水色アクセントが画面に合わないため、デザインレビューで5色を比較した。04「淡い赤」を採用し、右上の赤いSQLiteステータスは変更せず、問題ページ遷移ローディングのスピナーだけを変更した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　完了内容</p><h2>完了内容</h2></div><div class="section-content"><ol><li>デザインレビューページへ03案のスピナー色候補5案を追加した。</li></ol>
+<ul><li>01 白</li><li>02 淡いクリーム</li><li>03 ゴールド</li><li>04 淡い赤</li><li>05 ライトグレー</li></ul>
+<ol><li>04案を採用表示にし、過去の提案は提案日時の降順でアーカイブトグル内に保持した。</li><li>問題ページ遷移ローディングの <code>.page-transition-spinner</code> を変更した。</li></ol>
+<ul><li>サイズ14px、線幅2px、回転速度0.8秒は維持</li><li>トラック色: <code>rgba(255, 209, 204, .3)</code></li><li>アクセント色: <code>#FFD1CC</code></li><li>右上の赤い <code>.status-chip</code>（SQLite読み込み表示）は変更なし</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>bash Apps/scripts/build-pages.sh</code></li></ul>
+<ul><li>ホームページと問題ページ100件を生成</li><li>SQLiteをPages向け2チャンクへ分割</li></ul>
+<ul><li><code>node --check Apps/app/app.js</code></li><li><code>git diff --check</code></li><li>Playwrightの1280/900/640/320pxレスポンシブ確認</li></ul>
+<ul><li>横スクロールなし</li><li>console error、page error、failed requestなし</li></ul>
+<ul><li>実ページの計算済みCSSを確認</li></ul>
+<ul><li><code>.page-transition-spinner</code> の上下辺が <code>rgb(255, 209, 204)</code></li><li>サイズ14px×14pxを維持</li><li><code>#data-status</code> の背景色が <code>rgb(217, 48, 37)</code> のままであることを確認</li></ul>
+<ul><li>デザインレビューの色候補5案、アーカイブ開閉、提案日時降順を確認</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　STG・本番反映</p><h2>STG・本番反映</h2></div><div class="section-content"><ul><li>色候補追加PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/127">#127</a></li><li>STG実装PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/128">#128</a></li><li>STG merge commit: <code>4d022b0629cef2b197673451f67c2a96bdfe7b69</code></li><li>STG deployment: <code>bbc16914-00ba-4457-92ad-4d166446fd42</code>（Active）</li><li>Production昇格PR: <a href="https://github.com/tj-999-comp/query_learning_BB/pull/129">#129</a></li><li>Production merge commit: <code>c8c2fcf94b48eae9fe9824fd6aa1567cadca0dfe</code></li><li>Production deployment: <code>63585826-bf54-4618-afc2-5f67c6538bf6</code>（Active）</li><li>Production URL: https://query-learning-bb.pages.dev/</li><li>Issue #119へ完了結果をコメントし、2026-09-23にクローズした。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　GitHub Issue状況</p><h2>GitHub Issue状況</h2></div><div class="section-content"><p>2026-09-23 12:05:20 JST時点で、Pull Requestを除くオープンIssueは5件だった。GitHub APIの取得範囲は <code>gh issue list --repo tj-999-comp/query_learning_BB --state open --limit 1000</code>、取得件数は5件であり、以下の一覧件数と一致している。各Issueのsub-issues APIを確認し、すべて0件だった。<code>state reason</code> が空のIssueは「未設定」と記載した。Issue #119は本一覧取得前にクローズ済みである。</p>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/query_learning_BB/issues/102">#102 SQLite準備ステータスの色分け</a></td><td>OPEN（state reason未設定）</td><td>本作業の対象外。SQLite準備ステータスの別改善として扱う。sub-issues 0件。</td></tr><tr><td>2</td><td>未設定</td><td>[#100 [v2.0.5] SQL補完でテーブル別名を保持してカラムを確定する](https://github.com/tj-999-comp/query_learning_BB/issues/100)</td><td>OPEN（state reason未設定）</td><td>本作業の対象外。SQL補完改善として別途扱う。sub-issues 0件。</td></tr><tr><td>3</td><td>未設定</td><td>[#97 [v2.0.4] Q.66〜Q.68の問題文と使用テーブルを整合する](https://github.com/tj-999-comp/query_learning_BB/issues/97)</td><td>OPEN（state reason未設定）</td><td>本作業の対象外。問題仕様改善として別途扱う。sub-issues 0件。</td></tr><tr><td>4</td><td>未設定</td><td>[#96 [v2.0.3] 問題文に指定のない並び順をSQL基準から除外する](https://github.com/tj-999-comp/query_learning_BB/issues/96)</td><td>OPEN（state reason未設定）</td><td>本作業の対象外。判定基準改善として別途扱う。sub-issues 0件。</td></tr><tr><td>5</td><td>未設定</td><td>[#95 [v2.0.2] 問題文に指定のない並び順を正解判定から除外する](https://github.com/tj-999-comp/query_learning_BB/issues/95)</td><td>OPEN（state reason未設定）</td><td>本作業の対象外。判定基準改善として別途扱う。sub-issues 0件。</td></tr></tbody></table>
+<p>作業記録作成時点で、対象Issue #119はSTG・本番反映と受入確認が完了したためクローズ済みである。残る5件は本作業の対象外であり、状態を変更していない。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　関連Issue・PR</p><h2>関連Issue・PR</h2></div><div class="section-content"><ul><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/119">Issue #119</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/issues/119">Issue #119完了結果コメント</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/pull/127">色候補追加PR #127</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/pull/128">STG実装PR #128</a></li><li><a href="https://github.com/tj-999-comp/query_learning_BB/pull/129">Production昇格PR #129</a></li></ul></div></section>
+      </main>
+      <footer>
+        <span>query_learning_BB · 作業記録 045</span>
+        <span>Markdown原本: <code>md/work_record_045.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
