@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Issueタイトルとリリースバージョン運用ルールを整備 — 作業記録 021</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">sport-portal</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 19</span><a class="record-navigation__pager-link" href="work_record_020.html" aria-label="次の記録：NBAデータ取得元のBALLDONTLIE移行とSTG同期">→ 次の記録<span>work_record_020</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 021 ・ 2026-10-13</p>
+          <h1>Issueタイトルとリリースバージョン運用ルールを整備</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_021.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p>GitHub Issueを作成するときに対象バージョンをタイトル先頭へ必ず付けるルールを追加した。あわせて、バージョンの決め方と現在の基準リリースを文書化し、この運用ルール自体の作業記録を残した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　変更内容</p><h2>変更内容</h2></div><div class="section-content"><ul><li><code>AGENTS.md</code> に、新規Issueのタイトルを <code>[vMAJOR.MINOR.PATCH]</code> で始める必須ルールを追加した。</li><li><code>docs/ISSUE_VERSIONING.md</code> を作成し、Semantic Versioningに基づくMAJOR・MINOR・PATCHの選び方、Issue間でのバージョン共有、スコープ変更時の更新方法を定めた。</li><li>4リーグ構成とNBA Production更新WorkflowをMainへ統合した版を、現行の基準リリース <code>v2.0.0</code> と記録した。次の機能追加は <code>v2.1.0</code>、同系列の修正は <code>v2.0.1</code> を初期候補とする。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　検証</p><h2>検証</h2></div><div class="section-content"><ul><li>作業記録validatorを実行し、全作業記録のMarkdownとmetadataの対応および必須項目を確認した。</li><li>変更差分を確認し、今回のルール文書と作業記録のファイルだけをコミット対象にした。</li></ul>
+<p>この変更はIssue運用とドキュメントのみで、アプリケーションコード、Worker、STG、本番環境は変更していない。</p></div></section>
+      </main>
+      <footer>
+        <span>sport-portal · 作業記録 021</span>
+        <span>Markdown原本: <code>md/work_record_021.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
