@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>共通スコアレイアウトとリーグ別アセット整理のSTG反映 — 作業記録 023</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">sport-portal</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 20</span><a class="record-navigation__pager-link" href="work_record_021.html" aria-label="次の記録：Issueタイトルとリリースバージョン運用ルールを整備">→ 次の記録<span>work_record_021</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 023 ・ 2026-10-14</p>
+          <h1>共通スコアレイアウトとリーグ別アセット整理のSTG反映</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_023.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p>Bリーグを起点に、NPB・NBAを含む共通スコアレイアウトを整理し、2桁と3桁の得点が混在する場合でも中央のスコア区切りがずれない表示へ調整した。あわせて、リーグ固有のJavaScript・CSSと共通パーツをディレクトリへ整理し、参照パス、構文チェック、テストを更新した。</p>
+<p>STGブランチへfeatureブランチを統合してpushし、利用者によるSTG実機確認を完了した。確認後、<code>stg</code>から<code>main</code>へのPRを作成した。本番環境への直接反映やmainへのマージは行っていない。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　スコアレイアウトの変更</p><h2>スコアレイアウトの変更</h2></div><div class="section-content"><ul><li><code>app/common/styles.css</code> にBリーグ・NPB・NBAで共有するスコアグリッドを整理した。</li><li>Home/Awayのスコア列を3桁分の固定幅（<code>3ch</code>）にし、2桁と3桁の組み合わせでも中央の<code>score-divider</code>が中央からずれないようにした。</li><li>スコア要素を列幅いっぱいにし、Home側を右寄せ、Away側を左寄せにした。</li><li>スコアにtabular numeralsを適用し、数字幅の差による見た目の揺れを抑えた。</li><li>Bリーグのチーム名ブロックをグリッド列いっぱいにして、Home側の右寄せ・Away側の左寄せを維持しながらチーム名の列を揃えた。</li><li>NPB・NBAの固有CSS・マークアップを共通レイアウトに合わせ、NBAにはHome/Awayのスコア用クラスを追加した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　ファイル構成と参照パスの整理</p><h2>ファイル構成と参照パスの整理</h2></div><div class="section-content"><ul><li>共通パーツを<code>app/common/</code>へ移動した。</li></ul>
+<ul><li><code>styles.css</code></li><li><code>sport-themes.css</code></li><li><code>header-nav.js</code></li></ul>
+<ul><li>リーグ固有ファイルを各リーグディレクトリへ移動した。</li></ul>
+<ul><li><code>app/j-league/j-league.js</code></li><li><code>app/b-league/b-league.css</code>、<code>b-league.js</code></li><li><code>app/npb/npb.css</code>、<code>npb.js</code></li><li><code>app/nba/nba.css</code>、<code>nba.js</code></li></ul>
+<ul><li>各HTML、<code>DEPLOYMENT.md</code>、要件書、<code>package.json</code>、Workerテストの参照パスを更新した。</li><li>旧<code>app/styles.css</code>を削除し、共通CSSを<code>app/common/styles.css</code>へ統一した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　STG反映と確認</p><h2>STG反映と確認</h2></div><div class="section-content"><ul><li><code>feature/detail_fix_20261013</code>を<code>stg</code>へ統合したマージコミット: <code>4b429d9</code></li><li>スコア位置調整CSSの追加コミット: <code>e6c0278</code></li><li><code>origin/stg</code>へのpushを完了した。</li><li>利用者がSTG環境で実機確認を行い、2桁・3桁得点時の中央位置とチーム名の整列を確認したうえで、今回の状態を正とした。</li><li>STG URLは本セッションで提示されていないため、本記録には記載していない。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　PRと本番反映状態</p><h2>PRと本番反映状態</h2></div><div class="section-content"><ul><li><code>stg</code>から<code>main</code>へのPRを作成した。</li></ul>
+<ul><li><a href="https://github.com/tj-999-comp/sport-portal/pull/75">PR #75: refactor: organize league assets and unify score layouts</a></li></ul>
+<ul><li>PR作成時のheadコミット: <code>e6c02784a170dc683f7222fb21a03df95c692b6e</code></li><li>PRは作成済み・未マージであり、mainおよび本番環境への反映は行っていない。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">06　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>npm run test:syntax</code>: 成功</li><li><code>git diff --check</code>: 成功</li><li><code>npm test</code>: 39件中38件成功、1件失敗</li><li>失敗したテストは、Jリーグページの<code>&lt;option value="/"&gt;トップ&lt;/option&gt;</code>を除外する既存期待値と、現行HTMLの内容が一致していないもの。今回の共通CSS・ファイル整理の検証とは別の既知の差異として残した。</li><li>マージ競合は、共通パス・スコアレイアウト側をfeature、NBAのWorkflowと運用ドキュメント側をSTG専用設定として解消した。</li></ul>
+<p>認証情報、APIキー、パスワード、Secret値は記録していない。</p></div></section>
+      </main>
+      <footer>
+        <span>sport-portal · 作業記録 023</span>
+        <span>Markdown原本: <code>md/work_record_023.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
