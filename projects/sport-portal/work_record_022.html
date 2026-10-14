@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>NBAページ要件定義と実装Issue登録 — 作業記録 022</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">sport-portal</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><a class="record-navigation__pager-link" href="work_record_020.html" aria-label="前の記録：NBAデータ取得元のBALLDONTLIE移行とSTG同期">← 前の記録<span>work_record_020</span></a><span class="record-navigation__position">4 / 21</span><a class="record-navigation__pager-link" href="work_record_019.html" aria-label="次の記録：NBAページ要件定義と実装Issue登録">→ 次の記録<span>work_record_019</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 022 ・ 2026-09-30</p>
+          <h1>NBAページ要件定義と実装Issue登録</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_022.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p>NBAページの2026-27シーズン要件を利用者との確認で確定し、要件書を作成した。実装に必要な工程を親Issue #62と5件の子Issueへ分割して登録した。あわせて、GitHub CLIに残っていた無効な認証情報を削除し、Gitのキーチェーン認証が引き続き有効であることを確認した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　確定したNBAページ要件</p><h2>確定したNBAページ要件</h2></div><div class="section-content"><ul><li>対象期間は2026年プレシーズン開始から2027年NBA Finals終了までの2026-27シーズンとする。</li><li>Preseason、Regular Season、NBA Cup Group Play、NBA Cup Knockout、Play-In、Playoffs、NBA Finalsの日程・確定結果を対象にする。</li><li>表示日時はJST、チーム名はNBA公式の正式英語名とする。各試合に大会区分、開始時刻または公式状態、最終スコア、会場を表示する。</li><li>試合中の途中経過、選手・チーム詳細、ライブ配信リンク、通知、画像素材、ディビジョン別順位表、過去シーズン選択は対象外とした。</li><li>順位表は東西カンファレンスを縦に並べ、Rank、Team、W、L、WIN%、GB、CONF、HOME、ROAD、LAST 10、STREAK、公式の進出・敗退記号と凡例を表示する。</li><li>モーダルには「順位表」「NBA Cup」「Play-In」「プレーオフ」の4タブを置く。NBA Cupは6組のグループ順位・公式進出状況・ノックアウトを表示し、Play-Inとプレーオフは公式の確定状況だけを表示する。</li><li>NBA Cupのレギュラーシーズン成績算入は前年仕様を固定せず、対象シーズンのNBA公式ルールに従う。</li><li>手動更新は確認・進行中表示・二重実行防止を備え、自動更新はNBA専用Workflowで毎日8・10・12・14・16時JSTに行う。</li><li>取得元はNBA公式サイトおよび同サイトが公開利用するデータに限定し、未取得・公式未発表・取得失敗を区別する。取得失敗時は前回正常データを保持する。</li></ul>
+<p>要件全文は <code>docs/NBA_REQUIREMENTS.md</code> に記録した。実装、STG反映、本番反映はまだ行っていない。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　登録したIssue</p><h2>登録したIssue</h2></div><div class="section-content"><ul><li>親Issue: <a href="https://github.com/tj-999-comp/sport-portal/issues/62">#62 NBA 2026-27 NBAページ実装</a></li><li><a href="https://github.com/tj-999-comp/sport-portal/issues/66">#66 Phase 1: 公式データ取得・保存・API・手動更新</a></li><li><a href="https://github.com/tj-999-comp/sport-portal/issues/63">#63 Phase 2: 日程・試合結果ページと手動更新UI</a></li><li><a href="https://github.com/tj-999-comp/sport-portal/issues/65">#65 Phase 3: 順位表・NBA Cup・Play-In・プレーオフのモーダル</a></li><li><a href="https://github.com/tj-999-comp/sport-portal/issues/64">#64 Phase 4: NBA専用の定期更新Workflow</a></li><li><a href="https://github.com/tj-999-comp/sport-portal/issues/67">#67 Phase 5: テスト・STG受入・運用ドキュメント整備</a></li></ul>
+<p>依存関係はPhase 1からPhase 2・3・4へ、Phase 1〜4からPhase 5へ設定した。親Issueには要件の概要、子Issue一覧、受入基準、NBA公式参照先を記載した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　認証情報の整理</p><h2>認証情報の整理</h2></div><div class="section-content"><ul><li>GitHub CLIが保持していた無効な認証情報をログアウト処理で削除した。</li><li>GitHub CLI用のキーチェーン項目が削除済みであることを確認した。</li><li>Gitの既存キーチェーン認証でGitHubリモートの読み取りが正常に動作することを確認した。</li><li>トークン、パスワード、Secret値は確認・記録していない。</li></ul></div></section>
+      </main>
+      <footer>
+        <span>sport-portal · 作業記録 022</span>
+        <span>Markdown原本: <code>md/work_record_022.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
