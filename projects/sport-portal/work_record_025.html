@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Jリーグ順位表の列幅・stickyヘッダ・中央寄せ調整とSTG/本番反映 — 作業記録 025</title>
+    <link rel="stylesheet" href="../progress-index.css">
+  </head>
+  <body class="record-page">
+    <div class="shell">
+      <header class="topbar">
+        <span class="wordmark">sport-portal</span>
+      </header>
+      <nav class="record-navigation" aria-label="作業記録のナビゲーション"><div class="record-navigation__context"><a href="index.html">このproject</a><a href="../index.html">全project</a></div><div class="record-navigation__pager"><span class="record-navigation__pager-link record-navigation__pager-link--disabled" aria-disabled="true">前の記録</span><span class="record-navigation__position">1 / 23</span><a class="record-navigation__pager-link" href="work_record_024.html" aria-label="次の記録：Bリーグ月次更新のSTG受入と本番反映">→ 次の記録<span>work_record_024</span></a></div></nav>
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 025 ・ 2026-10-16</p>
+          <h1>Jリーグ順位表の列幅・stickyヘッダ・中央寄せ調整とSTG/本番反映</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_025.md</code></dd></div>
+            <div><dt>状態</dt><dd>記録本文をHTML化</dd></div>
+          </dl>
+        </header>
+        <section class="record-section"><div class="section-intro"><p class="section-label">01　概要</p><h2>概要</h2></div><div class="section-content"><p>Jリーグの順位表をBリーグの順位表と同様に列単位で調整できる構成へ変更した。列幅、余白、文字揃えを<code>nth-child</code>で指定できるJリーグ専用CSSを追加し、順位・クラブ列のsticky表示、stickyヘッダの重なり順、表の中央寄せを調整した。STGで表示確認後、利用者の本番反映承認を受けてProductionへ反映した。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">02　実装内容</p><h2>実装内容</h2></div><div class="section-content"><ul><li><code>app/j-league/j-league.css</code>を追加し、Jリーグ順位表専用のスタイルを分離した。</li><li>順位、クラブ、試合、勝、分、負、得点、失点、得失、勝点の各列を<code>th:nth-child()</code>と<code>td:nth-child()</code>で個別調整できるようにした。</li><li>順位表に<code>j-standings-table</code>クラスを付け、既存の共通テーブルスタイルとJリーグ用の列スタイルを分離した。</li><li>順位列とクラブ列を横スクロール時にsticky表示した。</li><li>縦スクロール時に本文のstickyセルがヘッダを覆わないよう、順位・クラブのヘッダだけ本文セルより高い<code>z-index</code>へ調整した。</li><li>テーブルが表示領域に収まる場合は中央寄せし、狭い表示幅では左端を失わず横スクロールできるようにした。</li><li>順位表の見出しを「チーム」から「クラブ」へ変更した。</li></ul></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">03　STG反映と確認</p><h2>STG反映と確認</h2></div><div class="section-content"><ul><li>列幅・sticky表示の実装コミット: <code>9851933</code></li><li>中央寄せの実装コミット: <code>d882a9b</code></li><li>STG URL: <code>https://stg.sport-portal.pages.dev/j-league/</code></li></ul>
+<p><code>origin/stg</code>へ<code>d882a9b</code>をpushし、Cloudflare PagesのSTG Previewデプロイを起動した。未認証アクセスはHTTP <code>401</code>で、STGのBasic認証が有効であることを確認した。</p>
+<p>Playwrightで順位表を開き、320px・640px幅で確認した。縦スクロール後も順位・クラブのヘッダが表示され、640px幅ではテーブルが中央に配置され、320px幅では横スクロールの開始位置が崩れないことを確認した。ページエラーとコンソールエラーは発生しなかった。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">04　本番反映</p><h2>本番反映</h2></div><div class="section-content"><p>STG確認後、利用者から本番反映の明示承認を受け、<code>stg</code>の変更を<code>main</code>へfast-forwardマージした。</p>
+<ul><li>本番反映コミット: <code>d882a9b</code></li><li>Production URL: <code>https://sport-portal.pages.dev/j-league/</code></li></ul>
+<p><code>origin/main</code>へpushしてProductionデプロイを起動した。未認証アクセスはHTTP <code>401</code>で、ProductionのBasic認証が有効であることを確認した。Worker、KV、Secretの変更は行っていない。</p></div></section>
+<section class="record-section"><div class="section-intro"><p class="section-label">05　検証</p><h2>検証</h2></div><div class="section-content"><ul><li><code>npm run test:syntax</code>: 成功。</li><li><code>git diff --check</code>: 成功。</li><li><code>npm test</code>: 44件中43件成功、1件失敗。</li><li>失敗はJリーグページの<code>&lt;option value="/"&gt;トップ&lt;/option&gt;</code>に対する既存テスト期待値と現行HTMLの不一致であり、今回の順位表CSS変更とは無関係である。</li></ul>
+<p>認証情報、APIキー、パスワード、Secret値、KVの実データは記録していない。</p></div></section>
+      </main>
+      <footer>
+        <span>sport-portal · 作業記録 025</span>
+        <span>Markdown原本: <code>md/work_record_025.md</code></span>
+      </footer>
+    </div>
+  </body>
+</html>
