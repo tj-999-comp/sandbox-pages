@@ -7,18 +7,18 @@
     <title>Keychron K2 — デザインダミー</title>
     <style>
         :root {
-            --canvas: #f1f4ee;
-            --surface: #fffdf7;
-            --ink: #213b3d;
-            --muted: #607477;
+            --canvas: #f5f5f1;
+            --surface: #ffffff;
+            --ink: #2b3030;
+            --muted: #6f7775;
             --dark: #1b1d20;
             --dark-muted: #b7b9bb;
-            --key: #b7d7d2;
-            --key-hover: #d3e7df;
-            --key-ink: #213b3d;
-            --key-line: #86afb0;
-            --accent: #ef6b4e;
-            --line: #ccdcd7;
+            --key: #ffffff;
+            --key-hover: #f4edf4;
+            --key-ink: #2b3030;
+            --key-line: #d5d7d2;
+            --accent: #d9574a;
+            --line: #dedfda;
             --radius-card: 16px;
             --sans: Inter, "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
         }
@@ -92,12 +92,12 @@
         }
 
         .palette-option {
-            --palette-canvas: #e6f0ed;
-            --palette-surface: #fffdf7;
-            --palette-key: #b7d7d2;
-            --palette-ink: #213b3d;
-            --palette-accent: #ef6b4e;
-            --palette-line: #9bbdb9;
+            --palette-canvas: #f5f5f1;
+            --palette-surface: #ffffff;
+            --palette-key: #ffffff;
+            --palette-ink: #2b3030;
+            --palette-accent: #d9574a;
+            --palette-line: #dedfda;
             min-width: 0;
             height: 76px;
             display: grid;
@@ -149,7 +149,28 @@
         .palette-option__key:nth-child(4) { background: var(--palette-accent); }
         .palette-option__caption { color: color-mix(in srgb, var(--palette-ink) 64%, transparent); font-size: 0.62rem; white-space: nowrap; }
 
-        .palette-option--paper { --palette-canvas: #e6f0ed; --palette-surface: #fffdf7; --palette-key: #b7d7d2; --palette-ink: #213b3d; --palette-accent: #ef6b4e; --palette-line: #9bbdb9; }
+        .palette-option--selected {
+            position: relative;
+            border-color: var(--palette-accent);
+            box-shadow: inset 0 0 0 1px var(--palette-accent), 0 6px 16px rgb(217 87 74 / 14%);
+        }
+
+        .palette-option--selected::before {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            padding: 1px 4px;
+            color: #ffffff;
+            background: var(--palette-accent);
+            content: "採用候補";
+            font-size: 0.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .palette-option--selected h3 { padding-right: 38px; }
+
+        .palette-option--paper { --palette-canvas: #f2f5f2; --palette-surface: #ffffff; --palette-key: #ffffff; --palette-ink: #2b3030; --palette-accent: #d9574a; --palette-line: #d3ded8; }
         .palette-option--blue { --palette-canvas: #edf1f7; --palette-surface: #fbfcff; --palette-key: #b7cde5; --palette-ink: #1f3047; --palette-accent: #3f72b5; --palette-line: #9fb6d2; }
         .palette-option--yellow { --palette-canvas: #f7f1d9; --palette-surface: #fffdf3; --palette-key: #e4d273; --palette-ink: #332d21; --palette-accent: #d66a3e; --palette-line: #cbb96d; }
         .palette-option--lilac { --palette-canvas: #f2ebf4; --palette-surface: #fffaff; --palette-key: #d5c2e0; --palette-ink: #3b2942; --palette-accent: #d9574a; --palette-line: #bea6c8; }
@@ -211,14 +232,14 @@
             min-height: 0;
             padding: 14px 18px;
             border: 1px solid var(--line);
-            background: #e6eff0;
+            background: #f4f4f1;
             overflow: hidden;
         }
 
         .keyboard-stage::before {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 70% 35%, rgb(239 107 78 / 9%), transparent 42%);
+            background: radial-gradient(circle at 70% 35%, rgb(217 87 74 / 8%), transparent 42%);
             content: "";
             animation: quiet-tone 18s ease-in-out infinite;
         }
@@ -266,10 +287,10 @@
 
         .key:active,
         .key.active {
-            color: #213b3d;
+            color: #2b3030;
             background: var(--accent);
-            border-color: #d45740;
-            box-shadow: 0 1px 0 rgb(33 59 61 / 18%), 0 0 0 3px rgb(239 107 78 / 24%);
+            border-color: #b9463d;
+            box-shadow: 0 1px 0 rgb(43 48 48 / 18%), 0 0 0 3px rgb(217 87 74 / 22%);
             transform: translateY(2px);
         }
 
@@ -278,7 +299,7 @@
         .key.wider { grid-column: span 4; }
         .key.ultra-wide { grid-column: span 5; }
         .key.space { grid-column: span 11; }
-        .key.device { color: var(--muted); border-style: dashed; border-color: #8ba6a5; background: transparent; }
+        .key.device { color: var(--muted); border-style: dashed; border-color: #b8bcb7; background: transparent; }
         .key.device:hover { background: rgb(255 255 255 / 55%); }
         .key-sub { color: var(--muted); font-size: 0.68em; font-weight: 600; }
         .function-row { margin-bottom: 8px; }
@@ -321,7 +342,7 @@
             place-items: center;
             padding: 10px;
             border: 1px solid var(--line);
-            background: #e8eff0;
+            background: #f2ebf4;
             overflow: hidden;
         }
 
@@ -433,7 +454,7 @@
                 <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
                 <span class="palette-option__caption">黄色面に黒い線</span>
             </article>
-            <article class="palette-option palette-option--lilac">
+            <article class="palette-option palette-option--lilac palette-option--selected" aria-label="04 Lilac / Vermilion、採用候補">
                 <div class="palette-option__header"><span class="palette-option__index">04</span><h3>Lilac / Vermilion</h3></div>
                 <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
                 <span class="palette-option__caption">ライラックに朱の二重線</span>
