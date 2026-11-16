@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Keychron K2ダミーの配色比較案追加 — 作業記録 098</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 098 ・ <time datetime="2026-11-16">2026-11-16</time></p>
+          <h1>Keychron K2ダミーの配色比較案追加</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_098.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: <code>keyboards/keychronk2-dummy.html</code> で、色味と下線などの強調方法を比較できるようにする。</li><li>目的: KOKUYO家具ページを参考に、明るい面、細い境界線、短いライン強調、控えめなアクセントを5案で見比べられるようにする。</li><li>完了条件: 5案が横並びで視認でき、既存の84キー配列・上下2段構成・PC/iPad横向きの1画面条件と操作を維持すること。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio UI Designer</h3>
+<ul><li>入力: KOKUYO家具ページ、既存 <code>keyboards/DESIGN.md</code>、前回のダミーHTML。</li><li>実施内容: <code>Paper Orange</code>、<code>Soft Blue Desk</code>、<code>Warm Gray File</code>、<code>Pale Green Office</code>、<code>White Grid</code> の5案を設計した。各案に紙面色、キーキャップ色、アクセント色、短い下線・縦線・二重線のいずれかを割り当てた。</li><li>成果物: 上部の色比較リボンと、5つの配色・強調表現カード。</li><li>検証結果: 明るい面、細い境界線、短いライン、強いグローを避けた状態表現を確認した。</li><li>未解決事項: 最終的な採用色は本番ページ移植時に決定する。</li><li>次工程への引き継ぎ: 色比較案を基準に本番CSSの採用案を選ぶ。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>keyboards/keychronk2-dummy.html</code>、<code>keyboards/DESIGN.md</code>、前回のviewport要件。</li><li>実施内容: ヘッダーとワークスペースの間に96pxの比較リボンを追加し、5枚のカードを横並びにした。カードごとに色見本、キー面のミニプレビュー、見出し下線または左縦線を表示した。ワークスペースの高さと情報カードの余白を再配分し、既存の1画面構成を維持した。</li><li>成果物: <code>keyboards/keychronk2-dummy.html</code>、更新済み <code>keyboards/DESIGN.md</code>。</li><li>検証結果: <code>git diff --check</code> 合格。5案、既存配列、クリック、keydown/keyup、フォーカス、画像状態を実ブラウザで確認した。</li><li>未解決事項: 比較リボンはデザイン検討用であり、本番ページへそのまま持ち込むUIではない。</li><li>次工程への引き継ぎ: 採用案を選定後、本番 <code>keychronk2.html</code> の色と強調表現へ移植する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: <code>origin/main</code>との差分、KOKUYO参考方針、最新ブラウザ検証結果。</li><li>実施内容: 5案の横並び、配色差、下線・縦線・二重線の位置、文字可読性、既存配列と1画面条件の非回帰をレビューした。Pale Green案の縦線位置と比較文の文字サイズを指摘し、修正後に再確認した。</li><li>成果物: 差分レビュー結果。</li><li>検証結果: 修正後、重大・中・軽微の未解決事項なしで合格した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: 採用色の決定後、本番ページへ適用する。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 更新後のダミーHTML、<code>1280×800</code>、<code>1024×768</code>、既存操作シナリオ。</li><li>実施内容: 縦横overflow、console/page error、失敗リクエスト、Tabフォーカス、クリック、keydown/keyup、<code>aria-live</code>、reduced-motion、5カードの視認性を確認した。</li><li>成果物: 実ブラウザ検証レポートと操作シナリオレポート。</li><li>検証結果: 両viewportでdocumentサイズがviewport内に収まり、コンソールエラーなし。5案すべて表示され、各案の色見本と強調表現を確認できた。</li><li>未解決事項: スクリーンリーダー実機による読み上げ確認は未実施。</li><li>次工程への引き継ぎ: 本番移植時に採用色と読み上げ状態を再確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 5案は既存のキーボード表示を複製せず、上部の比較リボンとして配置した。</li><li>理由: 色と強調表現を同時に比較しながら、既存の1画面・84キー・上下2段構成を壊さないため。</li><li>判断: 下線は短く、見出し幅または見出し左端に限定した。</li><li>理由: KOKUYO参考ページの余白、細い線、情報のまとまりを取り入れ、過剰な装飾を避けるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 5つの配色案と、それぞれ異なる下線・縦線・二重線の強調表現をダミーページ上部へ追加した。既存の配列、キー操作、スイッチ情報、viewport内表示は維持した。</li><li>変更ファイル: <code>keyboards/keychronk2-dummy.html</code>、<code>keyboards/DESIGN.md</code>、<code>work-records/md/work_record_098.md</code>、<code>work-records/metadata/work_record_098.yml</code>、生成された <code>work-records/work_record_098.html</code>。</li><li>検証結果: <code>git diff --check</code>、実ブラウザ表示確認、操作シナリオ、差分レビューに合格。</li><li>作業ブランチ: <code>codex/140-keychronk2-palette-options</code></li><li>コミット: 作成予定</li><li>PR: 作成予定</li><li>PRレビュー・CI: 作成予定</li><li>未解決事項: 5案のうち本番へ採用する色は未決定。本番 <code>keychronk2.html</code> への移植はIssue #140の次工程。</li><li>次アクション: PRとCIを確認し、Issue #140へ比較案の追加を記録する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-11-16 17:24 取得範囲: <code>tj-999-comp/sandbox-pages</code>のOpen Issue全件。Pull Requestは除外。 取得件数: 1件（一覧行数: 1行）</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/140">#140 Keychron K2デザインダミーの要件整理</a></td><td>Open（state reason: null）</td><td>本作業の対象。色比較案をもとに、本番 <code>keychronk2.html</code> の採用色を決定して移植する。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 098</span>
+        <span><a href="md/work_record_098.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
