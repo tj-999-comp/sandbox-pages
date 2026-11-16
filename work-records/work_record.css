@@ -175,7 +175,7 @@ code { font-size: .88em; overflow-wrap: anywhere; }
 .section-content p { max-width: 860px; margin: 14px 0; }
 .section-content ul,
 .section-content ol { max-width: 900px; margin: 14px 0; padding-left: 1.6em; }
-.section-content li { margin: 6px 0; padding-left: 4px; }
+.section-content li { margin: 6px 0; padding-left: 4px; overflow-wrap: anywhere; }
 .section-content li > ul,
 .section-content li > ol { margin: 4px 0; }
 .section-content h3 {
