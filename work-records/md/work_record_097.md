@@ -58,11 +58,11 @@
 - 変更ファイル: `keyboards/keychronk2-dummy.html`、`keyboards/DESIGN.md`、`work-records/md/work_record_097.md`、`work-records/metadata/work_record_097.yml`、生成された `work-records/work_record_097.html`。
 - 検証結果: `git diff --check`、実ブラウザ表示確認、キー配列・操作シナリオ、Backslash比較、Reviewer確認に合格。
 - 作業ブランチ: `codex/140-keychronk2-layout-light`
-- コミット: 作成予定
-- PR: 作成予定
-- PRレビュー・CI: 作成予定
+- コミット: `eeb76b24530dd7fd9d26e7f515a47d45b3b0407a`
+- PR: [#147 Keychron K2ダミーの配列と展示レイアウトを調整](https://github.com/tj-999-comp/sandbox-pages/pull/147)（merge commit: `7e75e79020dc08bb62b5ec6e438a3bdf10ead373`）
+- PRレビュー・CI: Portfolio ReviewerおよびPerformance & Accessibility Testerの最終確認で重大・中・軽微の未解決事項なし。GitHub Actionsの`validate`成功を確認し、PR #147は2026-11-16にmainへmerge済み。
 - 未解決事項: 本番 `keychronk2.html` への移植と実画像カタログへの接続はIssue #140の次工程。スクリーンリーダー実機確認は未実施。
-- 次アクション: PR作成後にGitHub上の差分、CI、レビュー結果を確認し、Issue #140へ今回の合意内容を記録する。
+- 次アクション: Issue #140へ今回の合意内容を記録し、次工程として本番 `keychronk2.html` へ方針を移植する。
 
 ## GitHub Issue状況
 確認日時（JST）: 2026-11-16 17:06
