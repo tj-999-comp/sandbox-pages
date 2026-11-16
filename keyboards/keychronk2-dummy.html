@@ -12,10 +12,11 @@
             --ink: #1d1d1f;
             --muted: #6d6b66;
             --dark: #1b1d20;
-            --dark-soft: #272a2e;
             --dark-muted: #b7b9bb;
-            --key: #34373b;
-            --key-hover: #4a4e53;
+            --key: #e7e0d5;
+            --key-hover: #f4efe7;
+            --key-ink: #2d2a27;
+            --key-line: #c6bcae;
             --accent: #ed6a2d;
             --line: #d8d4cc;
             --radius-card: 16px;
@@ -60,9 +61,11 @@
         .workspace {
             height: calc(100vh - 56px);
             display: grid;
-            grid-template-columns: minmax(640px, 1fr) minmax(280px, 0.34fr);
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: max-content minmax(180px, 1fr);
             gap: 16px;
             padding: 24px;
+            overflow: hidden;
         }
 
         .keyboard-panel,
@@ -74,9 +77,12 @@
         .keyboard-panel {
             display: flex;
             flex-direction: column;
-            padding: 24px;
-            color: var(--surface);
-            background: var(--dark);
+            min-height: 360px;
+            padding: 20px;
+            color: var(--ink);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            box-shadow: 0 14px 36px rgb(28 28 26 / 7%);
             overflow: hidden;
         }
 
@@ -98,26 +104,28 @@
 
         .panel-status {
             margin: 0;
-            color: var(--dark-muted);
+            color: var(--muted);
             font-size: 0.78rem;
             text-align: right;
         }
 
         .keyboard-stage {
             position: relative;
-            flex: 1;
+            flex: 0 0 auto;
             display: grid;
-            place-items: center;
+            align-items: start;
+            justify-items: center;
             min-height: 0;
-            padding: 18px;
-            background: var(--dark-soft);
+            padding: 14px 18px;
+            border: 1px solid var(--line);
+            background: #f5f2ed;
             overflow: hidden;
         }
 
         .keyboard-stage::before {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 70% 35%, rgb(237 106 45 / 7%), transparent 42%);
+            background: radial-gradient(circle at 70% 35%, rgb(237 106 45 / 6%), transparent 42%);
             content: "";
             animation: quiet-tone 18s ease-in-out infinite;
         }
@@ -139,15 +147,15 @@
         .key {
             grid-column: span 2;
             min-width: 0;
-            min-height: clamp(36px, 5.3vh, 50px);
+            min-height: clamp(28px, 4.3vh, 44px);
             display: grid;
             place-items: center;
             padding: 4px;
-            border: 1px solid transparent;
+            border: 1px solid var(--key-line);
             border-radius: 7px;
-            color: #f4f2ed;
+            color: var(--key-ink);
             background: var(--key);
-            box-shadow: 0 2px 0 rgb(0 0 0 / 22%);
+            box-shadow: 0 2px 0 rgb(68 61 52 / 16%);
             cursor: pointer;
             font-size: clamp(0.58rem, 0.75vw, 0.74rem);
             font-weight: 700;
@@ -158,7 +166,7 @@
         .key:hover,
         .key:focus-visible {
             background: var(--key-hover);
-            border-color: rgb(255 255 255 / 32%);
+            border-color: var(--accent);
             outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
@@ -167,35 +175,43 @@
         .key.active {
             color: #2a170e;
             background: var(--accent);
-            border-color: #ffba95;
-            box-shadow: 0 1px 0 rgb(0 0 0 / 24%), 0 0 0 3px rgb(237 106 45 / 18%);
+            border-color: #c84e1c;
+            box-shadow: 0 1px 0 rgb(68 61 52 / 18%), 0 0 0 3px rgb(237 106 45 / 18%);
             transform: translateY(2px);
         }
 
-        .key.small { min-height: clamp(28px, 4.4vh, 40px); font-size: clamp(0.52rem, 0.66vw, 0.66rem); }
+        .key.small { min-height: clamp(24px, 3.8vh, 36px); font-size: clamp(0.52rem, 0.66vw, 0.66rem); }
         .key.wide { grid-column: span 3; }
         .key.wider { grid-column: span 4; }
         .key.ultra-wide { grid-column: span 5; }
         .key.space { grid-column: span 11; }
-        .key.device { color: var(--dark-muted); border-style: dashed; border-color: #70757a; background: transparent; }
-        .key.device:hover { background: rgb(255 255 255 / 8%); }
+        .key.device { color: var(--muted); border-style: dashed; border-color: #aaa095; background: transparent; }
+        .key.device:hover { background: rgb(255 255 255 / 55%); }
+        .key-sub { color: var(--muted); font-size: 0.68em; font-weight: 600; }
         .function-row { margin-bottom: 8px; }
 
         .switch-panel {
             display: grid;
-            grid-template-rows: auto minmax(180px, 0.9fr) auto;
-            gap: 18px;
-            padding: 24px;
+            grid-template-columns: minmax(180px, 0.28fr) minmax(0, 1fr);
+            grid-template-rows: auto 1fr;
+            grid-template-areas:
+                "heading heading"
+                "image info";
+            gap: 10px 24px;
+            padding: 16px 20px;
             background: var(--surface);
+            border: 1px solid var(--line);
             box-shadow: 0 18px 50px rgb(28 28 26 / 10%);
+            overflow: hidden;
         }
 
         .switch-heading {
+            grid-area: heading;
             display: flex;
             align-items: baseline;
             justify-content: space-between;
             gap: 16px;
-            padding-bottom: 14px;
+            padding-bottom: 8px;
             border-bottom: 1px solid var(--line);
         }
 
@@ -205,36 +221,41 @@
         }
 
         .switch-image-wrap {
-            min-height: 180px;
+            grid-area: image;
+            min-height: 0;
+            height: 100%;
             display: grid;
             place-items: center;
-            padding: 18px;
-            background: #e8e4dc;
+            padding: 10px;
+            border: 1px solid var(--line);
+            background: #f0ece5;
             overflow: hidden;
         }
 
         #switch-image {
-            width: min(100%, 240px);
+            width: min(100%, 156px);
             height: 100%;
-            min-height: 180px;
+            min-height: 0;
             object-fit: contain;
             transition: opacity 180ms ease, transform 180ms ease;
         }
 
         .switch-info {
+            grid-area: info;
+            align-self: center;
             padding-top: 2px;
             transition: opacity 180ms ease, transform 180ms ease;
         }
 
         .switch-key {
-            margin: 0 0 4px;
+            margin: 0 0 2px;
             color: var(--muted);
             font-size: 0.78rem;
         }
 
         .switch-name {
-            margin: 0 0 18px;
-            font-size: clamp(1.25rem, 2.2vw, 2rem);
+            margin: 0 0 10px;
+            font-size: clamp(1.15rem, 2vw, 1.7rem);
             line-height: 1.1;
             letter-spacing: -0.04em;
         }
@@ -242,7 +263,7 @@
         .detail-list {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px 18px;
+            gap: 8px 18px;
             margin: 0;
         }
 
@@ -251,7 +272,7 @@
         .detail-list dd { margin: 3px 0 0; font-size: 0.9rem; font-weight: 700; }
 
         .notice {
-            margin: 14px 0 0;
+            margin: 8px 0 0;
             color: var(--muted);
             font-size: 0.72rem;
             line-height: 1.55;
@@ -264,9 +285,10 @@
 
         @media (min-width: 1200px) {
             .topbar { padding-inline: 48px; }
-            .workspace { gap: 32px; padding: 48px; }
-            .keyboard-panel,
-            .switch-panel { padding: 28px; }
+            .workspace { grid-template-rows: max-content minmax(200px, 1fr); gap: 32px; padding: 48px; }
+            .keyboard-panel { padding: 24px; }
+            .switch-panel { padding: 18px 24px; }
+            .detail-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 12px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -296,22 +318,22 @@
             <div class="keyboard-stage" aria-label="キーボード配列のダミー表示">
                 <div class="keyboard">
                     <div class="keyboard-row function-row">
-                        <button class="key small" type="button" data-key="Esc" data-switch="sw-17">Esc</button><button class="key small" type="button" data-key="F1" data-switch="sw-17">F1</button><button class="key small" type="button" data-key="F2" data-switch="sw-17">F2</button><button class="key small" type="button" data-key="F3" data-switch="sw-17">F3</button><button class="key small" type="button" data-key="F4" data-switch="sw-17">F4</button><button class="key small" type="button" data-key="F5" data-switch="sw-17">F5</button><button class="key small" type="button" data-key="F6" data-switch="sw-17">F6</button><button class="key small" type="button" data-key="F7" data-switch="sw-17">F7</button><button class="key small" type="button" data-key="F8" data-switch="sw-17">F8</button><button class="key small" type="button" data-key="F9" data-switch="sw-17">F9</button><button class="key small" type="button" data-key="F10" data-switch="sw-17">F10</button><button class="key small" type="button" data-key="F11" data-switch="sw-17">F11</button><button class="key small" type="button" data-key="F12" data-switch="sw-17">F12</button><button class="key small device" type="button" data-key="light" data-switch="sw-17">light</button>
+                        <button class="key small" type="button" data-key="Esc" data-code="Escape" data-switch="sw-17">Esc</button><button class="key small" type="button" data-key="F1" data-switch="sw-17">F1</button><button class="key small" type="button" data-key="F2" data-switch="sw-17">F2</button><button class="key small" type="button" data-key="F3" data-switch="sw-17">F3</button><button class="key small" type="button" data-key="F4" data-switch="sw-17">F4</button><button class="key small" type="button" data-key="F5" data-switch="sw-17">F5</button><button class="key small" type="button" data-key="F6" data-switch="sw-17">F6</button><button class="key small" type="button" data-key="F7" data-switch="sw-17">F7</button><button class="key small" type="button" data-key="F8" data-switch="sw-17">F8</button><button class="key small" type="button" data-key="F9" data-switch="sw-17">F9</button><button class="key small" type="button" data-key="F10" data-switch="sw-17">F10</button><button class="key small" type="button" data-key="F11" data-switch="sw-17">F11</button><button class="key small" type="button" data-key="F12" data-switch="sw-17">F12</button><button class="key small device" type="button" data-key="?" data-switch="sw-17"><span class="key-main">?</span><span class="key-sub">mod</span></button><button class="key small" type="button" data-key="Del" data-code="Delete" data-switch="sw-17">Del</button><button class="key small device" type="button" data-key="light" data-switch="sw-17"><span class="key-main">light</span><span class="key-sub">device</span></button>
                     </div>
                     <div class="keyboard-row">
-                        <button class="key wide" type="button" data-key="A/あ" data-switch="sw-13">A/あ</button><button class="key" type="button" data-key="1" data-switch="sw-16">1</button><button class="key" type="button" data-key="2" data-switch="sw-16">2</button><button class="key" type="button" data-key="3" data-switch="sw-16">3</button><button class="key" type="button" data-key="4" data-switch="sw-16">4</button><button class="key" type="button" data-key="5" data-switch="sw-16">5</button><button class="key" type="button" data-key="6" data-switch="sw-17">6</button><button class="key" type="button" data-key="7" data-switch="sw-17">7</button><button class="key" type="button" data-key="8" data-switch="sw-17">8</button><button class="key" type="button" data-key="9" data-switch="sw-17">9</button><button class="key" type="button" data-key="0" data-switch="sw-15">0</button><button class="key" type="button" data-key="-" data-switch="sw-15">-</button><button class="key" type="button" data-key="=" data-switch="sw-15">=</button><button class="key wide" type="button" data-key="Backspace" data-switch="sw-12">Backspace</button>
+                        <button class="key" type="button" data-key="" data-switch="sw-13">A/あ</button><button class="key" type="button" data-key="Digit1" data-switch="sw-16">1</button><button class="key" type="button" data-key="Digit2" data-switch="sw-16">2</button><button class="key" type="button" data-key="Digit3" data-switch="sw-16">3</button><button class="key" type="button" data-key="Digit4" data-switch="sw-16">4</button><button class="key" type="button" data-key="Digit5" data-switch="sw-16">5</button><button class="key" type="button" data-key="Digit6" data-switch="sw-17">6</button><button class="key" type="button" data-key="Digit7" data-switch="sw-17">7</button><button class="key" type="button" data-key="Digit8" data-switch="sw-17">8</button><button class="key" type="button" data-key="Digit9" data-switch="sw-17">9</button><button class="key" type="button" data-key="Digit0" data-switch="sw-15">0</button><button class="key" type="button" data-key="Minus" data-switch="sw-15">-</button><button class="key" type="button" data-key="Equal" data-switch="sw-15">=</button><button class="key wider" type="button" data-key="Backspace" data-switch="sw-12">Backspace</button><button class="key small" type="button" data-key="PgUp" data-code="PageUp" data-combo="Meta+KeyC" data-switch="sw-17"><span class="key-main">PgUp</span><span class="key-sub">Cmd+C</span></button>
                     </div>
                     <div class="keyboard-row">
-                        <button class="key wider" type="button" data-key="Tab" data-switch="sw-16">Tab</button><button class="key" type="button" data-key="Q" data-switch="sw-6">Q</button><button class="key" type="button" data-key="W" data-switch="sw-8">W</button><button class="key" type="button" data-key="E" data-switch="sw-9">E</button><button class="key" type="button" data-key="R" data-switch="sw-11">R</button><button class="key" type="button" data-key="T" data-switch="sw-10">T</button><button class="key" type="button" data-key="Y" data-switch="sw-7">Y</button><button class="key" type="button" data-key="U" data-switch="sw-4">U</button><button class="key" type="button" data-key="I" data-switch="sw-3">I</button><button class="key" type="button" data-key="O" data-switch="sw-5">O</button><button class="key" type="button" data-key="P" data-switch="sw-2">P</button><button class="key" type="button" data-key="[" data-switch="sw-15">[</button><button class="key" type="button" data-key="]" data-switch="sw-15">]</button><button class="key wide" type="button" data-key="\" data-switch="sw-12">\</button>
+                        <button class="key wide" type="button" data-key="Tab" data-switch="sw-16">Tab</button><button class="key" type="button" data-key="KeyQ" data-switch="sw-6">Q</button><button class="key" type="button" data-key="KeyW" data-switch="sw-8">W</button><button class="key" type="button" data-key="KeyE" data-switch="sw-9">E</button><button class="key" type="button" data-key="KeyR" data-switch="sw-11">R</button><button class="key" type="button" data-key="KeyT" data-switch="sw-10">T</button><button class="key" type="button" data-key="KeyY" data-switch="sw-7">Y</button><button class="key" type="button" data-key="KeyU" data-switch="sw-4">U</button><button class="key" type="button" data-key="KeyI" data-switch="sw-3">I</button><button class="key" type="button" data-key="KeyO" data-switch="sw-5">O</button><button class="key" type="button" data-key="KeyP" data-switch="sw-2">P</button><button class="key" type="button" data-key="BracketLeft" data-switch="sw-15">[</button><button class="key" type="button" data-key="BracketRight" data-switch="sw-15">]</button><button class="key wide" type="button" data-key="Backslash" data-switch="sw-12">&#92;&#92;</button><button class="key small" type="button" data-key="PgDn" data-code="PageDown" data-combo="Meta+KeyV" data-switch="sw-17"><span class="key-main">PgDn</span><span class="key-sub">Cmd+V</span></button>
                     </div>
                     <div class="keyboard-row">
-                        <button class="key wider" type="button" data-key="Caps" data-switch="sw-17">Caps</button><button class="key" type="button" data-key="A" data-switch="sw-14">A</button><button class="key" type="button" data-key="S" data-switch="sw-8">S</button><button class="key" type="button" data-key="D" data-switch="sw-8">D</button><button class="key" type="button" data-key="F" data-switch="sw-8">F</button><button class="key" type="button" data-key="G" data-switch="sw-8">G</button><button class="key" type="button" data-key="H" data-switch="sw-8">H</button><button class="key" type="button" data-key="J" data-switch="sw-8">J</button><button class="key" type="button" data-key="K" data-switch="sw-8">K</button><button class="key" type="button" data-key="L" data-switch="sw-8">L</button><button class="key" type="button" data-key=";" data-switch="sw-15">;</button><button class="key" type="button" data-key="'" data-switch="sw-15">'</button><button class="key wide" type="button" data-key="Enter" data-switch="sw-12">Enter</button><button class="key" type="button" data-key="~" data-switch="sw-15">~</button>
+                        <button class="key wider" type="button" data-key="CapsLock">Caps</button><button class="key" type="button" data-key="KeyA" data-switch="sw-14">A</button><button class="key" type="button" data-key="KeyS" data-switch="sw-8">S</button><button class="key" type="button" data-key="KeyD" data-switch="sw-8">D</button><button class="key" type="button" data-key="KeyF" data-switch="sw-8">F</button><button class="key" type="button" data-key="KeyG" data-switch="sw-8">G</button><button class="key" type="button" data-key="KeyH" data-switch="sw-8">H</button><button class="key" type="button" data-key="KeyJ" data-switch="sw-8">J</button><button class="key" type="button" data-key="KeyK" data-switch="sw-8">K</button><button class="key" type="button" data-key="KeyL" data-switch="sw-8">L</button><button class="key" type="button" data-key="Semicolon" data-switch="sw-15">;</button><button class="key" type="button" data-key="Quote" data-switch="sw-15">'</button><button class="key wider" type="button" data-key="Enter" data-switch="sw-12">Enter</button><button class="key" type="button" data-key="Backquote" data-switch="sw-15">~</button>
                     </div>
                     <div class="keyboard-row">
-                        <button class="key ultra-wide" type="button" data-key="Shift" data-switch="sw-16">Shift</button><button class="key" type="button" data-key="Z" data-switch="sw-16">Z</button><button class="key" type="button" data-key="X" data-switch="sw-13">X</button><button class="key" type="button" data-key="C" data-switch="sw-13">C</button><button class="key" type="button" data-key="V" data-switch="sw-13">V</button><button class="key" type="button" data-key="B" data-switch="sw-13">B</button><button class="key" type="button" data-key="N" data-switch="sw-13">N</button><button class="key" type="button" data-key="M" data-switch="sw-13">M</button><button class="key" type="button" data-key="," data-switch="sw-13">,</button><button class="key" type="button" data-key="." data-switch="sw-13">.</button><button class="key" type="button" data-key="/" data-switch="sw-13">/</button><button class="key wide" type="button" data-key="Shift" data-switch="sw-15">Shift</button><button class="key" type="button" data-key="↑" data-switch="sw-12">↑</button><button class="key device" type="button" data-key="esc" data-switch="sw-17">esc</button>
+                        <button class="key ultra-wide" type="button" data-key="ShiftLeft" data-switch="sw-16">Shift</button><button class="key" type="button" data-key="KeyZ" data-switch="sw-16">Z</button><button class="key" type="button" data-key="KeyX" data-switch="sw-13">X</button><button class="key" type="button" data-key="KeyC" data-switch="sw-13">C</button><button class="key" type="button" data-key="KeyV" data-switch="sw-13">V</button><button class="key" type="button" data-key="KeyB" data-switch="sw-13">B</button><button class="key" type="button" data-key="KeyN" data-switch="sw-13">N</button><button class="key" type="button" data-key="KeyM" data-switch="sw-13">M</button><button class="key" type="button" data-key="Comma" data-switch="sw-13">,</button><button class="key" type="button" data-key="Period" data-switch="sw-13">.</button><button class="key" type="button" data-key="Slash" data-switch="sw-13">/</button><button class="key wide" type="button" data-key="ShiftRight" data-switch="sw-15">Shift</button><button class="key" type="button" data-key="↑" data-code="ArrowUp" data-switch="sw-12">↑</button><button class="key device" type="button" data-key="esc" data-switch="sw-12"><span class="key-main">esc</span></button>
                     </div>
                     <div class="keyboard-row">
-                        <button class="key wide" type="button" data-key="Ctrl" data-switch="sw-16">Ctrl</button><button class="key wide" type="button" data-key="Option" data-switch="sw-16">Option</button><button class="key wide" type="button" data-key="Cmd" data-switch="sw-12">Cmd</button><button class="key space" type="button" data-key="Space" data-switch="sw-12">Space</button><button class="key" type="button" data-key="Cmd" data-switch="sw-15">Cmd</button><button class="key" type="button" data-key="fn" data-switch="sw-17">fn</button><button class="key" type="button" data-key="Ctrl" data-switch="sw-17">Ctrl</button><button class="key" type="button" data-key="←" data-switch="sw-12">←</button><button class="key" type="button" data-key="↓" data-switch="sw-12">↓</button><button class="key" type="button" data-key="→" data-switch="sw-12">→</button>
+                        <button class="key wide" type="button" data-key="Ctrl" data-code="ControlLeft" data-switch="sw-16">Ctrl</button><button class="key wide" type="button" data-key="Option" data-code="AltLeft" data-switch="sw-16">Option</button><button class="key wide" type="button" data-key="Cmd" data-code="MetaLeft" data-switch="sw-12">Cmd</button><button class="key space" type="button" data-key="Space" data-code="Space" data-switch="sw-12">Space</button><button class="key" type="button" data-key="Cmd" data-code="MetaRight" data-switch="sw-15">Cmd</button><button class="key" type="button" data-key="fn" data-switch="sw-17">fn</button><button class="key" type="button" data-key="Ctrl" data-code="ControlRight" data-switch="sw-17">Ctrl</button><button class="key" type="button" data-key="←" data-code="ArrowLeft" data-switch="sw-12">←</button><button class="key" type="button" data-key="↓" data-code="ArrowDown" data-switch="sw-12">↓</button><button class="key" type="button" data-key="→" data-code="ArrowRight" data-switch="sw-12">→</button>
                     </div>
                 </div>
             </div>
@@ -449,7 +471,7 @@
         function selectKey(key, { persist = true } = {}) {
             if (persist) selectedKeyElement = key;
             renderActiveKeys();
-            const label = key.dataset.key;
+            const label = key.querySelector(".key-main")?.textContent.trim() || key.textContent.trim();
             const switchKey = normalizeSwitchKey(key.dataset.switch);
             const catalog = switchCatalog[switchKey] || ["未設定", "未設定", "未設定"];
             selectedKey.textContent = label;
@@ -483,7 +505,7 @@
         });
 
         window.addEventListener("keydown", (event) => {
-            const key = [...keys].find((item) => item.dataset.key === event.key || item.textContent.trim().toLowerCase() === event.key.toLowerCase());
+            const key = [...keys].find((item) => item.dataset.key === event.code || item.dataset.code === event.code || item.dataset.key === event.key || item.textContent.trim().toLowerCase() === event.key.toLowerCase());
             if (key) {
                 pressedKey = key;
                 selectKey(key);
@@ -491,7 +513,7 @@
         });
 
         window.addEventListener("keyup", (event) => {
-            const key = [...keys].find((item) => item.dataset.key === event.key || item.textContent.trim().toLowerCase() === event.key.toLowerCase());
+            const key = [...keys].find((item) => item.dataset.key === event.code || item.dataset.code === event.code || item.dataset.key === event.key || item.textContent.trim().toLowerCase() === event.key.toLowerCase());
             if (key && pressedKey === key) {
                 pressedKey = null;
                 selectedKeyElement = null;

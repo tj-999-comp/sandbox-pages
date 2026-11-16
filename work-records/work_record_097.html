@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Keychron K2ダミーHTMLの配列・展示レイアウト調整 — 作業記録 097</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 097 ・ <time datetime="2026-11-16">2026-11-16</time></p>
+          <h1>Keychron K2ダミーHTMLの配列・展示レイアウト調整</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_097.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: <code>keyboards/keychronk2-dummy.html</code> の配列とレイアウトを、同フォルダの本番 <code>keychronk2.html</code> に合わせて調整する。</li><li>目的: 本番と同じキー配置を保ちながら、キーボードを上段、スイッチ情報を下段へ置き、明るいKOKUYO風の製品展示として確認できるようにする。</li><li>完了条件: 84キー・32分割幅・上下2段構成を満たし、PC <code>1280×800</code> とiPad横向き <code>1024×768</code> で縦スクロールなしに表示できること。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Planner</h3>
+<ul><li>入力: ユーザー要件、<code>keyboards/keychronk2.html</code>、既存 <code>keyboards/DESIGN.md</code>、前回のダミーHTML。</li><li>実施内容: 本番HTMLの6行構成、各行のキー数、32分割上の幅、上下2段の配置要件を整理した。</li><li>成果物: <code>16 / 15 / 15 / 14 / 14 / 10</code> のキー構成と、上段キーボード・下段情報カードの実装方針。</li><li>検証結果: 本番HTMLを参照し、欠落していた <code>?</code>、<code>Del</code>、<code>PgUp</code>、<code>PgDn</code> と幅指定を特定した。</li><li>未解決事項: 本番ページ自体の移植はIssue #140の次工程。</li><li>次工程への引き継ぎ: 本番配列をダミーへ移植し、viewport内で検証する。</li></ul>
+<h3>Portfolio UI Designer</h3>
+<ul><li>入力: KOKUYO家具ページの参考方針、更新後の <code>DESIGN.md</code>、既存ダミーHTML。</li><li>実施内容: 左右2カラムを上下2段へ変更し、紙面風の背景、白いカード、明るいキーボード面、薄い境界線、浅い影、オレンジの状態表示へ調整した。キーボードは上寄せにし、意味のない上下余白を抑えた。</li><li>成果物: 明るいキーキャップと、下段の画像・詳細2カラムによるスイッチ情報カード。</li><li>検証結果: スクリーンショットで、KOKUYOらしさを色味・余白・面構成・控えめな動きとして確認した。</li><li>未解決事項: ブランド表現のコピーやロゴは追加していない。</li><li>次工程への引き継ぎ: 配列属性と操作状態が視覚表現と整合することを確認する。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>keyboards/keychronk2.html</code>、<code>keyboards/DESIGN.md</code>、既存 <code>keychronk2-dummy.html</code>。</li><li>実施内容: 6行84キーを本番と同じ順序・幅へ修正し、<code>data-key</code>、<code>data-code</code>、<code>data-combo</code> を本番基準へ合わせた。<code>keydown/keyup</code> の照合を <code>event.code</code> に対応させ、表示ラベルはキー上の見た目を使うようにした。キーボード領域を上段、スイッチ情報を下段にし、明るいカラートークンと <code>min-height: 360px</code> を適用した。Backslashは本番と同じ2文字表示になるようにした。</li><li>成果物: <code>keyboards/keychronk2-dummy.html</code>、更新済み <code>keyboards/DESIGN.md</code>。</li><li>検証結果: <code>git diff --check</code> 合格。行数・幅、クリック選択、キーボード入力、Backslash表示比較の実ブラウザシナリオに合格した。</li><li>未解決事項: ダミーのスイッチ画像は分類ごとのローカル生成SVGであり、本番の外部画像カタログではない。</li><li>次工程への引き継ぎ: Issue #140の本番HTML移植で既存カタログと共通スクリプトへ接続する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: <code>origin/main</code>との差分、<code>keyboards/keychronk2.html</code>、<code>keyboards/DESIGN.md</code>、ブラウザ検証結果。</li><li>実施内容: キー数、32分割幅、キー幅、上下配置、配色、寸法、BackslashのDOM表示をレビューし、指摘後に再確認した。</li><li>成果物: 差分レビュー結果。</li><li>検証結果: 初回指摘のBackslash表示と最小高さ・カラートークン記載を修正し、最終確認で重大・中・軽微の未解決事項なしとした。</li><li>未解決事項: 実スクリーンリーダーによる読み上げ確認は未実施。</li><li>次工程への引き継ぎ: 本番ページ移植時に共通スクリプトとアクセシビリティを再確認する。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 更新後のダミーHTML、対象viewport、操作シナリオ。</li><li>実施内容: 1280×800、1024×768で縦横overflow、console/page error、Tabフォーカス、<code>aria-live</code>、画像フォールバック、<code>prefers-reduced-motion</code>、クリック・キーボード入力を確認した。</li><li>成果物: 実ブラウザ検証レポートと操作シナリオレポート。</li><li>検証結果: 両viewportで <code>documentHeight === viewportHeight</code>、水平overflowなし、consoleErrors/pageErrors/failedRequestsなし。84キー、行幅、入力連動、Backslash比較も合格した。</li><li>未解決事項: スクリーンリーダー自体の操作は未検証。</li><li>次工程への引き継ぎ: 本番ページ実装時に実際の入力処理と読み上げ状態を確認する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: ダミーの構成を左右2カラムから、上段キーボード・下段スイッチ情報の固定レイアウトへ変更した。</li><li>理由: 本番HTMLに倣ってキーボードの横幅を使い切り、不要な上下余白を抑えながら1画面で情報を確認するため。</li><li>判断: KOKUYOらしさは、紙面風の明るい背景、明るいキーキャップ、細い境界線、浅い影、オレンジの状態表示、控えめなモーションで表現した。</li><li>理由: 参考サイトのブランド文言やUIを複製せず、製品を大きく見せる面構成と静かな情報切り替えだけを取り入れるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: 本番と同じ84キーの配列・幅・主要属性へ修正し、上段キーボードと下段スイッチ情報の1画面構成へ変更した。明るいKOKUYO風の色味と、キー選択に連動する情報切り替えを維持した。</li><li>変更ファイル: <code>keyboards/keychronk2-dummy.html</code>、<code>keyboards/DESIGN.md</code>、<code>work-records/md/work_record_097.md</code>、<code>work-records/metadata/work_record_097.yml</code>、生成された <code>work-records/work_record_097.html</code>。</li><li>検証結果: <code>git diff --check</code>、実ブラウザ表示確認、キー配列・操作シナリオ、Backslash比較、Reviewer確認に合格。</li><li>作業ブランチ: <code>codex/140-keychronk2-layout-light</code></li><li>コミット: 作成予定</li><li>PR: 作成予定</li><li>PRレビュー・CI: 作成予定</li><li>未解決事項: 本番 <code>keychronk2.html</code> への移植と実画像カタログへの接続はIssue #140の次工程。スクリーンリーダー実機確認は未実施。</li><li>次アクション: PR作成後にGitHub上の差分、CI、レビュー結果を確認し、Issue #140へ今回の合意内容を記録する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-11-16 17:06 取得範囲: <code>tj-999-comp/sandbox-pages</code>のOpen Issue全件。Pull Requestは除外。 取得件数: 1件（一覧行数: 1行）</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/140">#140 Keychron K2デザインダミーの要件整理</a></td><td>Open（state reason: null）</td><td>本作業の対象。ダミーの合意後、本番 <code>keychronk2.html</code> へ配置と配列を移植する。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 097</span>
+        <span><a href="md/work_record_097.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
