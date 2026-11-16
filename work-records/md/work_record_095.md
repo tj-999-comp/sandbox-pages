@@ -34,9 +34,9 @@
 - 変更ファイル: `keyboards/DESIGN.md`、`work-records/md/work_record_095.md`、`work-records/metadata/work_record_095.yml`、生成された `work-records/work_record_095.html`。
 - 検証結果: `git diff --check` 合格。作業記録HTMLの生成・check・filename validatorを実行する。表示変更のある作業記録HTMLは1280 / 900 / 640 / 320pxで確認する。
 - 作業ブランチ: `codex/140-kokuyo-inspired-design`
-- コミット: 作成後確定
-- PR: 作成後確定
-- PRレビュー・CI: PR作成後に確認
+- コミット: `c105aeb348636a155477b922e9f935e42d4c9137`
+- PR: [#143 KOKUYO参考表現をKeychron設計へ追加](https://github.com/tj-999-comp/sandbox-pages/pull/143)（merge commit: `2981ea93539f661762ec9a5a39cfaddea47ced29`）
+- PRレビュー・CI: Portfolio Reviewer最終レビューで重大・中・軽微の指摘なし。GitHub Actionsの`Validate`成功を確認し、PR #143は2026-11-16にmerge済み。
 - 未解決事項: ダミーHTMLへの色・動きの実装、本番ページへの移植、実ブラウザでの動きと視認性の確認。
 - 次アクション: Issue #140と更新済み `DESIGN.md` を基準にダミーHTMLを改修する。
 
