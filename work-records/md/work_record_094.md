@@ -34,9 +34,9 @@
 - 変更ファイル: `keyboards/DESIGN.md`、`work-records/md/work_record_094.md`、`work-records/metadata/work_record_094.yml`、生成された `work-records/work_record_094.html`。
 - 検証結果: `git diff --check` 合格。作業記録HTMLの生成・check・filename validatorを実行する。表示変更のある作業記録HTMLは1280 / 900 / 640 / 320pxで確認する。
 - 作業ブランチ: `codex/140-keychronk2-requirements`
-- コミット: 作成後確定
-- PR: 作成後確定
-- PRレビュー・CI: PR作成後に確認
+- コミット: `43392ab1740421ddea8402510bfb0bff522e680b`
+- PR: [#141 Keychron K2デザイン要件を確定](https://github.com/tj-999-comp/sandbox-pages/pull/141)（merge commit: `6b16a74d9b462ab8c0accdfb29947b426c163f16`）
+- PRレビュー・CI: Portfolio Reviewer再レビューで重大・中・軽微の指摘なし。GitHub Actionsの`Validate`成功を確認し、PR #141は2026-11-16にmerge済み。
 - 未解決事項: ダミーHTMLの1画面化、本番ページへの移植、既存JavaScriptとの接続、操作アクセシビリティ確認。
 - 次アクション: Issue #140とこの設計資料を基準にダミーHTMLを改修する。
 
