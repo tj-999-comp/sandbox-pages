@@ -59,14 +59,107 @@
         .page-name { color: var(--dark-muted); }
 
         .workspace {
-            height: calc(100vh - 56px);
+            height: calc(100vh - 152px);
             display: grid;
             grid-template-columns: minmax(0, 1fr);
             grid-template-rows: max-content minmax(180px, 1fr);
             gap: 16px;
-            padding: 24px;
+            padding: 16px 24px;
             overflow: hidden;
         }
+
+        .palette-ribbon {
+            height: 96px;
+            display: grid;
+            grid-template-columns: 112px minmax(0, 1fr);
+            align-items: center;
+            gap: 16px;
+            padding: 10px 24px;
+            border-bottom: 1px solid var(--line);
+            background: var(--surface);
+        }
+
+        .palette-ribbon__heading h2,
+        .palette-ribbon__heading p { margin: 0; }
+        .palette-ribbon__heading h2 { font-size: 0.88rem; letter-spacing: 0.02em; }
+        .palette-ribbon__heading p { margin-top: 2px; color: var(--muted); font-size: 0.62rem; line-height: 1.35; }
+
+        .palette-options {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .palette-option {
+            --palette-canvas: #f3f1ec;
+            --palette-surface: #ffffff;
+            --palette-key: #e4ded3;
+            --palette-ink: #252321;
+            --palette-accent: #e85d2a;
+            --palette-line: #d8d4cc;
+            min-width: 0;
+            height: 76px;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 4px;
+            padding: 7px 9px 6px;
+            color: var(--palette-ink);
+            background: var(--palette-canvas);
+            border: 1px solid var(--palette-line);
+            box-shadow: 0 4px 12px rgb(28 28 26 / 5%);
+        }
+
+        .palette-option__header {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            min-width: 0;
+        }
+
+        .palette-option__index { color: var(--palette-accent); font-size: 0.58rem; font-weight: 800; }
+        .palette-option h3 {
+            position: relative;
+            min-width: 0;
+            margin: 0;
+            overflow: hidden;
+            font-size: clamp(0.68rem, 0.8vw, 0.8rem);
+            line-height: 1.2;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .palette-option h3::after {
+            display: block;
+            width: 30px;
+            height: 2px;
+            margin-top: 3px;
+            background: var(--palette-accent);
+            content: "";
+        }
+
+        .palette-option__keyboard {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 3px;
+            align-items: end;
+            min-width: 0;
+        }
+
+        .palette-option__key { height: 13px; background: var(--palette-key); border: 1px solid color-mix(in srgb, var(--palette-ink) 18%, transparent); }
+        .palette-option__key:nth-child(4) { background: var(--palette-accent); }
+        .palette-option__caption { color: color-mix(in srgb, var(--palette-ink) 64%, transparent); font-size: 0.62rem; white-space: nowrap; }
+
+        .palette-option--paper { --palette-canvas: #f3f1ec; --palette-surface: #ffffff; --palette-key: #e4ded3; --palette-ink: #252321; --palette-accent: #e85d2a; --palette-line: #d8d4cc; }
+        .palette-option--blue { --palette-canvas: #eef3f4; --palette-surface: #ffffff; --palette-key: #dce7e8; --palette-ink: #243033; --palette-accent: #d95f3b; --palette-line: #cbd9db; }
+        .palette-option--gray { --palette-canvas: #e9e7e2; --palette-surface: #f9f8f5; --palette-key: #d5d1c8; --palette-ink: #292825; --palette-accent: #c95632; --palette-line: #ccc8c0; }
+        .palette-option--green { --palette-canvas: #eef2eb; --palette-surface: #ffffff; --palette-key: #dce5d8; --palette-ink: #263128; --palette-accent: #d9673b; --palette-line: #cdd8c9; }
+        .palette-option--grid { --palette-canvas: #fafaf7; --palette-surface: #ffffff; --palette-key: #e8e7e1; --palette-ink: #202223; --palette-accent: #e36a3d; --palette-line: #d7d9d4; }
+
+        .palette-option--blue h3::after { width: 42px; background: linear-gradient(90deg, #8ebdc8, var(--palette-accent)); }
+        .palette-option--gray h3::after { height: 1px; background: var(--palette-ink); }
+        .palette-option--green h3 { padding-left: 7px; }
+        .palette-option--green h3::after { position: absolute; top: 0; left: 0; width: 3px; height: 100%; margin-top: 0; }
+        .palette-option--grid h3::after { width: 44px; height: 1px; background: var(--palette-line); box-shadow: 0 3px 0 var(--palette-accent); }
 
         .keyboard-panel,
         .switch-panel {
@@ -272,10 +365,19 @@
         .detail-list dd { margin: 3px 0 0; font-size: 0.9rem; font-weight: 700; }
 
         .notice {
+            display: none;
             margin: 8px 0 0;
             color: var(--muted);
             font-size: 0.72rem;
             line-height: 1.55;
+        }
+
+        @media (max-width: 1199px) {
+            .switch-panel { padding: 12px 16px; gap: 8px 16px; }
+            .switch-name { margin-bottom: 6px; font-size: 1.15rem; }
+            .detail-list { gap: 6px 12px; }
+            .detail-list div { padding-top: 6px; }
+            .detail-list dd { margin-top: 2px; font-size: 0.82rem; }
         }
 
         @keyframes quiet-tone {
@@ -285,7 +387,8 @@
 
         @media (min-width: 1200px) {
             .topbar { padding-inline: 48px; }
-            .workspace { grid-template-rows: max-content minmax(200px, 1fr); gap: 32px; padding: 48px; }
+            .palette-ribbon { padding-inline: 48px; }
+            .workspace { grid-template-rows: max-content minmax(200px, 1fr); gap: 32px; padding: 24px 48px; }
             .keyboard-panel { padding: 24px; }
             .switch-panel { padding: 18px 24px; }
             .detail-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 12px; }
@@ -308,6 +411,40 @@
         <a class="brand" href="../index.html">Portfolio Lab</a>
         <span class="page-name">Keychron K2</span>
     </header>
+
+    <section class="palette-ribbon" aria-labelledby="palette-title">
+        <div class="palette-ribbon__heading">
+            <h2 id="palette-title">色の比較</h2>
+            <p>面の色と下線の強調案</p>
+        </div>
+        <div class="palette-options">
+            <article class="palette-option palette-option--paper">
+                <div class="palette-option__header"><span class="palette-option__index">01</span><h3>Paper Orange</h3></div>
+                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
+                <span class="palette-option__caption">短い線で焦点を示す</span>
+            </article>
+            <article class="palette-option palette-option--blue">
+                <div class="palette-option__header"><span class="palette-option__index">02</span><h3>Soft Blue Desk</h3></div>
+                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
+                <span class="palette-option__caption">青から橙へ流れる線</span>
+            </article>
+            <article class="palette-option palette-option--gray">
+                <div class="palette-option__header"><span class="palette-option__index">03</span><h3>Warm Gray File</h3></div>
+                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
+                <span class="palette-option__caption">細い線を静かに置く</span>
+            </article>
+            <article class="palette-option palette-option--green">
+                <div class="palette-option__header"><span class="palette-option__index">04</span><h3>Pale Green Office</h3></div>
+                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
+                <span class="palette-option__caption">左端の縦線で誘導</span>
+            </article>
+            <article class="palette-option palette-option--grid">
+                <div class="palette-option__header"><span class="palette-option__index">05</span><h3>White Grid</h3></div>
+                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
+                <span class="palette-option__caption">罫線を二重に重ねる</span>
+            </article>
+        </div>
+    </section>
 
     <main class="workspace">
         <section class="keyboard-panel" aria-labelledby="keyboard-title">
