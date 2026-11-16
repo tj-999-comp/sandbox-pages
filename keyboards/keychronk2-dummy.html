@@ -7,18 +7,18 @@
     <title>Keychron K2 — デザインダミー</title>
     <style>
         :root {
-            --canvas: #f3f1ec;
-            --surface: #ffffff;
-            --ink: #1d1d1f;
-            --muted: #6d6b66;
+            --canvas: #f1f4ee;
+            --surface: #fffdf7;
+            --ink: #213b3d;
+            --muted: #607477;
             --dark: #1b1d20;
             --dark-muted: #b7b9bb;
-            --key: #e7e0d5;
-            --key-hover: #f4efe7;
-            --key-ink: #2d2a27;
-            --key-line: #c6bcae;
-            --accent: #ed6a2d;
-            --line: #d8d4cc;
+            --key: #b7d7d2;
+            --key-hover: #d3e7df;
+            --key-ink: #213b3d;
+            --key-line: #86afb0;
+            --accent: #ef6b4e;
+            --line: #ccdcd7;
             --radius-card: 16px;
             --sans: Inter, "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
         }
@@ -92,12 +92,12 @@
         }
 
         .palette-option {
-            --palette-canvas: #f3f1ec;
-            --palette-surface: #ffffff;
-            --palette-key: #e4ded3;
-            --palette-ink: #252321;
-            --palette-accent: #e85d2a;
-            --palette-line: #d8d4cc;
+            --palette-canvas: #e6f0ed;
+            --palette-surface: #fffdf7;
+            --palette-key: #b7d7d2;
+            --palette-ink: #213b3d;
+            --palette-accent: #ef6b4e;
+            --palette-line: #9bbdb9;
             min-width: 0;
             height: 76px;
             display: grid;
@@ -149,17 +149,17 @@
         .palette-option__key:nth-child(4) { background: var(--palette-accent); }
         .palette-option__caption { color: color-mix(in srgb, var(--palette-ink) 64%, transparent); font-size: 0.62rem; white-space: nowrap; }
 
-        .palette-option--paper { --palette-canvas: #f3f1ec; --palette-surface: #ffffff; --palette-key: #e4ded3; --palette-ink: #252321; --palette-accent: #e85d2a; --palette-line: #d8d4cc; }
-        .palette-option--blue { --palette-canvas: #eef3f4; --palette-surface: #ffffff; --palette-key: #dce7e8; --palette-ink: #243033; --palette-accent: #d95f3b; --palette-line: #cbd9db; }
-        .palette-option--gray { --palette-canvas: #e9e7e2; --palette-surface: #f9f8f5; --palette-key: #d5d1c8; --palette-ink: #292825; --palette-accent: #c95632; --palette-line: #ccc8c0; }
-        .palette-option--green { --palette-canvas: #eef2eb; --palette-surface: #ffffff; --palette-key: #dce5d8; --palette-ink: #263128; --palette-accent: #d9673b; --palette-line: #cdd8c9; }
-        .palette-option--grid { --palette-canvas: #fafaf7; --palette-surface: #ffffff; --palette-key: #e8e7e1; --palette-ink: #202223; --palette-accent: #e36a3d; --palette-line: #d7d9d4; }
+        .palette-option--paper { --palette-canvas: #e6f0ed; --palette-surface: #fffdf7; --palette-key: #b7d7d2; --palette-ink: #213b3d; --palette-accent: #ef6b4e; --palette-line: #9bbdb9; }
+        .palette-option--blue { --palette-canvas: #edf1f7; --palette-surface: #fbfcff; --palette-key: #b7cde5; --palette-ink: #1f3047; --palette-accent: #3f72b5; --palette-line: #9fb6d2; }
+        .palette-option--yellow { --palette-canvas: #f7f1d9; --palette-surface: #fffdf3; --palette-key: #e4d273; --palette-ink: #332d21; --palette-accent: #d66a3e; --palette-line: #cbb96d; }
+        .palette-option--lilac { --palette-canvas: #f2ebf4; --palette-surface: #fffaff; --palette-key: #d5c2e0; --palette-ink: #3b2942; --palette-accent: #d9574a; --palette-line: #bea6c8; }
+        .palette-option--green { --palette-canvas: #e8f0e4; --palette-surface: #fbfff9; --palette-key: #b8d0ab; --palette-ink: #20352d; --palette-accent: #2f6d81; --palette-line: #99b793; }
 
         .palette-option--blue h3::after { width: 42px; background: linear-gradient(90deg, #8ebdc8, var(--palette-accent)); }
-        .palette-option--gray h3::after { height: 1px; background: var(--palette-ink); }
+        .palette-option--yellow h3::after { height: 1px; background: var(--palette-ink); }
+        .palette-option--lilac h3::after { width: 44px; height: 1px; background: var(--palette-line); box-shadow: 0 3px 0 var(--palette-accent); }
         .palette-option--green h3 { padding-left: 7px; }
         .palette-option--green h3::after { position: absolute; top: 0; left: 0; width: 3px; height: 100%; margin-top: 0; }
-        .palette-option--grid h3::after { width: 44px; height: 1px; background: var(--palette-line); box-shadow: 0 3px 0 var(--palette-accent); }
 
         .keyboard-panel,
         .switch-panel {
@@ -211,14 +211,14 @@
             min-height: 0;
             padding: 14px 18px;
             border: 1px solid var(--line);
-            background: #f5f2ed;
+            background: #e6eff0;
             overflow: hidden;
         }
 
         .keyboard-stage::before {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 70% 35%, rgb(237 106 45 / 6%), transparent 42%);
+            background: radial-gradient(circle at 70% 35%, rgb(239 107 78 / 9%), transparent 42%);
             content: "";
             animation: quiet-tone 18s ease-in-out infinite;
         }
@@ -266,10 +266,10 @@
 
         .key:active,
         .key.active {
-            color: #2a170e;
+            color: #213b3d;
             background: var(--accent);
-            border-color: #c84e1c;
-            box-shadow: 0 1px 0 rgb(68 61 52 / 18%), 0 0 0 3px rgb(237 106 45 / 18%);
+            border-color: #d45740;
+            box-shadow: 0 1px 0 rgb(33 59 61 / 18%), 0 0 0 3px rgb(239 107 78 / 24%);
             transform: translateY(2px);
         }
 
@@ -278,7 +278,7 @@
         .key.wider { grid-column: span 4; }
         .key.ultra-wide { grid-column: span 5; }
         .key.space { grid-column: span 11; }
-        .key.device { color: var(--muted); border-style: dashed; border-color: #aaa095; background: transparent; }
+        .key.device { color: var(--muted); border-style: dashed; border-color: #8ba6a5; background: transparent; }
         .key.device:hover { background: rgb(255 255 255 / 55%); }
         .key-sub { color: var(--muted); font-size: 0.68em; font-weight: 600; }
         .function-row { margin-bottom: 8px; }
@@ -321,7 +321,7 @@
             place-items: center;
             padding: 10px;
             border: 1px solid var(--line);
-            background: #f0ece5;
+            background: #e8eff0;
             overflow: hidden;
         }
 
@@ -419,29 +419,29 @@
         </div>
         <div class="palette-options">
             <article class="palette-option palette-option--paper">
-                <div class="palette-option__header"><span class="palette-option__index">01</span><h3>Paper Orange</h3></div>
+                <div class="palette-option__header"><span class="palette-option__index">01</span><h3>Mint / Coral</h3></div>
                 <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">短い線で焦点を示す</span>
+                <span class="palette-option__caption">軽いミントに珊瑚色</span>
             </article>
             <article class="palette-option palette-option--blue">
-                <div class="palette-option__header"><span class="palette-option__index">02</span><h3>Soft Blue Desk</h3></div>
+                <div class="palette-option__header"><span class="palette-option__index">02</span><h3>Cobalt / Butter</h3></div>
                 <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">青から橙へ流れる線</span>
+                <span class="palette-option__caption">青い線とバター色</span>
             </article>
-            <article class="palette-option palette-option--gray">
-                <div class="palette-option__header"><span class="palette-option__index">03</span><h3>Warm Gray File</h3></div>
+            <article class="palette-option palette-option--yellow">
+                <div class="palette-option__header"><span class="palette-option__index">03</span><h3>Sunflower / Ink</h3></div>
                 <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">細い線を静かに置く</span>
+                <span class="palette-option__caption">黄色面に黒い線</span>
+            </article>
+            <article class="palette-option palette-option--lilac">
+                <div class="palette-option__header"><span class="palette-option__index">04</span><h3>Lilac / Vermilion</h3></div>
+                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
+                <span class="palette-option__caption">ライラックに朱の二重線</span>
             </article>
             <article class="palette-option palette-option--green">
-                <div class="palette-option__header"><span class="palette-option__index">04</span><h3>Pale Green Office</h3></div>
+                <div class="palette-option__header"><span class="palette-option__index">05</span><h3>Green / Ultramarine</h3></div>
                 <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">左端の縦線で誘導</span>
-            </article>
-            <article class="palette-option palette-option--grid">
-                <div class="palette-option__header"><span class="palette-option__index">05</span><h3>White Grid</h3></div>
-                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">罫線を二重に重ねる</span>
+                <span class="palette-option__caption">緑面に青い左線</span>
             </article>
         </div>
     </section>
