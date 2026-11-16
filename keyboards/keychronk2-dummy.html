@@ -18,6 +18,9 @@
             --key-ink: #2b3030;
             --key-line: #d5d7d2;
             --accent: #d9574a;
+            --stage: #fff;
+            --stage-glow: rgb(217 87 74 / 8%);
+            --switch-surface: #f7f7f4;
             --line: #dedfda;
             --radius-card: 16px;
             --sans: Inter, "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
@@ -28,7 +31,8 @@
 
         body {
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             color: var(--ink);
             background: var(--canvas);
             font-family: var(--sans);
@@ -59,7 +63,7 @@
         .page-name { color: var(--dark-muted); }
 
         .workspace {
-            height: calc(100vh - 152px);
+            height: calc(100vh - 56px);
             display: grid;
             grid-template-columns: minmax(0, 1fr);
             grid-template-rows: max-content minmax(180px, 1fr);
@@ -67,120 +71,6 @@
             padding: 16px 24px;
             overflow: hidden;
         }
-
-        .palette-ribbon {
-            height: 96px;
-            display: grid;
-            grid-template-columns: 112px minmax(0, 1fr);
-            align-items: center;
-            gap: 16px;
-            padding: 10px 24px;
-            border-bottom: 1px solid var(--line);
-            background: var(--surface);
-        }
-
-        .palette-ribbon__heading h2,
-        .palette-ribbon__heading p { margin: 0; }
-        .palette-ribbon__heading h2 { font-size: 0.88rem; letter-spacing: 0.02em; }
-        .palette-ribbon__heading p { margin-top: 2px; color: var(--muted); font-size: 0.62rem; line-height: 1.35; }
-
-        .palette-options {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 8px;
-            min-width: 0;
-        }
-
-        .palette-option {
-            --palette-canvas: #f5f5f1;
-            --palette-surface: #ffffff;
-            --palette-key: #ffffff;
-            --palette-ink: #2b3030;
-            --palette-accent: #d9574a;
-            --palette-line: #dedfda;
-            min-width: 0;
-            height: 76px;
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            gap: 4px;
-            padding: 7px 9px 6px;
-            color: var(--palette-ink);
-            background: var(--palette-canvas);
-            border: 1px solid var(--palette-line);
-            box-shadow: 0 4px 12px rgb(28 28 26 / 5%);
-        }
-
-        .palette-option__header {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-            min-width: 0;
-        }
-
-        .palette-option__index { color: var(--palette-accent); font-size: 0.58rem; font-weight: 800; }
-        .palette-option h3 {
-            position: relative;
-            min-width: 0;
-            margin: 0;
-            overflow: hidden;
-            font-size: clamp(0.68rem, 0.8vw, 0.8rem);
-            line-height: 1.2;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .palette-option h3::after {
-            display: block;
-            width: 30px;
-            height: 2px;
-            margin-top: 3px;
-            background: var(--palette-accent);
-            content: "";
-        }
-
-        .palette-option__keyboard {
-            display: grid;
-            grid-template-columns: repeat(6, minmax(0, 1fr));
-            gap: 3px;
-            align-items: end;
-            min-width: 0;
-        }
-
-        .palette-option__key { height: 13px; background: var(--palette-key); border: 1px solid color-mix(in srgb, var(--palette-ink) 18%, transparent); }
-        .palette-option__key:nth-child(4) { background: var(--palette-accent); }
-        .palette-option__caption { color: color-mix(in srgb, var(--palette-ink) 64%, transparent); font-size: 0.62rem; white-space: nowrap; }
-
-        .palette-option--selected {
-            position: relative;
-            border-color: var(--palette-accent);
-            box-shadow: inset 0 0 0 1px var(--palette-accent), 0 6px 16px rgb(217 87 74 / 14%);
-        }
-
-        .palette-option--selected::before {
-            position: absolute;
-            top: 5px;
-            right: 8px;
-            padding: 1px 4px;
-            color: #ffffff;
-            background: var(--palette-accent);
-            content: "採用候補";
-            font-size: 0.5rem;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        .palette-option--selected h3 { padding-right: 38px; }
-
-        .palette-option--paper { --palette-canvas: #f2f5f2; --palette-surface: #ffffff; --palette-key: #ffffff; --palette-ink: #2b3030; --palette-accent: #d9574a; --palette-line: #d3ded8; }
-        .palette-option--blue { --palette-canvas: #edf1f7; --palette-surface: #fbfcff; --palette-key: #b7cde5; --palette-ink: #1f3047; --palette-accent: #3f72b5; --palette-line: #9fb6d2; }
-        .palette-option--yellow { --palette-canvas: #f7f1d9; --palette-surface: #fffdf3; --palette-key: #e4d273; --palette-ink: #332d21; --palette-accent: #d66a3e; --palette-line: #cbb96d; }
-        .palette-option--lilac { --palette-canvas: #f2ebf4; --palette-surface: #fffaff; --palette-key: #d5c2e0; --palette-ink: #3b2942; --palette-accent: #d9574a; --palette-line: #bea6c8; }
-        .palette-option--green { --palette-canvas: #e8f0e4; --palette-surface: #fbfff9; --palette-key: #b8d0ab; --palette-ink: #20352d; --palette-accent: #2f6d81; --palette-line: #99b793; }
-
-        .palette-option--blue h3::after { width: 42px; background: linear-gradient(90deg, #8ebdc8, var(--palette-accent)); }
-        .palette-option--yellow h3::after { height: 1px; background: var(--palette-ink); }
-        .palette-option--lilac h3::after { width: 44px; height: 1px; background: var(--palette-line); box-shadow: 0 3px 0 var(--palette-accent); }
-        .palette-option--green h3 { padding-left: 7px; }
-        .palette-option--green h3::after { position: absolute; top: 0; left: 0; width: 3px; height: 100%; margin-top: 0; }
 
         .keyboard-panel,
         .switch-panel {
@@ -232,14 +122,14 @@
             min-height: 0;
             padding: 14px 18px;
             border: 1px solid var(--line);
-            background: #f4f4f1;
+            background: var(--stage);
             overflow: hidden;
         }
 
         .keyboard-stage::before {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 70% 35%, rgb(217 87 74 / 8%), transparent 42%);
+            background: radial-gradient(circle at 70% 35%, var(--stage-glow), transparent 42%);
             content: "";
             animation: quiet-tone 18s ease-in-out infinite;
         }
@@ -299,7 +189,7 @@
         .key.wider { grid-column: span 4; }
         .key.ultra-wide { grid-column: span 5; }
         .key.space { grid-column: span 11; }
-        .key.device { color: var(--muted); border-style: dashed; border-color: #b8bcb7; background: transparent; }
+        .key.device { color: var(--muted); border-style: dashed; border-color: var(--key-line); background: transparent; }
         .key.device:hover { background: rgb(255 255 255 / 55%); }
         .key-sub { color: var(--muted); font-size: 0.68em; font-weight: 600; }
         .function-row { margin-bottom: 8px; }
@@ -342,7 +232,7 @@
             place-items: center;
             padding: 10px;
             border: 1px solid var(--line);
-            background: #f2ebf4;
+            background: var(--switch-surface);
             overflow: hidden;
         }
 
@@ -393,6 +283,172 @@
             line-height: 1.55;
         }
 
+        .comparison-section {
+            padding: 28px 24px 72px;
+            background: var(--surface);
+            border-top: 1px solid var(--line);
+        }
+
+        .comparison-heading {
+            max-width: 720px;
+            margin-bottom: 24px;
+        }
+
+        .comparison-heading h2,
+        .comparison-heading p { margin: 0; }
+        .comparison-heading h2 { font-size: clamp(1.35rem, 2vw, 1.8rem); letter-spacing: -0.03em; }
+        .comparison-heading p { margin-top: 6px; color: var(--muted); font-size: 0.82rem; }
+
+        .comparison-list {
+            display: grid;
+            gap: 28px;
+        }
+
+        .comparison-item {
+            --variant-canvas: #f2f5f2;
+            --variant-surface: #ffffff;
+            --variant-stage: #eef3f0;
+            --variant-switch: #edf4f1;
+            --variant-key: #dcebe6;
+            --variant-hover: #edf7f3;
+            --variant-ink: #2d3a38;
+            --variant-muted: #6b7773;
+            --variant-key-line: #b8cbc5;
+            --variant-accent: #d9574a;
+            --variant-line: #d3ded8;
+            color: var(--variant-ink);
+            background: var(--variant-canvas);
+            border: 1px solid var(--variant-line);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+        }
+
+        .comparison-item[data-palette="04"] {
+            border-top: 3px solid var(--variant-accent);
+        }
+
+        .comparison-item__heading {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid var(--variant-line);
+        }
+
+        .comparison-item__index {
+            color: var(--variant-accent);
+            font-size: 0.74rem;
+            font-weight: 800;
+        }
+
+        .comparison-item__heading h3,
+        .comparison-item__heading p { margin: 0; }
+        .comparison-item__heading h3 { font-size: 1rem; }
+        .comparison-item__heading p { margin-left: auto; color: var(--variant-muted); font-size: 0.76rem; }
+
+        .comparison-item__workspace {
+            display: grid;
+            gap: 12px;
+            padding: 16px 20px 20px;
+        }
+
+        .comparison-keyboard-panel,
+        .comparison-switch-panel {
+            min-width: 0;
+            background: var(--variant-surface);
+            border: 1px solid var(--variant-line);
+            border-radius: 12px;
+        }
+
+        .comparison-keyboard-panel {
+            padding: 14px;
+        }
+
+        .comparison-panel-topline {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 0 2px 10px;
+        }
+
+        .comparison-panel-topline h4,
+        .comparison-panel-topline span { margin: 0; }
+        .comparison-panel-topline h4 { font-size: 0.82rem; }
+        .comparison-panel-topline span { color: var(--variant-muted); font-size: 0.68rem; }
+
+        .comparison-keyboard-panel .keyboard-stage {
+            --stage: var(--variant-stage);
+            --stage-glow: color-mix(in srgb, var(--variant-accent) 10%, transparent);
+            --key: var(--variant-key);
+            --key-hover: var(--variant-hover);
+            --key-ink: var(--variant-ink);
+            --key-line: var(--variant-key-line);
+            --accent: var(--variant-accent);
+            --line: var(--variant-line);
+            --muted: var(--variant-muted);
+        }
+
+        .comparison-keyboard-panel .keyboard-stage::before { animation: none; }
+        .comparison-keyboard-panel .keyboard { gap: 5px; }
+        .comparison-keyboard-panel .keyboard-row { gap: 5px; }
+        .comparison-keyboard-panel .key { min-height: 26px; font-size: 0.58rem; }
+        .comparison-keyboard-panel .key.small { min-height: 22px; font-size: 0.5rem; }
+
+        .comparison-switch-panel {
+            display: grid;
+            grid-template-columns: minmax(120px, 0.24fr) minmax(0, 1fr);
+            grid-template-rows: auto 1fr;
+            grid-template-areas:
+                "heading heading"
+                "image info";
+            gap: 10px 16px;
+            padding: 14px;
+        }
+
+        .comparison-switch-heading {
+            grid-area: heading;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--variant-line);
+        }
+
+        .comparison-switch-heading h4,
+        .comparison-switch-heading span { margin: 0; }
+        .comparison-switch-heading h4 { font-size: 0.82rem; }
+        .comparison-switch-heading span { color: var(--variant-muted); font-size: 0.68rem; }
+
+        .comparison-switch-visual {
+            grid-area: image;
+            display: grid;
+            place-items: center;
+            min-height: 96px;
+            background: var(--variant-switch);
+            border: 1px solid var(--variant-line);
+        }
+
+        .comparison-switch-image { width: min(100%, 92px); height: 92px; object-fit: contain; }
+
+        .comparison-switch-info { grid-area: info; align-self: center; min-width: 0; }
+        .comparison-switch-info p,
+        .comparison-switch-info h4 { margin: 0; }
+        .comparison-switch-info p { color: var(--variant-muted); font-size: 0.74rem; }
+        .comparison-switch-info h4 { margin-top: 3px; font-size: 1.08rem; }
+
+        .comparison-detail-list {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px 12px;
+            margin: 10px 0 0;
+        }
+
+        .comparison-detail-list div { padding-top: 6px; border-top: 1px solid var(--variant-line); }
+        .comparison-detail-list dt { color: var(--variant-muted); font-size: 0.64rem; }
+        .comparison-detail-list dd { margin: 2px 0 0; font-size: 0.76rem; font-weight: 700; }
+
         @media (max-width: 1199px) {
             .switch-panel { padding: 12px 16px; gap: 8px 16px; }
             .switch-name { margin-bottom: 6px; font-size: 1.15rem; }
@@ -408,11 +464,12 @@
 
         @media (min-width: 1200px) {
             .topbar { padding-inline: 48px; }
-            .palette-ribbon { padding-inline: 48px; }
             .workspace { grid-template-rows: max-content minmax(200px, 1fr); gap: 32px; padding: 24px 48px; }
             .keyboard-panel { padding: 24px; }
             .switch-panel { padding: 18px 24px; }
             .detail-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 12px; }
+            .comparison-section { padding-inline: 48px; }
+            .comparison-item__workspace { padding-inline: 24px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -432,40 +489,6 @@
         <a class="brand" href="../index.html">Portfolio Lab</a>
         <span class="page-name">Keychron K2</span>
     </header>
-
-    <section class="palette-ribbon" aria-labelledby="palette-title">
-        <div class="palette-ribbon__heading">
-            <h2 id="palette-title">色の比較</h2>
-            <p>面の色と下線の強調案</p>
-        </div>
-        <div class="palette-options">
-            <article class="palette-option palette-option--paper">
-                <div class="palette-option__header"><span class="palette-option__index">01</span><h3>Mint / Coral</h3></div>
-                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">軽いミントに珊瑚色</span>
-            </article>
-            <article class="palette-option palette-option--blue">
-                <div class="palette-option__header"><span class="palette-option__index">02</span><h3>Cobalt / Butter</h3></div>
-                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">青い線とバター色</span>
-            </article>
-            <article class="palette-option palette-option--yellow">
-                <div class="palette-option__header"><span class="palette-option__index">03</span><h3>Sunflower / Ink</h3></div>
-                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">黄色面に黒い線</span>
-            </article>
-            <article class="palette-option palette-option--lilac palette-option--selected" aria-label="04 Lilac / Vermilion、採用候補">
-                <div class="palette-option__header"><span class="palette-option__index">04</span><h3>Lilac / Vermilion</h3></div>
-                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">ライラックに朱の二重線</span>
-            </article>
-            <article class="palette-option palette-option--green">
-                <div class="palette-option__header"><span class="palette-option__index">05</span><h3>Green / Ultramarine</h3></div>
-                <div class="palette-option__keyboard" aria-hidden="true"><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span><span class="palette-option__key"></span></div>
-                <span class="palette-option__caption">緑面に青い左線</span>
-            </article>
-        </div>
-    </section>
 
     <main class="workspace">
         <section class="keyboard-panel" aria-labelledby="keyboard-title">
@@ -519,6 +542,14 @@
         </aside>
     </main>
 
+    <section class="comparison-section" aria-labelledby="comparison-title">
+        <div class="comparison-heading">
+            <h2 id="comparison-title">色の比較</h2>
+            <p>同じキーボードとスイッチ情報の構成で、色だけを切り替えた検討案です。</p>
+        </div>
+        <div class="comparison-list" id="comparison-list"></div>
+    </section>
+
     <script>
         const keys = document.querySelectorAll(".key");
         const selectedKey = document.querySelector("#selected-key");
@@ -535,6 +566,14 @@
         let hoveredKey = null;
         let pressedKey = null;
         let selectedKeyElement = null;
+
+        const paletteVariants = [
+            { id: "01", name: "Mint / Coral", note: "淡いミントと珊瑚色", canvas: "#f2f5f2", surface: "#ffffff", stage: "#eef3f0", switchSurface: "#edf4f1", key: "#dcebe6", hover: "#edf7f3", ink: "#2d3a38", muted: "#6b7773", keyLine: "#b8cbc5", accent: "#d9574a", line: "#d3ded8" },
+            { id: "02", name: "Cobalt / Butter", note: "青い線とバター色", canvas: "#f2f4f7", surface: "#ffffff", stage: "#eef1f5", switchSurface: "#edf2f8", key: "#d8e4ef", hover: "#e8f0f9", ink: "#243044", muted: "#6d7885", keyLine: "#b1c2d4", accent: "#3f72b5", line: "#d5dde6" },
+            { id: "03", name: "Sunflower / Ink", note: "黄色面とインク色", canvas: "#f7f4e7", surface: "#fffef9", stage: "#f4f1e4", switchSurface: "#f7f3de", key: "#eee3ad", hover: "#f8f1c8", ink: "#332f25", muted: "#76705f", keyLine: "#d3c37d", accent: "#3f3b2e", line: "#e0d7b9" },
+            { id: "04", name: "Lilac / Vermilion", note: "本体の強調色", canvas: "#f2ebf4", surface: "#fffafe", stage: "#f7f1f8", switchSurface: "#f2ebf4", key: "#e4d6eb", hover: "#f2e8f5", ink: "#3b2942", muted: "#766776", keyLine: "#c9b6d2", accent: "#d9574a", line: "#ddcfe0" },
+            { id: "05", name: "Green / Ultramarine", note: "淡いグリーンと青線", canvas: "#f2f4f0", surface: "#ffffff", stage: "#eef3ec", switchSurface: "#edf4ec", key: "#dce8d5", hover: "#edf5e9", ink: "#2a3b30", muted: "#6c796f", keyLine: "#b8cbb0", accent: "#2f6d81", line: "#d2ddd0" },
+        ];
 
         const switchCatalog = {
             "sw-02": ["Durock Full POK Mocha Silk", "Linear", "48g"],
@@ -573,6 +612,52 @@
             "sw-16": ["#576e9a", "#d7e2ff"],
             "sw-17": ["#a74e38", "#ffd4c4"],
         };
+
+        function buildPaletteSwitchImage(palette) {
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><rect width="240" height="240" fill="${palette.switchSurface}"/><rect x="58" y="34" width="124" height="172" rx="26" fill="${palette.key}" stroke="${palette.accent}" stroke-width="14"/><rect x="84" y="70" width="72" height="92" rx="12" fill="none" stroke="${palette.accent}" stroke-width="8"/></svg>`;
+            return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+        }
+
+        function renderPaletteComparisons() {
+            const comparisonList = document.querySelector("#comparison-list");
+            const keyboardMarkup = document.querySelector(".keyboard").innerHTML;
+            comparisonList.innerHTML = paletteVariants.map((palette) => `
+                <article class="comparison-item" data-palette="${palette.id}" aria-label="${palette.id} ${palette.name}の配色案" style="--variant-canvas:${palette.canvas};--variant-surface:${palette.surface};--variant-stage:${palette.stage};--variant-switch:${palette.switchSurface};--variant-key:${palette.key};--variant-hover:${palette.hover};--variant-ink:${palette.ink};--variant-muted:${palette.muted};--variant-key-line:${palette.keyLine};--variant-accent:${palette.accent};--variant-line:${palette.line};">
+                    <div class="comparison-item__heading">
+                        <span class="comparison-item__index">${palette.id}</span>
+                        <h3>${palette.name}</h3>
+                        <p>${palette.note}</p>
+                    </div>
+                    <div class="comparison-item__workspace">
+                        <section class="comparison-keyboard-panel" aria-label="${palette.name}のキーボード配列">
+                            <div class="comparison-panel-topline"><h4>Keychron K2のキー配列</h4><span>色のみ変更</span></div>
+                            <div class="keyboard-stage" aria-hidden="true" inert><div class="keyboard">${keyboardMarkup}</div></div>
+                        </section>
+                        <aside class="comparison-switch-panel" aria-label="${palette.name}のスイッチ情報">
+                            <div class="comparison-switch-heading"><h4>スイッチ情報</h4><span>未入力</span></div>
+                            <div class="comparison-switch-visual"><img class="comparison-switch-image" src="${buildPaletteSwitchImage(palette)}" alt="${palette.name}のスイッチ画像"></div>
+                            <div class="comparison-switch-info">
+                                <p>選択中のキー: <strong>未入力</strong></p>
+                                <h4>未設定</h4>
+                                <dl class="comparison-detail-list">
+                                    <div><dt>割当クラス</dt><dd>未設定</dd></div>
+                                    <div><dt>種別</dt><dd>Linear</dd></div>
+                                    <div><dt>荷重</dt><dd>未設定</dd></div>
+                                    <div><dt>表示状態</dt><dd>未入力</dd></div>
+                                </dl>
+                            </div>
+                        </aside>
+                    </div>
+                </article>
+            `).join("");
+
+            comparisonList.querySelectorAll("button").forEach((button) => {
+                button.tabIndex = -1;
+                button.setAttribute("aria-hidden", "true");
+            });
+        }
+
+        renderPaletteComparisons();
 
         function normalizeSwitchKey(value) {
             const match = value?.match(/^sw-(\d{1,2})$/i);
