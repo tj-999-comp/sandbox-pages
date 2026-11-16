@@ -310,6 +310,7 @@
             --variant-stage: #fafaf8;
             --variant-switch: #ffffff;
             --variant-key: #ffffff;
+            --variant-key-accent: #e8e8e3;
             --variant-hover: #f3f3f0;
             --variant-ink: #252827;
             --variant-muted: #747a76;
@@ -323,15 +324,9 @@
             overflow: hidden;
         }
 
-        .comparison-item[data-design="04"] {
-            border-top: 3px solid var(--variant-accent);
+        .comparison-item[data-design] {
+            border-top: 2px solid var(--variant-accent);
         }
-
-        .comparison-item[data-design="02"] .comparison-item__heading { border-bottom: 3px solid var(--variant-accent); }
-        .comparison-item[data-design="03"] .comparison-item__index { font-size: 1.35rem; line-height: 1; }
-        .comparison-item[data-design="03"] .comparison-item__heading { align-items: center; padding-block: 20px; }
-        .comparison-item[data-design="04"] .comparison-item__heading { border-left: 4px solid var(--variant-accent); }
-        .comparison-item[data-design="05"] .comparison-item__heading { border-bottom: 3px double var(--variant-line); }
 
         .comparison-item__heading {
             display: flex;
@@ -400,6 +395,15 @@
         .comparison-keyboard-panel .keyboard-row { gap: 5px; }
         .comparison-keyboard-panel .key { min-height: 26px; font-size: 0.58rem; }
         .comparison-keyboard-panel .key.small { min-height: 22px; font-size: 0.5rem; }
+        .comparison-keyboard-panel .key.variant-accent-key {
+            background: var(--variant-key-accent);
+            border-color: var(--variant-accent);
+        }
+        .comparison-keyboard-panel .key.variant-accent-strong {
+            color: #ffffff;
+            background: var(--variant-accent);
+            border-color: var(--variant-accent);
+        }
 
         .comparison-switch-panel {
             display: grid;
@@ -551,7 +555,7 @@
     <section class="comparison-section" aria-labelledby="comparison-title">
         <div class="comparison-heading">
             <h2 id="comparison-title">デザイン案</h2>
-            <p>白基調を保ったまま、番号・罫線・余白・強調線だけを変えた検討案です。</p>
+            <p>白基調と共通の構成を保ったまま、アクセント色だけを変えた検討案です。</p>
         </div>
         <div class="comparison-list" id="comparison-list"></div>
     </section>
@@ -574,11 +578,11 @@
         let selectedKeyElement = null;
 
         const designVariants = [
-            { id: "01", name: "Editorial Frame", note: "細い罫線と広い余白", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f3f3f0", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#252827", line: "#e1e2dd" },
-            { id: "02", name: "Index Rail", note: "下線で情報を区切る", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f3f3f0", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#252827", line: "#e1e2dd" },
-            { id: "03", name: "Margin Index", note: "番号と余白を主役に", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f3f3f0", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#252827", line: "#e1e2dd" },
-            { id: "04", name: "Vermilion Marker", note: "04だけ朱色で強調", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f8eeee", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#d9574a", line: "#e1e2dd" },
-            { id: "05", name: "Open White", note: "外枠を減らして見せる", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f3f3f0", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#252827", line: "#e1e2dd" },
+            { id: "01", name: "Sage / Graphite", note: "淡い緑を少数キーへ", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", keyAccent: "#c9dcd6", hover: "#f1f6f4", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#5d7f75", line: "#e1e2dd" },
+            { id: "02", name: "Cobalt / Paper", note: "青を線とキーへ", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", keyAccent: "#c8d9ed", hover: "#eef3f9", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#3f72b5", line: "#e1e2dd" },
+            { id: "03", name: "Sunflower / Ink", note: "黄色を点在させる", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", keyAccent: "#eadb9f", hover: "#faf6e7", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#b38a2f", line: "#e1e2dd" },
+            { id: "04", name: "Vermilion / Lilac", note: "04の朱色を主役に", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", keyAccent: "#e7c5d3", hover: "#f8eeee", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#d9574a", line: "#e1e2dd" },
+            { id: "05", name: "Ultramarine / Paper", note: "青を静かに置く", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", keyAccent: "#cdd5ee", hover: "#f0f3fb", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#3157a6", line: "#e1e2dd" },
         ];
 
         const switchCatalog = {
@@ -620,7 +624,7 @@
         };
 
         function buildDesignSwitchImage(design) {
-            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><rect width="240" height="240" fill="${design.switchSurface}"/><rect x="58" y="34" width="124" height="172" rx="26" fill="${design.key}" stroke="${design.accent}" stroke-width="14"/><rect x="84" y="70" width="72" height="92" rx="12" fill="none" stroke="${design.accent}" stroke-width="8"/></svg>`;
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><rect width="240" height="240" fill="${design.switchSurface}"/><rect x="58" y="34" width="124" height="172" rx="26" fill="${design.keyAccent}" stroke="${design.accent}" stroke-width="14"/><rect x="84" y="70" width="72" height="92" rx="12" fill="none" stroke="${design.accent}" stroke-width="8"/></svg>`;
             return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
         }
 
@@ -628,7 +632,7 @@
             const comparisonList = document.querySelector("#comparison-list");
             const keyboardMarkup = document.querySelector(".keyboard").innerHTML;
             comparisonList.innerHTML = designVariants.map((design) => `
-                <article class="comparison-item" data-design="${design.id}" aria-label="${design.id} ${design.name}のデザイン案" style="--variant-canvas:${design.canvas};--variant-surface:${design.surface};--variant-stage:${design.stage};--variant-switch:${design.switchSurface};--variant-key:${design.key};--variant-hover:${design.hover};--variant-ink:${design.ink};--variant-muted:${design.muted};--variant-key-line:${design.keyLine};--variant-accent:${design.accent};--variant-line:${design.line};">
+                <article class="comparison-item" data-design="${design.id}" aria-label="${design.id} ${design.name}のデザイン案" style="--variant-canvas:${design.canvas};--variant-surface:${design.surface};--variant-stage:${design.stage};--variant-switch:${design.switchSurface};--variant-key:${design.key};--variant-key-accent:${design.keyAccent};--variant-hover:${design.hover};--variant-ink:${design.ink};--variant-muted:${design.muted};--variant-key-line:${design.keyLine};--variant-accent:${design.accent};--variant-line:${design.line};">
                     <div class="comparison-item__heading">
                         <span class="comparison-item__index">${design.id}</span>
                         <h3>${design.name}</h3>
@@ -660,6 +664,17 @@
             comparisonList.querySelectorAll("button").forEach((button) => {
                 button.tabIndex = -1;
                 button.setAttribute("aria-hidden", "true");
+            });
+
+            comparisonList.querySelectorAll(".comparison-item").forEach((item) => {
+                const accentKeys = [
+                    ".keyboard-row:nth-child(2) .key:nth-child(1)",
+                    ".keyboard-row:nth-child(3) .key:nth-child(4)",
+                    ".keyboard-row:nth-child(4) .key:nth-child(8)",
+                    ".keyboard-row:nth-child(5) .key:nth-child(4)",
+                    ".keyboard-row:nth-child(6) .key:nth-child(7)",
+                ].flatMap((selector) => [...item.querySelectorAll(selector)]);
+                accentKeys.forEach((key, index) => key.classList.add(index === 2 ? "variant-accent-strong" : "variant-accent-key"));
             });
         }
 
