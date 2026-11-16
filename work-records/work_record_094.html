@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Keychron K2デザイン要件の確定 — 作業記録 094</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 094 ・ <time datetime="2026-11-16">2026-11-16</time></p>
+          <h1>Keychron K2デザイン要件の確定</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_094.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: Keychron K2デザインダミーの改修に向けて、ユーザー確認済みの要件をIssueと設計資料へ反映する。</li><li>目的: ダミーHTMLを改修する前に、対象viewport、残す情報、削除する表現、ヘッダー構成を確定する。</li><li>完了条件: GitHub Issue #140へ確定要件を記載し、<code>keyboards/DESIGN.md</code>へ同じ要件を追加する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: GitHub Issue #140、ユーザー回答、既存 <code>keyboards/DESIGN.md</code>。</li><li>実施内容: PC <code>1280×800</code> とiPad横向き <code>1024×768</code> で縦スクロールなしとすること、キーボード配列・押下中ハイライト・スイッチ情報・スイッチ画像を残すこと、ヘッダーを <code>Portfolio Lab</code> と <code>Keychron K2</code> のみにすること、大文字のみの見出し・ポエム調コピー・右上ボタンを削除することを設計資料へ反映した。既存HTMLの棚卸し部分は維持し、初期案の方針だけを確定要件に合わせて更新した。</li><li>成果物: <code>keyboards/DESIGN.md</code>、更新済みGitHub Issue #140。</li><li>検証結果: <code>git diff --check</code> 合格。ダミーHTML本体は未変更。</li><li>未解決事項: 確定要件をもとにしたダミーHTMLの改修は次工程。</li><li>次工程への引き継ぎ: 1画面構成のダミーを作成し、PCとiPad横向きで縦スクロールが出ないことを確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: <code>keyboards/DESIGN.md</code> の差分、Issue #140の確定要件。</li><li>実施内容: 現行HTMLの記録と新要件の区別、初期案の古い方針の残存、viewport・情報・ヘッダー・コピー要件の反映をレビューした。初回指摘を受け、複数セクション、CTA前提、大きな余白、モバイル方針の扱いを整理した。</li><li>成果物: 設計資料の差分レビュー。</li><li>検証結果: 再レビューで重大・中・軽微の指摘なし。<code>git diff --check</code> 合格。</li><li>未解決事項: ダミーHTMLの1画面化と本番ページ移植は次工程。</li><li>次工程への引き継ぎ: Issue #140を基準にダミーHTMLの改修へ進む。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: 今回は <code>DESIGN.md</code> とIssueだけを更新し、ダミーHTMLや本番HTMLは変更しない。</li><li>理由: ユーザーが要件を詰める段階として指定しており、確定した設計条件を先に正本化するため。</li><li>判断: 現行HTMLの仕様記録と更新後の確定要件を別セクションに分ける。</li><li>理由: 現行実装の事実を失わず、次工程で削除・置換する対象を明確にするため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: Issue #140を更新し、確定要件を <code>keyboards/DESIGN.md</code> に反映した。ダミーHTML本体は未変更のまま、次工程の実装条件を整理した。</li><li>変更ファイル: <code>keyboards/DESIGN.md</code>、<code>work-records/md/work_record_094.md</code>、<code>work-records/metadata/work_record_094.yml</code>、生成された <code>work-records/work_record_094.html</code>。</li><li>検証結果: <code>git diff --check</code> 合格。作業記録HTMLの生成・check・filename validatorを実行する。表示変更のある作業記録HTMLは1280 / 900 / 640 / 320pxで確認する。</li><li>作業ブランチ: <code>codex/140-keychronk2-requirements</code></li><li>コミット: 作成後確定</li><li>PR: 作成後確定</li><li>PRレビュー・CI: PR作成後に確認</li><li>未解決事項: ダミーHTMLの1画面化、本番ページへの移植、既存JavaScriptとの接続、操作アクセシビリティ確認。</li><li>次アクション: Issue #140とこの設計資料を基準にダミーHTMLを改修する。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-11-16 16:00 取得範囲: <code>tj-999-comp/sandbox-pages</code>のOpen Issue全件。Pull Requestは除外。 取得件数: 1件（一覧行数: 1行）</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/140">#140 Keychron K2デザインダミーの要件整理</a></td><td>Open（state reason: null）</td><td>本作業の対象。確定要件をもとにダミーHTMLを改修する。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 094</span>
+        <span><a href="md/work_record_094.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
