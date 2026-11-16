@@ -7,21 +7,21 @@
     <title>Keychron K2 — デザインダミー</title>
     <style>
         :root {
-            --canvas: #f5f5f1;
+            --canvas: #ffffff;
             --surface: #ffffff;
-            --ink: #2b3030;
-            --muted: #6f7775;
+            --ink: #252827;
+            --muted: #747a76;
             --dark: #1b1d20;
             --dark-muted: #b7b9bb;
             --key: #ffffff;
-            --key-hover: #f4edf4;
-            --key-ink: #2b3030;
-            --key-line: #d5d7d2;
+            --key-hover: #f3f3f0;
+            --key-ink: #252827;
+            --key-line: #d6d8d3;
             --accent: #d9574a;
             --stage: #fff;
-            --stage-glow: rgb(217 87 74 / 8%);
-            --switch-surface: #f7f7f4;
-            --line: #dedfda;
+            --stage-glow: rgb(0 0 0 / 3%);
+            --switch-surface: #ffffff;
+            --line: #e1e2dd;
             --radius-card: 16px;
             --sans: Inter, "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
         }
@@ -75,7 +75,7 @@
         .keyboard-panel,
         .switch-panel {
             min-height: 0;
-            border-radius: var(--radius-card);
+            border-radius: 0;
         }
 
         .keyboard-panel {
@@ -86,7 +86,7 @@
             color: var(--ink);
             background: var(--surface);
             border: 1px solid var(--line);
-            box-shadow: 0 14px 36px rgb(28 28 26 / 7%);
+            box-shadow: none;
             overflow: hidden;
         }
 
@@ -205,7 +205,7 @@
             padding: 16px 20px;
             background: var(--surface);
             border: 1px solid var(--line);
-            box-shadow: 0 18px 50px rgb(28 28 26 / 10%);
+            box-shadow: none;
             overflow: hidden;
         }
 
@@ -305,27 +305,33 @@
         }
 
         .comparison-item {
-            --variant-canvas: #f2f5f2;
+            --variant-canvas: #ffffff;
             --variant-surface: #ffffff;
-            --variant-stage: #eef3f0;
-            --variant-switch: #edf4f1;
-            --variant-key: #dcebe6;
-            --variant-hover: #edf7f3;
-            --variant-ink: #2d3a38;
-            --variant-muted: #6b7773;
-            --variant-key-line: #b8cbc5;
-            --variant-accent: #d9574a;
-            --variant-line: #d3ded8;
+            --variant-stage: #fafaf8;
+            --variant-switch: #ffffff;
+            --variant-key: #ffffff;
+            --variant-hover: #f3f3f0;
+            --variant-ink: #252827;
+            --variant-muted: #747a76;
+            --variant-key-line: #d6d8d3;
+            --variant-accent: #252827;
+            --variant-line: #e1e2dd;
             color: var(--variant-ink);
-            background: var(--variant-canvas);
+            background: #ffffff;
             border: 1px solid var(--variant-line);
-            border-radius: var(--radius-card);
+            border-radius: 0;
             overflow: hidden;
         }
 
-        .comparison-item[data-palette="04"] {
+        .comparison-item[data-design="04"] {
             border-top: 3px solid var(--variant-accent);
         }
+
+        .comparison-item[data-design="02"] .comparison-item__heading { border-bottom: 3px solid var(--variant-accent); }
+        .comparison-item[data-design="03"] .comparison-item__index { font-size: 1.35rem; line-height: 1; }
+        .comparison-item[data-design="03"] .comparison-item__heading { align-items: center; padding-block: 20px; }
+        .comparison-item[data-design="04"] .comparison-item__heading { border-left: 4px solid var(--variant-accent); }
+        .comparison-item[data-design="05"] .comparison-item__heading { border-bottom: 3px double var(--variant-line); }
 
         .comparison-item__heading {
             display: flex;
@@ -357,7 +363,7 @@
             min-width: 0;
             background: var(--variant-surface);
             border: 1px solid var(--variant-line);
-            border-radius: 12px;
+            border-radius: 0;
         }
 
         .comparison-keyboard-panel {
@@ -379,7 +385,7 @@
 
         .comparison-keyboard-panel .keyboard-stage {
             --stage: var(--variant-stage);
-            --stage-glow: color-mix(in srgb, var(--variant-accent) 10%, transparent);
+            --stage-glow: rgb(0 0 0 / 3%);
             --key: var(--variant-key);
             --key-hover: var(--variant-hover);
             --key-ink: var(--variant-ink);
@@ -544,8 +550,8 @@
 
     <section class="comparison-section" aria-labelledby="comparison-title">
         <div class="comparison-heading">
-            <h2 id="comparison-title">色の比較</h2>
-            <p>同じキーボードとスイッチ情報の構成で、色だけを切り替えた検討案です。</p>
+            <h2 id="comparison-title">デザイン案</h2>
+            <p>白基調を保ったまま、番号・罫線・余白・強調線だけを変えた検討案です。</p>
         </div>
         <div class="comparison-list" id="comparison-list"></div>
     </section>
@@ -567,12 +573,12 @@
         let pressedKey = null;
         let selectedKeyElement = null;
 
-        const paletteVariants = [
-            { id: "01", name: "Mint / Coral", note: "淡いミントと珊瑚色", canvas: "#f2f5f2", surface: "#ffffff", stage: "#eef3f0", switchSurface: "#edf4f1", key: "#dcebe6", hover: "#edf7f3", ink: "#2d3a38", muted: "#6b7773", keyLine: "#b8cbc5", accent: "#d9574a", line: "#d3ded8" },
-            { id: "02", name: "Cobalt / Butter", note: "青い線とバター色", canvas: "#f2f4f7", surface: "#ffffff", stage: "#eef1f5", switchSurface: "#edf2f8", key: "#d8e4ef", hover: "#e8f0f9", ink: "#243044", muted: "#6d7885", keyLine: "#b1c2d4", accent: "#3f72b5", line: "#d5dde6" },
-            { id: "03", name: "Sunflower / Ink", note: "黄色面とインク色", canvas: "#f7f4e7", surface: "#fffef9", stage: "#f4f1e4", switchSurface: "#f7f3de", key: "#eee3ad", hover: "#f8f1c8", ink: "#332f25", muted: "#76705f", keyLine: "#d3c37d", accent: "#3f3b2e", line: "#e0d7b9" },
-            { id: "04", name: "Lilac / Vermilion", note: "本体の強調色", canvas: "#f2ebf4", surface: "#fffafe", stage: "#f7f1f8", switchSurface: "#f2ebf4", key: "#e4d6eb", hover: "#f2e8f5", ink: "#3b2942", muted: "#766776", keyLine: "#c9b6d2", accent: "#d9574a", line: "#ddcfe0" },
-            { id: "05", name: "Green / Ultramarine", note: "淡いグリーンと青線", canvas: "#f2f4f0", surface: "#ffffff", stage: "#eef3ec", switchSurface: "#edf4ec", key: "#dce8d5", hover: "#edf5e9", ink: "#2a3b30", muted: "#6c796f", keyLine: "#b8cbb0", accent: "#2f6d81", line: "#d2ddd0" },
+        const designVariants = [
+            { id: "01", name: "Editorial Frame", note: "細い罫線と広い余白", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f3f3f0", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#252827", line: "#e1e2dd" },
+            { id: "02", name: "Index Rail", note: "下線で情報を区切る", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f3f3f0", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#252827", line: "#e1e2dd" },
+            { id: "03", name: "Margin Index", note: "番号と余白を主役に", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f3f3f0", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#252827", line: "#e1e2dd" },
+            { id: "04", name: "Vermilion Marker", note: "04だけ朱色で強調", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f8eeee", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#d9574a", line: "#e1e2dd" },
+            { id: "05", name: "Open White", note: "外枠を減らして見せる", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", hover: "#f3f3f0", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#252827", line: "#e1e2dd" },
         ];
 
         const switchCatalog = {
@@ -613,29 +619,29 @@
             "sw-17": ["#a74e38", "#ffd4c4"],
         };
 
-        function buildPaletteSwitchImage(palette) {
-            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><rect width="240" height="240" fill="${palette.switchSurface}"/><rect x="58" y="34" width="124" height="172" rx="26" fill="${palette.key}" stroke="${palette.accent}" stroke-width="14"/><rect x="84" y="70" width="72" height="92" rx="12" fill="none" stroke="${palette.accent}" stroke-width="8"/></svg>`;
+        function buildDesignSwitchImage(design) {
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><rect width="240" height="240" fill="${design.switchSurface}"/><rect x="58" y="34" width="124" height="172" rx="26" fill="${design.key}" stroke="${design.accent}" stroke-width="14"/><rect x="84" y="70" width="72" height="92" rx="12" fill="none" stroke="${design.accent}" stroke-width="8"/></svg>`;
             return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
         }
 
-        function renderPaletteComparisons() {
+        function renderDesignComparisons() {
             const comparisonList = document.querySelector("#comparison-list");
             const keyboardMarkup = document.querySelector(".keyboard").innerHTML;
-            comparisonList.innerHTML = paletteVariants.map((palette) => `
-                <article class="comparison-item" data-palette="${palette.id}" aria-label="${palette.id} ${palette.name}の配色案" style="--variant-canvas:${palette.canvas};--variant-surface:${palette.surface};--variant-stage:${palette.stage};--variant-switch:${palette.switchSurface};--variant-key:${palette.key};--variant-hover:${palette.hover};--variant-ink:${palette.ink};--variant-muted:${palette.muted};--variant-key-line:${palette.keyLine};--variant-accent:${palette.accent};--variant-line:${palette.line};">
+            comparisonList.innerHTML = designVariants.map((design) => `
+                <article class="comparison-item" data-design="${design.id}" aria-label="${design.id} ${design.name}のデザイン案" style="--variant-canvas:${design.canvas};--variant-surface:${design.surface};--variant-stage:${design.stage};--variant-switch:${design.switchSurface};--variant-key:${design.key};--variant-hover:${design.hover};--variant-ink:${design.ink};--variant-muted:${design.muted};--variant-key-line:${design.keyLine};--variant-accent:${design.accent};--variant-line:${design.line};">
                     <div class="comparison-item__heading">
-                        <span class="comparison-item__index">${palette.id}</span>
-                        <h3>${palette.name}</h3>
-                        <p>${palette.note}</p>
+                        <span class="comparison-item__index">${design.id}</span>
+                        <h3>${design.name}</h3>
+                        <p>${design.note}</p>
                     </div>
                     <div class="comparison-item__workspace">
-                        <section class="comparison-keyboard-panel" aria-label="${palette.name}のキーボード配列">
-                            <div class="comparison-panel-topline"><h4>Keychron K2のキー配列</h4><span>色のみ変更</span></div>
+                        <section class="comparison-keyboard-panel" aria-label="${design.name}のキーボード配列">
+                            <div class="comparison-panel-topline"><h4>Keychron K2のキー配列</h4><span>白基調・構成は同じ</span></div>
                             <div class="keyboard-stage" aria-hidden="true" inert><div class="keyboard">${keyboardMarkup}</div></div>
                         </section>
-                        <aside class="comparison-switch-panel" aria-label="${palette.name}のスイッチ情報">
+                        <aside class="comparison-switch-panel" aria-label="${design.name}のスイッチ情報">
                             <div class="comparison-switch-heading"><h4>スイッチ情報</h4><span>未入力</span></div>
-                            <div class="comparison-switch-visual"><img class="comparison-switch-image" src="${buildPaletteSwitchImage(palette)}" alt="${palette.name}のスイッチ画像"></div>
+                            <div class="comparison-switch-visual"><img class="comparison-switch-image" src="${buildDesignSwitchImage(design)}" alt="${design.name}のスイッチ画像"></div>
                             <div class="comparison-switch-info">
                                 <p>選択中のキー: <strong>未入力</strong></p>
                                 <h4>未設定</h4>
@@ -657,7 +663,7 @@
             });
         }
 
-        renderPaletteComparisons();
+        renderDesignComparisons();
 
         function normalizeSwitchKey(value) {
             const match = value?.match(/^sw-(\d{1,2})$/i);
