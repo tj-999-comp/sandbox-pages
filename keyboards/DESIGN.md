@@ -61,9 +61,9 @@
 - Keychron K2 の配列を、6行のグリッドとして表現する。
 - 32分割のグリッドを基準に、通常キー、Tab、Caps、Shift、Space、Enter などの幅を `grid-column` で調整する。
 - `data-key` に表示名・識別名、`data-code` に `KeyboardEvent.code`、`data-combo` に修飾キーを含むコンビネーションを設定する。
-- `sw-01` から `sw-17` のクラスで、キーに対応するスイッチカタログの分類を持つ。
-- `device-key` はブラウザが直接入力を受け取れない本体専用キーを表し、破線で区別する。
-- `macro-key` は `PgUp / Cmd+C`、`PgDn / Cmd+V` のような補助操作を表す。
+- `data-switch="sw-01"` から `data-switch="sw-17"` で、キーに対応するスイッチカタログの分類を持つ。
+- `device` はブラウザが直接入力を受け取れない本体専用キーを表し、破線で区別する。
+- `data-combo` は `PgUp / Cmd+C`、`PgDn / Cmd+V` のような補助操作を表す。
 - ページ内のJavaScriptがマウスオーバーとキーボード入力を監視し、該当キーへ `.active` を付与する。
 - アクティブなキーは朱色の単色と小さな面の広がりで強調する。
 - `light` や装飾キーなど、表示のみで入力を受け取れないキーについて注意書きを表示する。
@@ -72,10 +72,10 @@
 
 - 押下キーの状態を、画像とテキストの2カラムで表示する。
 - `switch-image` にスイッチ画像を表示し、読み込みに失敗した場合は `images/switch-placeholder.svg` に戻す。
-- `switch-key-label` に押下キー、`switch-class-label` に `sw-XX` の分類を表示する。
-- `switch-name-label` にスイッチ名、`switch-type-label` に種別と荷重を表示する。
+- `selected-label` に押下キー、`switch-class` に `sw-XX` の分類を表示する。
+- `switch-name` にスイッチ名、`switch-type` と `switch-load` に種別と荷重を表示する。
 - 初期状態は `未入力`、`未設定` とする。
-- 外部画像URLを含むスイッチカタログはページ内のJavaScriptが保持する。
+- スイッチカタログはページ内のJavaScriptが保持し、画像はインラインSVGで生成する。未入力時は `images/switch-placeholder.svg` を表示する。
 
 ### 現行実装上の注意
 

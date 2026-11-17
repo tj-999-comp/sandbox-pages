@@ -575,7 +575,17 @@
         const placeholderImage = "../images/switch-placeholder.svg";
         let hoveredKey = null;
         let pressedKey = null;
+        let pressedComboKey = null;
         let selectedKeyElement = null;
+        const comboMap = new Map();
+
+        keys.forEach((key) => {
+            const combo = key.dataset.combo;
+            if (!combo) return;
+            const comboKeys = comboMap.get(combo) || [];
+            comboKeys.push(key);
+            comboMap.set(combo, comboKeys);
+        });
 
         const designVariants = [
             { id: "01", name: "Sage / Graphite", note: "淡い緑を少数キーへ", canvas: "#ffffff", surface: "#ffffff", stage: "#fafaf8", switchSurface: "#ffffff", key: "#ffffff", keyAccent: "#c9dcd6", hover: "#f1f6f4", ink: "#252827", muted: "#747a76", keyLine: "#d6d8d3", accent: "#5d7f75", line: "#e1e2dd" },
@@ -755,6 +765,19 @@
             }
         }
 
+        function buildComboLabel(event) {
+            const modifiers = [];
+            if (event.metaKey) modifiers.push("Meta");
+            if (event.ctrlKey) modifiers.push("Control");
+            if (event.altKey) modifiers.push("Alt");
+            if (event.shiftKey && event.code !== "ShiftLeft" && event.code !== "ShiftRight") modifiers.push("Shift");
+            return modifiers.length ? `${modifiers.join("+")}+${event.code}` : "";
+        }
+
+        function findKey(event) {
+            return [...keys].find((item) => item.dataset.key === event.code || item.dataset.code === event.code || item.dataset.key === event.key || item.textContent.trim().toLowerCase() === event.key.toLowerCase());
+        }
+
         keys.forEach((key) => {
             key.addEventListener("click", () => selectKey(key));
             key.addEventListener("mouseenter", () => {
@@ -769,7 +792,15 @@
         });
 
         window.addEventListener("keydown", (event) => {
-            const key = [...keys].find((item) => item.dataset.key === event.code || item.dataset.code === event.code || item.dataset.key === event.key || item.textContent.trim().toLowerCase() === event.key.toLowerCase());
+            const comboKeys = comboMap.get(buildComboLabel(event)) || [];
+            const key = findKey(event);
+            if (comboKeys.length || key) event.preventDefault();
+            if (comboKeys.length) {
+                pressedComboKey = comboKeys[0];
+                pressedKey = pressedComboKey;
+                selectKey(pressedComboKey);
+                return;
+            }
             if (key) {
                 pressedKey = key;
                 selectKey(key);
@@ -777,7 +808,17 @@
         });
 
         window.addEventListener("keyup", (event) => {
-            const key = [...keys].find((item) => item.dataset.key === event.code || item.dataset.code === event.code || item.dataset.key === event.key || item.textContent.trim().toLowerCase() === event.key.toLowerCase());
+            const comboKeys = comboMap.get(buildComboLabel(event)) || [];
+            const key = findKey(event);
+            if (comboKeys.length || key) event.preventDefault();
+            if (pressedComboKey && comboKeys.length) {
+                pressedComboKey = null;
+                pressedKey = null;
+                selectedKeyElement = null;
+                if (hoveredKey) selectKey(hoveredKey, { persist: false });
+                else resetSelection();
+                return;
+            }
             if (key && pressedKey === key) {
                 pressedKey = null;
                 selectedKeyElement = null;

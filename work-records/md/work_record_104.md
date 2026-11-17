@@ -17,7 +17,7 @@
 
 ### Portfolio Frontend Engineer
 - 入力: `keyboards/keychronk2-dummy.html`、既存の `keyboards/keychronk2.html`、`keyboards/DESIGN.md`。
-- 実施内容: ダミーの自己完結HTML、CSS、JavaScriptを `keychronk2.html` へ移植した。旧サイト共通ナビ・フッター・大文字見出し・旧外部CSS/JS依存を除去し、title/descriptionを本番向けに更新した。移植後、不要になった `keychronk2-dummy.html` を削除し、DESIGN.mdを本番構成に合わせて更新した。
+- 実施内容: ダミーの自己完結HTML、CSS、JavaScriptを `keychronk2.html` へ移植した。旧サイト共通ナビ・フッター・大文字見出し・旧外部CSS/JS依存を除去し、title/descriptionを本番向けに更新した。`Meta+C` / `Meta+V` のマクロ表示と対応キーの `preventDefault()` も実装した。移植後、不要になった `keychronk2-dummy.html` を削除し、DESIGN.mdを本番構成に合わせて更新した。
 - 成果物: `keyboards/keychronk2.html`、更新済み `keyboards/DESIGN.md`、削除した `keyboards/keychronk2-dummy.html`。
 - 検証結果: `git diff --check`、本番HTMLの実ブラウザ表示、キー操作シナリオに合格した。
 - 未解決事項: なし。
@@ -33,7 +33,7 @@
 
 ### Portfolio Performance & Accessibility Tester
 - 入力: 本番化後の `keyboards/keychronk2.html`、`1280×800`、`1024×768`、スクロール対応操作シナリオ。
-- 実施内容: 本体キーボード84キー、5案の比較表示、白基調、04の朱色、クリック、keydown/keyup、フォーカス、`aria-live`、reduced-motion、縦スクロール、横overflow、console/page error、失敗リクエストを確認した。
+- 実施内容: 本体キーボード84キー、5案の比較表示、白基調、04の朱色、クリック、keydown/keyup、`Meta+C` / `Meta+V`、対応キーの既定動作抑止、フォーカス、`aria-live`、reduced-motion、縦スクロール、横overflow、console/page error、失敗リクエストを確認した。
 - 成果物: 本番HTMLの表示検証レポートと操作・構造検証レポート。
 - 検証結果: 両viewportで横overflowなし、document widthはviewport widthと一致、比較案は5件・各84キー、runtime errorなし。
 - 未解決事項: スクリーンリーダー実機による読み上げ確認は未実施。
