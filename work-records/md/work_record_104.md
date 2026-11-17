@@ -50,10 +50,11 @@
 - 変更ファイル: `keyboards/keychronk2.html`、`keyboards/DESIGN.md`、削除した `keyboards/keychronk2-dummy.html`、`work-records/md/work_record_104.md`、`work-records/metadata/work_record_104.yml`、生成された `work-records/work_record_104.html`。
 - 検証結果: `git diff --check`、1280×800／1024×768の実ブラウザ表示、スクロール対応操作シナリオ、Portfolio Reviewer、Performance & Accessibility Testerに合格。
 - 作業ブランチ: `codex/140-keychronk2-palette-vivid`
-- コミット: 作業記録作成後にローカルコミット予定。
-- PR: 作業記録作成後にGitHubへ作成予定。
-- 未解決事項: スクリーンリーダー実機による読み上げ確認は未実施。
-- 次アクション: push、PR作成、GitHub上の差分・CI・レビュー状態確認を行う。
+- コミット: `2985671 feat: promote keychronk2 dummy to production page`
+- PR: [#153 Keychron K2のダミー見た目を本番ページへ反映](https://github.com/tj-999-comp/sandbox-pages/pull/153)
+- PRレビュー・CI: PR #153は競合なし、Validate CI成功。重複して作成したPR #151/#152はクローズ済み。GitHub上の外部レビューは待機中。
+- 未解決事項: スクリーンリーダー実機による読み上げ確認とGitHub上の外部レビューは未実施。
+- 次アクション: PR #153のレビュー確認後、必要に応じて対応する。
 
 ## GitHub Issue状況
 確認日時（JST）: 2026-11-17 15:06
