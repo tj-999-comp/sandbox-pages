@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Keychron K2ダミーの見た目を本番ページへ反映 — 作業記録 104</title>
+    <link rel="stylesheet" href="work_record.css">
+  </head>
+    <body>
+    <div class="shell">
+      <main>
+        <header class="record-header">
+          <p class="kicker">作業記録 104 ・ <time datetime="2026-11-17">2026-11-17</time></p>
+          <h1>Keychron K2ダミーの見た目を本番ページへ反映</h1>
+          <dl class="record-meta">
+            <div><dt>原本</dt><dd><code>md/work_record_104.md</code></dd></div>
+            <div><dt>形式</dt><dd>Markdown原本から生成した静的HTML</dd></div>
+          </dl>
+        </header>
+        <section class="record-section" aria-labelledby="section-01"><div class="section-intro"><p class="section-label">01　対象</p><h2 id="section-01">概要</h2></div><div class="section-content"><ul><li>課題: ユーザーが確認したKeychron K2のダミーHTMLの見た目を、本番の <code>keychronk2.html</code> へ反映する必要があった。</li><li>目的: 白基調のキーボード表示、スイッチ情報、5つのカラーバリエーションを本番ページで提供し、役目を終えたダミーHTMLを削除する。</li><li>完了条件: 本番HTMLがダミーと同じ表示・操作構成になり、旧共通ナビや大文字見出しを含めず、PCとiPad横向きで横overflowなく動作すること。PRを作成すること。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-02"><div class="section-intro"><p class="section-label">02　担当</p><h2 id="section-02">適用した役割</h2></div><div class="section-content"><h3>Portfolio UI Designer</h3>
+<ul><li>入力: ユーザーが確認した <code>keychronk2-dummy.html</code>、<code>keyboards/DESIGN.md</code>、Issue #140の合意要件。</li><li>実施内容: ダミーで確定した濃色ヘッダー、白いキーボード展示面、下段のスイッチ情報、白基調の5色比較案を本番ページの採用方針として整理した。</li><li>成果物: 本番ページへ移植する最終ビジュアル方針。</li><li>検証結果: 本番ページのスクリーンショットで、ダミーと同じ2段構成と5案の色差を確認した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: 実装差分のレビューとPR作成へ進む。</li></ul>
+<h3>Portfolio Frontend Engineer</h3>
+<ul><li>入力: <code>keyboards/keychronk2-dummy.html</code>、既存の <code>keyboards/keychronk2.html</code>、<code>keyboards/DESIGN.md</code>。</li><li>実施内容: ダミーの自己完結HTML、CSS、JavaScriptを <code>keychronk2.html</code> へ移植した。旧サイト共通ナビ・フッター・大文字見出し・旧外部CSS/JS依存を除去し、title/descriptionを本番向けに更新した。<code>Meta+C</code> / <code>Meta+V</code> のマクロ表示と対応キーの <code>preventDefault()</code> も実装した。移植後、不要になった <code>keychronk2-dummy.html</code> を削除し、DESIGN.mdを本番構成に合わせて更新した。</li><li>成果物: <code>keyboards/keychronk2.html</code>、更新済み <code>keyboards/DESIGN.md</code>、削除した <code>keyboards/keychronk2-dummy.html</code>。</li><li>検証結果: <code>git diff --check</code>、本番HTMLの実ブラウザ表示、キー操作シナリオに合格した。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: PR上で差分・CI・レビューを確認する。</li></ul>
+<h3>Portfolio Reviewer</h3>
+<ul><li>入力: 本番化後の差分、DESIGN.md、実ブラウザ検証結果。</li><li>実施内容: ダミーと本番の見た目の一致、不要な共通ナビの除去、ダミー削除、白基調、5色比較、04の朱色強調、既存キー配列と操作要件を確認した。</li><li>成果物: PR前差分レビュー。</li><li>検証結果: 重大な未解決事項なし。比較案は各84キー、05はウルトラマリン <code>#3157a6</code>、DESIGN.mdと実装の記載も一致している。</li><li>未解決事項: なし。</li><li>次工程への引き継ぎ: PR作成後にGitHub上の差分とCIを確認する。</li></ul>
+<h3>Portfolio Performance &amp; Accessibility Tester</h3>
+<ul><li>入力: 本番化後の <code>keyboards/keychronk2.html</code>、<code>1280×800</code>、<code>1024×768</code>、スクロール対応操作シナリオ。</li><li>実施内容: 本体キーボード84キー、5案の比較表示、白基調、04の朱色、クリック、keydown/keyup、<code>Meta+C</code> / <code>Meta+V</code>、対応キーの既定動作抑止、フォーカス、<code>aria-live</code>、reduced-motion、縦スクロール、横overflow、console/page error、失敗リクエストを確認した。</li><li>成果物: 本番HTMLの表示検証レポートと操作・構造検証レポート。</li><li>検証結果: 両viewportで横overflowなし、document widthはviewport widthと一致、比較案は5件・各84キー、runtime errorなし。</li><li>未解決事項: スクリーンリーダー実機による読み上げ確認は未実施。</li><li>次工程への引き継ぎ: PRのCIとGitHub上の差分確認を行う。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-03"><div class="section-intro"><p class="section-label">03　根拠</p><h2 id="section-03">主要な判断</h2></div><div class="section-content"><ul><li>判断: ダミーの自己完結構成を本番HTMLへそのまま移植し、旧サイト共通レイアウトとの混在を解消した。</li><li>理由: ユーザーが確認した見た目との差異をなくし、白基調・2段構成・下部5案を同じ体験として本番へ反映するため。</li><li>判断: 本番ページにも比較セクションを残し、ダミーHTMLを削除した。</li><li>理由: ユーザーが「これと同じ見た目」と指定しており、ダミーで確認した色比較も本番ページの構成に含めるため。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-04"><div class="section-intro"><p class="section-label">04　確認</p><h2 id="section-04">最終結果</h2></div><div class="section-content"><ul><li>解決したこと: <code>keychronk2.html</code> をダミーと同じ見た目・操作へ更新し、白基調の5色比較、スイッチ情報、キー入力状態を本番ページで表示できるようにした。不要になったダミーHTMLは削除した。</li><li>変更ファイル: <code>keyboards/keychronk2.html</code>、<code>keyboards/DESIGN.md</code>、削除した <code>keyboards/keychronk2-dummy.html</code>、<code>work-records/md/work_record_104.md</code>、<code>work-records/metadata/work_record_104.yml</code>、生成された <code>work-records/work_record_104.html</code>。</li><li>検証結果: <code>git diff --check</code>、1280×800／1024×768の実ブラウザ表示、スクロール対応操作シナリオ、Portfolio Reviewer、Performance &amp; Accessibility Testerに合格。</li><li>作業ブランチ: <code>codex/140-keychronk2-palette-vivid</code></li><li>コミット: 作業記録作成後にローカルコミット予定。</li><li>PR: 作業記録作成後にGitHubへ作成予定。</li><li>未解決事項: スクリーンリーダー実機による読み上げ確認は未実施。</li><li>次アクション: push、PR作成、GitHub上の差分・CI・レビュー状態確認を行う。</li></ul></div></section>
+<section class="record-section" aria-labelledby="section-05"><div class="section-intro"><p class="section-label">05　Issue状況</p><h2 id="section-05">GitHub Issue状況</h2></div><div class="section-content"><p>確認日時（JST）: 2026-11-17 15:06 取得範囲: <code>tj-999-comp/sandbox-pages</code>のOpen Issue全件。Pull Requestは除外。 取得件数: 1件（一覧行数: 1行）</p>
+<h3>親子関係</h3>
+<pre><code class="language-text">親子関係なし</code></pre>
+<h3>優先順位順の未完了一覧</h3>
+<table><thead><tr><th scope="col">順位</th><th scope="col">優先度</th><th scope="col">GitHub Issue</th><th scope="col">状態</th><th scope="col">関係・着手条件</th></tr></thead><tbody><tr><td>1</td><td>未設定</td><td><a href="https://github.com/tj-999-comp/sandbox-pages/issues/140">#140 Keychron K2デザインダミーの要件整理</a></td><td>Open（state reason: null）</td><td>本作業の対象。本番反映後、PRのCIとレビューを確認して完了する。</td></tr></tbody></table></div></section>
+      </main>
+      <footer>
+        <span>SANDBOX PAGES · 作業記録 104</span>
+        <span><a href="md/work_record_104.md">Markdown原本</a></span>
+      </footer>
+    </div>
+  </body>
+</html>
